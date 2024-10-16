@@ -24,7 +24,7 @@
     <!-- @Mappper를 사용하기 위한 설정(관리 객체로 만듬) -->
     <!-- @Mapper가 붙은애들을 여기(base-package)서 찾아서 관리 객체로 등록 -->
 	<mybatis-spring:scan 
-		base-package="com.mycompany.springframework.dao.mybatis"
+		base-package="com.oti.thirtyone.dao.mybatis"
 		annotation="org.apache.ibatis.annotations.Mapper"/>
       
 

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd" >
+<configuration>
+	<!--  jdbcType=VARCHAR와 같은 설정을 하지 않기위해 NULL을 호환되게 만들어준다.-->
+	<settings>
+		<setting name="jdbcTypeForNull" value="NULL"/>
+		<!-- 컬럼 이름이 언더바로 연결되어 있을 경우 카멜케이스로 변경해준다. -->
+		<setting name="mapUnderscoreToCamelCase" value="true"/>
+	</settings>
+</configuration>

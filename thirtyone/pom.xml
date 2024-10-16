@@ -5,27 +5,19 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<!-- Maven Version -->
+	
 	<modelVersion>4.0.0</modelVersion>
-	<!-- Company Domain Name -->
-	<groupId>com.mycompany</groupId>
-	<!-- Project Name -->
-	<!-- 기본 설정이됨 -->
-	<artifactId>thri</artifactId>
-	<!-- Project Version -->
+	<groupId>com.oti</groupId>
+	<artifactId>thirtyone</artifactId>
 	<version>1.0.0</version>
-	<!-- Final Build File(최종 빌드 후의 산출물 형태) -->
 	<packaging>war</packaging>
 	
-	<!-- 반복되는 값을 참조하는 변수 선언 -->
 	<properties>
 		<springframework-version>5.3.29</springframework-version>
 		<springframework-security-version>5.8.14</springframework-security-version>
 	</properties>
 
-	<!-- 프로젝트에서 의존하는 외부 라이브러리들을 설정 -->
 	<dependencies>
-		<!-- 서블릿 4.0 라이브러리 설정 -->
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
