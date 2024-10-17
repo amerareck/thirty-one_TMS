@@ -16,7 +16,7 @@
 	
 </head>
 <body>
-	<div class="header" style="border: 2px solid red;">
+	<div class="header">
 		<img class="logo-image" src="${pageContext.request.contextPath}/resources/image/logo.png">
 		<div class="profile-img-box">
 			<img class="profile-img" src="${pageContext.request.contextPath}/resources/image/profileDefault.png">
@@ -24,13 +24,61 @@
 				<span class="emp-name">정원석사원</span>
 				<span class="dept-name">공공사업1DIV</span>
 			</div>
+			<img class="three-dots-vertical" src="${pageContext.request.contextPath}/resources/image/three-dots-vertical.svg">
 		</div>
 	</div>
-	<div class="container-box" style="border: 2px solid yellow;" >
-		<div class="sidebar" style="border: 2px solid blue;">사이드 바 부분입니다.</div>
-		<div class="content-box" style="border: 2px solid black;"> 본문이 들어갈 부분입니다.
-			<div>
-				<h1>버튼</h1>
+	<div class="container-box" >
+		<div class="sidebar">
+			<div class="sidebar-attendance">
+				<span class="sidebar-today">2024년10월17일</span>
+				<h1 class="sidebar-today-time">19:02:40</h1>
+				<div class="sidebar-start-time">
+					<span>출근시간</span>
+					<span>08:43</span>
+				</div>
+				<div class="sidebar-end-time">
+					<span>퇴근시간</span>
+					<span>18:01</span>
+				</div>
+				<div class="sidebar-attendance-btn">
+					<button class="button-small sidebar-start">출근하기</button>
+					<button class="button-small sidebar-end">퇴근하기</button>
+				</div>
+				<div class="sidebar-hr"></div>
 			</div>
+			<%-- ############################### 아코디언 #################################### --%>
+			<div class="nav-bar">
+				<div class="sidebar-home">
+					<div>
+						<img class="home-icon" src="${pageContext.request.contextPath}/resources/image/home-icon.png"/>
+						<span>홈</span>
+					</div>
+					<img class="arrow home-arrow" src="${pageContext.request.contextPath}/resources/image/arrow.png"/>
+				 </div>
+				 <div class="sidebar-notice">
+					<div>
+						<img class="notice-icon" src="${pageContext.request.contextPath}/resources/image/notice-icon.png"/>
+						<span>공지사항</span>
+					</div>
+					<img class="arrow notice-arrow" src="${pageContext.request.contextPath}/resources/image/arrow.png"/>
+				</div>
+				<div class="sidebar-approval">
+					<div>
+						<img class="approval-icon" src="${pageContext.request.contextPath}/resources/image/approval-icon.png"/>
+						<span>전자결재</span>
+					</div>
+					<img class="arrow approval-arrow" src="${pageContext.request.contextPath}/resources/image/arrow.png"/>
+				</div>
+				<div class="sidebar-hr">
+					<div>
+						<img class="hr-icon" src="${pageContext.request.contextPath}/resources/image/hr-icon.png"/> 
+						<span>HR</span>
+					</div>
+					<img class="arrow hr-arrow" src="${pageContext.request.contextPath}/resources/image/arrow.png"/>
+				</div>
+			</div>
+		</div>
+		<div class="content-box" > 
 		
 		
+					
