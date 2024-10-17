@@ -94,4 +94,8 @@ hs_err_pid*
 replay_pid*
 
 # End of https://www.toptal.com/developers/gitignore/api/java,eclipse
+<<<<<<< HEAD
 /.project
+=======
+/Servers/
+>>>>>>> branch 'main' of https://github.com/Jeong-WonSeok/thirty-one_TMS.git

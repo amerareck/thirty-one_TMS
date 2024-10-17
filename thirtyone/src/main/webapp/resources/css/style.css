@@ -1,0 +1,118 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap');
+@import url("http://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700");
+
+@font-face {
+	font-family: 'Roboto', sans-serif;
+	src: url('http://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700');
+	unicode-range: U+0030-0039,U+0041-005A,U+0061-007A,U+0030-0039, U+0061-007A, U+0041-005A;
+	};
+
+@font-face {
+	font-family: "Noto Sans KR", sans-serif;
+	src: url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap');
+	unicode-range: U+AC00-D7A3;
+}
+
+*{ font-family: 'Noto Sans KR', 'Roboto', sans-serif !important; }
+
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+} 
+
+button:hover {
+  cursor: pointer;
+}
+
+.button-x-large{
+	width:400px;
+	height: 60px;
+}
+
+.button-large{
+	width:175px;
+	height: 45px;
+}
+.button-medium{
+	width:110px;
+	height: 30px;
+}
+.button-small{
+	width:96px;
+	height: 30px;
+	border-radius: 7px;
+}
+
+.button-mini{
+	font-size:8px;
+	width:36px;
+	height: 16px;
+	border-radius: 12px;
+	padding-top : 0px;
+	padding-bottom:0px;
+}
+.btn{
+	padding-top : 0px !important;
+	padding-bottom : 0px !important;
+	height: 30px;
+}
+a{
+  text-decoration: none;
+}
+
+:root{
+  --black : #222222;
+  --kblue : #1F5FFF;
+  --skyblue: #B5CAFF;
+  --darkgray: #5A5A5A;
+  --lightgray : #C3C3C3;
+}
+
+.title {
+	font-size: 20px;
+	font-weight: bold;
+}
