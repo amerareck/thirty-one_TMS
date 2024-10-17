@@ -6,11 +6,10 @@
 	      org.springframework.web.context.ContextLoaderListener
 	   </listener-class>
 	</listener>
+	
 	<context-param>
-		  	
 	   <param-name>contextConfigLocation</param-name>
 	   <param-value>classpath:spring/root/*.xml</param-value>
-	   
 	</context-param>
 	
 	<servlet>
@@ -20,18 +19,18 @@
 	      <param-name>contextConfigLocation</param-name>
 	      <param-value>classpath:spring/dispatcher/*.xml</param-value>
 	   </init-param>
-	   <init-param>
+	   <!-- <init-param>
 	   		<param-name>throwExceptionIfNoHandlerFound</param-name>
 	   		<param-value>true</param-value>
-	   </init-param>
+	   </init-param> -->
 	   
 	   <load-on-startup>1</load-on-startup>
+	   
 	   <multipart-config>
 	   		<location>C:/Temp</location>
 	   		<max-file-size>20971520</max-file-size>
 	   		<max-request-size>104857600</max-request-size>
 	   		<file-size-threshold>1024</file-size-threshold>
-	   		
 	   </multipart-config>
 	   
 	</servlet>
@@ -54,14 +53,5 @@
 		<filter-name>characterEncodingFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
-
-<!--<filter>
-		<filter-name>springSecurityFilterChain</filter-name>	
-		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
-	</filter>
-	<filter-mapping>
-		<filter-name>springSecurityFilterChain</filter-name>
-		<url-pattern>/*</url-pattern>
-	</filter-mapping> -->
 
 </web-app>

@@ -15,7 +15,6 @@ import lombok.extern.slf4j.Slf4j;
 public class AuthenticationFailureHandler 
 	extends SimpleUrlAuthenticationFailureHandler{
 	
-	// 인증실패했을 때 자동으로 시작
 	@Override
 	public void onAuthenticationFailure(
 				HttpServletRequest request, 

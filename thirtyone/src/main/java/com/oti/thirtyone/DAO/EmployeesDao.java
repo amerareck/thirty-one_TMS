@@ -5,14 +5,14 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface EmployeesDao {
 
-	EmployeesDao selectByMid(String username);
+	EmployeesDao selectByempId(String username);
 
-	String getMrole();
+	String getempRole();
 
-	String getMid();
+	String getEmpId();
 
-	String getMpassword();
+	String getEmpPassword();
 
-	boolean isMenabled();
+	boolean isEnabled();
 
 }

@@ -17,9 +17,9 @@ public class EmployeeDetails extends User{
 			List<GrantedAuthority> authorities) {
 		
 		super(
-			member.getMid(), 
-			member.getMpassword(),
-			member.isMenabled(),
+			member.getEmpId(), 
+			member.getEmpPassword(),
+			member.isEnabled(),
 			true, true, true,
 			authorities
 			);
