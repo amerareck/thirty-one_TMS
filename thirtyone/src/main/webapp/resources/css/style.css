@@ -69,6 +69,38 @@ button:hover {
   cursor: pointer;
 }
 
+.button-x-large{
+	width:400px;
+	height: 60px;
+}
+
+.button-large{
+	width:175px;
+	height: 45px;
+}
+.button-medium{
+	width:110px;
+	height: 30px;
+	border-radius: 7px;
+}
+.button-small{
+	width:96px;
+	height: 30px;
+}
+
+.button-mini{
+	font-size:8px;
+	width:36px;
+	height: 16px;
+	border-radius: 12px;
+	padding-top : 0px;
+	padding-bottom:0px;
+}
+.btn{
+	padding-top : 0px !important;
+	padding-bottom : 0px !important;
+	height: 30px;
+}
 a{
   text-decoration: none;
 }
