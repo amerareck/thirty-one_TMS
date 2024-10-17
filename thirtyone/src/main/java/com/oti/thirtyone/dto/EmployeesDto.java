@@ -1,4 +1,4 @@
-package com.oti.thirtyone.DTO;
+package com.oti.thirtyone.dto;
 
 import java.util.Date;
 

@@ -1,4 +1,4 @@
-package com.oti.thirtyone.Security;
+package com.oti.thirtyone.security;
 
 import java.io.IOException;
 

@@ -26,19 +26,19 @@
 			<security:csrf disabled="true"/>
 			
 
-			<security:access-denied-handler error-page="error403"/>
+			<security:access-denied-handler error-page="/error403"/>
 		</security:http>
 		
 		<security:global-method-security secured-annotations="enabled"/>
 		
 		<bean id="authenticationSuccessHandler"
-			class="com.oti.thirtyone.Security.AuthenticationSuccessHandler"/>
+			class="com.oti.thirtyone.security.AuthenticationSuccessHandler"/>
 			
 		<bean id="authenticationFailureHandler"
-			class="com.oti.thirtyone.Security.AuthenticationFailureHandler"/>
+			class="com.oti.thirtyone.security.AuthenticationFailureHandler"/>
 		
 		<bean id="logoutSuccessHandeler"
-			class="com.oti.thirtyone.Security.LogoutSuccessHandeler"/>
+			class="com.oti.thirtyone.security.LogoutSuccessHandeler"/>
 		
 		<security:authentication-manager>
 			<security:authentication-provider ref="daoAuthenticationProvider"/>

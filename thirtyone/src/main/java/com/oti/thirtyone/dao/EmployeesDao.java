@@ -1,4 +1,4 @@
-package com.oti.thirtyone.DAO;
+package com.oti.thirtyone.dao;
 
 import org.apache.ibatis.annotations.Mapper;
 

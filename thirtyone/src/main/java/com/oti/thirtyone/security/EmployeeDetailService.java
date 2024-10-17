@@ -1,4 +1,4 @@
-package com.oti.thirtyone.Security;
+package com.oti.thirtyone.security;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +11,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.oti.thirtyone.DAO.EmployeesDao;
+import com.oti.thirtyone.dao.EmployeesDao;
 
 import lombok.extern.slf4j.Slf4j;
 

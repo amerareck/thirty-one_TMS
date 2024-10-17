@@ -1,11 +1,11 @@
-package com.oti.thirtyone.Security;
+package com.oti.thirtyone.security;
 
 import java.util.List;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 
-import com.oti.thirtyone.DAO.EmployeesDao;
+import com.oti.thirtyone.dao.EmployeesDao;
 
 
 public class EmployeeDetails extends User{
