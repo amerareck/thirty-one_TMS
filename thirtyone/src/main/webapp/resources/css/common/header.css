@@ -128,7 +128,7 @@
 	height: 1px;
 }
 
-.home-icon, .notice-icon, .approval-icon, .hr-icon{
+.sidebar-icon{
 	width: 25px;
 	margin-bottom: 5px;
 }
@@ -140,10 +140,13 @@
 
 .arrow{
 	width: 25px;
+	margin-right: 10px;
+	margin-bottom: 5px;
 }
 .sidebar-title:hover, .sidebar-subtitle:hover{
 	cursor: pointer;
 }
+
 .sidebar-title{
 
 	/* background-color : var(--blue); */
@@ -152,17 +155,23 @@
 	justify-content: space-between;
 	margin-bottom: 5px;
 	/* color: white; */
-	color: var(--darkgray);
 	padding: 10px;
 	border-radius: 32px;
 }
 
-.sidebar-hr, .sidebar-approval{
-	
+.sidebar-title div{
+	margin: 5px;
+	margin-left: 10px;
+	display: flex;
+	align-content: center;
 }
-.home-icon{
-	fill:red;
+
+.sidebar-title div a{
+	margin-left: 15px;
+	color: var(--darkgray);
+	padding-bottom: 7px;
 }
+
 
 .sidebar-subtitle-box{
 	display: none;
@@ -174,12 +183,14 @@
 	width: 85%;
 	margin-bottom: 5px;
 	/* color: white; */
-	color: var(--lightgray);
 	padding: 10px;
 	border-radius: 32px;
 }
 
-.sidebar-subtitle span{
+
+.sidebar-subtitle a{
+	color: var(--lightgray);
 	margin:30px;
+	margin-left: 50px;
 }
 

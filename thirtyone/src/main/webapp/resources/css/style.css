@@ -101,7 +101,7 @@ button:hover {
 	height: 30px;
 }
 a{
-  text-decoration: none;
+  text-decoration: none !important;
 }
 
 :root{

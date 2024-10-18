@@ -18,7 +18,8 @@ $(document).ready(function() {
 			arrow.attr('src', originArrow);
 			
 			$(this).css('background-color', '');
-			$(this).css('color', rootStyles.getPropertyValue('--darkgray'))
+			$(this).css('color', rootStyles.getPropertyValue('--darkgray'));
+			$(this).find('a').css('color', rootStyles.getPropertyValue('--darkgray'));
 		})
 		
 		var clickedImg = $(this).find('.sidebar-icon');
@@ -29,17 +30,32 @@ $(document).ready(function() {
 		clickedArrow.attr('src', newArrow);
 		
 		$(this).css('background-color', rootStyles.getPropertyValue('--blue'));
+		$(this).find('a').css('color', 'white');
 		$(this).css('color', 'white');
-		let navText = $(this).find('span').html();
+		let navText = $(this).find('a').html();
 		let icon = $(this).find('.sidebar-icon');
 		let arrow = $(this).find('.arrow');
 		if(navText === '홈'){
-			
+			$(".sidebar-subtitle-box").each( function() {
+				if($(this).css("display") == 'block'){
+					$(this).slideToggle(300);
+				}
+			});
 		}else if(navText === '공지사항'){
-			
+			$(".sidebar-subtitle-box").each( function() {
+				if($(this).css("display") == 'block'){
+					$(this).slideToggle(300);
+				}
+			});
 		}else if(navText === '전자결재'){
+			if($('.sidebar-hr').next('.sidebar-subtitle-box').css("display") == 'block'){
+				$('.sidebar-hr').next('.sidebar-subtitle-box').slideToggle(300);
+			}
 			$(this).next('.sidebar-subtitle-box').slideToggle(300);	
 		}else if(navText === 'HR'){
+			if($('.sidebar-approval').next('.sidebar-subtitle-box').css("display") == 'block'){
+				$('.sidebar-approval').next('.sidebar-subtitle-box').slideToggle(300);
+			}
 			$(this).next('.sidebar-subtitle-box').slideToggle(300);				
 		}
 		preClicked = this;
@@ -48,10 +64,10 @@ $(document).ready(function() {
 	$(".sidebar-subtitle").on("click", function(){
 		$('.sidebar-subtitle').each(function(){
 			$(this).css('background-color', '');
-			$(this).css('color', rootStyles.getPropertyValue('--lightkgray'))
+			$(this).find('a').css('color', rootStyles.getPropertyValue('--lightkgray'))
 		})
 		$(this).css('background-color', rootStyles.getPropertyValue('--skyblue'));
-		$(this).css('color', 'white');
+		$(this).find('a').css('color', 'white');
 	})
 
 });

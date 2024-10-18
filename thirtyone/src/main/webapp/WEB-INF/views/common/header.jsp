@@ -57,61 +57,61 @@
 					<div>
 						<img class="home-icon sidebar-icon" src="${pageContext.request.contextPath}/resources/image/icon/home.svg"
 						data-original-src="${pageContext.request.contextPath}/resources/image/icon/home.svg"
-						data-active-src="${pageContext.request.contextPath}/resources/image/icon/home-selected.png"
+						data-active-src="${pageContext.request.contextPath}/resources/image/icon/home-selected.svg"
 						/>
-						<span>홈</span>
+						<a href="#">홈</a>
 					</div>
-					<img class="arrow home-arrow" src="${pageContext.request.contextPath}/resources/image/icon/arrow.png"
-						data-original-src="${pageContext.request.contextPath}/resources/image/icon/arrow.png"
-						data-active-src="${pageContext.request.contextPath}/resources/image/icon/arrow-selected.png"/>
+					<img class="arrow home-arrow" src="${pageContext.request.contextPath}/resources/image/icon/arrow.svg"
+						data-original-src="${pageContext.request.contextPath}/resources/image/icon/arrow.svg"
+						data-active-src="${pageContext.request.contextPath}/resources/image/icon/arrow-selected.svg"/>
 				 </div>
 				 <div class="sidebar-notice sidebar-title">
 					<div>
 						<img class="notice-icon sidebar-icon" src="${pageContext.request.contextPath}/resources/image/icon/notice.svg"
 						data-original-src="${pageContext.request.contextPath}/resources/image/icon/notice.svg"
-						data-active-src="${pageContext.request.contextPath}/resources/image/icon/notice-selected.png"/>
-						<span>공지사항</span>
+						data-active-src="${pageContext.request.contextPath}/resources/image/icon/notice-selected.svg"/>
+						<a href="#">공지사항</a>
 					</div>
-					<img class="arrow notice-arrow" src="${pageContext.request.contextPath}/resources/image/icon/arrow.png"
-						data-original-src="${pageContext.request.contextPath}/resources/image/icon/arrow.png"
-						data-active-src="${pageContext.request.contextPath}/resources/image/icon/arrow-selected.png"/>
+					<img class="arrow notice-arrow" src="${pageContext.request.contextPath}/resources/image/icon/arrow.svg"
+						data-original-src="${pageContext.request.contextPath}/resources/image/icon/arrow.svg"
+						data-active-src="${pageContext.request.contextPath}/resources/image/icon/arrow-selected.svg"/>
 				</div>
 				<div class="sidebar-approval sidebar-title">
 					<div>
 						<img class="approval-icon sidebar-icon" src="${pageContext.request.contextPath}/resources/image/icon/approval.svg"
 						data-original-src="${pageContext.request.contextPath}/resources/image/icon/approval.svg"
-						data-active-src="${pageContext.request.contextPath}/resources/image/icon/approval-selected.png"/>
-						<span>전자결재</span>
+						data-active-src="${pageContext.request.contextPath}/resources/image/icon/approval-selected.svg"/>
+						<a href="#">전자결재</a>
 					</div>
-					<img class="arrow approval-arrow" src="${pageContext.request.contextPath}/resources/image/icon/arrow.png"
-						data-original-src="${pageContext.request.contextPath}/resources/image/icon/arrow.png"
-						data-active-src="${pageContext.request.contextPath}/resources/image/icon/arrow-selected.png"/>
+					<img class="arrow approval-arrow" src="${pageContext.request.contextPath}/resources/image/icon/arrow.svg"
+						data-original-src="${pageContext.request.contextPath}/resources/image/icon/arrow.svg"
+						data-active-src="${pageContext.request.contextPath}/resources/image/icon/arrow-selected.svg"/>
 				</div>
 				<div class="sidebar-subtitle-box">
-					<div class="sidebar-subtitle"><span>기안서 작성</span></div>
-					<div class="sidebar-subtitle"><span>결재 하기</span></div>
-					<div class="sidebar-subtitle"><span>결재 전단계</span></div>
-					<div class="sidebar-subtitle"><span>기결/회수</span></div>
-					<div class="sidebar-subtitle"><span>승인/반려</span></div>
-					<div class="sidebar-subtitle"><span>문서함</span></div>
-					<div class="sidebar-subtitle"><span>설정</span></div>
+					<div class="sidebar-subtitle"><a href="#">기안서 작성</a></div>
+					<div class="sidebar-subtitle"><a href="#">결재 하기</a></div>
+					<div class="sidebar-subtitle"><a href="#">결재 전단계</a></div>
+					<div class="sidebar-subtitle"><a href="#">기결/회수</a></div>
+					<div class="sidebar-subtitle"><a href="#">승인/반려</a></div>
+					<div class="sidebar-subtitle"><a href="#">문서함</a></div>
+					<div class="sidebar-subtitle"><a href="#">설정</a></div>
 				</div>
 
 				<div class="sidebar-hr sidebar-title">
 					<div>
 						<img class="hr-icon sidebar-icon" src="${pageContext.request.contextPath}/resources/image/icon/hr.svg"
 						data-original-src="${pageContext.request.contextPath}/resources/image/icon/hr.svg"
-						data-active-src="${pageContext.request.contextPath}/resources/image/icon/hr-selected.png"/> 
-						<span>HR</span>
+						data-active-src="${pageContext.request.contextPath}/resources/image/icon/hr-selected.svg"/> 
+						<a href="#">HR</a>
 					</div>
-					<img class="arrow hr-arrow" src="${pageContext.request.contextPath}/resources/image/icon/arrow.png"
-						data-original-src="${pageContext.request.contextPath}/resources/image/icon/arrow.png"
-						data-active-src="${pageContext.request.contextPath}/resources/image/icon/arrow-selected.png"/>
+					<img class="arrow hr-arrow" src="${pageContext.request.contextPath}/resources/image/icon/arrow.svg"
+						data-original-src="${pageContext.request.contextPath}/resources/image/icon/arrow.svg"
+						data-active-src="${pageContext.request.contextPath}/resources/image/icon/arrow-selected.svg"/>
 				</div>
 				<div class="sidebar-subtitle-box">
-					<div class="sidebar-subtitle"><span>근태</span></div>
-					<div class="sidebar-subtitle"><span>휴가</span></div>
-					<div class="sidebar-subtitle"><span>설정</span></div>
+					<div class="sidebar-subtitle"><a href="#">근태</a></div>
+					<div class="sidebar-subtitle"><a href="#">휴가</a></div>
+					<div class="sidebar-subtitle"><a href="#">설정</a></div>
 				</div>
 
 			</div>
