@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>공지사항 작성</title>
+    <link rel="stylesheet" href="../../../resources/css/style.css" />
+    <link rel="stylesheet" href="../../../resources/css/notice_write.css" />
+    <script src="../../../resources/jquery/jquery.min.js"></script>
+	<link href="../../../resources/bootstrap/bootstrap.min.css" rel="stylesheet">
+	<script src="../../../resources/bootstrap/bootstrap.bundle.min.js"></script>
+	<link rel="stylesheet" href="../../../resources/css/common/header.css"/>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <script src="../../../resources/js/notice_write.js"></script>
+    
+</head>
+<body>
+
+    
+<div class="cardBox">
+    <div class="title">공지사항 작성</div>
+    <div class="text">써리원의 사내 공지사항을 작성합니다.
+    <button type="button" class="btn list">목록</button></div>
+
+    <div class="content">
+        <div class="line" style="border: 2.5px solid #F0F0F0;"></div>
+
+
+    <form onsubmit="return contentValidChk()">    
+    <div class="noticeTitle">
+        <div class="notice-title"><img class="star-icon" src="../../../resources/image/star_icon.png" alt="star" style="width: 9px"/>제목</div>
+        <textarea id="titleBox" name="titleBox"></textarea>
+    </div>   
+    <div class="line"></div>
+
+    <div class="noticeTarget">
+        <div class="notice-target">공지 대상</div>
+    <button class="button-small search">찾기</button>
+    <div class="targetBox">미선택 시, 전체직원에게 공지가 노출됩니다.</div>
+    
+    <div class="notice-target">중요도</div>
+    <div class="custom-select" style="width:75px;">
+        <select class="form-select" required>
+          <option value="">선택</option>
+          <option value="1">기본</option>
+          <option value="2">중요</option>
+        </select>
+      </div>
+    </div>
+    <div class="line"></div>
+
+    <div class="plusFile">
+        <div class="plus-file">첨부파일</div>
+
+        <div class="fileContent">
+         <div class="fileBox"><img src="../../../resources/image/plusFile_icon.png" alt="plusFile" style="width: 44px"/>
+        <p>마우스로 파일을 끌어놓으세요.</p></div>
+        <div class="line file"></div>
+        <input type="file" id="uploadFile" class="button-small" value="내 PC" multiple><img src="../../../resources/image/upload_icon.png" alt="upload" style="width: 18px;"/>
+    </div>
+        </div>
+    </div>
+
+    <div class="line"></div>
+    
+    <textarea id="content" name="content"></textarea>
+    <div class="noticeButton">
+        <button class="button-medium cancel">취소</button>
+        <input type="submit" class="button-medium" id="save" value="저장"></input> 
+    </div>    
+    </div>
+</div>
+</form>
+</body>
+</html>
