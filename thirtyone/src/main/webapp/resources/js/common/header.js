@@ -3,6 +3,12 @@ $(document).ready(function() {
 	const root = document.querySelector(':root');
 	const rootStyles = getComputedStyle(root);
 	
+	const customBlue = rootStyles.getPropertyValue('--blue');
+	const customDarkGray = rootStyles.getPropertyValue('--darkgray');
+	const customLightGray = rootStyles.getPropertyValue('--lightgray');
+	const customSkyBlue = rootStyles.getPropertyValue('--skyblue');
+	const customBlack = rootStyles.getPropertyValue('--black');
+	
 	let preClicked = null;
 	
 	
@@ -18,8 +24,8 @@ $(document).ready(function() {
 			arrow.attr('src', originArrow);
 			
 			$(this).css('background-color', '');
-			$(this).css('color', rootStyles.getPropertyValue('--darkgray'));
-			$(this).find('a').css('color', rootStyles.getPropertyValue('--darkgray'));
+			$(this).css('color',customDarkGray);
+			$(this).find('a').css('color', customDarkGray);
 		})
 		
 		var clickedImg = $(this).find('.sidebar-icon');
@@ -29,12 +35,21 @@ $(document).ready(function() {
 		clickedImg.attr('src', newSrc);
 		clickedArrow.attr('src', newArrow);
 		
-		$(this).css('background-color', rootStyles.getPropertyValue('--blue'));
+		$(this).css('background-color', customBlue);
 		$(this).find('a').css('color', 'white');
 		$(this).css('color', 'white');
+		
 		let navText = $(this).find('a').html();
 		let icon = $(this).find('.sidebar-icon');
 		let arrow = $(this).find('.arrow');
+		
+		$('.sidebar-subtitle').each(function(){
+			$(this).css('background-color', '');			
+			$(this).find('a').css('color', customLightGray);		
+		})
+		$(this).next('.sidebar-subtitle-box').children('div:nth-child(1)').css('background-color', customSkyBlue);			
+		$(this).next('.sidebar-subtitle-box').children('div:nth-child(1)').find('a').css('color', 'white');			
+		
 		if(navText === '홈'){
 			$(".sidebar-subtitle-box").each( function() {
 				if($(this).css("display") == 'block'){
@@ -64,10 +79,30 @@ $(document).ready(function() {
 	$(".sidebar-subtitle").on("click", function(){
 		$('.sidebar-subtitle').each(function(){
 			$(this).css('background-color', '');
-			$(this).find('a').css('color', rootStyles.getPropertyValue('--lightkgray'))
+			$(this).find('a').css('color', customLightGray)
 		})
-		$(this).css('background-color', rootStyles.getPropertyValue('--skyblue'));
+		$(this).css('background-color', customSkyBlue);
 		$(this).find('a').css('color', 'white');
+		let subtitle = $(this).data("subtitle");
+		if(subtitle !== undefined){
+			$('.subtitle').css("display", "none");
+			$("."+subtitle).css("display", 'flex');
+
+			$("."+subtitle).children('div:nth-child(1)').css('border-bottom', '2px solid ' + customBlue);
+			$("."+subtitle).children('div:nth-child(1)').find('a').css('color', customBlue);
+			
+		}else{
+			$('.subtitle').css("display", "none");
+		}
+				
 	})
+	
+	$(".subtitle div a").on("click", function(){
+		$(this).parent().siblings().css("border-bottom", "none");
+		$(this).parent().siblings().find('a').css("color", customDarkGray);		
+		$(this).parent().css("border-bottom", "2.5px solid "+ customBlue);
+		$(this).css("color", customBlue);
+	})
+	
 
 });

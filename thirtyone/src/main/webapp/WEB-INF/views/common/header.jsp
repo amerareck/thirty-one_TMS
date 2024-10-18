@@ -89,11 +89,11 @@
 				</div>
 				<div class="sidebar-subtitle-box">
 					<div class="sidebar-subtitle"><a href="#">기안서 작성</a></div>
-					<div class="sidebar-subtitle"><a href="#">결재 하기</a></div>
+					<div class="sidebar-subtitle" data-subtitle="apr-subtitle"><a href="#">결재 하기</a></div>
 					<div class="sidebar-subtitle"><a href="#">결재 전단계</a></div>
-					<div class="sidebar-subtitle"><a href="#">기결/회수</a></div>
-					<div class="sidebar-subtitle"><a href="#">승인/반려</a></div>
-					<div class="sidebar-subtitle"><a href="#">문서함</a></div>
+					<div class="sidebar-subtitle" data-subtitle="preresult-recall-subtitle"><a href="#">기결/회수</a></div>
+					<div class="sidebar-subtitle" data-subtitle="apr-rejection-subtitle"><a href="#">승인/반려</a></div>
+					<div class="sidebar-subtitle" data-subtitle="doc-subtitle"><a href="#">문서함</a></div>
 					<div class="sidebar-subtitle"><a href="#">설정</a></div>
 				</div>
 
@@ -109,14 +109,50 @@
 						data-active-src="${pageContext.request.contextPath}/resources/image/icon/arrow-selected.svg"/>
 				</div>
 				<div class="sidebar-subtitle-box">
-					<div class="sidebar-subtitle"><a href="#">근태</a></div>
-					<div class="sidebar-subtitle"><a href="#">휴가</a></div>
-					<div class="sidebar-subtitle"><a href="#">설정</a></div>
+					<div class="sidebar-subtitle" data-subtitle="attendance-subtitle"><a href="#">근태</a></div>
+					<div class="sidebar-subtitle" data-subtitle="holiday-subtitle"><a href="#">휴가</a></div>
+					<div class="sidebar-subtitle" data-subtitle="dept-att-subtitle"><a href="#">부서</a></div>
 				</div>
 
 			</div>
 		</div>
-		<div class="content-box" > 
+		<div class="content-box">
+			<div class="main-container" >
+				<p class="title">메인화면</p>
+				<div class="attendance-subtitle subtitle">
+					<div><a href="#">근태 현황</a></div>
+					<div><a href="#">근무 시간</a></div>
+					<div><a href="#">근태 처리</a></div>
+				</div>
+				<div class="holiday-subtitle subtitle">
+					<div><a href="#">휴가 현황</a></div>
+					<div><a href="#">휴가 신청</a></div>
+					<div><a href="#">휴가 처리</a></div>
+				</div>
+				<div class="dept-att-subtitle subtitle">
+					<div><a href="#">부서 근태</a></div>
+					<div><a href="#">부서 일정</a></div>
+				</div>
+				<div class="apr-subtitle subtitle">
+					<div><a href="#">결재 대기</a></div>
+					<div><a href="#">전체 결재 목록</a></div>
+				</div>
+				<div class="preresult-recall-subtitle subtitle">
+					<div><a href="#">결재 상신</a></div>
+					<div><a href="#">회수 문서</a></div>
+				</div>
+				<div class="apr-rejection-subtitle subtitle">
+					<div><a href="#">승인 문서</a></div>
+					<div><a href="#">반려 문서</a></div>
+				</div>
+				<div class="doc-subtitle subtitle">
+					<div><a href="#">부서결재함</a></div>
+					<div><a href="#">완결 문서</a></div>
+					<div><a href="#">참조 문서</a></div>
+				</div>
+				
+				<div class="main-line"></div>
+
 		
 		
 					

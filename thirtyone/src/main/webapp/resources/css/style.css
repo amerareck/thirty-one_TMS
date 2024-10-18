@@ -115,4 +115,11 @@ a{
 .title {
 	font-size: 20px;
 	font-weight: bold;
+	padding: 40px 0px 10px 40px;
+}
+
+.main-line{
+	margin: 0px 40px 20px 40px;
+	background-color: var(--lightgray);
+	height: 0.5px;
 }
