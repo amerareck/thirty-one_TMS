@@ -118,7 +118,7 @@
 		</div>
 		<div class="content-box">
 			<div class="main-container" >
-				<p class="title">메인화면</p>
+				<p class="title">${title}</p>
 				<div class="attendance-subtitle subtitle">
 					<div><a href="#">근태 현황</a></div>
 					<div><a href="#">근무 시간</a></div>
