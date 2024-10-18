@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,7 +18,13 @@
 	
 	<script src="${pageContext.request.contextPath}/resources/js/common/header.js"></script>
 	
-	<title>31</title>
+	<c:if test="${ApprovalRequest}">
+		<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/approval/approval.css" />
+		<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/document-form/businessTripReport.css" />
+		<script src="https://cdn.tiny.cloud/1/zt811056qttf1h18ihxacac59l9xi81x71c2zv8l9cs330q6/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
+	</c:if>
+	
+	<title>ThirtyOne - 근태관리시스템</title>
 	
 </head>
 <body>

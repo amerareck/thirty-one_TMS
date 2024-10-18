@@ -222,4 +222,8 @@
 	color: var(--darkgray);)
 }
 
+.sectionContainer {
+	padding: 30px 43px 0 43px;
+}
+
 
