@@ -4,5 +4,7 @@
 		</div> 
 	</div>
 </div>
+
+<script src="${pageContext.request.contextPath}/resources/js/home.js"></script>
 </body>
 </html>

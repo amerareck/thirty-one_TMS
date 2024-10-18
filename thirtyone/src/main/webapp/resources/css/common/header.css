@@ -79,6 +79,9 @@
 	font-size: 14px;
 }
 .sidebar-today-time{
+	margin-top:5px;
+	font-weight: 500;
+	font-size: 47px;
 	margin-bottom: 20px;
 }
 .sidebar-start-time, .sidebar-end-time{
@@ -164,13 +167,13 @@
 	margin: 5px;
 	margin-left: 10px;
 	display: flex;
-	align-content: center;
+	align-items: center;
 }
 
 .sidebar-title div a{
 	margin-left: 15px;
 	color: var(--darkgray);
-	padding-bottom: 7px;
+	margin-bottom: 5px;
 }
 
 

@@ -15,6 +15,8 @@
 	<script src="${pageContext.request.contextPath}/resources/jquery/jquery.min.js"></script>
 	<script src="${pageContext.request.contextPath}/resources/bootstrap/bootstrap.bundle.min.js"></script>
 	
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/home.css" />
+	
 	<script src="${pageContext.request.contextPath}/resources/js/common/header.js"></script>
 	
 	<title>31</title>
@@ -35,7 +37,7 @@
 	<div class="container-box" >
 		<div class="sidebar">
 			<div class="sidebar-attendance">
-				<span class="sidebar-today">2024년10월17일</span>
+				<p class="sidebar-today">2024년10월17일</p>
 				<h1 class="sidebar-today-time">19:02:40</h1>
 				<div class="sidebar-start-time">
 					<span>출근시간</span>
