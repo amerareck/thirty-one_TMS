@@ -1,3 +1,6 @@
+
+
+
 $(document).ready(function() {
 	
 	const root = document.querySelector(':root');
@@ -10,6 +13,19 @@ $(document).ready(function() {
 	const customBlack = rootStyles.getPropertyValue('--black');
 	
 	let preClicked = null;
+	
+	let img = $('.sidebar-home').find('.sidebar-icon');
+	let arrow = $('.sidebar-home').find('.arrow');
+	let originArrow = arrow.data('active-src');
+	let originSrc = img.data('active-src');
+	img.attr('src',originSrc);
+	arrow.attr('src', originArrow);
+	
+	$('.sidebar-home').css('background-color', customBlue);
+	$('.sidebar-home').css('color','white');
+	$('.sidebar-home').find('a').css('color', 'white');
+	
+	
 	
 	
 	$(".sidebar-title").on("click", function() {
@@ -63,15 +79,24 @@ $(document).ready(function() {
 				}
 			});
 		}else if(navText === '전자결재'){
+			$('.subtitle').css("display", "none");
 			if($('.sidebar-hr').next('.sidebar-subtitle-box').css("display") == 'block'){
 				$('.sidebar-hr').next('.sidebar-subtitle-box').slideToggle(300);
 			}
 			$(this).next('.sidebar-subtitle-box').slideToggle(300);	
-		}else if(navText === 'HR'){
+		}else if(navText === 'HR'){			
 			if($('.sidebar-approval').next('.sidebar-subtitle-box').css("display") == 'block'){
 				$('.sidebar-approval').next('.sidebar-subtitle-box').slideToggle(300);
 			}
-			$(this).next('.sidebar-subtitle-box').slideToggle(300);				
+			$(this).next('.sidebar-subtitle-box').slideToggle(300);
+
+			let subtitle = $(this).next('.sidebar-subtitle-box').children('div:nth-child(1)').data("subtitle");
+			$('.subtitle').css("display", "none");
+			$("."+subtitle).css("display", 'flex');
+
+			$("."+subtitle).children('div:nth-child(1)').css('border-bottom', '2px solid ' + customBlue);
+			$("."+subtitle).children('div:nth-child(1)').find('a').css('color', customBlue);	
+		
 		}
 		preClicked = this;
 	});
