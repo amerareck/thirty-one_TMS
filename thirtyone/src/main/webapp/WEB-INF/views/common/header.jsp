@@ -6,14 +6,14 @@
 <meta charset="UTF-8">
 	<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700" rel="stylesheet">
-
-	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/style.css" />
-	<script src="${pageContext.request.contextPath}/resources/jquery/jquery.min.js"></script>
-	<link href="${pageContext.request.contextPath}/resources/bootstrap/bootstrap.min.css" rel="stylesheet">
-	<script src="${pageContext.request.contextPath}/resources/bootstrap/bootstrap.bundle.min.js"></script>
-	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/common/header.css"/>
 	
+	<link href="${pageContext.request.contextPath}/resources/bootstrap/bootstrap.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/style.css" />
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/common/header.css"/>
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+	
+	<script src="${pageContext.request.contextPath}/resources/jquery/jquery.min.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/bootstrap/bootstrap.bundle.min.js"></script>
 	
 	<script src="${pageContext.request.contextPath}/resources/js/common/header.js"></script>
 	
