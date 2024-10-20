@@ -1,0 +1,60 @@
+.flex-container{
+	display:grid;
+	margin: 20px 40px;
+	grid-template-columns: 4fr 7fr;
+	gap: 20px;
+}
+
+.mini-title{
+	font-weight: bold;
+	font-size: 16px;
+	margin: 30px 0px 20px 20px;
+	margin-left: 40px;
+}
+
+.mini-line{
+	margin-left : 40px;
+	margin-right : 40px;	
+	height: 0.5px;
+	background-color: var(--lightgray); 
+}
+
+.process-list-box {
+    /* 기존 스타일 유지 */
+    display: flex;
+    flex-direction: column;
+    overflow: hidden; /* 자식 요소가 벗어나지 않도록 설정 */
+    height: 100%; /* 부모 박스가 자식 높이에 맞춰 늘어나도록 설정 */
+}
+
+.process-list-table{
+	width: 100%;
+	margin:0px 40px;
+	display:table;
+	table-layout: fixed;
+}
+
+.process-list-table thead th:nth-child(1), .process-list-table tbody th:nth-child(1) {
+	width:30%;
+}
+.process-list-table thead th:nth-child(2), .process-list-table tbody td:nth-child(2){
+	width:60%;
+}
+.process-list-table thead th:nth-child(3), .process-list-table tbody td:nth-child(3){
+	width:20%;
+}
+
+.process-profile-box{
+	display:flex;
+	align-items: center;
+}
+
+.process-profile-img{
+	width: 50px;
+}
+
+.process-profile-info p {
+	margin:5px;
+	font-size :12px;
+	color: var(--lightgray);
+}
