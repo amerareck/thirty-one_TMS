@@ -2,6 +2,8 @@
 
 <%@ include file="/WEB-INF/views/common/header.jsp"%>
 
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/home.css" />
+
 <div class="top-container">
 	<div class="today-attendance card">
 		<p class="mini-title">나의 근무현황</p>
@@ -33,18 +35,155 @@
 	<div class="my-holiday card">
 		<p class="mini-title">나의 휴가 일정</p>
 		<div class="mini-line"></div>
+		<div id="calendar" class="main-calendar"></div>
 	</div>
 </div>
 
 <div class='bottom-container'>
 	<div class="dept-attendance card">
-		<p class="mini-title">부서 근무 현황</p>
-		<div class="mini-line"></div>
+		<div>
+			<p class="mini-title">부서 근무 현황</p>
+			<div class="search">
+				<div class="main-search-drop">검색창</div>
+				<div class="main-search-box">이름 검색</div>
+			</div>
+		</div>
+		<div class="dept-attendance-cur">
+			<table class="table dept-attendance-table">
+				<thead class="header-dept">
+				  <tr>
+				    <th scope="col">이름</th>
+				    <th scope="col">상태</th>
+				    <th scope="col">메시지</th>
+				  </tr>
+				</thead>
+				<tbody>
+				  <tr>
+				    <th scope="row" class="dept-profile-box">
+				    	<img class="dept-profile-img" src="${pageContext.request.contextPath}/resources/image/profileDefault.png">
+				    	<div class="dept-profile-info">
+				    		<h4>오티아이 부장</h4>
+				    		<p>공공사업1div</p>
+				    	</div>
+				    </th>
+				    <td><div class="button-small dept-atd-state">미출근</div></td>
+				    <td></td>
+				  </tr>
+				  <tr>
+				    <th scope="row" class="dept-profile-box">
+				    	<img class="dept-profile-img" src="${pageContext.request.contextPath}/resources/image/profileDefault.png">
+				    	<div class="dept-profile-info">
+				    		<h4>오티아이 부장</h4>
+				    		<p>정원석 사원</p>
+				    	</div>
+			    	</th>
+				    <td><div class="button-small dept-atd-state">미출근</div></td>
+				    <td>@fat</td>
+				  </tr>
+				  <tr>
+				    <th scope="row" class="dept-profile-box">
+				    	<img class="dept-profile-img" src="${pageContext.request.contextPath}/resources/image/profileDefault.png">
+				    	<div class="dept-profile-info">
+				    		<h4>오티아이 부장</h4>
+				    		<p>정원석 사원</p>
+				    	</div>
+			    	</th>
+				    <td><div class="button-small dept-atd-state">미출근</div></td>
+				    <td>@fat</td>
+				  </tr>
+				  <tr>
+				    <th scope="row" class="dept-profile-box">
+				    	<img class="dept-profile-img" src="${pageContext.request.contextPath}/resources/image/profileDefault.png">
+				    	<div class="dept-profile-info">
+				    		<h4>오티아이 부장</h4>
+				    		<p>정원석 사원</p>
+				    	</div>
+			    	</th>
+				    <td><div class="button-small dept-atd-state">미출근</div></td>
+				    <td>@fat</td>
+				  </tr>
+				  <tr>
+				    <th scope="row" class="dept-profile-box">
+				    	<img class="dept-profile-img" src="${pageContext.request.contextPath}/resources/image/profileDefault.png">
+				    	<div class="dept-profile-info">
+				    		<h4>오티아이 부장</h4>
+				    		<p>정원석 사원</p>
+				    	</div>
+			    	</th>
+				    <td><div class="button-small dept-atd-state">미출근</div></td>
+				    <td>@fat</td>
+				  </tr>
+				  <tr>
+				    <th scope="row" class="dept-profile-box">
+				    	<img class="dept-profile-img" src="${pageContext.request.contextPath}/resources/image/profileDefault.png">
+				    	<div class="dept-profile-info">
+				    		<h4>오티아이 부장</h4>
+				    		<p>정원석 사원</p>
+				    	</div>
+			    	</th>
+				    <td><div class="button-small dept-atd-state">미출근</div></td>
+				    <td>@fat</td>
+				  </tr>
+				</tbody>
+			</table>
+		</div>
 	</div>
 	<div class="approval-list card">
 		<p class="mini-title">결재 내역</p>
-		<div class="mini-line"></div>
+		<div class="apr-list-box">
+			<p>기안<span>0</span></p>
+			<p>결재<span>3</span></p>
+			<p>승인<span>0</span></p>
+			<p>반려<span>1</span></p>
+		</div>
+		<div>
+			<table class="table approval-list-table">
+				<thead>
+					<tr>
+					  <th scope="col">결재상태</th>
+					  <th rowspan="3">제목</th>
+					  <th rowspan="3">완결날짜</th>
+					</tr>
+				</thead>
+				<tbody >
+				  <tr>
+				    <th scope="row"><img src="#"></th>
+				    <td rowspan="3">[휴근][정원석][10/21] 휴일근무 신청</td>
+				    <td rowspan="3">2024/10/09</td>
+				  </tr>
+				</tbody>
+				<tbody >
+				  <tr>
+				    <th scope="row"><img src="#"></th>
+				    <td rowspan="3">[휴근][정원석][10/21] 휴일근무 신청</td>
+				    <td rowspan="3">2024/10/09</td>
+				  </tr>
+				</tbody>
+				<tbody >
+				  <tr>
+				    <th scope="row"><img src="#"></th>
+				    <td rowspan="3">[휴근][정원석][10/21] 휴일근무 신청</td>
+				    <td rowspan="3">2024/10/09</td>
+				  </tr>
+				</tbody>
+				<tbody >
+				  <tr>
+				    <th scope="row"><img src="#"></th>
+				    <td rowspan="3">[휴근][정원석][10/21] 휴일근무 신청</td>
+				    <td rowspan="3">2024/10/09</td>
+				  </tr>
+				</tbody>
+				<tbody >
+				  <tr>
+				    <th scope="row"><img src="#"></th>
+				    <td rowspan="3">[휴근][정원석][10/21] 휴일근무 신청</td>
+				    <td rowspan="3">2024/10/09</td>
+				  </tr>
+				</tbody>
+			</table>
+		</div>
 	</div>
 </div>
+<script src="${pageContext.request.contextPath}/resources/js/home.js"></script>
 
 <%@ include file="/WEB-INF/views/common/footer.jsp" %>

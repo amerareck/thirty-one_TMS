@@ -23,7 +23,7 @@
 .dept-attendance{
 	margin-left: 50px;
 	width : 500px;
-	height: 500px;
+	min-height: 500px;
 }
 
 .approval-list{
@@ -154,8 +154,199 @@
 .atd-box-bottom div:nth-child(3) span:nth-child(4){
 	margin-left: 78px;
 }
+
+
 .work-time-bar{
 	background-color: var(--blue);
 	height: 12px;
 	border-radius: 12px;
 }
+/* #################### 캘린더 ################## */
+
+#calendar{
+	height: 300px;	
+}
+
+.fc-event{
+	height: 15px;
+	lien-height: 15px;
+	font-size: 10px;
+}
+
+.main-calendar{
+	margin: 20px 40px 0px 40px ;
+}
+
+/* #################### 부서 근무 현황 ################## */
+.bottom-container{
+	height: 750px;	
+}
+
+.dept-attendance > div:nth-child(1) {
+	display: flex;
+	justify-content: space-between;
+	margin-right: 40px;
+}
+
+.search{
+	display: flex;
+	justify-content: flex-end;
+	margin-top: 40px;
+}
+.dept-attendance-table{
+	width: 420px;
+	margin: 20px 40px 0px 40px;
+}
+
+.header-dept{
+	border-bottom: 2px solid var(--darkgray);
+}
+
+.dept-profile-box{
+	display:flex;
+	align-items: center;
+}
+
+.dept-profile-img{
+	width: 50px;
+}
+
+.dept-profile-info{
+	margin-left:5px;
+	display:flex;
+	flex-direction: column;
+}
+
+.dept-profile-info h4 {
+	font-size :16px;
+	font-weight: bold;
+}
+
+.dept-profile-info p {
+	margin:5px;
+	font-size :12px;
+	color: var(--lightgray);
+}
+.table tr{
+	display:flex;
+	align-items: center;
+}
+
+.dept-atd-state {
+	display:flex;
+	justify-content:center;
+	align-items: center;
+	background-color: var(--lightgray);
+	color:white;
+}
+
+.header-dept > tr{
+	display:flex;
+	justify-content: space-between;
+	align-items: center;
+	height: 50px !important;
+	font-size : 20px;
+	font-weight : bold;
+	color: var(--darkgray);
+}
+
+.header-dept > tr > th:nth-child(1){
+	margin-left: 60px;
+	padding-left: 15px;
+}
+
+.header-dept > tr > th:nth-child(2){
+	margin-left: 35px;
+}
+
+.header-dept > tr > th:nth-child(3){
+	margin-right: 30px;		
+}
+
+
+dept-attendance-table > tbody > tr > td:nth-child(2){
+	margin-left : 20px;
+}
+
+
+dept-attendance-table > tbody > tr > td:nth-child(3){
+	margin-left : 40px;
+}
+
+.dept-attendance-table tbody tr {
+    border-bottom: 0.5px solid var(--lightgray);
+    height: 90px;
+}
+
+.dept-attendance-table thead th{
+	font-size : 18px;
+	font-weight : bold;
+	color: var(--darkgray);
+}
+/* ################### 결재내역 #####################*/
+
+.apr-list-box {
+	background-color: var(--blue);
+	margin:20px 40px 0px 40px;
+	padding: 0px 50px; 	
+	height: 60px;
+	border-radius: 12px;
+	color: white;
+	display:flex;
+	justify-content: space-between;
+	align-items: center;
+	text-align: center;
+}
+.apr-list-box p{
+	display:flex;
+	align-items: center;
+}
+.apr-list-box span{	
+	margin-left: 5px;
+	font-weight: bold;
+	font-size: 30px;
+	display : flex;
+	align-items: center;
+	margin-bottom:3px;
+}
+.approval-list-table{
+	width: auto;
+	margin: 32px 40px 0px 40px;
+	display:grid;
+}
+
+.approval-list-table tbody{
+	height: 90px;
+}
+
+.approval-list-table tr{
+	border-bottom: 0.5px solid var(--lightgray);
+    align-items: center;
+    height: 100%;
+}
+
+.approval-list-table thead tr{
+	border-bottom: 2px solid var(--darkgray);	
+}
+.approval-list-table thead th{
+	margin-bottom: 10px;
+	font-size : 20px;
+	font-weight : bold;
+	color: var(--darkgray);
+}
+.approval-list-table tbody th:nth-child(1){
+	display: flex;
+	align-items: :center;
+	
+}
+
+.approval-list-table thead th:nth-child(1), .approval-list-table tbody th:nth-child(1) {
+	width:20%;
+}
+.approval-list-table thead th:nth-child(2), .approval-list-table tbody td:nth-child(2){
+	width:60%;
+}
+.approval-list-table thead th:nth-child(3), .approval-list-table tbody td:nth-child(3){
+	width:30%;
+}
+

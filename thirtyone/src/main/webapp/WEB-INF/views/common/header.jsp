@@ -15,10 +15,8 @@
 	
 	<script src="${pageContext.request.contextPath}/resources/jquery/jquery.min.js"></script>
 	<script src="${pageContext.request.contextPath}/resources/bootstrap/bootstrap.bundle.min.js"></script>
+	<script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js'></script>
 	
-	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/home.css" />
-	
-	<script src="${pageContext.request.contextPath}/resources/js/common/header.js"></script>
 	
 	<c:if test="${ApprovalRequest}">
 		<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/approval/approval.css" />
@@ -62,13 +60,12 @@
 			</div>
 			<%-- ############################### 아코디언 #################################### --%>
 			<div class="nav-bar">
-				<div class="sidebar-home sidebar-title">
+				<div class="sidebar-home sidebar-title" onclick="location.href='${pageContext.request.contextPath}/'">
 					<div>
 						<img class="home-icon sidebar-icon" src="${pageContext.request.contextPath}/resources/image/icon/home.svg"
 						data-original-src="${pageContext.request.contextPath}/resources/image/icon/home.svg"
-						data-active-src="${pageContext.request.contextPath}/resources/image/icon/home-selected.svg"
-						/>
-						<a href="#">홈</a>
+						data-active-src="${pageContext.request.contextPath}/resources/image/icon/home-selected.svg"/>
+						<a href="${pageContext.request.contextPath}/">홈</a>
 					</div>
 					<img class="arrow home-arrow" src="${pageContext.request.contextPath}/resources/image/icon/arrow.svg"
 						data-original-src="${pageContext.request.contextPath}/resources/image/icon/arrow.svg"
@@ -106,7 +103,7 @@
 					<div class="sidebar-subtitle"><a href="#">설정</a></div>
 				</div>
 
-				<div class="sidebar-hr sidebar-title">
+				<div class="sidebar-hr sidebar-title" <%-- onclick="location.href='${pageContext.request.contextPath}/atd/'" --%>>
 					<div>
 						<img class="hr-icon sidebar-icon" src="${pageContext.request.contextPath}/resources/image/icon/hr.svg"
 						data-original-src="${pageContext.request.contextPath}/resources/image/icon/hr.svg"
@@ -118,7 +115,7 @@
 						data-active-src="${pageContext.request.contextPath}/resources/image/icon/arrow-selected.svg"/>
 				</div>
 				<div class="sidebar-subtitle-box">
-					<div class="sidebar-subtitle" data-subtitle="attendance-subtitle"><a href="#">근태</a></div>
+					<div class="sidebar-subtitle" data-subtitle="attendance-subtitle" <%-- onclick="location.href='${pageContext.request.contextPath}/atd/'" --%>><a>근태</a></div>
 					<div class="sidebar-subtitle" data-subtitle="holiday-subtitle"><a href="#">휴가</a></div>
 					<div class="sidebar-subtitle" data-subtitle="dept-att-subtitle"><a href="#">부서</a></div>
 				</div>
