@@ -11,9 +11,12 @@ public class HolidayController {
 
 	@GetMapping("/")
 	public String holidayMain(Model model) {
-		
 		model.addAttribute("title", "정원석님의 휴가 관리");
-		return "holiday/status";
-		
+		return "holiday/status";	
+	}
+	@GetMapping("/request")
+	public String holidayRequest(Model model) {		
+		model.addAttribute("title", "정원석님의 휴가 관리");
+		return "holiday/request";	
 	}
 }

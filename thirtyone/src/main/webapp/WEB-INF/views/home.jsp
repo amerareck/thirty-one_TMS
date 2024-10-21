@@ -184,6 +184,6 @@
 		</div>
 	</div>
 </div>
-<script src="${pageContext.request.contextPath}/resources/js/home.js"></script>
+
 
 <%@ include file="/WEB-INF/views/common/footer.jsp" %>
