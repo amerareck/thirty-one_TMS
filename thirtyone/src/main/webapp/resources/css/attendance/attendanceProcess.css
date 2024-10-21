@@ -1,8 +1,9 @@
 .flex-container{
 	display:grid;
-	margin: 20px 40px;
-	grid-template-columns: 4fr 7fr;
+	padding: 20px 40px 40px 40px;
+	grid-template-columns: 3fr 7fr;
 	gap: 20px;
+	
 }
 
 .mini-title{
@@ -13,6 +14,7 @@
 }
 
 .mini-line{
+	margin-top: 10px;
 	margin-left : 40px;
 	margin-right : 40px;	
 	height: 0.5px;
@@ -28,20 +30,44 @@
 }
 
 .process-list-table{
-	width: 100%;
+	width: 300px !important;
 	margin:0px 40px;
 	display:table;
 	table-layout: fixed;
 }
 
+.process-list-table tr{
+	display:flex;
+	align-items:center;
+}
+
 .process-list-table thead th:nth-child(1), .process-list-table tbody th:nth-child(1) {
-	width:30%;
+	display:flex;
+	justify-content: center;
+	text-align:center;
+	width:150px;
 }
 .process-list-table thead th:nth-child(2), .process-list-table tbody td:nth-child(2){
-	width:60%;
+	display:flex;
+	justify-content: center;
+	text-align:center;
+	width:50%;
 }
 .process-list-table thead th:nth-child(3), .process-list-table tbody td:nth-child(3){
+	display:flex;
+	justify-content: center;
+	text-align:center;
 	width:20%;
+}
+
+.process-list-table tbody td:nth-child(2){
+	font-weight: bold;
+	font-size: 12px;
+	color: var(--darkgray);
+}
+.process-list-table tbody td:nth-child(3){
+	font-weight: bold;
+	color: rgb(233, 6, 6);
 }
 
 .process-profile-box{
@@ -50,11 +76,81 @@
 }
 
 .process-profile-img{
-	width: 50px;
+	width: 30px;
+}
+.process-profile-info{
+	width: 80px;
+	margin-left:5px;
+	display:flex;
+	flex-direction: column;
 }
 
+.process-list-table thead tr {
+	padding-bottom: 10px;
+    border-bottom: 1.5px solid var(--lightgray);
+}
+.process-list-table tbody tr {
+    border-bottom: 0.5px solid var(--lightgray);
+    height: 90px;
+}
+
+
+.process-profile-info h4 {
+	font-size :12px;
+	font-weight: bold;
+}
 .process-profile-info p {
 	margin:5px;
-	font-size :12px;
+	font-size :11px;
 	color: var(--lightgray);
+}
+.reason-report{
+	margin: 10px 40px;
+}
+
+/* ###################사유서####################### */
+.reason-report div{
+	margin: 15px 0px;
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+}
+.reason-report div input{
+	border : none;
+}
+
+.reason-report div:nth-child(4) input{
+	border: 0.5px solid var(--lightgray);
+}
+.reason-report div:nth-child(5){
+	align-items: flex-start; 
+}
+.reason-report div:nth-child(6){
+	margin-top: 70px;
+	justify-content: center;
+}
+.button-large{
+	border: none;
+	margin-bottom: 40px;
+}
+.reject{
+	background-color: white;
+	border:2px solid var(--blue);
+	color: var(--blue);
+	font-weight: bold;
+	font-size: 20px;
+}
+
+.accept{
+	background-color: var(--blue);
+	color: white;
+	font-weight: bold;
+	font-size: 20px;
+}
+
+.reason-report div label{
+	color: var(--darkgray);
+	font-weight: bold;
+	font-size: 20px; 
+	width: 140px;
 }
