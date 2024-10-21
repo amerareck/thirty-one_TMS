@@ -20,7 +20,7 @@
 }
 
 .modal-dialog {
-    max-width: 500px;
+    max-width: 850px;
 }
 .custom-card {
     border-radius: 10px;
@@ -50,14 +50,14 @@
 }
 .approval-line-container {
     height: 150px;
-    padding: 10px 30px 10px 30px;
+    padding: 10px 40px 10px 40px;
     overflow-y: auto;
 }
 .approval-line-item {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 5px 0;
+    padding: 5px 40px;
     border-bottom: 1px solid #ddd;
 }
 .approval-line-item:last-child {
@@ -66,3 +66,144 @@
 .approval-line-item button {
     margin-left: 5px;
 }
+
+#mytextarea {
+    user-select: none;
+    pointer-events: none; 
+}
+.approval-line-cube {
+    width: 120px;
+    height: 120px;
+    background-color: #C3C3C3;
+}
+.document-container {
+    height: 700px;
+}
+.approval-line-cube-info {
+    font-size: 8pt;
+    font-family: 'Noto Sans KR', 'Roboto', sans-serif !important
+}
+.btn-custom-cancel {
+    color: #1F5FFF;
+    border: 2px solid #1F5FFF;
+    border-radius: 0;
+    background-color: white;
+    padding: 8px 20px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    width: 95px;
+    height: 45px;
+}
+
+.btn-custom-cancel:hover {
+    background-color: #1F5FFF;
+    color:#f8f9fa;
+}
+
+.btn-custom-confirm {
+    color: white;
+    background-color: #1F5FFF;
+    border: none;
+    border-radius: 0;
+    padding: 8px 20px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    width: 95px;
+    height: 45px;
+}
+
+.btn-custom-confirm:hover {
+    border: 2px solid #1F5FFF;
+    background-color: #f8f9fa;
+    color:#1F5FFF;
+}
+
+.btn-custom-blue {
+    background-color:#1F5FFF;
+    border-color:#1F5FFF;
+    font-weight: bold;
+}
+
+.btn-custom-lightgrey {
+    background-color:#c8c8c8;
+    border-color: #c8c8c8;
+    font-weight: bold;
+}
+
+.text-custom-grey {
+    color: #818181;
+    font-weight: bold;
+}
+
+.btn:focus, .btn:active {
+    border: none;
+    outline: none;
+}
+
+.page-border-none {
+    border: none;
+}
+
+.custom-card {
+    width: 180px;
+    height: 80px;
+    background-color: #e5e5e5;
+    padding: 15px;
+    border-radius: 8px;
+    text-align: center;
+ }
+ .name-text {
+   font-size: 1.2rem;
+   font-weight: bold;
+ }
+ .role-text {
+   font-size: 1rem;
+   font-weight: normal;
+ }
+ .dept-text {
+   font-size: 0.9rem;
+   color: #6c757d;
+   margin-top: 5px;
+ }
+ .attachFont {
+    font-size: smaller;
+ }
+ .button-large{
+	width:175px;
+	height: 45px;
+}
+
+.table-font-size {
+    font-size: 10pt;
+}
+.table-header-bg th {
+    background-color: #5E5E5E !important;
+    color: #fff;
+    height: 3rem;
+}
+
+.table-header-bg td {
+    height: 3rem;
+}
+
+.btn-ssm {
+    width: 48px;
+    height: 25px;
+    font-size: 10pt;
+    padding: 0;
+}
+
+.pagination-size {
+    width: 80%;
+    height: 80%;
+}
+
+.pagination-size .page-link {
+    padding: 0.3rem 0.6rem;  /* 패딩 조정 */
+    font-size: 0.9rem;        /* 폰트 크기 조정 */
+}
+
+.pagination-size .page-item {
+    margin: 0 2px;           /* 아이템 간의 간격 조정 */
+}
+
