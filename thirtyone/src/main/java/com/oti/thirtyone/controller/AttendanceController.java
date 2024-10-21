@@ -15,6 +15,12 @@ public class AttendanceController {
 		return "attendance/attendanceStatus"; 
 	}
 	
+	@GetMapping("/time")
+	public String attendacnetime(Model model) {
+		model.addAttribute("title", "정원석님의 근태 관리");
+		return "attendance/attendanceTime";
+	}
+	
 	@GetMapping("/process")
 	public String atdProcess(Model model) {
 		model.addAttribute("title", "정원석님의 근태 관리");

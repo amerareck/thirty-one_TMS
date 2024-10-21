@@ -1,0 +1,104 @@
+#mychart{
+	margin: 0px 40px;
+}
+
+.mini-title{
+	font-weight: bold;
+	font-size: 16px;
+	margin: 30px 0px 20px 20px;
+	margin-left: 40px;
+}
+
+.legend-and-period{
+	margin: 10px 40px;
+	display: flex;
+	justify-content: space-between;
+}
+
+#choiceDay{
+	padding-left: 10px;
+	padding-right: 10px;
+	display: flex;
+	justify-content: space-between;
+	align-items : center;
+	height: 30px;
+	border: 0.5px solid var(--lightgray);
+	border-radius: 5px;
+}
+
+#choiceDay img{
+	margin-left: 10px;
+	width:20px;
+}
+
+.legend{
+	height: 15px;
+}
+/* ########################## table ######################### */
+.worktime-list{
+	margin: 40px;
+    overflow: hidden;
+    width: 1290px !important;
+}
+
+.worktime-list thead tr{
+	border-top: 0.5px solid var(--lightgray);
+	border-bottom: 2.5px solid var(--lightgray);	
+} 
+
+.worktime-list thead th {
+	color: var(--darkgray);
+	font-weight: bold;
+	font-size : 20px;
+	
+}
+
+.worktime-list tbody tr{
+	border-bottom: 0.5px solid var(--lightgray);
+}
+
+.worktime-list tbody th, .worktime-list thead th:nth-child(1){
+	border-right: 0.5px solid var(--lightgray);
+}
+
+.worktime-list tr{
+	height: 60px;
+}
+.worktime-list thead tr th, .worktime-list tbody tr td, .worktime-list tbody tr th{
+	vertical-align: middle;
+	text-align: center;
+}
+
+.worktime-list img{
+	height: 25px;
+}
+.worktime-list img:hover{
+	cursor: pointer;
+}
+
+.accept-state{
+	display: flex;
+	align-items: center;
+	background-color: var(--blue) !important;
+	color: white !important;
+	font-weight: bold !important;
+	font-size: 13px !important;
+}
+.wating-state{
+	background-color: var(--darkgray) !important;
+	color: white !important;
+	font-weight: bold !important;
+	font-size: 13px !important;
+}
+.accept-state:hover{
+	cursor: default;
+}
+
+
+
+
+
+
+
+
+ 
