@@ -12,24 +12,13 @@ $(document).ready(function() {
 	
 	let preClicked = null;
 	
-	let img = $('.sidebar-home').find('.sidebar-icon');
-	let arrow = $('.sidebar-home').find('.arrow');
-	let originArrow = arrow.data('active-src');
-	let originSrc = img.data('active-src');
-	img.attr('src',originSrc);
-	arrow.attr('src', originArrow);
-	
-	$('.sidebar-home').css('background-color', customBlue);
-	$('.sidebar-home').css('color','white');
-	$('.sidebar-home').find('a').css('color', 'white');
 	
 	
 	
-	
-	$(".sidebar-title").on("click", function() {
+//	$(".sidebar-title").on("click", function() {
 //		$(this).css("background-color", rootStyles.getPropertyValue('--blue'));
 //		$(this).css("color", 'white');
-		$('.sidebar-title').each(function(){
+/*		$('.sidebar-title').each(function(){
 			let img = $(this).find('.sidebar-icon');
 			let arrow = $(this).find('.arrow');
 			let originArrow = arrow.data('original-src');
@@ -51,8 +40,8 @@ $(document).ready(function() {
 		
 		$(this).css('background-color', customBlue);
 		$(this).find('a').css('color', 'white');
-		$(this).css('color', 'white');
-		
+		$(this).css('color', 'white');*/
+		/*
 		let navText = $(this).find('a').html();
 		let icon = $(this).find('.sidebar-icon');
 		let arrow = $(this).find('.arrow');
@@ -65,11 +54,6 @@ $(document).ready(function() {
 		$(this).next('.sidebar-subtitle-box').children('div:nth-child(1)').find('a').css('color', 'white');			
 		
 		if(navText === '홈'){
-			$('.main-line').css('display', 'none');
-			$('.main-container').css({
-				'box-shadow': 'none',
-				'margin': '0px'
-			})
 			$(".sidebar-subtitle-box").each( function() {
 				if($(this).css("display") == 'block'){
 					$(this).slideToggle(300);
@@ -116,8 +100,8 @@ $(document).ready(function() {
 			$("."+subtitle).children('div:nth-child(1)').find('a').css('color', customBlue);	
 		
 		}
-		preClicked = this;
-	});
+		preClicked = this;*/
+//	});
 	
 	$(".sidebar-subtitle").on("click", function(){
 		$('.sidebar-subtitle').each(function(){

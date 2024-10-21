@@ -66,82 +66,65 @@
 			</div>
 			<%-- ############################### 아코디언 #################################### --%>
 			<div class="nav-bar">
-				<div class="sidebar-home sidebar-title" onclick="location.href='${pageContext.request.contextPath}/'">
+				<div class="sidebar-home sidebar-title ${selectedTitle=='home'? 'selected' : ''}" onclick="location.href='${pageContext.request.contextPath}/'">
 					<div>
-						<img class="home-icon sidebar-icon" src="${pageContext.request.contextPath}/resources/image/icon/home.svg"
-						data-original-src="${pageContext.request.contextPath}/resources/image/icon/home.svg"
-						data-active-src="${pageContext.request.contextPath}/resources/image/icon/home-selected.svg"/>
-						<a href="${pageContext.request.contextPath}/">홈</a>
+					    <img class="home-icon sidebar-icon" 
+					        src="${pageContext.request.contextPath}${selectedTitle != 'home' ? '/resources/image/icon/home.svg' : '/resources/image/icon/home-selected.svg'}" />
+					    <a href="${pageContext.request.contextPath}/">홈</a>
 					</div>
-					<img class="arrow home-arrow" src="${pageContext.request.contextPath}/resources/image/icon/arrow.svg"
-						data-original-src="${pageContext.request.contextPath}/resources/image/icon/arrow.svg"
-						data-active-src="${pageContext.request.contextPath}/resources/image/icon/arrow-selected.svg"/>
+					<img class="arrow home-arrow" 
+					    src="${pageContext.request.contextPath}${selectedTitle != 'home' ? '/resources/image/icon/arrow.svg' : '/resources/image/icon/arrow-selected.svg'}" />
+
 				 </div>
-				 <div class="sidebar-notice sidebar-title">
+				 <div class="sidebar-notice sidebar-title ${selectedTitle=='notice'? 'selected' : ''}">
 					<div>
-						<img class="notice-icon sidebar-icon" src="${pageContext.request.contextPath}/resources/image/icon/notice.svg"
-						data-original-src="${pageContext.request.contextPath}/resources/image/icon/notice.svg"
-						data-active-src="${pageContext.request.contextPath}/resources/image/icon/notice-selected.svg"/>
+						<img class="notice-icon sidebar-icon" 
+							src="${pageContext.request.contextPath}${selectedTitle != 'notice' ? '/resources/image/icon/notice.svg' : '/resources/image/icon/notice-selected.svg'}" />
 						<a href="#">공지사항</a>
 					</div>
-					<img class="arrow notice-arrow" src="${pageContext.request.contextPath}/resources/image/icon/arrow.svg"
-						data-original-src="${pageContext.request.contextPath}/resources/image/icon/arrow.svg"
-						data-active-src="${pageContext.request.contextPath}/resources/image/icon/arrow-selected.svg"/>
+					<img class="arrow home-arrow" 
+					    src="${pageContext.request.contextPath}${selectedTitle != 'notice' ? '/resources/image/icon/arrow.svg' : '/resources/image/icon/arrow-selected.svg'}" />
 				</div>
-				<div class="sidebar-approval sidebar-title">
+				<div class="sidebar-approval sidebar-title ${selectedTitle=='approval'? 'selected' : ''}">
 					<div>
-						<img class="approval-icon sidebar-icon" src="${pageContext.request.contextPath}/resources/image/icon/approval.svg"
-						data-original-src="${pageContext.request.contextPath}/resources/image/icon/approval.svg"
-						data-active-src="${pageContext.request.contextPath}/resources/image/icon/approval-selected.svg"/>
+						<img class="approval-icon sidebar-icon" 
+						src="${pageContext.request.contextPath}${selectedTitle != 'approval' ? '/resources/image/icon/approval.svg' : '/resources/image/icon/approval-selected.svg'}" />
 						<a href="#">전자결재</a>
 					</div>
-					<img class="arrow approval-arrow" src="${pageContext.request.contextPath}/resources/image/icon/arrow.svg"
-						data-original-src="${pageContext.request.contextPath}/resources/image/icon/arrow.svg"
-						data-active-src="${pageContext.request.contextPath}/resources/image/icon/arrow-selected.svg"/>
+					<img class="arrow home-arrow" 
+					    src="${pageContext.request.contextPath}${selectedTitle != 'approval' ? '/resources/image/icon/arrow.svg' : '/resources/image/icon/arrow-selected.svg'}" />
 				</div>
-				<div class="sidebar-subtitle-box">
-					<div class="sidebar-subtitle"><a href="${pageContext.request.contextPath}/approval/draft">기안서 작성</a></div>
-					<div class="sidebar-subtitle" data-subtitle="apr-subtitle"><a href="#">결재 하기</a></div>
-					<div class="sidebar-subtitle"><a href="#">결재 전단계</a></div>
-					<div class="sidebar-subtitle" data-subtitle="preresult-recall-subtitle"><a href="#">기결/회수</a></div>
-					<div class="sidebar-subtitle" data-subtitle="apr-rejection-subtitle"><a href="#">승인/반려</a></div>
-					<div class="sidebar-subtitle" data-subtitle="doc-subtitle"><a href="#">문서함</a></div>
-					<div class="sidebar-subtitle"><a href="#">설정</a></div>
+				<div class="sidebar-subtitle-box ${selectedTitle=='approval'? 'selected-sub' : ''}">
+					<div class="sidebar-subtitle ${selectedSub == 'draft' ? 'sub-selected' : ''}"><a href="${pageContext.request.contextPath}/approval/draft">기안서 작성</a></div>
+					<div class="sidebar-subtitle ${selectedSub == 'apr' ? 'sub-selected' : ''}" data-subtitle="apr-subtitle"><a href="#">결재 하기</a></div>
+					<div class="sidebar-subtitle ${selectedSub == 'preApr' ? 'sub-selected' : ''}"><a href="#">결재 전단계</a></div>
+					<div class="sidebar-subtitle ${selectedSub == 'processStatus' ? 'sub-selected' : ''}" data-subtitle="preresult-recall-subtitle"><a href="#">기결/회수</a></div>
+					<div class="sidebar-subtitle ${selectedSub == 'processCompleted' ? 'sub-selected' : ''}" data-subtitle="apr-rejection-subtitle"><a href="#">승인/반려</a></div>
+					<div class="sidebar-subtitle ${selectedSub == 'document' ? 'sub-selected' : ''}" data-subtitle="doc-subtitle"><a href="#">문서함</a></div>
+					<div class="sidebar-subtitle ${selectedSub == 'settings' ? 'sub-selected' : ''}"><a href="#">설정</a></div>
 				</div>
 
-				<div class="sidebar-hr sidebar-title" <%-- onclick="location.href='${pageContext.request.contextPath}/atd/'" --%>>
+				<div class="sidebar-hr sidebar-title ${selectedTitle=='hr'? 'selected' : ''}" <%-- onclick="location.href='${pageContext.request.contextPath}/atd/'" --%>>
 					<div>
-						<img class="hr-icon sidebar-icon" src="${pageContext.request.contextPath}/resources/image/icon/hr.svg"
-						data-original-src="${pageContext.request.contextPath}/resources/image/icon/hr.svg"
-						data-active-src="${pageContext.request.contextPath}/resources/image/icon/hr-selected.svg"/> 
+						<img class="hr-icon sidebar-icon" 
+							src="${pageContext.request.contextPath}${selectedTitle != 'hr' ? '/resources/image/icon/hr.svg' : '/resources/image/icon/hr-selected.svg'}" />
 						<a href="#">HR</a>
 					</div>
-					<img class="arrow hr-arrow" src="${pageContext.request.contextPath}/resources/image/icon/arrow.svg"
-						data-original-src="${pageContext.request.contextPath}/resources/image/icon/arrow.svg"
-						data-active-src="${pageContext.request.contextPath}/resources/image/icon/arrow-selected.svg"/>
+					<img class="arrow home-arrow" 
+					    src="${pageContext.request.contextPath}${selectedTitle != 'hr' ? '/resources/image/icon/arrow.svg' : '/resources/image/icon/arrow-selected.svg'}" />
 				</div>
-				<div class="sidebar-subtitle-box">
-					<div class="sidebar-subtitle" data-subtitle="attendance-subtitle" <%-- onclick="location.href='${pageContext.request.contextPath}/atd/'" --%>><a>근태</a></div>
-					<div class="sidebar-subtitle" data-subtitle="holiday-subtitle"><a href="#">휴가</a></div>
-					<div class="sidebar-subtitle" data-subtitle="dept-att-subtitle"><a href="#">부서</a></div>
+				<div class="sidebar-subtitle-box  ${selectedTitle=='hr'? 'selected-sub' : ''}" >
+					<div class="sidebar-subtitle ${selectedSub == 'attendance' ? 'sub-selected' : ''}" data-subtitle="attendance-subtitle"><a>근태</a></div>
+					<div class="sidebar-subtitle ${selectedSub == 'holiday' ? 'sub-selected' : ''}" data-subtitle="holiday-subtitle"><a href="#">휴가</a></div>
+					<div class="sidebar-subtitle ${selectedSub == 'deptAtd' ? 'sub-selected' : ''}" data-subtitle="dept-atd-subtitle"><a href="#">부서</a></div>
 				</div>
 
 			</div>
 		</div>
-		<div class="content-box">
+<%-- 		<div class="content-box">
 			<div class="main-container" >
-				<p class="title">${title}</p>
-				<div class="attendance-subtitle subtitle">
-					<div><a href="#">근태 현황</a></div>
-					<div><a href="#">근무 시간</a></div>
-					<div><a href="#">근태 처리</a></div>
-				</div>
-				<div class="holiday-subtitle subtitle">
-					<div><a href="#">휴가 현황</a></div>
-					<div><a href="#">휴가 신청</a></div>
-					<div><a href="#">휴가 처리</a></div>
-				</div>
-				<div class="dept-att-subtitle subtitle">
+				<p class="title">${title}</p> --%>
+			<!--<div class="dept-atd-subtitle subtitle">
 					<div><a href="#">부서 근태</a></div>
 					<div><a href="#">부서 일정</a></div>
 				</div>
@@ -161,9 +144,9 @@
 					<div><a href="#">부서결재함</a></div>
 					<div><a href="#">완결 문서</a></div>
 					<div><a href="#">참조 문서</a></div>
-				</div>
+				</div> -->
 				
-				<div class="main-line"></div>
+				<!-- <div class="main-line"></div> -->
 
 		
 		

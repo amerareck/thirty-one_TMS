@@ -10,6 +10,7 @@ public class HomeController {
 	@GetMapping("/")
 	public String home(Model model){
 		model.addAttribute("title", "");
+		model.addAttribute("selectedTitle", "home");
 		return "home";
 	}
 	
