@@ -9,7 +9,9 @@
 	<link href="https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700" rel="stylesheet">
 	
 	<link href="${pageContext.request.contextPath}/resources/bootstrap/bootstrap.min.css" rel="stylesheet">
-	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/style.css" />
+	<c:if test="${empty commonCSS}">
+		<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/style.css" />
+	</c:if>
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/common/header.css"/>
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 	
@@ -19,8 +21,12 @@
 	
 	
 	<c:if test="${ApprovalRequest}">
-		<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/approval/approval.css" />
+		<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/approval/approvalLine.css" />
 		<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/document-form/businessTripReport.css" />
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.12/themes/default/style.min.css" />
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+		
 		<script src="https://cdn.tiny.cloud/1/zt811056qttf1h18ihxacac59l9xi81x71c2zv8l9cs330q6/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
 	</c:if>
 	
@@ -94,7 +100,7 @@
 						data-active-src="${pageContext.request.contextPath}/resources/image/icon/arrow-selected.svg"/>
 				</div>
 				<div class="sidebar-subtitle-box">
-					<div class="sidebar-subtitle"><a href="#">기안서 작성</a></div>
+					<div class="sidebar-subtitle"><a href="${pageContext.request.contextPath}/approval/draft">기안서 작성</a></div>
 					<div class="sidebar-subtitle" data-subtitle="apr-subtitle"><a href="#">결재 하기</a></div>
 					<div class="sidebar-subtitle"><a href="#">결재 전단계</a></div>
 					<div class="sidebar-subtitle" data-subtitle="preresult-recall-subtitle"><a href="#">기결/회수</a></div>

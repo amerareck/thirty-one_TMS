@@ -19,6 +19,11 @@
     font-weight: 900; /* 또는 필요에 맞는 font-weight 설정 */
 }
 
+.defaultApprovalLineSetting {
+	max-width: 600px;
+	height: 900px;
+}
+
 .modal-dialog {
     max-width: 850px;
 }
