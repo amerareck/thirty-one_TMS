@@ -1,0 +1,92 @@
+.mini-title{
+	font-weight: bold;
+	font-size: 16px;
+	margin: 40px 0px 20px 20px;
+	margin-left: 40px;
+}
+
+.mini-line{
+	margin-left : 40px;
+	margin-right : 40px;	
+	height: 0.5px;
+	background-color: var(--lightgray); 	
+}
+
+.holiday-request-box{
+	display: flex;
+	margin: 20px 40px 20px 40px;
+}
+
+.holiday-select1{
+	height: 60px;
+	margin: 20px 40px;
+	display: grid;
+	grid-template-columns: 3fr 7fr 7fr;
+	justify-content: center;	
+}
+
+.holiday-select2{
+	margin: 20px 40px;
+	height: 60px;
+	display: grid !important;
+	grid-template-columns: 3fr 3fr 2fr 3fr 2fr 3fr 1fr !important;
+	justify-content: center;
+}
+
+.holiday-select2 label{
+	justify-content:center;
+	color: var(--darkgray);
+}
+
+.holiday-request div label{
+	display: flex;
+	align-items: center;
+	font-size: 16px;
+	font-weight: bold;
+	color: var(--darkgray);
+}
+
+.holiday-request div p{
+	font-size: 16px;
+	font-weight: bold;
+	color: var(--darkgray);
+}
+
+.holiday-select3{
+	margin: 20px 40px;
+	display: grid;
+	grid-template-columns: 3fr 0fr 7fr 7fr;
+		
+}
+.holiday-select4{
+	margin: 20px 40px;
+	display: grid;
+	grid-template-columns: 3fr 7fr 7fr;
+		
+}
+.holiday-button{
+	margin: 30px;
+	display: flex;
+	justify-content: center;
+}
+
+.button-large{
+	border: none;
+	margin-bottom: 20px;
+}
+
+.reject{
+	background-color: white;
+	border:2px solid var(--blue);
+	color: var(--blue);
+	font-weight: bold;
+	font-size: 20px;
+}
+
+.accept{
+	background-color: var(--blue);
+	color: white;
+	font-weight: bold;
+	font-size: 20px;
+}
+
