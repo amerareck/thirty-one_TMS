@@ -1,37 +1,66 @@
+document.getElementById('contentForm').addEventListener("submit", function(e) {
+	e.preventDefault();
 
-function contentValidChk(content) {
-    var content = document.getElementById("content").value;
-    var titleBox = document.getElementById("titleBox").value;
-    var customSelect = document.getElementById("custom-select").value;
+	if (contentValidChk()) {
+		contentForm.submit();
+		window.location.href = '/thirtyone/notice/noticeList';
+	}
+});
+
+function contentValidChk() {
+	var content = document.getElementById("content").value;
+	var titleBox = document.getElementById("titleBox").value;
+
+	if (titleBox.length === 0) {
+		alert("제목을 입력해주세요.");
+		return false;
+	}
+
+	if (content.length === 0) {
+		alert("내용이 비어있습니다. 내용을 입력해주세요.");
+		return false;
+	}
+	return true;
+}
+
+const box = document.querySelector(".fileBox");
+
+window.addEventListener("dragover", function(e) {
+	console.log("드래그")
+	e.preventDefault();
+});
+
+window.addEventListener("drop", function(e) {
+	console.log("드랍")
+	e.preventDefault();
+	
+	const arr = e.dataTransfer.files;
+	addFileList(arr);
+	
+	const dataTransfer = new DataTransfer();
+	
+	for(var i=0; i<arr.length; i++) {
+		dataTransfer.items.add(arr[i])
+	}
+	
+	/*document.getElementById("files").files = dataTransfer.files;*/
+	
+})
+
+function addFileList(files) {
+	const fileList = document.getElementById("fileList");
+}
 
 
-    if(titleBox.length === 0) {
-        alert("제목을 입력해주세요.");
-        return false;
-    }
+CKEDITOR.replace('editor', {
+	height: 200,
+});
 
-    if(content.length === 0) {
-        alert("내용이 비어있습니다. 내용을 입력해주세요.");
-        return false;
-     }
-
-     if(customSelect.value === 0) {
-        alert("중요도를 선택해주세요.");
-        return false;
-     }     
-    }
-
-
-    const uploadFile = document.getElementById('uploadFile');
-    
-    uploadFile.onchange = function() {
-        const selectedFile = [...uploadFile.files];
-        const fileReader = new FileReader();
-
-        fileReader.readAsDataURL(selectedFile[0]);
-
-        fileReader.onload = function() {
-            document.getElementById("previewImg").src = fileReader.result;
-        };
-        console.log(selectedFile);
-    };
+function getEditorData() {
+	const data = CKEDITOR.instances.editor.getData();
+	console.log(data);
+	return data;
+}
+	
+	
+	

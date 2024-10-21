@@ -1,0 +1,171 @@
+.full-container{
+	margin: 20px 40px 40px 40px;
+	display: grid;
+	grid-template-columns: 7fr 4fr;
+	gap: 20px;
+}
+
+.holiday-schedule-box{
+	margin-bottom: 20px;
+}
+
+.holiday-list-box{
+	margin-bottom: 5px;	
+}
+
+.mini-title{
+	font-weight: bold;
+	font-size: 16px;
+	margin: 30px 0px 20px 20px;
+	margin-left: 40px;
+}
+
+.mini-line{
+	margin-left : 40px;
+	margin-right : 40px;	
+	height: 0.5px;
+	background-color: var(--lightgray); 
+}
+
+/* #########################휴가내역########################### */
+
+.holiday-title-box{
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-right: 40px;
+}
+
+.holiday-list-table{
+	width: 700px;
+	margin:0px 40px 40px 40px;
+}
+
+#choiceDay{
+	padding-left: 10px;
+	padding-right: 10px;
+	display: flex;
+	justify-content: space-between;
+	align-items : center;
+	height: 30px;
+	border: 0.5px solid var(--lightgray);
+	border-radius: 5px;
+}
+
+#choiceDay img{
+	margin-left: 10px;
+	width:20px;
+}
+
+.accept-state{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background-color: var(--blue) !important;
+	color: white !important;
+	font-weight: bold !important;
+	font-size: 13px !important;
+}
+
+.wating-state{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background-color: var(--darkgray) !important;
+	color: white !important;
+	font-weight: bold !important;
+	font-size: 13px !important;
+}
+.holiday-list-table thead th:nth-child(1), .holiday-list-table tbody th:nth-child(1){
+	width:15%;
+}
+.holiday-list-table thead th:nth-child(2), .holiday-list-table tbody td:nth-child(2){
+	width:30%;
+}
+.holiday-list-table thead th:nth-child(3), .holiday-list-table tbody tr>td:nth-child(3){
+	width:10%;
+}
+.holiday-list-table thead th:nth-child(4), .holiday-list-table tbody td:nth-child(4){
+	width:15%;
+}
+.holiday-list-table thead th:nth-child(5), .holiday-list-table tbody td:nth-child(5){
+	width:15%;
+}
+.holiday-list-table thead th:nth-child(6), .holiday-list-table tbody td:nth-child(6){
+	width:15%;
+}
+
+.holiday-list-table thead tr{
+	border-bottom: 1.5px solid var(--lightgray);
+	height: 40px;
+	font-weight: bold;
+	color: var(--darkgray);
+}
+
+.holiday-list-table tbody tr{
+	border-bottom: 1.5px solid var(--lightgray);
+	height: 70px;
+}
+
+.holiday-list-table th, .holiday-list-table td{
+	vertical-align: middle;
+	text-align: center;
+}
+
+/* ##################################나의 휴가일정 ##################################### */
+#calendar{
+	height: 300px;	
+	margin: 20px 40px;
+}
+
+.fc-button{
+	background-color: white !important;
+	border:none !important;
+	color: var(--darkgray) !important;
+	width: 22px !important;
+}
+
+.fc-header-toolbar{
+	margin-bottom:10px !important;
+	margin-right:20px !important;
+}
+
+.fc-toolbar-title{
+	font-size:14px !important;
+}
+.holiday-status{
+	display:flex;
+	justify-content: space-between;
+	align-items: center;
+	margin:0px 40px 20px 40px;
+}
+
+.holiday-status-box {
+	margin-bottom: 40px;
+}
+
+.holiday-status-detail div{
+	margin-left: 20px;
+	height: 30px;
+	display:flex;
+	justify-content: space-between;
+	align-items: center;
+	border-bottom: 1px solid var(--lightgray);
+	gap : 40px;
+}
+
+.holiday-status-detail div span:nth-child(1){
+	font-size: 12px;
+	font-weight: bold;
+	color: var(--lightgray);
+}
+
+.holiday-status-detail div span:nth-child(2){
+	font-size: 14px;
+	font-weight: bold;
+	color: var(--darkgray);
+}
+
+.arrow-right, .arrow-left{
+	width: 10px;
+}

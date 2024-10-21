@@ -1,9 +1,5 @@
 .cardBox {
-    width: 1039px;
-    padding: 30px 50px 80px 50px;
-    box-shadow: 0px 3px 20px rgba(195, 195, 195, 0.3);
-    border: solid transparent;
-    border-radius: 12px;
+    padding: 0 40px 80px 40px;
 }
 
 .line {
@@ -14,7 +10,7 @@
     color: #a3a3a3;
     font-size: 12px;
     font-weight: 500;
-    margin: 5px 0 24px 0;
+    margin: 5px 0 20px 0;
 }
 
 .btn.list {
@@ -31,18 +27,17 @@
     font-size: 14px;
     font-weight: bold;
     width: 115px;
-    height: 57px;
+    height: 60px;
     display: flex;
     border: 0px solid #F0F0F0;
     background-color: #F4F4F4;
     justify-content: center;
     align-items: center;
-    margin-right: 20px;
-    margin-top: 0;
+    margin-right: 40px;
 }
 
 .plus-file {
-    height: 212px;
+    height: 200px;
 }
 
 .star-icon {
@@ -50,7 +45,7 @@
 }
 
 #titleBox {
-    width: 800px;
+    width: 1120px;
     height: 36px;
     border: 1px solid #a3a3a3;
     border-radius: 4px;
@@ -74,7 +69,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 447px;
+    width: 650px;
     height: 30px;
     border: 1px solid #a3a3a3;
     background-color: #F0F0F0;
@@ -103,7 +98,7 @@
     pointer-events: none;
 }
 
-p {
+.fileBox p {
     font-size: 14px;
     color: #6b6b6b;
     margin-left: 18px;
@@ -123,7 +118,7 @@ p {
 .fileBox {
     display: flex;
     align-items: flex-end;
-    margin: 45px 0px 45px 0px;
+    margin: 35px 0px 35px 0px;
 }
 
 .fileContent {
@@ -133,12 +128,13 @@ p {
     align-items: flex-end;
     flex-direction: column;
     align-items: center;
-    width: 800px;
+    width: 1120px;
+    height: 170px;
 }
 
 .line.file {
-    width: 100%;
-    margin-bottom: 12px;
+    width: 1118px;
+    margin-bottom: 14px;
 }
 
 
@@ -159,25 +155,34 @@ p {
 }
 
 .noticeButton {
+    margin-top: 20px;
     float: right;
-    margin-top: 25px;
 }
 
-.button-small {
-    background-color: transparent;
+.button-small.upload {
     border: 1px solid #a3a3a3;
     font-size: 12px;
-    margin-bottom: 12px;
+    color: #818181;
+}
+#uploadFile {
+	/* position: absolute; */
 }
 
-#uploadFile [type="file"] {
-    background-color: transparent;
+form input::file-selector-button {
+    display: none;
 }
 
-#content {
-    width: 936px;
-    height: 248px;
+#editor {
+	float: right;
+    width: 100%;
+    height: 200px;
     border: 1px solid #a3a3a3;
     border-radius: 4px;
-    margin-top: 25px;
+    margin-top: 20px;
+}
+
+.contentBtn {
+	display: flex;
+	flex-direction: column;
+    align-items: flex-end;
 }

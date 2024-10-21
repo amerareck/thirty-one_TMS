@@ -1,0 +1,154 @@
+.cardBox {
+    padding: 0 40px 80px 40px;
+}
+
+.line {
+    border: 0.5px solid #F0F0F0;
+}
+
+.text {
+    color: #a3a3a3;
+    font-size: 12px;
+    font-weight: 500;
+    margin: 5px 0 20px 0;
+}
+
+.btn.list {
+    float: right;
+    margin-left: 5px;
+    background-color: transparent;
+    border-radius: 4px;
+    border: 1px solid #a3a3a3;
+    color: #a3a3a3;
+    font-size: 12px;
+}
+
+.notice-title, .notice-target, .plus-file, .notice-date, .emp-id, .hit-count, .pre-title, .next-title {
+    color: #6b6b6b;
+    font-size: 14px;
+    font-weight: bold;
+    width: 115px;
+    height: 60px;
+    display: flex;
+    border: 0px solid #F0F0F0;
+    background-color: #F4F4F4;
+    justify-content: center;
+    align-items: center;
+    margin-right: 40px;
+}
+
+.noticeLine {
+	display: flex;
+    justify-content: space-between;
+}
+
+.noticeTitle, .noticeTarget, .noticeDate, .empId, .hitCount, .plusFile, .preTitle, .nextTitle {
+    display: flex;
+    align-items: center;
+}
+
+.titleContent, .dateContent, .empContent, .hitCountNumber, .target, .fileContent, .noticeContent, .preContent, .nextContent {
+	color: #494949;
+	font-size: 14px;
+}
+
+.dateContent, .empContent {
+	margin-right: 40px;
+}
+
+.hitCountNumber {
+	margin-right: 40px;
+}
+
+.nextTitle:hover, .nextContent:hover {
+	cursor: pointer;
+}
+
+.custom-select {
+    margin: 15px 0px 15px 0;
+}
+
+.custom-select select {
+    padding: 0 0 0 10px ;
+    width: 78px;
+    height: 30px;;
+    font-size: 12px;
+}
+
+.custom-select:after {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    pointer-events: none;
+}
+
+.fileBox p {
+    font-size: 14px;
+    color: #6b6b6b;
+    margin-left: 18px;
+}
+
+
+.border-line {
+    border-top: 0.5px solid #F0F0F0;
+    margin: 20px 20px;
+}
+
+.plusFile {
+    display: flex;
+    align-items: center;  
+}
+
+.fileBox {
+    display: flex;
+    align-items: flex-end;
+    margin: 35px 0px 35px 0px;
+}
+
+.line.file {
+    width: 1118px;
+    margin-bottom: 14px;
+}
+
+.noticeContent {
+    width: 1120px;
+    height: 100px;
+    margin-top: 20px;
+    margin-left: 40px;
+}
+
+
+.button-medium.cancel {
+    background-color: white;
+    border: 1px solid #1F5FFF;
+    color: #1F5FFF;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.button-medium {
+    background-color: #1F5FFF;
+    border: solid transparent;
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.noticeButton {
+    float: right;
+    margin-top: 20px;
+}
+
+#uploadFile [type="file"] {
+    background-color: transparent;
+}
+
+#content {
+	float: right;
+    width: 1120px;
+    height: 200px;
+    border: 1px solid #a3a3a3;
+    border-radius: 4px;
+    margin-top: 20px;
+}
