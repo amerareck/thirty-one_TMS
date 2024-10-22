@@ -350,4 +350,14 @@ dept-attendance-table > tbody > tr > td:nth-child(3){
 .approval-list-table thead th:nth-child(3), .approval-list-table tbody td:nth-child(3){
 	width:30%;
 }
+.button-mini{
+	margin-left: 20px;
+	display: flex;
+	justify-content: center;
+	align-items: center;	
+}
 
+.button-mini-accept{
+	background-color: var(--blue);
+	color: white;	
+}

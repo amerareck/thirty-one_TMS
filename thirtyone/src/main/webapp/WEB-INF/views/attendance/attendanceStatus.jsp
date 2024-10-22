@@ -9,8 +9,8 @@
 <%@ include file="/WEB-INF/views/common/header.jsp"%>
 <div class="content-box">
 	<div class="main-container" >
-		<p class="title">${title}</p>
-		<div class="attendance-subtitle subtitle">
+		<p class="title-31">${title}</p>
+		<div class="attendance-subtitle sub-title">
 			<div><a href="#">근태 현황</a></div>
 			<div><a href="#">근무 시간</a></div>
 			<div><a href="#">근태 처리</a></div>

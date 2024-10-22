@@ -147,39 +147,13 @@
 							</tr>
 						</thead>
 						<tbody >
-						  <tr>
-						    <th scope="row"><img src="#"></th>
-						    <td rowspan="3">[휴근][정원석][10/21] 휴일근무 신청</td>
-						    <td rowspan="3">2024/10/09</td>
-						  </tr>
-						</tbody>
-						<tbody >
-						  <tr>
-						    <th scope="row"><img src="#"></th>
-						    <td rowspan="3">[휴근][정원석][10/21] 휴일근무 신청</td>
-						    <td rowspan="3">2024/10/09</td>
-						  </tr>
-						</tbody>
-						<tbody >
-						  <tr>
-						    <th scope="row"><img src="#"></th>
-						    <td rowspan="3">[휴근][정원석][10/21] 휴일근무 신청</td>
-						    <td rowspan="3">2024/10/09</td>
-						  </tr>
-						</tbody>
-						<tbody >
-						  <tr>
-						    <th scope="row"><img src="#"></th>
-						    <td rowspan="3">[휴근][정원석][10/21] 휴일근무 신청</td>
-						    <td rowspan="3">2024/10/09</td>
-						  </tr>
-						</tbody>
-						<tbody >
-						  <tr>
-						    <th scope="row"><img src="#"></th>
-						    <td rowspan="3">[휴근][정원석][10/21] 휴일근무 신청</td>
-						    <td rowspan="3">2024/10/09</td>
-						  </tr>
+					  		<c:forEach begin="1" end="5">
+							  <tr>
+							    <th scope="row"><div class="button-mini button-mini-accept">승인</div></th>
+							    <td rowspan="3">[휴근][정원석][10/21] 휴일근무 신청</td>
+							    <td rowspan="3">2024/10/09</td>
+							  </tr>
+						  	</c:forEach>
 						</tbody>
 					</table>
 				</div>
