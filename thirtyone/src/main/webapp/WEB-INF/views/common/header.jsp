@@ -76,7 +76,7 @@
 					    src="${pageContext.request.contextPath}${selectedTitle != 'home' ? '/resources/image/icon/arrow.svg' : '/resources/image/icon/arrow-selected.svg'}" />
 
 				 </div>
-				 <div class="sidebar-notice sidebar-title ${selectedTitle=='notice'? 'selected' : ''}">
+				 <div class="sidebar-notice sidebar-title ${selectedTitle=='notice'? 'selected' : ''}" onclick="location.href='${pageContext.request.contextPath}/notice/noticeList'">
 					<div>
 						<img class="notice-icon sidebar-icon" 
 							src="${pageContext.request.contextPath}${selectedTitle != 'notice' ? '/resources/image/icon/notice.svg' : '/resources/image/icon/notice-selected.svg'}" />
@@ -104,7 +104,7 @@
 					<div class="sidebar-subtitle ${selectedSub == 'settings' ? 'sub-selected' : ''}"><a href="#">설정</a></div>
 				</div>
 
-				<div class="sidebar-hr sidebar-title ${selectedTitle=='hr'? 'selected' : ''}" <%-- onclick="location.href='${pageContext.request.contextPath}/atd/'" --%>>
+				<div class="sidebar-hr sidebar-title ${selectedTitle=='hr'? 'selected' : ''}" onclick="location.href='${pageContext.request.contextPath}/atd/'">
 					<div>
 						<img class="hr-icon sidebar-icon" 
 							src="${pageContext.request.contextPath}${selectedTitle != 'hr' ? '/resources/image/icon/hr.svg' : '/resources/image/icon/hr-selected.svg'}" />
@@ -123,24 +123,24 @@
 		</div>
 <%-- 		<div class="content-box">
 			<div class="main-container" >
-				<p class="title">${title}</p> --%>
-			<!--<div class="dept-atd-subtitle subtitle">
+			<p class="title-31">${title}</p> --%>
+			<!--<div class="dept-atd-subtitle sub-title">
 					<div><a href="#">부서 근태</a></div>
 					<div><a href="#">부서 일정</a></div>
 				</div>
-				<div class="apr-subtitle subtitle">
+				<div class="apr-subtitle sub-title">
 					<div><a href="#">결재 대기</a></div>
 					<div><a href="#">전체 결재 목록</a></div>
 				</div>
-				<div class="preresult-recall-subtitle subtitle">
+				<div class="preresult-recall-subtitle sub-title">
 					<div><a href="#">결재 상신</a></div>
 					<div><a href="#">회수 문서</a></div>
 				</div>
-				<div class="apr-rejection-subtitle subtitle">
+				<div class="apr-rejection-subtitle sub-title">
 					<div><a href="#">승인 문서</a></div>
 					<div><a href="#">반려 문서</a></div>
 				</div>
-				<div class="doc-subtitle subtitle">
+				<div class="doc-subtitle sub-title">
 					<div><a href="#">부서결재함</a></div>
 					<div><a href="#">완결 문서</a></div>
 					<div><a href="#">참조 문서</a></div>

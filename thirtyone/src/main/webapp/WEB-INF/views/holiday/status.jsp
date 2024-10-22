@@ -7,8 +7,8 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 <div class="content-box">
 	<div class="main-container" >
-		<p class="title">${title}</p>
-		<div class="holiday-subtitle subtitle">
+		<p class="title-31">${title}</p>
+		<div class="holiday-subtitle sub-title">
 			<div><a href="#">휴가 현황</a></div>
 			<div><a href="#">휴가 신청</a></div>
 			<div><a href="#">휴가 처리</a></div>
