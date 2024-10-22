@@ -9,9 +9,7 @@
 	<link href="https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700" rel="stylesheet">
 	
 	<link href="${pageContext.request.contextPath}/resources/bootstrap/bootstrap.min.css" rel="stylesheet">
-	<c:if test="${empty commonCSS}">
-		<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/style.css" />
-	</c:if>
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/style.css" />
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/common/header.css"/>
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 	

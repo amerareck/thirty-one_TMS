@@ -2,14 +2,14 @@
     pageEncoding="UTF-8"%>
 	<%@ include file="/WEB-INF/views/common/header.jsp"%>
 	
-<div class="sectionContainer">
+<div class="sectionContainer" style="width: 100%">
 	<div class="card">
         <div class="card-body p-4">
         	<form action="#" method="post" enctype="multipart/form-data">
-	            <div class="row" style="margin-bottom: 4px;" >
-	                <div class="col-8 d-flex align-items-center">
-	                    <label for="documentForm" class="col-3 col-form-label fw-bold me-3 mb-2">결재 양식</label>
-	                    <select class="form-select" id="documentForm">
+	            <div class="d-flex mb-4" style="justify-content: space-between;">
+	                <div class="d-flex align-items-center" style="width: 60%;">
+	                    <label for="documentForm" class="fw-bold mb-2" style="width: 25%;">결재 양식</label>
+	                    <select class="form-select" id="documentForm" style="width: 75%;">
 	                        <option selected>결재 양식 선택</option>
 	                        <option value="HLD">근태 신청서(휴가)</option>
 	                        <option value="BST">출장 신청서</option>
@@ -18,25 +18,24 @@
 	                        <option value="WOT">연장근무신청서</option>
 	                    </select>
 	                </div>
-	                <div class="col-4 d-flex align-items-center">
-	                        <label for="dayOffNum" class="col-auto col-form-label fw-bold me-3 mb-2">신청 일수</label>
-	                        <input type="number" class="form-control" id="dayOffForm" />
-	                        <span class="col-auto ms-3 mb-2">일</span>
+	                <div class="d-flex align-items-center" style="width: 40%;">
+	                    <label for="dayOffNum" class="fw-bold mb-2" style="width: 25%; margin-left: 20px">신청 일수</label>
+	                    <input type="number" class="form-control" id="dayOffForm" style="width: 40%;" />
+	                    <span class="ms-3 mb-2">일</span>
 	                </div>
 	            </div>
-	            <div class="row mb-2">
-	                <div class="col-8 d-flex align-items-center">
-	                    <label for="draftTitle" class="col-3 col-form-label fw-bold me-3 mb-2">제목</label>
-	                    <input type="text" class="form-control" id="draftTitle" />
+	            <div class="d-flex mb-4">
+	                <div class="d-flex align-items-center" style="width: 60%;">
+	                    <label for="draftTitle" class="fw-bold mb-2" style="width: 30%; margin-right:2px;">제목</label>
+	                    <input type="text" class="form-control" id="draftTitle" style="width: 90%;" />
 	                </div>
-	                <div class="col-4 d-flex align-items-center"></div>
 	            </div>
-	            <div class="row mb-2">
-	                <div class="col-2 me-2">
-	                    <label for="draftReferrer" class="col-form-label fw-bold me-3 mb-2">참조자</label>
+	            <div class="d-flex mb-4">
+	                <div style="width:15%;">
+	                    <label for="draftReferrer" class="fw-bold mb-2 mt-2">참조자</label>
 	                </div>
-	                <div class="col-9 d-flex align-items-top">
-	                    <div class="col-3 me-3">
+	                <div class="d-flex align-items-top" style="width: 85%;">
+	                    <div class="me-3" style="width: 25%;">
 	                        <select class="form-select" id="draftDepartmentSelect">
 	                            <option selected>부서 선택</option>
 	                            <option value="department-1">공공사업1Div</option>
@@ -44,96 +43,86 @@
 	                            <option value="department-3">공공사업3Div</option>
 	                        </select>
 	                    </div>
-	                    <div class="col-5 me-1">
-	                        <select class="form-select" id="draftReferrer" style="width: 90.5%">
+	                    <div style="width: 30%;">
+	                        <select class="form-select" id="draftReferrer" style="width: 98%;">
 	                            <option selected>참조자 선택</option>
 	                            <option value="referrer-1">정원석 사원</option>
 	                            <option value="referrer-2">서지혜 사원</option>
 	                            <option value="referrer-3">엄성현 사원</option>
 	                        </select>
 	                    </div>
-	                    <div class="col-3">
-	                        <select multiple class="form-select" id="draftRefSelectBox" size="3" >
+	                    <div class="d-flex align-items-top justify-content-start" style="width: 50%;">
+	                        <select multiple class="form-select ms-3" id="draftRefSelectBox" size="3" style="width: 35%">
 	                            <option value="selected-referrer-1">서지혜 사원</option>
 	                        </select>
-	                    </div>
-	                    <div class="col-1">
-	                        <button type="button" class="btn btn-secondary btn-sm ms-2 mb-1">추가</button>
-	                        <button type="button" class="btn btn-secondary btn-sm ms-2">삭제</button>
+	                        <div class="d-flex ms-1" style="margin-top: 1px; flex-direction: column;">
+		                        <button type="button" class="btn btn-secondary btn-sm mb-1">추가</button>
+		                        <button type="button" class="btn btn-secondary btn-sm">삭제</button>
+	                        </div>
 	                    </div>
 	                </div>
 	            </div>
-	            <div class="row mb-5">
-	                <div class="col-8 d-flex align-items-center">
-	                    <label for="approvalLineSelect" class="col-3 col-form-label fw-bold me-3 mb-2">결재 라인</label>
-	                    <select class="form-select" id="approvalLineSelect">
+	            <div class="d-flex mb-5" style="width: 100%;">
+	                <div class="d-flex align-items-center" style="width: 100%;">
+	                    <label for="approvalLineSelect" class="fw-bold" style="width: 15%;">결재 라인</label>
+	                    <select class="form-select" id="approvalLineSelect" style="width: 45%;">
 	                        <option selected value="selected-apprval-1">기본 결재선</option>
 	                        <option value="selected-apprval-2">기본 결재선2</option>
 	                        <option value="selected-apprval-3">기본 결재선3</option>
 	                    </select>
-	                </div>
-	                <div class="col-4 d-flex align-items-center">
-	                    <button type="button" class="btn btn-secondary ms-1">결재선 선택</button>
+	                    <button type="button" class="btn btn-secondary" style="margin-left: 20px; height: 90%;">결재선 선택</button>
 	                </div>
 	            </div>
-	            <div class="row mb-4">
-	                <div class="d-flex align-items-center justify-content-center">
-	                    <div class="custom-card text-end">
-	                        <div class="name-text mt-1">정준하 <span class="role-text">과장</span></div>
-	                        <div class="dept-text">공공사업1DIV / IT사업팀</div>
-	                    </div>
-	                    <div class="mx-3">
-	                        <img src="${pageContext.request.contextPath}/resources/image/approval-arrow.png" width="20px" />
-	                    </div>
-	                    <div class="custom-card text-end">
-	                        <div class="name-text mt-1">박명수 <span class="role-text">차장</span></div>
-	                        <div class="dept-text">공공사업1DIV / IT사업팀</div>
-	                    </div>
-	                    <div class="mx-3">
-	                        <img src="${pageContext.request.contextPath}/resources/image/approval-arrow.png" width="20px" />
-	                    </div>
-	                    <div class="custom-card text-end">
-	                        <div class="name-text mt-1">유재석 <span class="role-text">부장</span></div>
-	                        <div class="dept-text">공공사업1DIV / IT사업팀</div>
-	                    </div>
+	            <div class="d-flex align-items-center justify-content-center mb-4">
+	                <div class="custom-card text-end">
+	                    <div class="name-text mt-1">정준하 <span class="role-text">과장</span></div>
+	                    <div class="dept-text mt-2">공공사업1DIV</div>
+	                </div>
+	                <div class="mx-3">
+	                    <img src="${pageContext.request.contextPath}/resources/image/approval-arrow.png" width="20px" />
+	                </div>
+	                <div class="custom-card text-end">
+	                    <div class="name-text mt-1">박명수 <span class="role-text">차장</span></div>
+	                    <div class="dept-text mt-2">공공사업1DIV</div>
+	                </div>
+	                <div class="mx-3">
+	                    <img src="${pageContext.request.contextPath}/resources/image/approval-arrow.png" width="20px" />
+	                </div>
+	                <div class="custom-card text-end">
+	                    <div class="name-text mt-1">유재석 <span class="role-text">부장</span></div>
+	                    <div class="dept-text mt-2">공공사업1DIV</div>
 	                </div>
 	            </div>
-	            <div class="row">
-	                <div class="col-8 d-flex align-items-start">
-	                    <label for="approvalAttachFile" class="col-3 col-form-label fw-bold me-3 mb-2">첨부 파일</label>
-	                    <div class="d-flex flex-column mt-1">
-	                        <div class="d-flex align-items-center mb-2">
-	                            <span class="text-secondary attachFont">전동열차_지연증명서.pdf</span>
-	                            <button type="button" class="btn p-0 ms-2" id="deleteAttacthFile"><img src="${pageContext.request.contextPath}/resources/image/close-icon.png" width="10px" /></button>
-	                        </div>
-	                        <div class="">
-	                            <input type="file" id="approvalAttachFile" class="form-control" />
-	                        </div>
-	                    </div>
+	            <div class="d-flex flex-column align-items-start" style="width: 100%;">
+	            	<div class="d-flex align-items-center me-3" style="width: 100%;">
+		                <label for="approvalAttachFile" class="fw-bold" style="width: 15%;">첨부 파일</label>
+		                <div class="d-flex align-items-center justify-content-start" style="width: 80%;">
+			                <span class="text-secondary attachFont">전동열차_지연증명서.pdf</span>
+		    	            <button type="button" class="btn p-0 ms-2" id="deleteAttacthFile"><img src="${pageContext.request.contextPath}/resources/image/close-icon.png" width="10px" /></button>
+	            	    </div>
+	            	</div>
+	                <div class="d-flex" style="width: 100%;">
+	                    <div style="width: 15%; height: 100%">&nbsp;</div>
+	                    <input type="file" id="approvalAttachFile" class="form-control" style="width: 50%" />
 	                </div>
 	            </div>
 	            
 	            <hr class="hr my-5" />
 	
 	            <div>
-	                <!-- Place the following <script> and <textarea> tags your HTML's <body> -->
 	                <script>
 	                    tinymce.init({
 	                        language: 'ko_KR',
 	                        selector: 'textarea',
 	                        content_css: '${pageContext.request.contextPath}/resources/css/document-form/businessTripReport.css',
 	                        plugins: [
-	                        // Core editing features
 	                        'anchor', 'autolink', 'charmap', 'codesample', 'emoticons', 'image', 'link', 'lists', 'media', 'searchreplace', 'table', 'visualblocks', 'wordcount',
-	                        // Your account includes a free trial of TinyMCE premium features
-	                        // Try the most popular premium features until Oct 24, 2024:
 	                        'checklist', 'mediaembed', 'casechange', 'export', 'formatpainter', 'pageembed', 'a11ychecker', 'tinymcespellchecker', 'permanentpen', 'powerpaste', 'advtable', 'advcode', 'editimage', 'advtemplate', 'ai', 'mentions', 'tinycomments', 'tableofcontents', 'footnotes', 'mergetags', 'autocorrect', 'typography', 'inlinecss', 'markdown', 'autoresize'
 	                        ],
 	                        toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat',
 	                        tinycomments_mode: 'embedded',
 	                        tinycomments_author: 'Author name',
 	                        setup: function (editor) {
-	                            // 예시로 HTML 테이블을 에디터에 넣는 방법
 	                            editor.on('init', function () {
 	                                const htmlContent = `
 	                                <div class="c22 doc-content c99">
@@ -516,14 +505,14 @@
 	                        ai_request: (request, respondWith) => respondWith.string(() => Promise.reject('See docs to implement AI Assistant')),
 	                    });
 	                    </script>
-	                    <div style="width:95%; margin:0 auto;" >
-		                    <textarea>
-		                        Welcome to TinyMCE!
-		                    </textarea>
-	                    </div>
+	                <div style="width: 85%; margin: 0 auto;">
+	                    <textarea>Welcome to TinyMCE!</textarea>
+	                </div>
 	            </div>
             </form>
         </div>
     </div>
 </div>
+
+
 <%@ include file="/WEB-INF/views/common/footer.jsp"%>

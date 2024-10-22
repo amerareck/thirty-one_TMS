@@ -37,13 +37,14 @@
 }
 .tree-container {
     height: 250px;
+    overflow-x: auto;
     overflow-y: auto;
     padding: 10px;
+    margin-right: 10px;
 }
 .user-select-container {
     height: 250px;
     padding: 10px 10px 10px 15px;
-    margin-top: 46px;
 }
 .user-select-container select {
     width: 100%;
@@ -54,8 +55,7 @@
     overflow-y: auto;
 }
 .approval-line-container {
-    height: 150px;
-    padding: 10px 40px 10px 40px;
+    padding: 10px 30px 10px 30px;
     overflow-y: auto;
 }
 .approval-line-item {
@@ -70,6 +70,10 @@
 }
 .approval-line-item button {
     margin-left: 5px;
+}
+
+.font-size-small {
+	font-size: 0.85rem;
 }
 
 #mytextarea {
@@ -126,13 +130,29 @@
 .btn-custom-blue {
     background-color:#1F5FFF;
     border-color:#1F5FFF;
-    font-weight: bold;
+    font-size: 0.70rem;
+    width: 40px;
+    height: 25px;
 }
 
 .btn-custom-lightgrey {
     background-color:#c8c8c8;
     border-color: #c8c8c8;
-    font-weight: bold;
+    font-size: 0.70rem;
+    width: 40px;
+    height: 25px;
+}
+
+.btn-custom-sm {
+	width: 50px;
+	height: 35px;
+	font-size: 0.85rem;
+	padding: 4px 10px;
+}
+
+.line-handler-btn {
+	width: 28.5px;
+	height: 28.5px;
 }
 
 .text-custom-grey {
@@ -150,7 +170,7 @@
 }
 
 .custom-card {
-    width: 180px;
+    width: 140px;
     height: 80px;
     background-color: #e5e5e5;
     padding: 15px;
@@ -166,7 +186,7 @@
    font-weight: normal;
  }
  .dept-text {
-   font-size: 0.9rem;
+   font-size: 0.8rem;
    color: #6c757d;
    margin-top: 5px;
  }
@@ -191,6 +211,10 @@
     height: 3rem;
 }
 
+.table-font-sm th, .table-font-sm td {
+	font-size: 0.85rem;
+}
+
 .btn-ssm {
     width: 48px;
     height: 25px;
@@ -212,3 +236,6 @@
     margin: 0 2px;           /* 아이템 간의 간격 조정 */
 }
 
+.page-font-size-sm {
+	font-size: 0.85rem;
+}
