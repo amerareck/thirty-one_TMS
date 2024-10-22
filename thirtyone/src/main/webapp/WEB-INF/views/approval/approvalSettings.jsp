@@ -7,7 +7,7 @@
 		<div class="card" >
 	        <div class="card-body" style=height:850px;>
 	        	<div class="d-flex align-item-center justify-content-between ms-1">
-	            	<h4 class="fw-bold">기본 결재선 설정</h4>
+	            	<h5 class="fw-bold">기본 결재선 설정</h5>
 		        </div>
 		        <hr class="my-2" style="border-top: 2px solid" />
 		        <div class="approval-container">
@@ -147,55 +147,155 @@
 	    </div>
 	</div>
 	<div class="proxySetting1" style="width: 45%;">
-		<div class="card">
-       		<div class="card-body">
-            	<h4 class="fw-bold ms-4">대결자 설정</h4>
-            	<hr style="border-top: 2px solid" />
-            	<div class="p-1">
-                	<div class="d-flex">
-                    	<h5 class="fw-bold ms-5 col-3">결재 대리자</h5>
-                    	<span class="fw-bold col-3 text-body-tertiary">선택되지 않음</span>
-                    	<div class="col-2 d-flex justify-content-end">
-                        	<button type="button" class="btn btn-primary btn-sm"  style="background-color: #1F5FFF;">선택하기</button>
-                    	</div>
-                	</div>
-               		<hr />
-	                <div class="d-flex">
-	                    <h5 class="fw-bold ms-5 col-3 my-1">대결 기간</h5>
-	                    <div class="d-flex col-5">
-	                        <input type="date" id="proxyStartDate" class="form-control" placeholder="ex) 2024-10-01" readonly >
-	                        <span class="fw-bold mx-2 mt-2">~</span>
-	                        <input type="date" id="proxyEndDate" class="form-control" placeholder="ex) 2024-10-10" readonly >
-	                    </div>
-	                    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-	                    <script src="https://npmcdn.com/flatpickr/dist/l10n/ko.js"></script>
-	                    <script>
-	                        flatpickr.localize(flatpickr.l10ns.ko);
-	                        flatpickr("#proxyStartDate", {
-	                            dateFormat: "Y-m-d",
-	                            allowInput: true,
-	                            conjunction: " ~ "
-	                        });
-	                        flatpickr("#proxyEndDate", {
-	                            dateFormat: "Y-m-d",
-	                            allowInput: true
-	                        });
-	                    </script>
-	                </div>
-                	<hr />
-	                <div class="d-flex">
-	                    <h5 class="fw-bold ms-5 col-3 my-1">대결 사유</h5>
-	                    <div class="d-flex col-5">
-	                        <textarea class="form-control" cols="3"></textarea>
-	                    </div>
-	                </div>
-	                <div class="d-flex justify-content-center mt-4 mb-3">
-	                    <button class="btn btn-custom-cancel me-3">취소</button>
-	                    <button class="btn btn-custom-confirm">확인</button>
-	           		</div>
-       			</div>
-   			</div>
-   		</div>
+		<div class="topCard">
+			<div class="card">
+	       		<div class="card-body">
+	            	<h5 class="fw-bold ms-4">대결자 설정</h5>
+	            	<hr style="border-top: 2px solid" />
+	            	<div class="p-1">
+	                	<div class="d-flex">
+	                    	<h6 class="fw-bold ms-5 col-3">결재 대리자</h6>
+	                    	<span class="fw-bold col-3 text-body-tertiary">선택되지 않음</span>
+	                    	<div class="col-2 d-flex justify-content-end">
+	                        	<button type="button" class="btn btn-primary btn-sm"  style="background-color: #1F5FFF;">선택하기</button>
+	                    	</div>
+	                	</div>
+	               		<hr />
+		                <div class="d-flex">
+		                    <h6 class="fw-bold ms-5 col-3 my-1">대결 기간</h6>
+		                    <div class="d-flex col-5">
+		                        <input type="date" id="proxyStartDate" class="form-control" placeholder="ex) 2024-10-01" readonly >
+		                        <span class="fw-bold mx-2 mt-2">~</span>
+		                        <input type="date" id="proxyEndDate" class="form-control" placeholder="ex) 2024-10-10" readonly >
+		                    </div>
+		                    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+		                    <script src="https://npmcdn.com/flatpickr/dist/l10n/ko.js"></script>
+		                    <script>
+		                        flatpickr.localize(flatpickr.l10ns.ko);
+		                        flatpickr("#proxyStartDate", {
+		                            dateFormat: "Y-m-d",
+		                            allowInput: true,
+		                            conjunction: " ~ "
+		                        });
+		                        flatpickr("#proxyEndDate", {
+		                            dateFormat: "Y-m-d",
+		                            allowInput: true
+		                        });
+		                    </script>
+		                </div>
+	                	<hr />
+		                <div class="d-flex">
+		                    <h6 class="fw-bold ms-5 col-3 my-1">대결 사유</h6>
+		                    <div class="d-flex col-5">
+		                        <textarea class="form-control" cols="3"></textarea>
+		                    </div>
+		                </div>
+		                <div class="d-flex justify-content-center mt-4 mb-3">
+		                    <button class="btn btn-custom-cancel me-3">취소</button>
+		                    <button class="btn btn-custom-confirm">확인</button>
+		           		</div>
+	       			</div>
+	   			</div>
+	   		</div>
+		</div>
+		<div class="middleCard">
+			<div class="card">
+		        <div class="card-body">
+		            <h5 class="fw-bold ms-4">대리자 확인</h5>
+		            <hr style="border-top: 2px solid" />
+		            <div class="p-1">
+		                <div class="d-flex">
+		                    <h6 class="fw-bold ms-5 col-3">대리 권한</h6>
+		                    <span class="fw-bold col-3 text-dark">[공공사업1Div] 박명수 차장</span>
+		                </div>
+		                <hr />
+		                <div class="d-flex">
+		                    <h6 class="fw-bold ms-5 col-3 my-1">대리 기간</h6>
+		                    <div class="d-flex col-5">
+		                        <span class="text-body-secondary mt-1 col-3">2024-10-01</span>
+		                        <span class="fw-bold me-2 mt-1 col-1 text-center">~</span>
+		                        <span class="text-body-secondary mt-1">2024-10-10</span>
+		                    </div>
+		                </div>
+		            </div>
+		        </div>
+		    </div>
+		</div>
+		<div class="bottomCard">
+			<div class="card">
+		        <div class="card-body">
+		            <div class="d-flex align-item-center justify-content-between ms-4">
+		                <div class="w-auto">
+		                    <h5 class="fw-bold m-0">기본 결재선 목록</h5>
+		                </div>
+		                <div class="input-group w-auto">
+		                    <input type="text" class="form-control" placeholder="결재선 검색" aria-label="결재선 검색" />
+		                    <button class="btn btn-outline-secondary" type="button" style="border-color: #dee2e6;" id="approvalLineSearch"><i class="fa-solid fa-magnifying-glass"></i></button>
+		                </div>
+		            </div>
+		            <hr class="mb-2" style="border-top: 2px solid" />
+		            <table class="table table-hover">
+		                <thead>
+		                    <tr class="align-middle text-center">
+		                        <th scope="col" style="width: 65%">이름</th>
+		                        <th scope="col" style="width: 35%">수정/삭제</th>
+		                    </tr>
+		                </thead>
+		                <tbody>
+		                    <tr class="align-middle text-center">
+		                        <th scope="row">
+		                            <button type="button" class="btn">
+		                                <span class="text-custom-grey">기본결재선1</span>
+		                            </button>
+		                        </th>
+		                        <td>
+		                            <button type="button" class="btn btn-primary btn-sm btn-custom-blue">수정</button>
+		                            <button type="button" class="btn btn-secondary btn-sm btn-custom-lightgrey">삭제</button>
+		                        </td>
+		                    </tr>
+		                    <tr class="align-middle text-center">
+		                        <th scope="row">
+		                            <button type="button" class="btn">
+		                                <span class="text-custom-grey">기본결재선2</span>
+		                            </button>
+		                        </th>
+		                        <td>
+		                            <button type="button" class="btn btn-primary btn-sm btn-custom-blue">수정</button>
+		                            <button type="button" class="btn btn-secondary btn-sm btn-custom-lightgrey">삭제</button>
+		                        </td>
+		                    </tr>
+		                    <tr class="align-middle text-center">
+		                        <th scope="row">
+		                            <button type="button" class="btn">
+		                                <span class="text-custom-grey">기본결재선3</span>
+		                            </button>
+		                        </th>
+		                        <td>
+		                            <button type="button" class="btn btn-primary btn-sm btn-custom-blue">수정</button>
+		                            <button type="button" class="btn btn-secondary btn-sm btn-custom-lightgrey">삭제</button>
+		                        </td>
+		                    </tr>
+		                </tbody>
+		            </table>
+		            <nav class="mt-5 mb-3">
+		                <ul class="pagination justify-content-center">
+		                  <li class="page-item disabled">
+		                    <a class="page-link text-dark" href="#" tabindex="-1" aria-disabled="true"><i class="fa-solid fa-chevron-left"></i></a>
+		                  </li>
+		                  <li class="page-item"><a class="page-link text-dark page-border-none ms-5" href="#">1</a></li>
+		                  <li class="page-item"><a class="page-link text-dark page-border-none ms-1" href="#">2</a></li>
+		                  <li class="page-item"><a class="page-link text-dark page-border-none ms-1" href="#">3</a></li>
+		                  <li class="page-item"><a class="page-link text-dark page-border-none ms-1" href="#">4</a></li>
+		                  <li class="page-item"><a class="page-link text-dark page-border-none ms-1 me-5" href="#">5</a></li>
+		                  <li class="page-item">
+		                    <a class="page-link text-dark" href="#"><i class="fa-solid fa-chevron-right"></i></a>
+		                  </li>
+		                </ul>
+		              </nav>
+		        </div>
+		    </div>
+		</div>
+		
 	</div>
 </div>
 <%@ include file="/WEB-INF/views/common/footer.jsp"%>

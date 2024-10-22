@@ -96,12 +96,12 @@
 				</div>
 				<div class="sidebar-subtitle-box ${selectedTitle=='approval'? 'selected-sub' : ''}">
 					<div class="sidebar-subtitle ${selectedSub == 'draft' ? 'sub-selected' : ''}"><a href="${pageContext.request.contextPath}/approval/draft">기안서 작성</a></div>
-					<div class="sidebar-subtitle ${selectedSub == 'apr' ? 'sub-selected' : ''}" data-subtitle="apr-subtitle"><a href="#">결재 하기</a></div>
-					<div class="sidebar-subtitle ${selectedSub == 'preApr' ? 'sub-selected' : ''}"><a href="#">결재 전단계</a></div>
-					<div class="sidebar-subtitle ${selectedSub == 'processStatus' ? 'sub-selected' : ''}" data-subtitle="preresult-recall-subtitle"><a href="#">기결/회수</a></div>
-					<div class="sidebar-subtitle ${selectedSub == 'processCompleted' ? 'sub-selected' : ''}" data-subtitle="apr-rejection-subtitle"><a href="#">승인/반려</a></div>
-					<div class="sidebar-subtitle ${selectedSub == 'document' ? 'sub-selected' : ''}" data-subtitle="doc-subtitle"><a href="#">문서함</a></div>
-					<div class="sidebar-subtitle ${selectedSub == 'settings' ? 'sub-selected' : ''}"><a href="#">설정</a></div>
+					<div class="sidebar-subtitle ${selectedSub == 'apr' ? 'sub-selected' : ''}" data-subtitle="apr-subtitle"><a href="${pageContext.request.contextPath}/approval/approveList">결재 하기</a></div>
+					<div class="sidebar-subtitle ${selectedSub == 'preApr' ? 'sub-selected' : ''}"><a href="${pageContext.request.contextPath}/approval/before">결재 전단계</a></div>
+					<div class="sidebar-subtitle ${selectedSub == 'processStatus' ? 'sub-selected' : ''}" data-subtitle="preresult-recall-subtitle"><a href="${pageContext.request.contextPath}/approval/submitted">기결/회수</a></div>
+					<div class="sidebar-subtitle ${selectedSub == 'processCompleted' ? 'sub-selected' : ''}" data-subtitle="apr-rejection-subtitle"><a href="${pageContext.request.contextPath}/approval/collected">승인/반려</a></div>
+					<div class="sidebar-subtitle ${selectedSub == 'document' ? 'sub-selected' : ''}" data-subtitle="doc-subtitle"><a href="${pageContext.request.contextPath}/approval/deptBox">문서함</a></div>
+					<div class="sidebar-subtitle ${selectedSub == 'settings' ? 'sub-selected' : ''}"><a href="${pageContext.request.contextPath}/approval/settings">설정</a></div>
 				</div>
 
 				<div class="sidebar-hr sidebar-title ${selectedTitle=='hr'? 'selected' : ''}" <%-- onclick="location.href='${pageContext.request.contextPath}/atd/'" --%>>
