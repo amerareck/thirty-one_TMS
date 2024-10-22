@@ -7,7 +7,20 @@
 	height: 100px;
 	box-shadow: 0px 3px 32px rgba(195, 195, 195, 0.3);
 }
+.dropdown-toggle:hover{
+	cursor: pointer;
+}
 
+.dropdown-menu li:nth-child(1){
+	margin-top: 10px;
+	margin-bottom: 15px;
+	text-align: center;
+}
+
+.dropdown-menu li:nth-child(2){
+	text-align: center;
+	margin-bottom: 10px;
+}
 .logo-image{
 	margin-left: 40px;
 	width: 45px;
@@ -44,7 +57,7 @@
 
 .emp-name{
 	font-size:15px;
-	margin:0px;
+	margin:0px 0px 5px 0px;
 	font-weight: bold;
 }
 

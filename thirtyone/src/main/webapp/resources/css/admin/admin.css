@@ -1,0 +1,178 @@
+.top-container{
+	margin: 40px 40px 20px 40px;
+	gap : 20px;
+	display: grid;
+	grid-template-columns: 8fr 2fr;	
+}
+
+.atd-status-box{
+	margin: 0px 40px; 
+}
+
+.atd-status-top, .emp-status-top {
+	display: flex;
+	justify-content: space-between;	
+	align-items: center;	
+	margin-right: 40px;
+}
+
+.atd-status-top p:nth-child(2), .emp-status-top a{
+	font-size: 11px;
+	font-weight: bold;
+	color: var(--darkgray);
+}
+.mini-title{
+	font-weight: bold;
+	font-size: 16px;
+	margin: 20px 0px 20px 20px;
+	margin-left: 40px;
+}
+
+.mini-line{
+	margin-left : 40px;
+	margin-right : 40px;	
+	height: 0.5px;
+	background-color: var(--lightgray); 	
+}
+
+.dounut-box{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin: 40px 0px;
+	gap: 20px;
+}
+
+
+
+.work-status, .attendance-emp{
+	display: flex;
+	flex-direction: column;
+	text-align: center;
+	gap:5px;
+}
+
+.attendance-emp{
+	margin-left: 40px;
+}
+
+.work-status h3, .attendance-emp h3{
+	margin-bottom: 5px;
+	font-size: 11px;
+	font-weight: bold;
+	color: var(--darkgray);
+}
+
+.work-status div, .attendance-emp div{
+	padding:0px 10px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	border: 0.5px solid var(--lightgray);
+	height: 20px;
+	border-radius: 5px;
+	font-size: 11px;
+	width:80px;
+	color: var(--darkgray);
+}
+
+
+.work-status div span:nth-child(2), .attendance-emp div span:nth-child(2){
+	color: var(--blue);
+	font-weight: bold;	
+	
+}
+
+
+/* #########################근로자 현황########################### */
+
+.emp-status-box{
+	margin: 20px 40px;
+}
+
+.admin-profile-box{
+	height: 60px;
+	display:flex;
+	align-items: center;
+}
+
+.admin-profile-img{
+	width: 29px;
+}
+
+.admin-profile-info{
+	width: 70px;
+	margin-left:5px;
+	display:flex;
+	flex-direction: column;
+}
+
+.admin-profile-info h4{
+	font-size: 11px;
+	font-weight: bold;
+}
+
+.admin-profile-info p {
+	font-size: 8px;
+	color:var(--darkgray);
+}
+
+.next-profile {
+	width: 7px;
+    margin-left: auto; 
+}
+.atd-status-table {
+	margin:auto;
+	width: 800px;
+	margin-bottom : 40px;
+}
+.atd-status-table td{
+	font-size:11px;
+	text-align: center;
+	color: var(--darkgray);
+}
+
+.atd-status-table thead td{
+	background-color: var(--dimgray);
+}
+
+/* ###################################신규 근태 현황################################## */
+
+.bottom-container{
+	margin: 40px 40px 20px 40px;
+	gap : 20px;
+	display: grid;
+	grid-template-columns: 5fr 5fr;	
+}
+.new-request-box{
+	margin: 10px 40px;
+}
+
+.new-request{
+	display: grid;
+	grid-template-columns: 2fr 5fr 3fr;
+	margin: 15px 0px 15px 20px;
+}
+.status-btn{
+	font-size: 10px;
+	display: flex;
+	justify-content:center;
+	align-items: center;
+	width: 45px;
+	height: 20px;
+	border-radius: 30px;
+	background: var(--blue);
+	color:white;
+}
+
+.notice-btn{
+	font-size: 10px;
+	display: flex;
+	justify-content:center;
+	align-items: center;
+	width: 45px;
+	height: 20px;
+	border-radius: 30px;
+	background: #4CB864;
+	color:white;
+}
