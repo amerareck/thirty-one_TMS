@@ -21,4 +21,11 @@ public class AdminController {
 		return "admin/adminCreate";
 	}
 	
+	@GetMapping("/searchList")
+	public String searchList(Model model) {
+		model.addAttribute("title", "직원관리");
+		model.addAttribute("admin", true);
+		return "admin/searchList";
+	}
+	
 }
