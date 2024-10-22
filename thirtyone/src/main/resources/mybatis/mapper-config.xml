@@ -6,4 +6,8 @@
 		<!-- 컬럼 이름이 언더바로 연결되어 있을 경우 카멜케이스로 변경해준다. -->
 		<setting name="mapUnderscoreToCamelCase" value="true"/>
 	</settings>
+	
+	<typeAliases>
+		<typeAlias type="com.oti.thirtyone.dto.NoticeDto" alias="Notice"/>
+	</typeAliases>
 </configuration>

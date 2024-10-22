@@ -9,6 +9,10 @@
 	src="${pageContext.request.contextPath}/resources/js/noticeList.js"></script>
 <link rel="stylesheet" type="text/css"
 	href="${pageContext.request.contextPath}/resources/css/noticeList.css">
+	
+	<div class="content-box">
+			<div class="main-container" >
+				<p class="title">${title}</p>
 
 
 <div class="cardBox">

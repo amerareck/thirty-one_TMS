@@ -7,6 +7,10 @@
 
 <link rel="stylesheet" type="text/css"
 	href="${pageContext.request.contextPath}/resources/css/noticeDetail.css">
+	
+	<div class="content-box">
+			<div class="main-container" >
+				<p class="title">${title}</p>
 
 
 
