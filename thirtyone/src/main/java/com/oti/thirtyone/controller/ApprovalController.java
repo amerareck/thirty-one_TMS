@@ -36,4 +36,51 @@ public class ApprovalController {
 		return "approval/approvalSettings";
 	}
 	
+	@GetMapping("/approve")
+	public String getApproveListPage(Model model) {
+		log.info("실행");
+		model.addAttribute("title", "결재 승인 목록");
+		
+		return "approval/approvalApprove";
+	}
+	
+	@GetMapping("/collected")
+	public String getCollectedListPage(Model model) {
+		log.info("실행");
+		model.addAttribute("title", "결재 승인/반려");
+		
+		return "approval/approvalApprove";
+	}
+	
+	@GetMapping("/deptBox")
+	public String getDeptOfficeBoxPage(Model model) {
+		log.info("실행");
+		model.addAttribute("title", "부서문서함");
+		
+		return "approval/approvalDeptOfficeBox";
+	}
+	
+	@GetMapping("submitted")
+	public String getSubmittedPage(Model model) {
+		log.info("실행");
+		model.addAttribute("title", "기결/회수");
+		
+		return "approval/approvalSubmitted";
+	}
+	
+	@GetMapping("before")
+	public String getBeforePage(Model model) {
+		log.info("실행");
+		model.addAttribute("title", "결제 전단계");
+		
+		return "approval/approvalBeforeStep";
+	}
+	
+	@GetMapping("approveList")
+	public String getApproveReadyPage(Model model) {
+		log.info("실행");
+		model.addAttribute("title", "결제 진행");
+		
+		return "approval/approvalReadyList";
+	}
 }
