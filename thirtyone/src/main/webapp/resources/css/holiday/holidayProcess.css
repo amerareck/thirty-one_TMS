@@ -1,0 +1,239 @@
+.full-container{
+	display: grid; 	
+	grid-template-columns: 5fr 5fr;
+	gap: 20px;
+	margin: 20px 40px; 
+}
+
+.right-container{
+	display: flex;
+	flex-direction: column;
+	gap:20px;
+}
+
+.holiday-accept{
+	margin-bottom: 20px;
+}
+
+.mini-title{
+	font-weight: bold;
+	font-size: 16px;
+	margin: 20px 0px 20px 20px;
+	margin-left: 40px;
+}
+
+.mini-line{
+	margin-left : 40px;
+	margin-right : 40px;	
+	height: 1.5px;
+	background-color: var(--lightgray); 	
+}
+
+.mini-mini-line{
+	margin: 30px -70px 20px -70px;
+	height: 0.5px;
+	background-color: var(--lightgray); 	
+}
+.accept-box{
+	margin: auto;
+	padding-top: 20px;
+}
+.accept-label{
+	font-size: 16px;
+	font-weight: bold;
+	margin-bottom: 20px;
+}
+
+.profile-box{
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+}
+
+.profile-box img{
+	width:64px;
+	margin-right:20px;
+}
+
+.process-profile-info h4{
+	font-size: 16px;
+	font-weight: bold;
+	margin-bottom:5px;
+}
+
+.process-profile-info p{
+	color: var(--lightgray);
+	font-size: 12px;
+}
+
+.holiday-period{
+	color: var(--darkgray);
+	font-size: 12px;
+	font-weight: 400;
+}
+
+.holiday-time{
+	width: 400px;
+	height: 90px;
+	background-color: var(--skyblue);
+	color:white;
+	border-radius: 12px;
+	font-size:20px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin: 20px 0px;
+}
+
+.holiday-reason{
+	width:400px;
+	height: 90px;
+	color: var(--darkgray);
+	border: 1px solid var(--lightgray);
+	border-radius: 12px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin: 20px 0px;
+	font-weight: 400;
+	font-size: 20px;
+}
+.holiday-file{
+	display: flex;
+	justify-content: flex-start;
+	margin-top : 30px;
+	gap : 20px;
+}
+.choiced-file{
+	color: var(--lightgray);
+	font-size: 14px;
+}
+
+
+.button-list{
+	display:flex;
+	justify-content: center;
+	
+}
+.button-large{
+	margin-top: 40px;
+	border: none;
+	margin-bottom: 127px;
+}
+.reject{
+	background-color: white;
+	border:1.5px solid var(--blue);
+	color: var(--blue);
+	font-weight: bold;
+	font-size: 16px;
+}
+
+.accept{
+	background-color: var(--blue);
+	color: white;
+	font-weight: bold;
+	font-size: 16px;
+}
+
+
+/* ##########################휴가 신청 내역############################ */
+.holiday-list-table{
+	width: 540px;
+	margin:0px 40px;
+	display:table;
+	table-layout: fixed;
+}
+
+.holiday-list-table tbody tr:nth-child(1){
+	border-bottom: 0.5px solid var(--lightgray);
+}
+.holiday-list-table tbody tr:nth-child(1) td{
+	color: var(--darkgray);
+	font-weight: bold;
+}
+
+.holiday-list-table tbody tr:first-child ~ tr{
+	height: 60px;
+	
+}
+
+.holiday-list-table tbody tr td:nth-child(1){
+	width: 120px;
+}
+.holiday-list-table tbody tr td:nth-child(2){
+	width: 260px;
+}
+.holiday-list-table tbody tr td:nth-child(3){
+	width: 70px;
+}
+.holiday-list-table tbody tr td:nth-child(4){
+	width: 90px;
+}
+
+.holiday-profile-box{
+	display:flex;
+	align-items: center;
+}
+.holiday-list-table tbody tr{
+	display:flex;
+	align-items: center;
+}
+.holiday-list-table tbody td{
+	vertical-align: middle;
+	text-align: center;
+	
+}
+
+
+.holiday-profile-img{
+	width: 29px;
+}
+
+.holiday-profile-info{
+	width: 80px;
+	margin-left:5px;
+	display:flex;
+	flex-direction: column;
+}
+
+.holiday-profile-info h4{
+	font-size: 10px;
+	font-weight: bold;
+}
+
+.holiday-profile-info p {
+	font-size: 8px;
+}
+
+
+.page-item{
+	border:none !inportant;
+}
+
+
+.arrow-right, .arrow-left{
+	width: 10px;
+}
+
+/* ###########################부서 휴가 일정########################### */
+
+#calendar{
+	height: 300px;	
+	margin: 20px 40px;
+}
+
+.fc-button{
+	background-color: white !important;
+	border:none !important;
+	color: var(--darkgray) !important;
+	width: 22px !important;
+}
+
+.fc-header-toolbar{
+	margin-bottom:10px !important;
+	margin-right:20px !important;
+}
+
+.fc-toolbar-title{
+	font-size:14px !important;
+}
