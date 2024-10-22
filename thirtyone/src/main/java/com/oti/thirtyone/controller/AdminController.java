@@ -12,8 +12,13 @@ public class AdminController {
 	@GetMapping("/")
 	public String adminMain(Model model) {
 		model.addAttribute("admin" ,true);
-		return "admin/admin";
-		
+		return "admin/admin";	
+	}
+	
+	@GetMapping("/create")
+	public String adminCreate(Model model){
+		model.addAttribute("admin", true);
+		return "admin/adminCreate";
 	}
 	
 }

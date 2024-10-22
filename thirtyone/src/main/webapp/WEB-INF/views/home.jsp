@@ -188,3 +188,8 @@
 
 	</div>
 </div>
+
+
+
+<script src="${pageContext.request.contextPath}/resources/js/home.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/common/header.js"></script>

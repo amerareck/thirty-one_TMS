@@ -42,7 +42,11 @@
 				<span class="emp-name">정원석사원</span>
 				<span class="dept-name">공공사업1DIV</span>
 			</div>
-			<img class="three-dots-vertical" src="${pageContext.request.contextPath}/resources/image/three-dots-vertical.svg">
+			<img class="three-dots-vertical dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" src="${pageContext.request.contextPath}/resources/image/three-dots-vertical.svg">
+			<ul class="dropdown-menu">
+		      <li><a class="dropdown-item" href="#">개인정보 수정</a></li>
+		      <li><a class="dropdown-item" href="#">비밀번호 변경</a></li>
+		    </ul>
 		</div>
 	</div>
 	<c:if test="${admin}">
