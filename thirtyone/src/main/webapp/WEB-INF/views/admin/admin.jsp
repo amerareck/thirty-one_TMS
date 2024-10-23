@@ -7,12 +7,12 @@
 		<p class="title">${title}</p>
 		<div class="top-container">
 			<div class="attendance-stauts card">
-					<div class="atd-status-top">
-						<p class="mini-title">일일 근로 현황</p>
-						<p>2024년 10월 10일</p>
-					</div>			
-					<div class="mini-line"></div>
-					<div class="atd-status-box">
+				<div class="atd-status-top">
+					<p class="mini-title">일일 근로 현황</p>
+					<p>2024년 10월 10일</p>
+				</div>			
+				<div class="mini-line"></div>
+				<div class="atd-status-box">
 					<div class="dounut-box">
 						<div class="work-status">
 							<h3>근무 현황</h3>

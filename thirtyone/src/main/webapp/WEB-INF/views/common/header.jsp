@@ -250,10 +250,7 @@
 	<%-- 		<div class="content-box">
 			<div class="main-container" >
 			<p class="title-31">${title}</p> --%>
-	<!--<div class="dept-atd-subtitle sub-title">
-					<div><a href="#">부서 근태</a></div>
-					<div><a href="#">부서 일정</a></div>
-				</div>
+	<!--
 				<div class="apr-subtitle sub-title">
 					<div><a href="#">결재 대기</a></div>
 					<div><a href="#">전체 결재 목록</a></div>

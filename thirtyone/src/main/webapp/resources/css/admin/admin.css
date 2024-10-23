@@ -83,6 +83,21 @@
 	
 }
 
+.atd-status-table {
+	margin:auto;
+	width: 800px;
+	margin-bottom : 40px;
+}
+.atd-status-table td{
+	font-size:11px;
+	text-align: center;
+	color: var(--darkgray);
+}
+
+.atd-status-table thead td{
+	background-color: var(--dimgray);
+}
+
 
 /* #########################근로자 현황########################### */
 
@@ -120,20 +135,6 @@
 .next-profile {
 	width: 7px;
     margin-left: auto; 
-}
-.atd-status-table {
-	margin:auto;
-	width: 800px;
-	margin-bottom : 40px;
-}
-.atd-status-table td{
-	font-size:11px;
-	text-align: center;
-	color: var(--darkgray);
-}
-
-.atd-status-table thead td{
-	background-color: var(--dimgray);
 }
 
 /* ###################################신규 근태 현황################################## */
