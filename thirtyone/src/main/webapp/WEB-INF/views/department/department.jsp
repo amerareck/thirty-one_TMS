@@ -151,16 +151,18 @@
 							<tbody>
 								<c:forEach begin="1" end="4">
 								    <tr>
-								        <th scope="row" class="dept-profile-box">
-								    	    <img class="dept-profile-img" src="${pageContext.request.contextPath}/resources/image/profileDefault.png">
-								    	    <div class="dept-profile-info">
-								    	 	    <h4>오티아이 부장</h4>
-								    		    <p>공공사업1div</p>
+								        <td>
+											<div class="dept-profile-box">
+									    	    <img class="dept-profile-img" src="${pageContext.request.contextPath}/resources/image/profileDefault.png">
+									    	    <div class="holiday-profile-info">
+									    	 	    <h4>오티아이 부장</h4>
+									    		    <p>공공사업1div</p>
+									    	    </div>
 								    	    </div>
-								        </th>
-								        <td>미출근</td>
-								        <td>미출근</td>
-								        <td>미출근</td>
+								        </td>
+								        <td>2024-10-16 ~ 2024-10-18</td>
+								        <td>연차</td>
+								        <td>3일</td>
 								    </tr>
 							    </c:forEach>
 							</tbody>
