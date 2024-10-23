@@ -239,3 +239,30 @@
 .page-font-size-sm {
 	font-size: 0.85rem;
 }
+
+.card {
+	border: none;
+	box-shadow: 0px 3px 20px rgba(195,195,195,0.35);
+	border-radius:12px;
+}
+
+.pagination-not-effect * {
+	--bs-pagination-hover-bg: none;
+	--bs-pagination-hover-border-bg: none;
+	--bs-pagination-focus-color: none;
+	--bs-pagination-focus-bg: none;
+	--bs-pagination-focus-box-shadow: none;
+	--bs-pagination-active-color: none;
+	--bs-pagination-active-bg: none;
+	--bs-pagination-disabled-bg: none;
+}
+
+.input-group .btn {
+	height: 37.78px !important;
+}
+
+input:focus, textarea:focus, select:focus {
+    box-shadow: none !important;
+    border-color: #dee2e6 !important;
+    outline: none !important;
+}

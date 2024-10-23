@@ -70,9 +70,9 @@
 		          </table>
 		
 		          <nav class="mt-5 mb-3 d-flex justify-content-center">
-		            <ul class="pagination justify-content-center pagination-size">
+		            <ul class="pagination pagination-not-effect justify-content-center pagination-size">
 		              <li class="page-item disabled">
-		                <a class="page-link text-dark" href="#" tabindex="-1" aria-disabled="true"><i class="fa-solid fa-chevron-left"></i></a>
+		                <a class="page-link page-border-none text-dark" href="#" tabindex="-1" aria-disabled="true"><i class="fa-solid fa-chevron-left"></i></a>
 		              </li>
 		              <li class="page-item"><a class="page-link text-dark page-border-none ms-5" href="#">1</a></li>
 		              <li class="page-item"><a class="page-link text-dark page-border-none ms-1" href="#">2</a></li>
@@ -80,7 +80,7 @@
 		              <li class="page-item"><a class="page-link text-dark page-border-none ms-1" href="#">4</a></li>
 		              <li class="page-item"><a class="page-link text-dark page-border-none ms-1 me-5" href="#">5</a></li>
 		              <li class="page-item">
-		                <a class="page-link text-dark" href="#"><i class="fa-solid fa-chevron-right"></i></a>
+		                <a class="page-link page-border-none text-dark" href="#"><i class="fa-solid fa-chevron-right"></i></a>
 		              </li>
 		            </ul>
 		          </nav>

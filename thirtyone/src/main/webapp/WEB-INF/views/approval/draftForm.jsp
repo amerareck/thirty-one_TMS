@@ -1,27 +1,39 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-	<%@ include file="/WEB-INF/views/common/header.jsp"%>
-	
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+
+<%@ include file="/WEB-INF/views/common/header.jsp"%>	
 <div class="sectionContainer" style="width: 100%">
 	<div class="card">
         <div class="card-body p-4">
         	<form action="#" method="post" enctype="multipart/form-data">
-	            <div class="d-flex mb-4" style="justify-content: space-between;">
-	                <div class="d-flex align-items-center" style="width: 60%;">
-	                    <label for="documentForm" class="fw-bold mb-2" style="width: 25%;">결재 양식</label>
-	                    <select class="form-select" id="documentForm" style="width: 75%;">
+	            <div class="d-flex align-items-top justify-content-between mb-4">
+	                <div class="d-flex align-items-top" style="width: 60%;">
+	                	<label for="documentForm" class="fw-bold mt-2" style="width: 25%;">결재 양식</label>
+	                    <select class="form-select" id="documentForm" style="width: 75%; height: 37.78px">
 	                        <option selected>결재 양식 선택</option>
 	                        <option value="HLD">근태 신청서(휴가)</option>
 	                        <option value="BST">출장 신청서</option>
 	                        <option value="BTR">출장 복명서</option>
 	                        <option value="HLW">휴일근무 신청서</option>
 	                        <option value="WOT">연장근무신청서</option>
-	                    </select>
+                    	</select>
 	                </div>
-	                <div class="d-flex align-items-center" style="width: 40%;">
-	                    <label for="dayOffNum" class="fw-bold mb-2" style="width: 25%; margin-left: 20px">신청 일수</label>
-	                    <input type="number" class="form-control" id="dayOffForm" style="width: 40%;" />
-	                    <span class="ms-3 mb-2">일</span>
+	                <div class="d-flex flex-column align-items-top" style="width: 40%;">
+	                	<div class="d-flex align-items-center w-100 mb-3">
+		                    <label for="dateOfHoliday" class="fw-bold mb-2" style="width: 25%; margin-left: 20px">신청 기간</label>
+		                    <div id="dateOfHoliday" class="d-flex align-items-center" style="width: 75%;">
+							   <input type="date" id="holidayStartDate" class="form-control p-2" style="height: 35px; font-size: 0.9rem;" placeholder="휴가 시작일" readonly >
+							   <span class="fw-bold mx-2">~</span>
+							   <input type="date" id="holidayEndDate" class="form-control p-2" style="height: 35px; font-size: 0.9rem;" placeholder="휴가 종료일" readonly >
+							</div>
+	                	</div>
+	                	<div class="d-flex align-items-center w-100">
+	                		<label for="holidayType" class="fw-bold mb-2" style="width: 25%; margin-left: 20px">휴가 유형</label>
+	                		<select id="holidayType" class="form-select" style="width: 75%;">
+	                			<option value="familyEvent">경조사</option>
+	                			<option value="childbirth">출산</option>
+	                			<option value="sickLeave">병가</option>
+	                		</select>
+	                	</div>
 	                </div>
 	            </div>
 	            <div class="d-flex mb-4">
@@ -513,6 +525,21 @@
         </div>
     </div>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script src="https://npmcdn.com/flatpickr/dist/l10n/ko.js"></script>
+<script>
+   flatpickr.localize(flatpickr.l10ns.ko);
+   flatpickr("#holidayStartDate", {
+       dateFormat: "Y-m-d",
+       allowInput: true,
+       conjunction: " ~ "
+   });
+   flatpickr("#holidayEndDate", {
+       dateFormat: "Y-m-d",
+       allowInput: true
+   });
+</script>
 
 
 <%@ include file="/WEB-INF/views/common/footer.jsp"%>

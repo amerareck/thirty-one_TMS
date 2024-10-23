@@ -10,9 +10,7 @@
     <link rel="stylesheet" href="../css/approval/approvalLine.css" />
 </head>
 <body>
-    <div class="card">
-        <div class="card-body p-4 w-100">
-            <div class="d-flex align-items-center justify-content-between">
+    <div class="d-flex align-items-center justify-content-between">
                 <h6 class="fw-bold my-0" style="width: 40%;">기본 결재선 목록</h6>
                 <div class="input-group" style="width: 50%;">
                     <input type="text" class="form-control" style="height: 28px; font-size: 0.85rem;" placeholder="결재선 검색" aria-label="결재선 검색" />
@@ -30,7 +28,7 @@
                 <tbody>
                     <tr class="align-middle text-center">
                         <th scope="row">
-                            <button type="button" class="btn btn-custom-sm">
+                            <button type="button" class="btn btn-custom-sm w-100">
                                 <span class="text-custom-grey">기본결재선1</span>
                             </button>
                         </th>
@@ -43,7 +41,7 @@
                     </tr>
                     <tr class="align-middle text-center">
                         <th scope="row">
-                            <button type="button" class="btn btn-custom-sm">
+                            <button type="button" class="btn btn-custom-sm w-100">
                                 <span class="text-custom-grey">기본결재선2</span>
                             </button>
                         </th>
@@ -56,7 +54,7 @@
                     </tr>
                     <tr class="align-middle text-center">
                         <th scope="row">
-                            <button type="button" class="btn btn-custom-sm">
+                            <button type="button" class="btn btn-custom-sm w-100">
                                 <span class="text-custom-grey">기본결재선3</span>
                             </button>
                         </th>
@@ -70,22 +68,20 @@
                 </tbody>
             </table>
             <nav class="w-100">
-                <ul class="pagination align-items-center justify-content-center mb-0">
-                  <li class="page-item disabled">
-                    <a class="pagination-size page-link text-dark page-border-none" href="#" tabindex="-1" aria-disabled="true"><i class="fa-solid fa-chevron-left page-font-size-sm"></i></a>
-                  </li>
-                  <li class="page-item"><a class="pagination-size page-link text-dark page-border-none page-font-size-sm" href="#">1</a></li>
-                  <li class="page-item"><a class="pagination-size page-link text-dark page-border-none page-font-size-sm" href="#">2</a></li>
-                  <li class="page-item"><a class="pagination-size page-link text-dark page-border-none page-font-size-sm" href="#">3</a></li>
-                  <li class="page-item"><a class="pagination-size page-link text-dark page-border-none page-font-size-sm" href="#">4</a></li>
-                  <li class="page-item"><a class="pagination-size page-link text-dark page-border-none page-font-size-sm" href="#">5</a></li>
-                  <li class="page-item">
-                    <a class="pagination-size page-link text-dark page-border-none" href="#"><i class="fa-solid fa-chevron-right page-font-size-sm"></i></a>
-                  </li>
-                </ul>
-              </nav>
-        </div>
-    </div>
+                <ul class="pagination pagination-not-effect align-items-center justify-content-center mb-0">
+                	<li class="page-item disabled">
+                		<a class="pagination-size page-link text-dark page-border-none" href="#" tabindex="-1" aria-disabled="true"><i class="fa-solid fa-chevron-left page-font-size-sm"></i></a>
+                  	</li>
+                  	<li class="page-item"><a class="pagination-size page-link text-dark page-border-none page-font-size-sm" href="#">1</a></li>
+                  	<li class="page-item"><a class="pagination-size page-link text-dark page-border-none page-font-size-sm" href="#">2</a></li>
+                  	<li class="page-item"><a class="pagination-size page-link text-dark page-border-none page-font-size-sm" href="#">3</a></li>
+                  	<li class="page-item"><a class="pagination-size page-link text-dark page-border-none page-font-size-sm" href="#">4</a></li>
+                  	<li class="page-item"><a class="pagination-size page-link text-dark page-border-none page-font-size-sm" href="#">5</a></li>
+                  	<li class="page-item">
+                    	<a class="pagination-size page-link text-dark page-border-none" href="#"><i class="fa-solid fa-chevron-right page-font-size-sm"></i></a>
+                  	</li>
+            	</ul>
+            </nav>
     <script src="../jquery/jquery.min.js"></script>
     <script src="../bootstrap/bootstrap.bundle.min.js"></script>
 </body>

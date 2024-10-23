@@ -10,54 +10,49 @@
     <link rel="stylesheet" href="../css/approval/approvalLine.css" />
 </head>
 <body>
-    <div class="card">
-        <div class="card-body p-4">
-            <h5 class="fw-bold my-0">대결자 설정</h5>
-            <hr class="mt-2 mb-2" />
-            
-            <div class="d-flex align-items-center mt-3 w-100">
-                <h6 class="fw-bold m-0" style="width: 40%; height: 22px;">결재 대리자</h6>
-                <div class="d-flex justify-content-end" style="width: 60%">
-	                <span class="fw-boldtext-body-tertiary" style="font-size: 0.85rem;">대리자 없음</span>
-	                <button type="button" class="btn btn-tertiary btn-sm d-flex align-items-center" style="height: 22px;"><i class="fa-solid fa-magnifying-glass"></i></button>
-                </div>
-            </div>
-            <hr />
-            <div class="d-flex align-items-center justify-content-between mt-3 w-100">
-                <h6 class="fw-bold m-0" style="width: 25%; height: 22px;">대결 기간</h6>
-                <div class="d-flex align-items-center" style="width: 70%;">
-                    <input type="date" id="proxyStartDate" class="form-control p-2" style="height: 25px; font-size: 0.8rem;" placeholder="위임 시작일" readonly >
-                    <span class="fw-bold mx-2">~</span>
-                    <input type="date" id="proxyEndDate" class="form-control p-2" style="height: 25px; font-size: 0.8rem;" placeholder="위임 종료일" readonly >
-                </div>
-                <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-                <script src="https://npmcdn.com/flatpickr/dist/l10n/ko.js"></script>
-                <script>
-                    flatpickr.localize(flatpickr.l10ns.ko);
-                    flatpickr("#proxyStartDate", {
-                        dateFormat: "Y-m-d",
-                        allowInput: true,
-                        conjunction: " ~ "
-                    });
-                    flatpickr("#proxyEndDate", {
-                        dateFormat: "Y-m-d",
-                        allowInput: true
-                    });
-                </script>
-            </div>
-            <hr />
-            <div class="d-flex align-items-center justify-content-between mt-3 w-100">
-                <h6 class="fw-bold m-0" style="width: 25%; height: 22px;">대결 사유</h6>
-                <textarea class="form-control" cols="3" style="width: 70%; font-size:0.85rem;"></textarea>
-            </div>
-            <div class="d-flex justify-content-center mt-4">
-                <button class="btn btn-custom-cancel btn-custom-sm me-3">취소</button>
-                <button class="btn btn-custom-confirm btn-custom-sm">확인</button>
-            </div>
-            
-        </div>
-      </div>
-      <script src="../jquery/jquery.min.js"></script>
-      <script src="../bootstrap/bootstrap.bundle.min.js"></script>
+	<h5 class="fw-bold my-0">대결자 설정</h5>
+	<hr class="mt-2 mb-2" />
+	
+	<div class="d-flex align-items-center mt-3 w-100">
+	    <h6 class="fw-bold m-0" style="width: 40%; height: 22px;">결재 대리자</h6>
+		<div class="d-flex justify-content-end" style="width: 60%">
+			<span class="fw-boldtext-body-tertiary" style="font-size: 0.85rem;">대리자 없음</span>
+			<button type="button" class="btn btn-tertiary btn-sm d-flex align-items-center" style="height: 22px;"><i class="fa-solid fa-magnifying-glass"></i></button>
+		</div>
+	</div>
+	<hr />
+	<div class="d-flex align-items-center justify-content-between mt-3 w-100">
+	    <h6 class="fw-bold m-0" style="width: 25%; height: 22px;">대결 기간</h6>
+		<div class="d-flex align-items-center" style="width: 70%;">
+		   <input type="date" id="proxyStartDate" class="form-control p-2" style="height: 25px; font-size: 0.8rem;" placeholder="위임 시작일" readonly >
+		   <span class="fw-bold mx-2">~</span>
+		   <input type="date" id="proxyEndDate" class="form-control p-2" style="height: 25px; font-size: 0.8rem;" placeholder="위임 종료일" readonly >
+		</div>
+		<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+		<script src="https://npmcdn.com/flatpickr/dist/l10n/ko.js"></script>
+		<script>
+		   flatpickr.localize(flatpickr.l10ns.ko);
+		   flatpickr("#proxyStartDate", {
+		       dateFormat: "Y-m-d",
+		       allowInput: true,
+		       conjunction: " ~ "
+		   });
+		   flatpickr("#proxyEndDate", {
+		       dateFormat: "Y-m-d",
+		       allowInput: true
+		   });
+		</script>
+	</div>
+	<hr />
+	<div class="d-flex align-items-center justify-content-between mt-3 w-100">
+	    <h6 class="fw-bold m-0" style="width: 25%; height: 22px;">대결 사유</h6>
+		<textarea class="form-control" cols="3" style="width: 70%; font-size:0.85rem;"></textarea>
+	</div>
+	<div class="d-flex justify-content-center mt-4">
+	    <button class="btn btn-custom-cancel btn-custom-sm me-3">취소</button>
+	    <button class="btn btn-custom-confirm btn-custom-sm">확인</button>
+	</div>
+    <script src="../jquery/jquery.min.js"></script>
+    <script src="../bootstrap/bootstrap.bundle.min.js"></script>
 </body>
 </html>
