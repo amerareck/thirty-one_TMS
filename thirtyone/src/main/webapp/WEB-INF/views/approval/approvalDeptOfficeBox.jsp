@@ -4,9 +4,9 @@
 <%@ include file="/WEB-INF/views/approval/approvalContainer.jsp"%>
 	
 <div class="sub-title m-0">
-	<div <c:if test="${activePage == 'deptDoc'}">class="sub-title-active"</c:if>><a href="officeBox?type=deptDoc">부서 문서함</a></div>
-	<div <c:if test="${activePage == 'completeDoc'}">class="sub-title-active"</c:if>><a href="officeBox?type=completeDoc">완결 문서</a></div>
-	<div <c:if test="${activePage == 'referenceDoc'}">class="sub-title-active"</c:if>><a href="officeBox?type=referenceDoc">참조 문서</a></div>
+	<div <c:if test="${activePage == 'deptDoc'}">class="sub-title-active"</c:if>><a href="archive?type=deptDoc">부서 문서함</a></div>
+	<div <c:if test="${activePage == 'completeDoc'}">class="sub-title-active"</c:if>><a href="archive?type=completeDoc">완결 문서</a></div>
+	<div <c:if test="${activePage == 'referenceDoc'}">class="sub-title-active"</c:if>><a href="archive?type=referenceDoc">참조 문서</a></div>
 </div>
 <div class="main-line mx-0 mb-5"></div>
 
