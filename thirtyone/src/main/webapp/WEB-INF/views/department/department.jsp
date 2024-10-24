@@ -44,19 +44,19 @@
 							</tbody>
 						</table>
 						<nav class="mt-5 mb-3">
-		                <ul class="pagination justify-content-center">
-		                  <li class="page-item disabled">
-		                    <a class="page-link text-dark" href="#" tabindex="-1" aria-disabled="true"><img class="arrow-left" src="${pageContext.request.contextPath}/resources/image/arrow/page-left-arrow.svg" width="10px"></a>
-		                  </li>
-		                  <li class="page-item"><a class="page-link text-dark page-border-none ms-3" href="#">1</a></li>
-		                  <li class="page-item"><a class="page-link text-dark page-border-none ms-1" href="#">2</a></li>
-		                  <li class="page-item"><a class="page-link text-dark page-border-none ms-1" href="#">3</a></li>
-		                  <li class="page-item"><a class="page-link text-dark page-border-none ms-1" href="#">4</a></li>
-		                  <li class="page-item"><a class="page-link text-dark page-border-none ms-1 me-3" href="#">5</a></li>
-		                  <li class="page-item">
-		                    <a class="page-link text-dark" href="#"><img class="arrow-right" src="${pageContext.request.contextPath}/resources/image/arrow/page-right-arrow.svg" width="10px"></a>
-		                  </li>
-		                </ul>
+			                <ul class="pagination justify-content-center">
+			                  <li class="page-item disabled">
+			                    <a class="page-link text-dark" href="#" tabindex="-1" aria-disabled="true"><img class="arrow-left" src="${pageContext.request.contextPath}/resources/image/arrow/page-left-arrow.svg" width="10px"></a>
+			                  </li>
+			                  <li class="page-item"><a class="page-link text-dark page-border-none ms-3" href="#">1</a></li>
+			                  <li class="page-item"><a class="page-link text-dark page-border-none ms-1" href="#">2</a></li>
+			                  <li class="page-item"><a class="page-link text-dark page-border-none ms-1" href="#">3</a></li>
+			                  <li class="page-item"><a class="page-link text-dark page-border-none ms-1" href="#">4</a></li>
+			                  <li class="page-item"><a class="page-link text-dark page-border-none ms-1 me-3" href="#">5</a></li>
+			                  <li class="page-item">
+			                    <a class="page-link text-dark" href="#"><img class="arrow-right" src="${pageContext.request.contextPath}/resources/image/arrow/page-right-arrow.svg" width="10px"></a>
+			                  </li>
+			                </ul>
 		            	</nav>
 					</div>
 				</div>

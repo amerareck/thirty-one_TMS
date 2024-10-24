@@ -214,7 +214,7 @@
 	margin-top: 40px;
 }
 .dept-attendance-table{
-	width: 420px;
+	width: 440px;
 	margin: 24px 40px 0px 40px;
 }
 
@@ -369,6 +369,7 @@
 .approval-list-table thead th:nth-child(4), .approval-list-table tbody td:nth-child(4){
 	width:20%;
 }
+
 .button-mini{
 	margin-left: 20px;
 	display: flex;

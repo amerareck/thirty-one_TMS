@@ -67,6 +67,7 @@
 			<ul class="dropdown-menu">
 				<li><a class="dropdown-item" href="#">개인정보 수정</a></li>
 				<li><a class="dropdown-item" href="#">비밀번호 변경</a></li>
+				<li><a class="dropdown-item" href="#">로그아웃</a></li>
 			</ul>
 		</div>
 	</div>
@@ -126,7 +127,7 @@
 						</div>
 						<div
 							class="sidebar-subtitle ${selectedSub == 'processCompleted' ? 'sub-selected' : ''}">
-							<a href="#">근태수정</a>
+							<a href="#">근태관리</a>
 						</div>
 					</div>
 
@@ -270,3 +271,7 @@
 				</div> -->
 
 	<!-- <div class="main-line"></div> -->
+	
+	
+	
+	
