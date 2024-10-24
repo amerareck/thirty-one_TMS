@@ -7,6 +7,10 @@
 	<div class="main-container" >
 		<p class="title-31">${title}</p>
 		<form class="emp-update-form">
+		<div class="emp-subtitle sub-title">
+			<div><a href="#">기본정보</a></div>
+		</div>
+		<div class="main-line"></div>
 			<div class="top-container">
 				<div class="left-container">
 					<div>
@@ -55,7 +59,7 @@
 					</div>
 					<div>
 						<label for="empAddress">주소</label>
-						<input type="text" value="서울시 혜화로 헤화 101-1" disabled>
+						<input type="text" id="empAddress" name="empAddress" value="서울시 혜화로 헤화 101-1" disabled>
 					</div>
 					<div>
 						<label for="empTel">전화번호</label>

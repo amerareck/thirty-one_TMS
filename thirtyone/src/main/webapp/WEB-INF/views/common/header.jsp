@@ -248,29 +248,6 @@
 		
 	
 	</c:if>
-	<%-- 		<div class="content-box">
-			<div class="main-container" >
-			<p class="title-31">${title}</p> --%>
-	<!--
-				<div class="apr-subtitle sub-title">
-					<div><a href="#">결재 대기</a></div>
-					<div><a href="#">전체 결재 목록</a></div>
-				</div>
-				<div class="preresult-recall-subtitle sub-title">
-					<div><a href="#">결재 상신</a></div>
-					<div><a href="#">회수 문서</a></div>
-				</div>
-				<div class="apr-rejection-subtitle sub-title">
-					<div><a href="#">승인 문서</a></div>
-					<div><a href="#">반려 문서</a></div>
-				</div>
-				<div class="doc-subtitle sub-title">
-					<div><a href="#">부서결재함</a></div>
-					<div><a href="#">완결 문서</a></div>
-					<div><a href="#">참조 문서</a></div>
-				</div> -->
-
-	<!-- <div class="main-line"></div> -->
 	
 	
 	

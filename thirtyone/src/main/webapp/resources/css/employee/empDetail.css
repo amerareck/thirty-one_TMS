@@ -1,0 +1,106 @@
+.top-container{
+	margin:40px 60px 20px 60px;
+	display:grid;
+	grid-template-columns: 1fr 2fr 2fr;
+}
+
+.bottom-container{
+	margin: 0px 60px 20px 60px;
+	display:flex;
+	flex-direction: column;
+	gap: 20px;
+}
+
+.left-container div{
+	display:flex;
+	justify-content: flex-start;
+	font-size: 16px;
+	font-weight: 500;
+	color: var(--darkgray);
+}
+
+.left-container img{
+	margin-left: 40px;
+	width: 140px;
+}
+
+.left-container img:hover{
+	cursor: pointer;
+}
+
+.middle-container div,.right-container div{
+	display:grid;
+	grid-template-columns: 2fr 8fr;
+	align-items: center;	
+	margin-bottom: 40px;
+}
+.middle-container input, .right-container input{
+	height: 40px;
+	border: 0.5px solid var(--lightgray);
+	border-radius: 5px;
+	font-size: 13px;
+	color: var(--darkgray);
+	background-color: white;
+	padding-left: 10px;
+	
+}
+
+.middle-container input:disabled, .right-container input:disabled{
+	font-size: 13px;
+	color: var(--darkgray);
+	background-color: white;
+	border: none;
+}
+.middle-container label, .right-container label, .bottom-container label;{
+	font-size: 16px;
+	font-weight: 500;
+	color: var(--darkgray);
+}
+
+#empEmail , #empTel{
+	height: 40px;
+	width: 200px;
+	font-size: 13px;
+	color: var(--darkgray);
+	background-color: white;
+}
+
+#empAddress{
+	height: 40px;
+	width: 250px;
+	font-size: 13px;
+	color: var(--darkgray);
+	background-color: white;
+}
+
+#empName{
+	
+	width: 120px;
+}
+
+
+#empMemo{
+	border-radius: 5px;
+	border: 0.5px solid var(--darkgray);
+}
+
+.button-box{
+	margin-top :30px;
+	margin-bottom : 30px;
+	display: flex;
+	justify-content: center;
+}
+
+.button-box button:nth-child(1){
+	border: 1px solid var(--blue);
+	color: var(--blue);
+	font-weight: 500;
+	background-color: white;
+}
+.button-box button:nth-child(2){
+	border:none;
+	background-color: var(--blue);
+	color: white;	
+	font-weight: bold;
+}
+
