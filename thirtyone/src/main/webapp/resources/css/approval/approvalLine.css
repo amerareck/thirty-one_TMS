@@ -246,6 +246,16 @@
 	border-radius:12px;
 }
 
+.sub-title-active {
+	color: #1F5FFF !important;
+	border-bottom: #1F5FFF solid 2px;
+}
+
+.sub-title-active * {
+	color: #1F5FFF !important;
+	pointer-events: none;
+}
+
 .pagination-not-effect * {
 	--bs-pagination-hover-bg: none;
 	--bs-pagination-hover-border-bg: none;

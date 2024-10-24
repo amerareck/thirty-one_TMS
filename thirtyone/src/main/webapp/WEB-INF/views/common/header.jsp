@@ -216,11 +216,11 @@
 					</div>
 					<div class="sidebar-subtitle-box ${selectedTitle=='approval'? 'selected-sub' : ''}">
 						<div class="sidebar-subtitle ${selectedSub == 'draft' ? 'sub-selected' : ''}"><a href="${pageContext.request.contextPath}/approval/draft">기안서 작성</a></div>
-						<div class="sidebar-subtitle ${selectedSub == 'apr' ? 'sub-selected' : ''}"><a href="${pageContext.request.contextPath}/approval/approveList">결재 하기</a></div>
-						<div class="sidebar-subtitle ${selectedSub == 'preApr' ? 'sub-selected' : ''}"><a href="${pageContext.request.contextPath}/approval/before">결재 전단계</a></div>
-						<div class="sidebar-subtitle ${selectedSub == 'processStatus' ? 'sub-selected' : ''}"><a href="${pageContext.request.contextPath}/approval/submitted">기결/회수</a></div>
-						<div class="sidebar-subtitle ${selectedSub == 'processCompleted' ? 'sub-selected' : ''}" ><a href="${pageContext.request.contextPath}/approval/collected">승인/반려</a></div>
-						<div class="sidebar-subtitle ${selectedSub == 'document' ? 'sub-selected' : ''}" ><a href="${pageContext.request.contextPath}/approval/deptBox">문서함</a></div>
+						<div class="sidebar-subtitle ${selectedSub == 'approveList' ? 'sub-selected' : ''}"><a href="${pageContext.request.contextPath}/approval/approveList">결재 하기</a></div>
+						<div class="sidebar-subtitle ${selectedSub == 'before' ? 'sub-selected' : ''}"><a href="${pageContext.request.contextPath}/approval/before">결재 전단계</a></div>
+						<div class="sidebar-subtitle ${selectedSub == 'submitted' ? 'sub-selected' : ''}"><a href="${pageContext.request.contextPath}/approval/submitted">기결/회수</a></div>
+						<div class="sidebar-subtitle ${selectedSub == 'result' ? 'sub-selected' : ''}" ><a href="${pageContext.request.contextPath}/approval/result">승인/반려</a></div>
+						<div class="sidebar-subtitle ${selectedSub == 'archive' ? 'sub-selected' : ''}" ><a href="${pageContext.request.contextPath}/approval/archive">문서함</a></div>
 						<div class="sidebar-subtitle ${selectedSub == 'settings' ? 'sub-selected' : ''}"><a href="${pageContext.request.contextPath}/approval/settings">설정</a></div>
 					</div>
 	

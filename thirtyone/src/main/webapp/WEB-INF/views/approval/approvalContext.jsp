@@ -4,13 +4,13 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>전자결재 - 검토</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/resources/bootstrap/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.12/themes/default/style.min.css" />
-    <link rel="stylesheet" href="../../../resources/css/document-form/businessTripReport.css" />
-    <link rel="stylesheet" href="../../../resources/css/approval/approvalLine.css" />
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/document-form/businessTripReport.css" />
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/style.css" />
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/approval/approvalLine.css" />
     <script src="https://cdn.tiny.cloud/1/zt811056qttf1h18ihxacac59l9xi81x71c2zv8l9cs330q6/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
 
 
@@ -508,8 +508,8 @@
     </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="${pageContext.request.contextPath}/resources/bootstrap/bootstrap.bundle.min.js"></script>
+<script src="${pageContext.request.contextPath}/resources/jquery/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.12/jstree.min.js"></script>
 
 <script>
@@ -555,7 +555,3 @@
 </script>
 </body>
 </html>
-
-
-
-<%@ include file="/WEB-INF/views/common/footer.jsp"%>
