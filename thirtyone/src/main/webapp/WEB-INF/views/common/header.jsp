@@ -67,6 +67,7 @@
 			<ul class="dropdown-menu">
 				<li><a class="dropdown-item" href="#">개인정보 수정</a></li>
 				<li><a class="dropdown-item" href="#">비밀번호 변경</a></li>
+				<li><a class="dropdown-item" href="#">로그아웃</a></li>
 			</ul>
 		</div>
 	</div>

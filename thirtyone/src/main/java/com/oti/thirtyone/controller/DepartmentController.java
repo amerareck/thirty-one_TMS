@@ -13,6 +13,17 @@ public class DepartmentController {
 	public String deptMain(Model model) {
 		model.addAttribute("title", "정원석님의 부서 관리");
 		model.addAttribute("selectedSub", "deptAtd");
+		model.addAttribute("selectedTitle", "hr");
 		return "department/department";
 	}
+	
+	@GetMapping("/holiday")
+	public String deptHoliday(Model model) {
+		model.addAttribute("title", "정원석님의 부서 관리");
+		model.addAttribute("selectedSub", "deptAtd");
+		model.addAttribute("selectedTitle", "hr");
+		return "department/deptHoliday";
+	}
+	
+	
 }
