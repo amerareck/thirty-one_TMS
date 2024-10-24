@@ -127,7 +127,7 @@
 						</div>
 						<div
 							class="sidebar-subtitle ${selectedSub == 'processCompleted' ? 'sub-selected' : ''}">
-							<a href="#">근태수정</a>
+							<a href="#">근태관리</a>
 						</div>
 					</div>
 
@@ -271,3 +271,7 @@
 				</div> -->
 
 	<!-- <div class="main-line"></div> -->
+	
+	
+	
+	
