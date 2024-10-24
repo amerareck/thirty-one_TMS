@@ -1,3 +1,11 @@
+.selected-sub-title{
+	border-bottom: 2.5px solid var(--blue);
+}
+
+.selected-sub-title a{
+	color: var(--blue) !important;
+}
+
 .flex-container{
 	display:grid;
 	padding: 20px 40px 40px 40px;

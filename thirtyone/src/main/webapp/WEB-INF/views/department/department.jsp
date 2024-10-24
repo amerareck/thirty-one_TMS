@@ -6,8 +6,8 @@
 	<div class="main-container" >
 		<p class="title-31">${title}</p>
 		<div class="dept-atd-subtitle sub-title">
-			<div><a href="#">부서 근태</a></div>
-			<div><a href="#">부서 일정</a></div>
+			<div class="selected-sub-title"><a href="${pageContext.request.contextPath}/dept/">부서 근태</a></div>
+			<div ><a href="${pageContext.request.contextPath}/dept/holiday">부서 일정</a></div>
 		</div>
 		<div class="main-line"></div>
 		<div class="full-container">

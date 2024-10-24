@@ -65,8 +65,8 @@
 				data-bs-toggle="dropdown" aria-expanded="false"
 				src="${pageContext.request.contextPath}/resources/image/three-dots-vertical.svg">
 			<ul class="dropdown-menu">
-				<li><a class="dropdown-item" href="#">개인정보 수정</a></li>
-				<li><a class="dropdown-item" href="#">비밀번호 변경</a></li>
+				<li><a class="dropdown-item" href="${pageContext.request.contextPath}/emp/empDetail">개인정보 수정</a></li>
+				<li><a class="dropdown-item" href="${pageContext.request.contextPath}/emp/empPwUpdate">비밀번호 변경</a></li>
 				<li><a class="dropdown-item" href="#">로그아웃</a></li>
 			</ul>
 		</div>
@@ -82,7 +82,7 @@
 						<div>
 							<img class="home-icon sidebar-icon"
 								src="${pageContext.request.contextPath}${selectedTitle != 'home' ? '/resources/image/icon/home.svg' : '/resources/image/icon/home-selected.svg'}" />
-							<a href="${pageContext.request.contextPath}/">홈</a>
+							<a href="${pageContext.request.contextPath}/admin">홈</a>
 						</div>
 						<img class="arrow home-arrow"
 							src="${pageContext.request.contextPath}${selectedTitle != 'home' ? '/resources/image/icon/arrow.svg' : '/resources/image/icon/arrow-selected.svg'}" 
@@ -104,51 +104,56 @@
 							data-active-src="${pageContext.request.contextPath}/resources/image/icon/arrow-selected.svg"/>
 					</div>
 					<div
-						class="sidebar-approval sidebar-title ${selectedTitle=='approval'? 'selected' : ''}">
+						class="sidebar-emp sidebar-title ${selectedTitle=='adminEmp'? 'selected' : ''}">
 						<div>
 							<img class="approval-icon sidebar-icon"
-								src="${pageContext.request.contextPath}${selectedTitle != 'approval' ? '/resources/image/icon/approval.svg' : '/resources/image/icon/approval-selected.svg'}" />
+								src="${pageContext.request.contextPath}${selectedTitle != 'adminEmp' ? '/resources/image/icon/approval.svg' : '/resources/image/icon/approval-selected.svg'}"
+								data-original-src="${pageContext.request.contextPath}/resources/image/icon/approval.svg"
+								data-active-src="${pageContext.request.contextPath}/resources/image/icon/approval-selected.svg" />
 							<a href="#">회원관리</a>
 						</div>
 						<img class="arrow home-arrow"
-							src="${pageContext.request.contextPath}${selectedTitle != 'approval' ? '/resources/image/icon/arrow.svg' : '/resources/image/icon/arrow-selected.svg'}" 
+							src="${pageContext.request.contextPath}${selectedTitle != 'adminEmp' ? '/resources/image/icon/arrow.svg' : '/resources/image/icon/arrow-selected.svg'}" 
 							data-original-src="${pageContext.request.contextPath}/resources/image/icon/arrow.svg"
 							data-active-src="${pageContext.request.contextPath}/resources/image/icon/arrow-selected.svg"/>
 					</div>
 					<div
-						class="sidebar-subtitle-box ${selectedTitle=='approval'? 'selected-sub' : ''}">
-						<div
-							class="sidebar-subtitle ${selectedSub == 'apr' ? 'sub-selected' : ''}">
+						class="sidebar-subtitle-box ${selectedTitle=='adminEmp'? 'selected-sub' : ''}">
+						<div class="sidebar-subtitle ${selectedSub == 'adminCreate' ? 'sub-selected' : ''}" 
+							onclick="location.href='${pageContext.request.contextPath}/admin/create'">
 							<a href="#">회원등록</a>
 						</div>
-						<div
-							class="sidebar-subtitle ${selectedSub == 'processStatus' ? 'sub-selected' : ''}">
+						<div class="sidebar-subtitle ${selectedSub == 'searchList' ? 'sub-selected' : ''}"
+							onclick="location.href='${pageContext.request.contextPath}/admin/searchList'">
 							<a href="#">회원수정</a>
 						</div>
 						<div
-							class="sidebar-subtitle ${selectedSub == 'processCompleted' ? 'sub-selected' : ''}">
+							class="sidebar-subtitle ${selectedSub == 'atdList' ? 'sub-selected' : ''}"
+							onclick="location.href='${pageContext.request.contextPath}/admin/atdList'">
 							<a href="#">근태관리</a>
 						</div>
 					</div>
 
 					<div
-						class="sidebar-hr sidebar-title ${selectedTitle=='hr'? 'selected' : ''}"
-						onclick="location.href='${pageContext.request.contextPath}/atd/'">
+						class="sidebar-org sidebar-title ${selectedTitle=='org'? 'selected' : ''}">
 						<div>
 							<img class="hr-icon sidebar-icon"
-								src="${pageContext.request.contextPath}${selectedTitle != 'hr' ? '/resources/image/icon/hr.svg' : '/resources/image/icon/hr-selected.svg'}" />
+								src="${pageContext.request.contextPath}${selectedTitle != 'org' ? '/resources/image/icon/hr.svg' : '/resources/image/icon/hr-selected.svg'}" 
+								data-original-src="${pageContext.request.contextPath}/resources/image/icon/hr.svg"
+								data-active-src="${pageContext.request.contextPath}/resources/image/icon/hr-selected.svg" />
 							<a href="#">조직관리</a>
 						</div>
 						<img class="arrow home-arrow"
-							src="${pageContext.request.contextPath}${selectedTitle != 'hr' ? '/resources/image/icon/arrow.svg' : '/resources/image/icon/arrow-selected.svg'}"
+							src="${pageContext.request.contextPath}${selectedTitle != 'org' ? '/resources/image/icon/arrow.svg' : '/resources/image/icon/arrow-selected.svg'}"
 							data-original-src="${pageContext.request.contextPath}/resources/image/icon/arrow.svg"
 							data-active-src="${pageContext.request.contextPath}/resources/image/icon/arrow-selected.svg" />
 					</div>
 					<div
-						class="sidebar-subtitle-box  ${selectedTitle=='hr'? 'selected-sub' : ''}">
+						class="sidebar-subtitle-box  ${selectedTitle=='org'? 'selected-sub' : ''}">
 						<div
-							class="sidebar-subtitle ${selectedSub == 'attendance' ? 'sub-selected' : ''}"
-							data-subtitle="attendance-subtitle">
+							class="sidebar-subtitle ${selectedSub == 'organization' ? 'sub-selected' : ''}"
+							onclick="location.href='${pageContext.request.contextPath}/admin/org'">
+							<!-- data-subtitle="attendance-subtitle" -->
 							<a>조직도</a>
 						</div>
 					</div>
@@ -240,8 +245,8 @@
 					</div>
 					<div class="sidebar-subtitle-box  ${selectedTitle=='hr'? 'selected-sub' : ''}" >
 						<div class="sidebar-subtitle ${selectedSub == 'attendance' ? 'sub-selected' : ''}" onclick="location.href='${pageContext.request.contextPath}/atd/'"><a>근태</a></div>
-						<div class="sidebar-subtitle ${selectedSub == 'holiday' ? 'sub-selected' : ''}" ><a href="#">휴가</a></div>
-						<div class="sidebar-subtitle ${selectedSub == 'deptAtd' ? 'sub-selected' : ''}" ><a href="#">부서</a></div>
+						<div class="sidebar-subtitle ${selectedSub == 'holiday' ? 'sub-selected' : ''}"  onclick="location.href='${pageContext.request.contextPath}/holiday/'" ><a>휴가</a></div>
+						<div class="sidebar-subtitle ${selectedSub == 'deptAtd' ? 'sub-selected' : ''}"  onclick="location.href='${pageContext.request.contextPath}/dept/'" ><a>부서</a></div>
 					</div>
 				</div>
 			</div>

@@ -7,23 +7,12 @@
 	<div class="main-container" >
 		<p class="title-31">${title}</p>
 		<div class="dept-atd-subtitle sub-title">
-			<div><a href="#">부서 근태</a></div>
-			<div><a href="#">부서 일정</a></div>
+			<div><a href="${pageContext.request.contextPath}/dept/">부서 근태</a></div>
+			<div class="selected-sub-title"><a href="${pageContext.request.contextPath}/dept/holiday">부서 일정</a></div>
 		</div>
 		<div class="main-line"></div>
 		<div id="calendar" class="main-calendar"></div>
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+
 		
 <script src="${pageContext.request.contextPath}/resources/js/department/deptHoliday.js"></script>
 <%@ include file="/WEB-INF/views/common/footer.jsp" %>

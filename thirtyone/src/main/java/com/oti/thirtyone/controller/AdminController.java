@@ -19,16 +19,21 @@ public class AdminController {
 	
 	@GetMapping("/")
 	public String adminMain(Model model) {
+		model.addAttribute("selectedTitle", "home");
 		return "admin/admin";	
 	}
 	
 	@GetMapping("/create")
 	public String adminCreate(Model model){
+		model.addAttribute("selectedTitle", "adminEmp");
+		model.addAttribute("selectedSub", "adminCreate");
 		return "admin/adminCreate";
 	}
 	
 	@GetMapping("/searchList")
 	public String searchList(Model model) {
+		model.addAttribute("selectedTitle", "adminEmp");
+		model.addAttribute("selectedSub", "searchList");
 		model.addAttribute("title", "직원관리");
 		return "admin/searchList";
 	}
@@ -36,12 +41,16 @@ public class AdminController {
 	@GetMapping("/empDetail")
 	public String empDetail(Model model) {
 		model.addAttribute("title", "정원석님의 정보 수정하기");
+		model.addAttribute("selectedTitle", "adminEmp");
+		model.addAttribute("selectedSub", "empDetail");
 		return "admin/empDetail";
 	}
 	
 	@GetMapping("atdList")
 	public String atdList(Model model) {
 		model.addAttribute("title", "근태 관리");
+		model.addAttribute("selectedTitle", "adminEmp");
+		model.addAttribute("selectedSub", "atdList");
 		return "admin/atdList";
 	}
 	
@@ -50,6 +59,8 @@ public class AdminController {
 		log.info("실행");
 		
 		model.addAttribute("title", "조직도");
+		model.addAttribute("selectedTitle", "org");
+		model.addAttribute("selectedSub", "organization");
 		model.addAttribute("activePage","orgChart");
 		
 		return "admin/org/orgChartManagement";
@@ -60,6 +71,8 @@ public class AdminController {
 		log.info("실행");
 		
 		model.addAttribute("title", "조직도");
+		model.addAttribute("selectedTitle", "org");
+		model.addAttribute("selectedSub", "organization");
 		model.addAttribute("activePage","position");
 		
 		return "admin/org/orgPosition";
@@ -70,6 +83,8 @@ public class AdminController {
 		log.info("실행");
 		
 		model.addAttribute("title", "조직도");
+		model.addAttribute("selectedTitle", "org");
+		model.addAttribute("selectedSub", "organization");
 		model.addAttribute("activePage","employee");
 		
 		return "admin/org/orgEmployee";

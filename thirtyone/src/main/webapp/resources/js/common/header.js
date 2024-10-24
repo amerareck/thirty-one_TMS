@@ -16,8 +16,7 @@ $(document).ready(function() {
 	
 	
 	$(".sidebar-title").on("click", function() {
-		$(this).css("background-color", rootStyles.getPropertyValue('--blue'));
-		$(this).css("color", 'white');
+		
 		$('.sidebar-title').each(function(){
 			let img = $(this).find('.sidebar-icon');
 			let arrow = $(this).find('.arrow');
@@ -26,7 +25,7 @@ $(document).ready(function() {
 			img.attr('src',originSrc);
 			arrow.attr('src', originArrow);
 			
-			$(this).css('background-color', '');
+			$(this).css('background-color', 'white');
 			$(this).css('color',customDarkGray);
 			$(this).find('a').css('color', customDarkGray);
 		})
@@ -65,16 +64,20 @@ $(document).ready(function() {
 			}
 			$(this).next('.sidebar-subtitle-box').slideToggle(300);	
 		}else if(navText === 'HR'){			
-
 			if($('.sidebar-approval').next('.sidebar-subtitle-box').css("display") == 'block'){
 				$('.sidebar-approval').next('.sidebar-subtitle-box').slideToggle(300);
 			}
 			$(this).next('.sidebar-subtitle-box').slideToggle(300);
-/*
-			let subtitle = $(this).next('.sidebar-subtitle-box').children('div:nth-child(1)').data("subtitle");
-			$('.subtitle').css("display", "none");
-			$("."+subtitle).css("display", 'flex');
-*/
+		}else if(navText ==='회원관리'){
+			if($('.sidebar-org').next('.sidebar-subtitle-box').css("display") == 'block'){
+				$('.sidebar-org').next('.sidebar-subtitle-box').slideToggle(300);
+			}
+			$(this).next('.sidebar-subtitle-box').slideToggle(300);
+		}else if(navText ==='조직관리'){
+			if($('.sidebar-emp').next('.sidebar-subtitle-box').css("display") == 'block'){
+				$('.sidebar-emp').next('.sidebar-subtitle-box').slideToggle(300);
+			}
+			$(this).next('.sidebar-subtitle-box').slideToggle(300);
 		}
 		preClicked = this;
 	});

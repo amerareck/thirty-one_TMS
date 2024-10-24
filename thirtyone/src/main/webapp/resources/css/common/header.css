@@ -1,5 +1,3 @@
-@charset "UTF-8";
-
 .header {
 	display:flex;
 	align-items: center;
@@ -37,7 +35,7 @@
 }
 
 .sidebar{
-	width:252px;
+	width:252px !important;
 	height: auto;
 	display: flex;
     flex-direction: column;
@@ -150,6 +148,7 @@
 }
 
 .nav-bar{
+	width:252px;
 	margin-left: 20px;
 	margin-top: 20px;
 }
@@ -207,6 +206,7 @@
 	display: block;
 }
 .sidebar-subtitle{
+	color: var(--lightgray);
 	width: 85%;
 	margin-bottom: 5px;
 	padding: 10px;
@@ -215,7 +215,9 @@
 
 .sub-selected{
 	background-color : var(--skyblue);
-	color: white;
+}
+.sub-selected a{
+	color: white !important;
 }
 
 .sidebar-subtitle a{
