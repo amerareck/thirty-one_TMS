@@ -23,4 +23,11 @@ public class EmployeeController {
 		
 		return "employee/empDetail";
 	}
+	
+	@GetMapping("empPwUpdate")
+	public String empPwUpdate() {
+		
+		return "employee/empPwUpdate";
+	}
+	
 }
