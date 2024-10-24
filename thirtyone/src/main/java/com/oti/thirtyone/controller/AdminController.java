@@ -39,6 +39,6 @@ public class AdminController {
 	public String atdList(Model model) {
 		model.addAttribute("title", "근태 관리");
 		model.addAttribute("amdin", true);
-		return "amdin/atdList";
+		return "admin/atdList";
 	}
 }
