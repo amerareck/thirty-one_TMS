@@ -1,0 +1,150 @@
+@charset "UTF-8";
+.table-font {
+	font-size: .9rem;
+}
+
+.table-header-bg th {
+    background-color: #5E5E5E !important;
+    color: #fff;
+    height: 3rem;
+}
+
+.table-header-bg td {
+    height: 3rem;
+}
+
+.row-height td {
+	height: 120px;
+}
+
+.row-height-md td {
+	height: 60px;
+}
+
+.sub-title-active {
+	color: #1F5FFF !important;
+	border-bottom: #1F5FFF solid 2px;
+}
+
+.sub-title-active * {
+	color: #1F5FFF !important;
+	pointer-events: none;
+}
+
+.table-group-divider {
+    border-top: 1px solid #dee2e6;
+    border-bottom: none;
+}
+
+.table-group-divider:last-child {
+	border-bottom: 1px solid #dee2e6;
+}
+
+.table-col-line th {
+	padding: .375rem 1.2rem;
+	border-top: 2px solid #dee2e6;
+	border-bottom: .18rem solid #dee2e6;
+}
+
+.table-col-line td {
+	padding: .375rem 1.2rem;
+	border-right: 1px solid #dee2e6;
+}
+
+.table-col-line td:last-child {
+	padding: .375rem 1.2rem;
+	border-right: none;
+}
+
+.table-col-line thead tr th:first-child {
+	border-right: 1px solid #dee2e6;
+}
+
+.table-col-line thead tr th:last-child {
+	border-left: 1px solid #dee2e6;
+}
+
+.table-col-line thead tr th:not(:first-child):not(:last-child) {
+	border-left: 1px solid #dee2e6;
+	border-right: 1px solid #dee2e6;
+}
+
+.table-font .dropdown-item {
+	font-size: .875rem !important;
+	color: #494949;
+}
+
+.table-border-none {
+	border-left: none !important;
+	border-right: none !important;
+}
+
+.td-padding td {
+	padding: 6px 19.2px;
+}
+
+.td-div-padding {
+	padding: 0 0 0 24px;
+}
+
+.btn-border {
+	border: 1px solid #dee2e6;
+	border-left: none;
+}
+
+.btn.btn-border {
+	width: 15%;
+}
+
+.input-text {
+	border-right: none;
+}
+
+.dropdown-menu {
+	padding-left: 5px;
+	padding-right: 5px;
+}
+
+.dropdown-item {
+	padding-left: 0;
+	padding-right: 0;
+}
+
+.page-border-none {
+    border: none;
+}
+
+.pagination-not-effect * {
+	--bs-pagination-hover-bg: none;
+	--bs-pagination-hover-border-bg: none;
+	--bs-pagination-focus-color: none;
+	--bs-pagination-focus-bg: none;
+	--bs-pagination-focus-box-shadow: none;
+	--bs-pagination-active-color: none;
+	--bs-pagination-active-bg: none;
+	--bs-pagination-disabled-bg: none;
+}
+
+.input-group .btn {
+	height: 37.78px !important;
+}
+
+.input-group .form-control, .input-group .btn-sm {
+	font-size: .875rem;
+	height: 30px !important;
+}
+
+.input-group-sm {
+	width: 80%;
+	margin: 0 auto;
+}
+
+.margin-item-zero li {
+	margin: 0 !important;
+}
+
+input:focus, textarea:focus, select:focus {
+    box-shadow: none !important;
+    border-color: #dee2e6 !important;
+    outline: none !important;
+}
