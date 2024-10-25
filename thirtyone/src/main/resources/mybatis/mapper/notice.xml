@@ -1,14 +1,79 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.oti.thirtyone.dao.NoticeDao">
-	<insert id="insertNotice" parameterType="Notice">
+
+	<insert id="noticeWrite" parameterType="Notice">
+		<selectKey keyProperty="noticeId" resultType="int"
+			order="BEFORE">
+			SELECT NOTICES_SEQ.NEXTVAL FROM DUAL
+		</selectKey>
 		INSERT INTO NOTICES(
-		NOTICE_ID, NOTICE_TITLE, NOTICE_CONTENT, NOTICE_DATE, NOTICE_HIT_COUNT, 
+		NOTICE_ID, NOTICE_TITLE, NOTICE_CONTENT, NOTICE_DATE, NOTICE_HIT_COUNT,
 		NOTICE_IMPORTANT, NOTICE_ALL_TARGET, NOTICE_DELETED, EMP_ID)
 		VALUES(
 		#{noticeId}, #{noticeTitle}, #{noticeContent}, sysdate, 0,
 		#{noticeImportant}, #{noticeAllTarget}, #{noticeDeleted}, #{empId}
 		)
 	</insert>
+
+	<insert id="insertNoticeFile" parameterType="NoticeFile">
+		<selectKey keyProperty="noticeFileId" resultType="int"
+			order="BEFORE">
+			SELECT NOTICE_FILES_SEQ.NEXTVAL FROM DUAL
+		</selectKey>
+		INSERT INTO NOTICE_FILES (
+		NOTICE_FILE_ID, NOTICE_FILE_NAME, NOTICE_FILE_DATA, NOTICE_FILE_TYPE, NOTICE_ID)
+		VALUES (
+		#{noticeFileId}, #{noticeFileName}, #{noticeFileData}, #{noticeFileType}, #{noticeId})
+	</insert>
 	
+	<select id="selectListPager" parameterType="int" resultType="Notice">
+		SELECT * FROM NOTICES 
+        ORDER BY (CASE WHEN NOTICE_IMPORTANT = '1' THEN 1 ELSE 2 END), NOTICE_ID ASC
+	</select>
+	
+	<select id="selectByNoticeId" parameterType="int" resultType="Notice">
+		SELECT * FROM NOTICES
+		WHERE NOTICE_ID = #{noticeId}	
+	</select>
+
+	<select id="selectAttachByNoticeId" parameterType="int" resultType="NoticeFile">
+		SELECT * FROM NOTICE_FILES
+		WHERE NOTICE_ID = #{noticeId}	
+	</select>
+	
+	<select id="countRows" parameterType="int">
+		SELECT COUNT (*)
+		FROM NOTICES
+	</select>
+	
+	<update id="updateNotice" parameterType="Notice">
+		UPDATE NOTICES SET
+			NOTICE_TITLE = #{noticeTitle},
+			NOTICE_CONTENT = #{noticeContent},
+			NOTICE_DATE = sysdate,
+			NOTICE_IMPORTANT = #{noticeImportant},
+			NOTICE_ALL_TARGET = #{noticeAllTarget}		
+		WHERE NOTICE_ID = #{noticeId}
+	</update>
+	
+	<update id="updateNoticeFile" parameterType="NoticeFile">
+		UPDATE NOTICE_FILES SET
+			<if test="noticeFileName != null">
+				NOTICE_FILE_NAME = #{noticeFileName},
+				NOTICE_FILE_TYPE = #{noticeFileType},
+				NOTICE_FILE_DATA = #{noticeFileData}
+			</if>
+		WHERE NOTICE_ID = #{noticeId}	
+	</update>
+	
+	<update id="updateHitCount" parameterType="int">
+		UPDATE NOTICES SET
+			NOTICE_HIT_COUNT = NOTICE_HIT_COUNT + 1
+		WHERE NOTICE_ID = #{noticeId}		
+	</update>
+
+
+
+
 </mapper>

@@ -1,11 +1,33 @@
 package com.oti.thirtyone.dao;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 
 import com.oti.thirtyone.dto.NoticeDto;
+import com.oti.thirtyone.dto.NoticeFileDto;
+import com.oti.thirtyone.dto.Pager;
 
 @Mapper
 public interface NoticeDao {
-	 public int insertNotice(NoticeDto notice);
+	//공지사항 작성
+	 public int noticeWrite(NoticeDto notice);
 
+	 //공지사항 첨부파일
+	 public int insertNoticeFile(NoticeFileDto notice);
+	 
+	 //공지사항 조회
+	 public List<NoticeDto> selectListPager(Pager pager);	 
+	 public int countRows();
+	 
+	 //공지사항 상세페이지 조회
+	 public NoticeDto selectByNoticeId(int noticeId);	 
+	 public NoticeFileDto selectAttachByNoticeId(int noticeId);
+	 
+	 //공지사항 수정
+	 public int updateNotice(NoticeDto notice);
+	 public int updateNoticeFile(NoticeFileDto notice);
+	
+	 //조회수
+	 public int updateHitCount(int noticeId);
 }

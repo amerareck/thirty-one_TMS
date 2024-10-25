@@ -9,5 +9,6 @@
 	
 	<typeAliases>
 		<typeAlias type="com.oti.thirtyone.dto.NoticeDto" alias="Notice"/>
+		<typeAlias type="com.oti.thirtyone.dto.NoticeFileDto" alias="NoticeFile"/>
 	</typeAliases>
 </configuration>
