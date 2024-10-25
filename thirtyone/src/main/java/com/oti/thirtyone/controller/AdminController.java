@@ -10,14 +10,14 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Controller
-@RequestMapping("admin")
+@RequestMapping("/admin")
 public class AdminController {
 	@ModelAttribute
 	public void settings(Model model) {
 		model.addAttribute("admin", true);
 	}
 	
-	@GetMapping("/")
+	@GetMapping("")
 	public String adminMain(Model model) {
 		model.addAttribute("selectedTitle", "home");
 		return "admin/admin";	
