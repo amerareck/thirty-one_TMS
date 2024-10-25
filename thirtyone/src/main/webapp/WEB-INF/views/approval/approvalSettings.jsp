@@ -5,9 +5,9 @@
 
 <div class="sectionContainer d-flex justify-content-center p-0 w-100 h-100">
 	<div class="defaultApprovalLineSetting h-100 me-3" style="width: 55%; margin-right: 10px;">
-		<div class="card h-100">
-		    <div class="card-body p-4">
-				<iframe src="${pageContext.request.contextPath}/resources/html/approvalLine.html" width="100%" height="765px"></iframe>
+		<div class="card h-auto">
+		    <div class="card-body p-4 h-auto">
+				<iframe src="${pageContext.request.contextPath}/resources/html/approvalLine.html" width="100%" height="820px;"></iframe>
 		    </div>
 		</div>
 	</div>

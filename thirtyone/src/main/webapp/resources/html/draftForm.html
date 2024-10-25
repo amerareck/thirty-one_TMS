@@ -2,14 +2,13 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>기안서 작성 폼</title>
-    <link rel="stylesheet" href="../../../resources/bootstrap/bootstrap.min.css" />
-    <link rel="stylesheet" href="../../../resources/css/style.css" />
-    <link rel="stylesheet" href="../../../resources/css/approval/approvalLine.css" />
-    <link rel="stylesheet" href="../../../resources/css/document-form/businessTripReport.css" />
+    <link rel="stylesheet" href="../bootstrap/bootstrap.min.css" />
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/approval/approvalLine.css" />
+    <link rel="stylesheet" href="../css/document-form/businessTripReport.css" />
     <script src="https://cdn.tiny.cloud/1/zt811056qttf1h18ihxacac59l9xi81x71c2zv8l9cs330q6/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
-    <script src="../../../resources/bootstrap/bootstrap.bundle.min.js"></script>
+    <script src="../bootstrap/bootstrap.bundle.min.js"></script>
 
 </head>
 <body>
@@ -128,19 +127,14 @@
                 <!-- Place the following <script> and <textarea> tags your HTML's <body> -->
                 <script>
                     tinymce.init({
-                        language: 'ko_KR',
+                    	language: 'ko_KR',
                         selector: 'textarea',
-                        content_css: "../../../resources/css/document-form/businessTripReport.css",
+                        content_css: "../css/document-form/businessTripReport.css",
                         plugins: [
-                        // Core editing features
-                        'anchor', 'autolink', 'charmap', 'codesample', 'emoticons', 'image', 'link', 'lists', 'media', 'searchreplace', 'table', 'visualblocks', 'wordcount',
-                        // Your account includes a free trial of TinyMCE premium features
-                        // Try the most popular premium features until Oct 24, 2024:
-                        'checklist', 'mediaembed', 'casechange', 'export', 'formatpainter', 'pageembed', 'a11ychecker', 'tinymcespellchecker', 'permanentpen', 'powerpaste', 'advtable', 'advcode', 'editimage', 'advtemplate', 'ai', 'mentions', 'tinycomments', 'tableofcontents', 'footnotes', 'mergetags', 'autocorrect', 'typography', 'inlinecss', 'markdown', 'autoresize'
+                            // Core editing features
+                            'anchor', 'autolink', 'charmap', 'codesample', 'emoticons', 'image', 'link', 'lists', 'media', 'searchreplace', 'table', 'visualblocks', 'wordcount'
                         ],
-                        toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat',
-                        tinycomments_mode: 'embedded',
-                        tinycomments_author: 'Author name',
+                        toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table | align lineheight | numlist bullist indent outdent | emoticons charmap | removeformat',
                         setup: function (editor) {
                             // 예시로 HTML 테이블을 에디터에 넣는 방법
                             editor.on('init', function () {
@@ -535,6 +529,6 @@
     </div>
 
 
-    <script src="../../../resources/jquery/jquery.min.js" ></script>
+    <script src="../jquery/jquery.min.js" ></script>
 </body>
 </html>

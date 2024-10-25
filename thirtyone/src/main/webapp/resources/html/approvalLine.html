@@ -25,7 +25,7 @@
 	    <!-- 좌측: 조직도 (jstree) -->
 	    	<div style="width: 60%">
 	        	<div class="tree-container">
-	            	<div id="jstree-demo">
+	            	<div id="orgDepartment">
 	                <!-- jstree -->
 	             	</div>
 	     		</div>
@@ -115,47 +115,6 @@
 <script src="../bootstrap/bootstrap.bundle.min.js"></script>
 <script src="../jquery/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.12/jstree.min.js"></script>
-
-<script>
-    // jstree
-    $(function() {
-        $('#jstree-demo').jstree({
-            'core' : {
-                'data' : [
-                    {
-                        "text" : "오티아이[OTI]", "icon" : "fa-solid fa-building",
-                        "children" : [
-                            { "text" : "공공사업본부", "icon" : "fas fa-users", 
-                              "children" : [
-                                { "text" : "공공사업Div1.", "icon" : "fas fa-users" },
-                                { "text" : "공공사업Div2.", "icon" : "fas fa-users" },
-                                { "text" : "공공사업Div3.", "icon" : "fas fa-users" }
-                              ]
-                            },
-                            { "text" : "전략사업본부", "icon" : "fas fa-users",
-                                "children" : [
-                                    { "text" : "전략사업Div1.", "icon" : "fas fa-users" },
-                                    { "text" : "전략사업Div2.", "icon" : "fas fa-users" },
-                                    { "text" : "전략사업Div3.", "icon" : "fas fa-users" }
-                                ]
-                             },
-                            { "text" : "경영지원실", "icon" : "fas fa-users",
-                                "children" : [
-                                    { "text" : "인사팀", "icon" : "fas fa-users" },
-                                    { "text" : "재무팀", "icon" : "fas fa-users" }
-                                ]
-                             },
-                            { "text" : "대표이사", "icon" : "fas fa-user" }
-                        ]
-                    }
-                ]
-            },
-            "themes" : {
-                "dots" : false,
-                "icons" : true
-            }
-        });
-    });
-</script>
+<script src="../js/approval/approval.js"></script>
 </body>
 </html>
