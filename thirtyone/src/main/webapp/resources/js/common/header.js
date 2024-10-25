@@ -12,9 +12,6 @@ $(document).ready(function() {
 	
 	let preClicked = null;
 	
-	
-	
-	
 	$(".sidebar-title").on("click", function() {
 		
 		$('.sidebar-title').each(function(){
@@ -84,5 +81,5 @@ $(document).ready(function() {
 	
 
 	
-
+/* ㅁㄴㅇ*/
 });
