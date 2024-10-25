@@ -32,17 +32,17 @@
 			<h2>로그인</h2>
 			<p>써리원의 근태관리센터에 오신것을 	환영합니다.</p>
 			
-			<form class="login-form">
+			<form method="post" action="${pageContext.request.contextPath}/login" class="login-form">
 			<div>
 				<label for="empId">아이디</label>
-				<input type="text" placeholder="아이디를 입력해주세요." required>
+				<input type="text" id="empId" name="empId" placeholder="아이디를 입력해주세요." required>
 			</div>
 			<div>
 				<label for="empPassword">비밀번호</label>
-				<input type="password" placeholder="비밀번호를 입력해주세요." required>
+				<input type="password" id="empPassword" name="empPassword" placeholder="비밀번호를 입력해주세요." required>
 				<a href="#">비밀번호를 잊으셨나요?</a>
 			</div>
-				<button class="button-x-large">로그인</button>
+				<button type="submit" class="button-x-large">로그인</button>
 			</form>
 			
 		</div>

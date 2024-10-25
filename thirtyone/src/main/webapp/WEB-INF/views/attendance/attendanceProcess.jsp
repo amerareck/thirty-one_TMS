@@ -92,15 +92,15 @@
 				<form class="reason-report" method="post">
 					<div>
 						<label for="empName">이름</label>
-						<input type="text" class="form-control" id="empName" placeholder="이름을 입력해주세요." required>
+						<input type="text" class="form-control" id="empName" value="정원석 사원" disabled>
 					</div>
 					<div>
 						<label for="empDept">부서</label>
-						<input type="text" class="form-control" id="empDept" placeholder="부서를 입력해주세요." required>
+						<input type="text" class="form-control" id="empDept" value="공공사업1DIV" disabled>
 					</div>
 					<div>
 						<label for="empName">출근 시간</label>
-						<input type="datetime" class="form-control" id="empName" placeholder="출근 시간을 입력해주세요." required>
+						<input type="datetime" class="form-control" id="empName" value="2024/10/17 09:35:17" disabled>
 					</div>
 					<div>
 					  <label for="formFile" class="form-label">첨부 파일</label>
@@ -108,7 +108,7 @@
 					</div>
 					<div>
 					  <label for="reason" class="form-label reason">지각 사유</label>
-					  <textarea class="form-control" id="reason" rows="6"></textarea>
+					  <textarea class="form-control" id="reason" rows="6" disabled>지하철이 연착되어 지각을 하였습니다.</textarea>
 					</div>
 					<div>
 						<button class="button-large reject">반려</button>

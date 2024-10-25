@@ -22,7 +22,6 @@ public class AuthenticationSuccessHandler
 			HttpServletResponse response,
 			Authentication authentication) throws ServletException, IOException {
 		log.info("실행");
-		
 		super.onAuthenticationSuccess(request, response, authentication);
 		
 	}

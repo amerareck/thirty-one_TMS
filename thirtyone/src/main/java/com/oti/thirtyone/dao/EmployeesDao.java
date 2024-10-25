@@ -2,17 +2,13 @@ package com.oti.thirtyone.dao;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.oti.thirtyone.dto.EmployeesDto;
+
 @Mapper
 public interface EmployeesDao {
 
-	EmployeesDao selectByempId(String username);
+	EmployeesDto selectByEmpId(String empId);
 
-	String getempRole();
-
-	String getEmpId();
-
-	String getEmpPassword();
-
-	boolean isEnabled();
+	int insertEmp(EmployeesDto empDto);
 
 }

@@ -12,6 +12,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.oti.thirtyone.dao.EmployeesDao;
+import com.oti.thirtyone.dto.EmployeesDto;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -20,19 +21,18 @@ import lombok.extern.slf4j.Slf4j;
 
 public class EmployeeDetailService implements UserDetailsService{
 	@Autowired
-	private EmployeesDao employeeDao;
+	private EmployeesDao empDao;
 
 	@Override
 	public UserDetails loadUserByUsername(String username) 
 			throws UsernameNotFoundException {
 		
-		EmployeesDao employee = employeeDao.selectByempId(username);
+		EmployeesDto employee = empDao.selectByEmpId(username);
 		if(employee==null) {
 			throw new UsernameNotFoundException("Bad username");
 		}
-		
 		List<GrantedAuthority> authorities = new ArrayList<>();
-		authorities.add(new SimpleGrantedAuthority(employee.getempRole()));
+		authorities.add(new SimpleGrantedAuthority(employee.getEmpRole()));
 		
 		UserDetails userDetails = new EmployeeDetails(employee, authorities);
 		return userDetails;

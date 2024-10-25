@@ -34,7 +34,7 @@
 	font-weight: bold;
 }
 
-#emp-img{
+#empImg{
 	width: 140px;
 }
 
@@ -57,12 +57,12 @@
 	 margin-right: 20px;
 }
 
-#empDept{
+#deptId{
 	width: 140px;
 	margin-right: 20px;
 }
 
-#empPosition{
+#position{
 	width: 120px;
 }
 

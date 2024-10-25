@@ -10,7 +10,7 @@
     color: #a3a3a3;
     font-size: 12px;
     font-weight: 500;
-    margin: 5px 0 20px 0;
+    margin: 5px 0 25px 0;
 }
 
 .btn.list {
@@ -37,6 +37,10 @@
     margin-right: 40px;
 }
 
+.plus-file {
+	height: 100px;	
+}
+
 .noticeLine {
 	display: flex;
     justify-content: space-between;
@@ -60,7 +64,7 @@
 	margin-right: 40px;
 }
 
-.nextTitle:hover, .nextContent:hover {
+.nextTitle:hover, .nextContent:hover, .preTitle:hover, .preContent:hover {
 	cursor: pointer;
 }
 
@@ -116,6 +120,7 @@
     height: 100px;
     margin-top: 20px;
     margin-left: 40px;
+    overflow: auto;
 }
 
 
@@ -151,4 +156,13 @@
     border: 1px solid #a3a3a3;
     border-radius: 4px;
     margin-top: 20px;
+}
+
+.fileContent {
+	display: flex;
+	align-items: flex-end;
+}
+
+.fileContent p {
+	margin-left: 20px;
 }

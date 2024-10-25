@@ -1,6 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/common/header.jsp"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 
 <meta name='viewport' content='width=device-width, initial-scale=1'>
@@ -12,7 +13,7 @@
 	
 	<div class="content-box">
 			<div class="main-container" >
-				<p class="title">${title}</p>
+				<p class="title-31">${title}</p>
 
 
 <div class="cardBox">
@@ -21,6 +22,8 @@
 		<div class="text">써리원의 사내 공지사항을 조회합니다.</div>
 
 		<div class="search">
+			<!-- <div id="choiceDay" class="flatpickr-input" readonly="readonly" value="연도-월-일">
+			<img src="/thirtyone/resources/image/calendar-icon.svg"></div> -->
 			<input type="date" id="date" min="1994-01-01" max="2077-12-31"
 				value="연도-월-일">
 
@@ -51,89 +54,68 @@
 
 	<div class="line" style="border: 2.5px solid #F0F0F0;"></div>
 
-	<%-- <c:forEach var="list" items="${noticeList}"> --%>
+	<c:forEach var="notice" items="${notice}">
+	
 	<table class="tableContent">
 		<tr
-			onclick="location.href='${pageContext.request.contextPath}/notice/noticeDetail'">
-			<td><img
-				src="${pageContext.request.contextPath}/resources/image/important_btn.png"
-				alt="중요도"></td>
-			<td>2022년도 직장인 건강검진 안내</td>
-			<td>오티아이</td>
-			<td>2022/10/09</td>
-			<td>12</td>
+			onclick="location.href='${pageContext.request.contextPath}/notice/noticeDetail?noticeId=${notice.noticeId}'">
+			
+			<td>
+				<c:choose>
+					<c:when test="${notice.noticeImportant == '1'}">
+						<img
+						src="${pageContext.request.contextPath}/resources/image/important_btn.png" alt="중요도" >
+					</c:when>
+					<c:otherwise>
+						${notice.noticeId}
+					</c:otherwise>
+				</c:choose></td>
+			<td>${notice.noticeTitle}</td>
+			<td>${notice.empId}</td>
+			<td><fmt:formatDate value= "${notice.noticeDate}" pattern="yyyy-MM-dd-HH:mm:ss"/></td>
+			<td>${notice.noticeHitCount}</td>
 		</tr>
 		<tbody class="line"></tbody>
-
-		<tr>
-			<td><img
-				src="${pageContext.request.contextPath}/resources/image/important_btn.png"
-				alt="중요도"></td>
-			<td>5월 사내행사 일정 안내</td>
-			<td>오티아이</td>
-			<td>2023/05/02</td>
-			<td>7</td>
-		</tr>
-		<tbody class="line"></tbody>
-
-		<tr>
-			<td>9</td>
-			<td>회사 소개자료 공유</td>
-			<td>오티아이</td>
-			<td>2024/10/17</td>
-			<td>4</td>
-		</tr>
-		<tbody class="line"></tbody>
-
-		<tr>
-			<td>8</td>
-			<td>9월 구내식당 메뉴안내</td>
-			<td>오티아이</td>
-			<td>2024/09/17</td>
-			<td>0</td>
-		</tr>
-		<tbody class="line"></tbody>
-
-		<tr>
-			<td>7</td>
-			<td>2024년도 6월 성실신고</td>
-			<td>오티아이</td>
-			<td>2024/07/09</td>
-			<td>1</td>
-		</tr>
-		<tbody class="line"></tbody>
-
-		<tr>
-			<td>6</td>
-			<td>사옥이전 안내</td>
-			<td>오티아이</td>
-			<td>2024/05/09</td>
-			<td>0</td>
-		</tr>
-		<tbody class="line"></tbody>
-
-		<tr>
-			<td>5</td>
-			<td>5월 구내식당 메뉴안내</td>
-			<td>오티아이</td>
-			<td>2024/05/09</td>
-			<td>0</td>
-		</tr>
-		<tbody class="line"></tbody>
-
-		<tr>
-			<td>4</td>
-			<td>대체공휴일 휴무안내</td>
-			<td>오티아이</td>
-			<td>2023/05/02</td>
-			<td>2</td>
-		</tr>
 	</table>
-	<%-- </c:forEach> --%>
+	</c:forEach>
 
 	<button class="button-medium"
-		onclick="location.href='${pageContext.request.contextPath}/notice/noticeWrite'">+
+		onclick="location.href='${pageContext.request.contextPath}/notice/noticeWriteForm'">+
 		작성하기</button>
+		
+		<div class="pagination">
+			<a href="noticeList?pageNo=1">처음</a>
+			
+			<c:if test="${pager.groupNo>1}">
+				<a href="noticeList?pageNo=${pager.startPageNo-1}">이전</a>			
+			</c:if>	
+			
+			<c:forEach begin="${pager.startPageNo}" end="${pager.endPageNo}" step="1" var="i">
+				<c:if test="${pager.pageNo==i}">
+					<button class="page-num active" onclick="location.href='${pageContext.request.contextPath}/notice/noticeList?pageNo=${i}'">
+						${i}
+					</button>	
+				</c:if>
+				<c:if test="${pager.pageNo!=i}">
+					<button class="page-num" onclick="location.href='${pageContext.request.contextPath}/notice/noticeList?pageNo=${i}'">
+						${i}
+					</button>
+				</c:if>
+			
+			<c:if test="${pager.pageNo!=i}">
+				<button class="page-num"  onclick="location.href='${pageContext.request.contextPath}/notice/noticeList?pageNo=${i}'">
+					${i}
+				</button>
+			</c:if>
+		</c:forEach>
+		
+		<c:if test="${pager.groupNo<pager.totalGroupNo}">
+			<a href="noticeList?pageNo=${pager.endPageNo+1}">다음</a>
+		</c:if>
+		
+		<a href="noticeList?pageNo=${pager.totalPageNo}">마지막</a>
+		
+		</div>
 		
 		
 </div>
