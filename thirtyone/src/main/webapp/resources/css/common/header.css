@@ -1,3 +1,5 @@
+/* ㅁㄴㅇ */
+
 .header {
 	display:flex;
 	align-items: center;
@@ -5,6 +7,7 @@
 	height: 100px;
 	box-shadow: 0px 3px 32px rgba(195, 195, 195, 0.3);
 }
+
 .dropdown-toggle:hover{
 	cursor: pointer;
 }
