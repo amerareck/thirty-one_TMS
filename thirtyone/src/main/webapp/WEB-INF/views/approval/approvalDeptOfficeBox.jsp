@@ -50,7 +50,7 @@
             <td class="text-center align-middle table-font-size">과장</td>
             <td class="text-center align-middle table-font-size">정준하</td>
             <td class="text-center align-middle table-font-size">/</td>
-            <td class="text-center align-middle"><button class="btn btn-outline-secondary btn-ssm">확인</button></td>
+            <td class="text-center align-middle"><button class="btn btn-outline-secondary btn-ssm" data-bs-toggle="modal" data-bs-target="#approvalView">확인</button></td>
             <td class="text-center align-middle"><img src="${pageContext.request.contextPath}/resources/image/approval-await.png" width="50px" height="20px" /></td>
           </tr>
           <tr>
@@ -61,7 +61,7 @@
             <td class="text-center align-middle table-font-size">사원</td>
             <td class="text-center align-middle table-font-size">서지혜</td>
             <td class="text-center align-middle table-font-size">/</td>
-            <td class="text-center align-middle"><button class="btn btn-outline-secondary btn-ssm">확인</button></td>
+            <td class="text-center align-middle"><button class="btn btn-outline-secondary btn-ssm" data-bs-toggle="modal" data-bs-target="#approvalView">확인</button></td>
             <td class="text-center align-middle"><img src="${pageContext.request.contextPath}/resources/image/approval-await.png" width="50px" height="20px" /></td>
           </tr>
           <tr>
@@ -72,7 +72,7 @@
             <td class="text-center align-middle table-font-size">과장</td>
             <td class="text-center align-middle table-font-size">정준하</td>
             <td class="text-center align-middle table-font-size">2024-10-06</td>
-            <td class="text-center align-middle"><button class="btn btn-outline-secondary btn-ssm">확인</button></td>
+            <td class="text-center align-middle"><button class="btn btn-outline-secondary btn-ssm" data-bs-toggle="modal" data-bs-target="#approvalView">확인</button></td>
             <td class="text-center align-middle"><img src="${pageContext.request.contextPath}/resources/image/approval-rejected.png" width="50px" height="20px" /></td>
           </tr>
           <tr>
@@ -83,7 +83,7 @@
             <td class="text-center align-middle table-font-size">사원</td>
             <td class="text-center align-middle table-font-size">엄성현</td>
             <td class="text-center align-middle table-font-size">2024-10-02</td>
-            <td class="text-center align-middle"><button class="btn btn-outline-secondary btn-ssm">확인</button></td>
+            <td class="text-center align-middle"><button class="btn btn-outline-secondary btn-ssm" data-bs-toggle="modal" data-bs-target="#approvalView">확인</button></td>
             <td class="text-center align-middle"><img src="${pageContext.request.contextPath}/resources/image/approval-approve.png" width="50px" height="20px" /></td>
           </tr>
           <tr>
@@ -94,7 +94,7 @@
             <td class="text-center align-middle table-font-size">사원</td>
             <td class="text-center align-middle table-font-size">정원석</td>
             <td class="text-center align-middle table-font-size">2024-10-02</td>
-            <td class="text-center align-middle"><button class="btn btn-outline-secondary btn-ssm">확인</button></td>
+            <td class="text-center align-middle"><button class="btn btn-outline-secondary btn-ssm" data-bs-toggle="modal" data-bs-target="#approvalView">확인</button></td>
             <td class="text-center align-middle"><img src="${pageContext.request.contextPath}/resources/image/approval-approve.png" width="50px" height="20px" /></td>
           </tr>
         </tbody>
@@ -116,4 +116,5 @@
         </ul>
       </nav>
 </section>
+<%@ include file="/WEB-INF/views/approval/approvalView.jsp"%>
 <%@ include file="/WEB-INF/views/approval/approvalContainerFooter.jsp"%>

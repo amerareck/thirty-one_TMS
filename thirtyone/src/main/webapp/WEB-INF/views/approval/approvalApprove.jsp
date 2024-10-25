@@ -49,7 +49,7 @@
 		      <td class="text-center align-middle table-font-size">정원석</td>
 		      <td class="text-center align-middle table-font-size">정준하 과장</td>
 		      <td class="text-center align-middle table-font-size">2024-10-10</td>
-		      <td class="text-center align-middle"><button class="btn btn-outline-secondary btn-ssm">열기</button></td>
+		      <td class="text-center align-middle"><button class="btn btn-outline-secondary btn-ssm" data-bs-toggle="modal" data-bs-target="#approvalView">열기</button></td>
 		    </tr>
 	    </tbody>
 	</table>
@@ -70,4 +70,6 @@
 		</ul>
    	</nav>
 </section>
+
+<%@ include file="/WEB-INF/views/approval/approvalView.jsp"%>
 <%@ include file="/WEB-INF/views/approval/approvalContainerFooter.jsp"%>
