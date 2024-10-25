@@ -1,13 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
 <%@ include file="/WEB-INF/views/approval/approvalContainer.jsp"%>
-<%-- 
-<div class="sub-title m-0">
-	<div <c:if test="${activePage == 'approve'}">class="sub-title-active"</c:if>><a href="#">승인 문서</a></div>
-	<div <c:if test="${activePage == 'reject'}">class="sub-title-active"</c:if>><a href="#">반려 문서</a></div>
-</div>
-<div class="main-line mx-0 mb-5"></div>
---%>
 
 <section style="margin: 0 auto;">
 	<div class="d-flex justify-content-between align-item-center my-2">
@@ -47,7 +40,7 @@
 	            <td class="text-center align-middle table-font-size">과장</td>
 	            <td class="text-center align-middle table-font-size">정준하</td>
 	            <td class="text-center align-middle table-font-size">박명수 차장</td>
-	            <td class="text-center align-middle"><button class="btn btn-outline-secondary btn-ssm">선결</button></td>
+	            <td class="text-center align-middle"><button class="btn btn-outline-secondary btn-ssm" data-bs-toggle="modal" data-bs-target="#approvalContext">선결</button></td>
 	            <td class="text-center align-middle"><img src="${pageContext.request.contextPath}/resources/image/approval-await.png" width="50px" height="20px" /></td>
         	</tr>
         	<tr>
@@ -57,7 +50,7 @@
 	            <td class="text-center align-middle table-font-size">사원</td>
 	            <td class="text-center align-middle table-font-size">서지혜</td>
 	            <td class="text-center align-middle table-font-size">박명수 차장</td>
-	            <td class="text-center align-middle"><button class="btn btn-outline-secondary btn-ssm">선결</button></td>
+	            <td class="text-center align-middle"><button class="btn btn-outline-secondary btn-ssm" data-bs-toggle="modal" data-bs-target="#approvalContext">선결</button></td>
 	            <td class="text-center align-middle"><img src="${pageContext.request.contextPath}/resources/image/approval-doing.png" width="50px" height="20px" /></td>
         	</tr>
         	<tr>
@@ -67,7 +60,7 @@
 	            <td class="text-center align-middle table-font-size">사원</td>
 	            <td class="text-center align-middle table-font-size">정원석</td>
 	            <td class="text-center align-middle table-font-size">정준하 과장</td>
-	            <td class="text-center align-middle"><button class="btn btn-outline-secondary btn-ssm">선결</button></td>
+	            <td class="text-center align-middle"><button class="btn btn-outline-secondary btn-ssm" data-bs-toggle="modal" data-bs-target="#approvalContext">선결</button></td>
 	            <td class="text-center align-middle"><img src="${pageContext.request.contextPath}/resources/image/approval-await.png" width="50px" height="20px" /></td>
         	</tr>
 		</tbody>
@@ -89,4 +82,6 @@
 	    </ul>
     </nav>
 </section>
+
+<%@ include file="/WEB-INF/views/approval/approvalContext.jsp" %>
 <%@ include file="/WEB-INF/views/approval/approvalContainerFooter.jsp"%>

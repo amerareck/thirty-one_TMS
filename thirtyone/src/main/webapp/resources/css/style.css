@@ -13,7 +13,7 @@
 	unicode-range: U+AC00-D7A3;
 }
 
-*:not(i):not(.fa) { font-family: 'Noto Sans KR', 'Roboto', sans-serif !important; }
+*:not(i):not(.fa):not(.fc) { font-family: 'Noto Sans KR', 'Roboto', sans-serif !important; }
 
 
 html, body, div, span, applet, object, iframe,

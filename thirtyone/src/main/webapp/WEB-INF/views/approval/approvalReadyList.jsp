@@ -1,7 +1,6 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
-<%@ include file="/WEB-INF/views/approval/approvalContainer.jsp"%>
+<%@ include file="/WEB-INF/views/approval/approvalContainer.jsp" %>
 	
 <div class="sub-title m-0">
 	<div <c:if test="${activePage == 'ready'}">class="sub-title-active"</c:if>><a href="approveList?type=ready">결재 대기</a></div>
@@ -47,7 +46,7 @@
 	        <td class="text-center align-middle table-font-size">공공사업1DIV</td>
 	        <td class="text-center align-middle table-font-size">과장</td>
 	        <td class="text-center align-middle table-font-size">정준하</td>
-	        <td class="text-center align-middle"><button class="btn btn-outline-secondary btn-ssm">열기</button></td>
+	        <td class="text-center align-middle"><button class="btn btn-outline-secondary btn-ssm" data-bs-toggle="modal" data-bs-target="#approvalContext">열기</button></td>
 	        <td class="text-center align-middle"><img src="${pageContext.request.contextPath}/resources/image/approval-await.png" width="50px" height="20px" /></td>
 	      </tr>
 	      <tr>
@@ -57,7 +56,7 @@
 	        <td class="text-center align-middle table-font-size">공공사업1DIV</td>
 	        <td class="text-center align-middle table-font-size">사원</td>
 	        <td class="text-center align-middle table-font-size">서지혜</td>
-	        <td class="text-center align-middle"><button class="btn btn-outline-secondary btn-ssm">열기</button></td>
+	        <td class="text-center align-middle"><button class="btn btn-outline-secondary btn-ssm" data-bs-toggle="modal" data-bs-target="#approvalContext">열기</button></td>
 	        <td class="text-center align-middle"><img src="${pageContext.request.contextPath}/resources/image/approval-doing.png" width="50px" height="20px" /></td>
 	      </tr>
 	    </tbody>
@@ -79,4 +78,6 @@
 		</ul>
 	</nav>
 </section>
-<%@ include file="/WEB-INF/views/approval/approvalContainerFooter.jsp"%>
+
+<%@ include file="/WEB-INF/views/approval/approvalContext.jsp" %>
+<%@ include file="/WEB-INF/views/approval/approvalContainerFooter.jsp" %>
