@@ -11,7 +11,7 @@
 	<security:http>
 
 		<security:form-login 
-			login-page="/loginForm"
+			login-page="/emp/loginForm"
 			username-parameter="empId"
 			password-parameter="empPassword"
 			login-processing-url="/login"

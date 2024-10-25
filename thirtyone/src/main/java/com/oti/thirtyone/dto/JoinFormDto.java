@@ -2,28 +2,25 @@ package com.oti.thirtyone.dto;
 
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.web.multipart.MultipartFile;
+
 import lombok.Data;
 
 @Data
-public class EmployeesDto {
+public class JoinFormDto {
 	private String empId;
-	private int empNumber;
 	private String empPassword;
 	private String empName;
 	private String empEmail;
 	private int empGender;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date empBirth;
 	private int empPostal;
 	private String empAddress;
 	private String empDetailAddress;
 	private String empTel;
-	private String empImageName;
-	private byte[] empImageData;
-	private String empImageType;
-	private String empState;
-	private Date empHiredate;
-	private Date empResignationDate;
-	private String empRole;
+	private MultipartFile empImage;
 	private int deptId;
 	private String position;
 }

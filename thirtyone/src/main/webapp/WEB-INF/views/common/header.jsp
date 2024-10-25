@@ -124,7 +124,7 @@
 					<div
 						class="sidebar-subtitle-box ${selectedTitle=='adminEmp'? 'selected-sub' : ''}">
 						<div class="sidebar-subtitle ${selectedSub == 'adminCreate' ? 'sub-selected' : ''}" 
-							onclick="location.href='${pageContext.request.contextPath}/admin/create'">
+							onclick="location.href='${pageContext.request.contextPath}/admin/joinForm'">
 							<a href="#">회원등록</a>
 						</div>
 						<div class="sidebar-subtitle ${selectedSub == 'searchList' ? 'sub-selected' : ''}"
