@@ -54,7 +54,7 @@
 <body>
 	<div class="header">
 		<img class="logo-image"
-			src="${pageContext.request.contextPath}/resources/image/logo.png">
+			src="${pageContext.request.contextPath}/resources/image/logo.png" onclick="location.href = '${pageContext.request.contextPath}/'">
 		<div class="profile-img-box">
 			<img class="profile-img"
 				src="${pageContext.request.contextPath}/resources/image/profileDefault.png">
@@ -78,11 +78,13 @@
 				<div class="nav-bar">
 					<div
 						class="sidebar-home sidebar-title ${selectedTitle=='home'? 'selected' : ''}"
-						onclick="location.href='${pageContext.request.contextPath}/'">
+						onclick="location.href='${pageContext.request.contextPath}/admin'">
 						<div>
 							<img class="home-icon sidebar-icon"
-								src="${pageContext.request.contextPath}${selectedTitle != 'home' ? '/resources/image/icon/home.svg' : '/resources/image/icon/home-selected.svg'}" />
-							<a href="${pageContext.request.contextPath}/admin">홈</a>
+								src="${pageContext.request.contextPath}${selectedTitle != 'home' ? '/resources/image/icon/home.svg' : '/resources/image/icon/home-selected.svg'}" 
+								data-original-src="${pageContext.request.contextPath}/resources/image/icon/home.svg"
+								data-active-src="${pageContext.request.contextPath}/resources/image/icon/home-selected.svg"/>
+							<a href="#">홈</a>
 						</div>
 						<img class="arrow home-arrow"
 							src="${pageContext.request.contextPath}${selectedTitle != 'home' ? '/resources/image/icon/arrow.svg' : '/resources/image/icon/arrow-selected.svg'}" 
@@ -95,7 +97,9 @@
 						onclick="location.href='${pageContext.request.contextPath}/notice/noticeList'">
 						<div>
 							<img class="notice-icon sidebar-icon"
-								src="${pageContext.request.contextPath}${selectedTitle != 'notice' ? '/resources/image/icon/notice.svg' : '/resources/image/icon/notice-selected.svg'}" />
+								src="${pageContext.request.contextPath}${selectedTitle != 'notice' ? '/resources/image/icon/notice.svg' : '/resources/image/icon/notice-selected.svg'}"
+								data-original-src="${pageContext.request.contextPath}/resources/image/icon/notice.svg"
+								data-active-src="${pageContext.request.contextPath}/resources/image/icon/notice-selected.svg"/>
 							<a href="#">공지사항</a>
 						</div>
 						<img class="arrow home-arrow"
@@ -107,9 +111,9 @@
 						class="sidebar-emp sidebar-title ${selectedTitle=='adminEmp'? 'selected' : ''}">
 						<div>
 							<img class="approval-icon sidebar-icon"
-								src="${pageContext.request.contextPath}${selectedTitle != 'adminEmp' ? '/resources/image/icon/approval.svg' : '/resources/image/icon/approval-selected.svg'}"
-								data-original-src="${pageContext.request.contextPath}/resources/image/icon/approval.svg"
-								data-active-src="${pageContext.request.contextPath}/resources/image/icon/approval-selected.svg" />
+								src="${pageContext.request.contextPath}${selectedTitle != 'adminEmp' ? '/resources/image/icon/emp.svg' : '/resources/image/icon/emp-selected.svg'}"
+								data-original-src="${pageContext.request.contextPath}/resources/image/icon/emp.svg"
+								data-active-src="${pageContext.request.contextPath}/resources/image/icon/emp-selected.svg" />
 							<a href="#">회원관리</a>
 						</div>
 						<img class="arrow home-arrow"
@@ -138,9 +142,9 @@
 						class="sidebar-org sidebar-title ${selectedTitle=='org'? 'selected' : ''}">
 						<div>
 							<img class="hr-icon sidebar-icon"
-								src="${pageContext.request.contextPath}${selectedTitle != 'org' ? '/resources/image/icon/hr.svg' : '/resources/image/icon/hr-selected.svg'}" 
-								data-original-src="${pageContext.request.contextPath}/resources/image/icon/hr.svg"
-								data-active-src="${pageContext.request.contextPath}/resources/image/icon/hr-selected.svg" />
+								src="${pageContext.request.contextPath}${selectedTitle != 'org' ? '/resources/image/icon/dept.svg' : '/resources/image/icon/dept-selected.svg'}" 
+								data-original-src="${pageContext.request.contextPath}/resources/image/icon/dept.svg"
+								data-active-src="${pageContext.request.contextPath}/resources/image/icon/dept-selected.svg" />
 							<a href="#">조직관리</a>
 						</div>
 						<img class="arrow home-arrow"
@@ -253,6 +257,5 @@
 		
 	
 	</c:if>
-<!-- 	/*ㅁㄴㅇ*/ -->
 	
 	
