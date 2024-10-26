@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.oti.thirtyone.dao.DepartmentDao">
+	<select id="selectDeptName" parameterType="int" resultType="String">
+		select dept_name
+		from departments
+		where dept_id=#{deptId}
+	</select>
+
+	<select id="selectRegionalOffice" parameterType="int" resultType="String">
+		select regional_office
+		from departments
+		where dept_id=#{deptId}
+	</select>
+</mapper>

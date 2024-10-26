@@ -11,23 +11,23 @@ import com.oti.thirtyone.dto.EmployeesDto;
 
 public class EmployeeDetails extends User{
 	
-	private EmployeesDto member;
+	private EmployeesDto employee;
 	
 	public EmployeeDetails(
-			EmployeesDto member,
+			EmployeesDto employee,
 			List<GrantedAuthority> authorities) {
 		
 		super(
-			member.getEmpId(), 
-			member.getEmpPassword(),
-			!member.getEmpState().equals("퇴직"),
+			employee.getEmpId(), 
+			employee.getEmpPassword(),
+			!employee.getEmpState().equals("퇴직"),
 			true, true, true,
 			authorities
 			);
-		this.member = member;
+		this.employee = employee;
 	}
 	
-	public EmployeesDto getMember() {
-		return member;
+	public EmployeesDto getEmployee() {
+		return employee;
 	}
 }

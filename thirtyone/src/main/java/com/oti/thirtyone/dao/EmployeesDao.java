@@ -11,4 +11,6 @@ public interface EmployeesDao {
 
 	int insertEmp(EmployeesDto empDto);
 
+	int selectDeptId(String empId);
+
 }

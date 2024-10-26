@@ -19,7 +19,7 @@ public class LogoutSuccessHandeler
 	public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication)
 			throws IOException, ServletException {
 		
-		setDefaultTargetUrl("/loginForm");
+		setDefaultTargetUrl("/emp/loginForm");
 		super.onLogoutSuccess(request, response, authentication);
 	}
 

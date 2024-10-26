@@ -23,7 +23,7 @@ public class HomeController {
 	public String home(Model model, Authentication authentication){
 		if(authentication != null) {
 			EmployeeDetails empDetails = (EmployeeDetails) authentication.getPrincipal();
-			EmployeesDto empDto = empDetails.getMember();
+			EmployeesDto empDto = empDetails.getEmployee();
 			String empName= empDto.getEmpName();
 			String empPosition = empDto.getPosition();
 			int deptId = empDto.getDeptId();

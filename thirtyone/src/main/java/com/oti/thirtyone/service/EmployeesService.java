@@ -20,6 +20,11 @@ public class EmployeesService {
 		empDao.insertEmp(empDto);
 		
 	}
+
+	public int getDeptId(String empId) {
+		int result = empDao.selectDeptId(empId);
+		return result;
+	}
 	
 	
 }

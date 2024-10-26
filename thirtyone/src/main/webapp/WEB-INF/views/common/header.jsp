@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -53,7 +54,12 @@
 			<img class="profile-img"
 				src="${pageContext.request.contextPath}/resources/image/profileDefault.png">
 			<div class="emp-name-box">
-				<span class="emp-name">정원석사원</span> <span class="dept-name">공공사업1DIV</span>
+				<span class="emp-name">
+					<%-- <sec:authentication property="principal.employee.empName" />
+					<sec:authentication property="principal.employee.position" /> --%>
+				</span> 
+				<span class="dept-name">			
+				</span>
 			</div>
 			<img class="three-dots-vertical dropdown-toggle"
 				data-bs-toggle="dropdown" aria-expanded="false"
@@ -61,7 +67,7 @@
 			<ul class="dropdown-menu">
 				<li><a class="dropdown-item" href="${pageContext.request.contextPath}/emp/empDetail">개인정보 수정</a></li>
 				<li><a class="dropdown-item" href="${pageContext.request.contextPath}/emp/empPwUpdate">비밀번호 변경</a></li>
-				<li><a class="dropdown-item" href="#">로그아웃</a></li>
+				<li><a class="dropdown-item" href="${pageContext.request.contextPath}/logout">로그아웃</a></li>
 			</ul>
 		</div>
 	</div>

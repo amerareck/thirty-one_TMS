@@ -20,4 +20,10 @@
 			#{empAddress}, #{empDetailAddress}, #{empTel}, #{empImageName}, #{empImageData}, #{empImageType},
 			'재직', sysdate, 'ROLE_USER', #{deptId}, #{position} )
 	</insert>
+	
+	<select id="selectDeptId" parameterType="String" resultType="int">
+		select dept_id
+		from employees
+		where emp_id=#{empId}
+	</select>
 </mapper>
