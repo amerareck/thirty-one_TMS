@@ -10,14 +10,14 @@
 		where emp_id=#{empId}
 	</select>
 	
-<!-- 	<insert id="insertEmp" parameterType="Employee">
+	<insert id="insertEmp" parameterType="Employee">
 		insert into employees ( 
 		emp_id, emp_number, emp_password, emp_name, emp_email, emp_gender, emp_birth, emp_postal,
 			emp_address, emp_detail_address, emp_tel, emp_image_name, emp_image_data, emp_image_type,
 			emp_state, emp_hiredate, emp_role, dept_id, position )
 		values (
-		#{empId}, #{empNumber}, #{empPassword), #{empName}, #{empEmail}, #{empGender}, #{empBirth}, #{empPostal},
+		#{empId}, #{empNumber}, #{empPassword}, #{empName}, #{empEmail}, #{empGender}, #{empBirth}, #{empPostal},
 			#{empAddress}, #{empDetailAddress}, #{empTel}, #{empImageName}, #{empImageData}, #{empImageType},
 			'재직', sysdate, 'ROLE_USER', #{deptId}, #{position} )
-	</insert> -->
+	</insert>
 </mapper>

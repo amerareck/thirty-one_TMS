@@ -76,7 +76,7 @@ public class AdminController {
 		log.info("asd");
 		empService.joinEmp(empDto);
 		
-		return "employee/loginForm";
+		return "admin/searchList";
 	}
 	
 	@GetMapping("/searchList")
