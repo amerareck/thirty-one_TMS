@@ -416,7 +416,37 @@ tinymce.init({
 //기안서 양식 선택 시.
 $('#documentForm').on('change', function() {
     const selectedValue = $(this).val();
-    if(selectedValue === 'default') return;
+    if(selectedValue === 'default') {
+    	return;
+    } else {
+    	$('#draftDetailForm').children('div').each(function(){
+    		$(this).addClass('hidden');
+    	});
+    	
+    	switch (selectedValue) {
+    	case 'holidayDocument' :
+    		$('.hol-doc').each(function(){
+    			$(this).removeClass('hidden');
+    		});
+    		break;
+    	case 'businessTripDocument' :
+    	case 'businessTripReport' :
+    		$('.biz-trip').each(function(){
+    			$(this).removeClass('hidden');
+    		});
+    		break;
+    	case 'holidayWork' :
+    		$('.hol-work').each(function(){
+    			$(this).removeClass('hidden');
+    		});
+    		break;
+    	case 'workOvertime' :
+    		$('.work-over').each(function(){
+    			$(this).removeClass('hidden');
+    		});
+    		break;
+    	}
+    }
     
     $.ajax({
         url: 'getDraftDoc',

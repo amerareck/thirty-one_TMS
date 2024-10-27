@@ -14,8 +14,8 @@
                 <option value="workOvertime">연장근무신청서</option>
            	</select>
         </div>
-        <div class="d-flex flex-column align-items-top" style="width: 40%;">
-        	<div class="d-flex align-items-center w-100 mb-3">
+        <div class="d-flex flex-column align-items-top" id="draftDetailForm" style="width: 40%;">
+        	<div class="d-flex align-items-center w-100 mb-3 hol-doc hidden">
 				<label for="dateOfHoliday" class="fw-bold mb-2" style="width: 25%; margin-left: 20px">신청 기간</label>
 				<div id="dateOfHoliday" class="d-flex align-items-center" style="width: 75%;">
 					<input type="date" id="holidayStartDate" class="form-control p-2" style="height: 35px; font-size: 0.9rem;" placeholder="휴가 시작일" readonly >
@@ -23,7 +23,7 @@
 					<input type="date" id="holidayEndDate" class="form-control p-2" style="height: 35px; font-size: 0.9rem;" placeholder="휴가 종료일" readonly >
 				</div>
           	</div>
-          	<div class="d-flex align-items-center w-100">
+          	<div class="d-flex align-items-center w-100 mb-3 hol-doc hidden">
           		<label for="holidayType" class="fw-bold mb-2" style="width: 25%; margin-left: 20px">휴가 유형</label>
         		<select id="holidayType" class="form-select" style="width: 75%; font-size: 0.9rem">
         			<option value="familyEvent">경조사</option>
@@ -31,6 +31,46 @@
         			<option value="sickLeave">병가</option>
         		</select>
         	</div>
+        	<div class="d-flex align-items-center w-100 mb-3 biz-trip hidden">
+          		<label for="dateOfBizTrip" class="fw-bold mb-2" style="width: 25%; margin-left: 20px">신청 기간</label>
+        		<div id="dateOfBizTrip" class="d-flex align-items-center" style="width: 75%;">
+					<input type="date" id="bizTripStartDate" class="form-control p-2" style="height: 35px; font-size: 0.9rem;" placeholder="출장 시작일" readonly >
+					<span class="fw-bold mx-2">~</span>
+					<input type="date" id="bizTripEndDate" class="form-control p-2" style="height: 35px; font-size: 0.9rem;" placeholder="출장 종료일" readonly >
+				</div>
+        	</div>
+        	<div class="d-flex align-items-center w-100 mb-3 biz-trip hidden" >
+          		<label for="dateOfBizTrip" class="fw-bold mb-2" style="width: 25%; margin-left: 20px">출장 목적</label>
+        		<div id="dateOfBizTrip" class="d-flex align-items-center" style="width: 75%;">
+					<textarea class="form-control" cols="2" placeholder="간략하게 목적만 작성하시오." style="font-size: 0.9rem;"></textarea>
+				</div>
+        	</div>
+        	<div class="d-flex align-items-center w-100 mb-3 hol-work hidden" >
+				<label for="datetimeOfholidayWork" class="fw-bold mb-2" style="width: 25%; margin-left: 20px">신청 기간</label>
+				<div id="datetimeOfholidayWork" class="d-flex flex-column align-items-center" style="width: 75%;">
+					<div class="d-flex align-items-center w-100">
+						<span class="fw-bold w-25" style="font-size: 0.8rem;">근무 시작</span>
+						<input type="text" id="holidayWorkStartDatetime" class="form-control p-2 w-75" style="height: 35px; font-size: 0.8rem;" placeholder="추가근무 시작" readonly >
+					</div>
+					<div class="d-flex align-items-center w-100">
+						<span class="fw-bold w-25" style="font-size: 0.8rem;">근무 종료</span>					
+						<input type="text" id="holidayWorkEndDatetime" class="form-control p-2 w-75" style="height: 35px; font-size: 0.8rem;" placeholder="추가근무 종료" readonly >
+					</div>
+				</div>
+          	</div>
+          	<div class="d-flex align-items-center w-100 mb-3 work-over hidden" >
+				<label for="datetimeOfWorkOvertime" class="fw-bold mb-2" style="width: 25%; margin-left: 20px">신청 기간</label>
+				<div id="datetimeOfWorkOvertime" class="d-flex flex-column align-items-center" style="width: 75%;">
+					<div class="d-flex align-items-center w-100">
+						<span class="fw-bold w-25" style="font-size: 0.8rem;">근무 시작</span>
+						<input type="text" id="workOvertimeStartDatetime" class="form-control p-2 w-75" style="height: 35px; font-size: 0.8rem;" placeholder="추가근무 시작" readonly >
+					</div>
+					<div class="d-flex align-items-center w-100">
+						<span class="fw-bold w-25" style="font-size: 0.8rem;">근무 종료</span>					
+						<input type="text" id="workOvertimeEndDatetime" class="form-control p-2 w-75" style="height: 35px; font-size: 0.8rem;" placeholder="추가근무 종료" readonly >
+					</div>
+				</div>
+          	</div>
         </div>
     </div>
     <div class="d-flex mb-4">
@@ -130,12 +170,108 @@
    flatpickr("#holidayStartDate", {
        dateFormat: "Y-m-d",
        allowInput: true,
-       conjunction: " ~ "
+       onChange: function(selectedDates, dateStr, instance) {
+	        const startDate = selectedDates[0];
+	        const endPicker = flatpickr("#holidayEndDate", {
+	        	dateFormat: "Y-m-d",
+	            allowInput: true,
+	            minDate: startDate
+	        });
+	        endPicker.set('minDate', startDate);
+      }
    });
    flatpickr("#holidayEndDate", {
        dateFormat: "Y-m-d",
        allowInput: true
    });
+   flatpickr("#bizTripStartDate", {
+       dateFormat: "Y-m-d",
+       allowInput: true,
+       onChange: function(selectedDates, dateStr, instance) {
+	        const startDate = selectedDates[0];
+	        const endPicker = flatpickr("#bizTripEndDate", {
+	        	dateFormat: "Y-m-d",
+	            allowInput: true,
+	            minDate: startDate
+	        });
+	        endPicker.set('minDate', startDate);
+       }
+   	});
+   flatpickr("#bizTripEndDate", {
+       dateFormat: "Y-m-d",
+       allowInput: true
+   });
+   flatpickr("#holidayWorkStartDatetime", {
+	    enableTime: true,
+	    dateFormat: "Y-m-d H:i:S",
+	    time_24hr: true,
+	    locale: {
+	        firstDayOfWeek: 1 // 주의 첫 날 설정 (1 = 월요일)
+	    },
+	    allowInput: true,
+	    onChange: function(selectedDates, dateStr, instance) {
+	        const startDate = selectedDates[0];
+	        const endPicker = flatpickr("#holidayWorkEndDatetime", {
+	            enableTime: true,
+	            dateFormat: "Y-m-d H:i:S",
+	            time_24hr: true,
+	            locale: {
+	                firstDayOfWeek: 1
+	            },
+	            allowInput: true,
+	            minDate: startDate
+	        });
+	        endPicker.set('minDate', startDate);
+	    }
+	});
+   flatpickr("#holidayWorkEndDatetime", {
+		enableTime: true,
+	    dateFormat: "Y-m-d H:i:S",
+	    time_24hr: true,
+	    locale: {
+	        firstDayOfWeek: 1
+	    },
+	    allowInput: true,
+	    onChange: function(selectedDates, dateStr, instance) {
+	    	console.log(selectedDates);
+	    }
+	});
+   flatpickr("#workOvertimeStartDatetime", {
+	    enableTime: true,
+	    dateFormat: "Y-m-d H:i:S",
+	    time_24hr: true,
+	    locale: {
+	        firstDayOfWeek: 1 // 주의 첫 날 설정 (1 = 월요일)
+	    },
+	    allowInput: true,
+	    onChange: function(selectedDates, dateStr, instance) {
+	        const startDate = selectedDates[0];
+	        const endPicker = flatpickr("#workOvertimeEndDatetime", {
+	            enableTime: true,
+	            dateFormat: "Y-m-d H:i:S",
+	            time_24hr: true,
+	            locale: {
+	                firstDayOfWeek: 1
+	            },
+	            allowInput: true,
+	            minDate: startDate
+	        });
+	        endPicker.set('minDate', startDate);
+	    }
+	});
+  flatpickr("#workOvertimeEndDatetime", {
+		enableTime: true,
+	    dateFormat: "Y-m-d H:i:S",
+	    time_24hr: true,
+	    locale: {
+	        firstDayOfWeek: 1
+	    },
+	    allowInput: true,
+	    onChange: function(selectedDates, dateStr, instance) {
+	    	console.log(selectedDates);
+	    }
+	});
+   
 </script>
 
 <%@ include file="/WEB-INF/views/approval/approvalLine.jsp" %>

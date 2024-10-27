@@ -293,6 +293,10 @@
 	--bs-pagination-disabled-bg: none;
 }
 
+.hidden {
+	display: none !important;
+}
+
 .input-group .btn {
 	height: 37.78px !important;
 }

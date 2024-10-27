@@ -3,7 +3,7 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/document-form/businessTripDocument.css" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/document-form/businessTripReport.css" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/document-form/holidayDocument.css" />
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/document-form/hoildayWork.css" />
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/document-form/holidayWork.css" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/document-form/workOvertime.css" />
 <script src="https://cdn.tiny.cloud/1/zt811056qttf1h18ihxacac59l9xi81x71c2zv8l9cs330q6/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
 
