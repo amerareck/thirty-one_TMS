@@ -6,12 +6,12 @@
         <div class="d-flex align-items-top" style="width: 60%;">
         	<label for="documentForm" class="fw-bold mt-2" style="width: 25%;">결재 양식</label>
             <select class="form-select" id="documentForm" style="width: 75%; height: 37.78px">
-                <option selected>결재 양식 선택</option>
-                <option value="HLD">근태 신청서(휴가)</option>
-                <option value="BST">출장 신청서</option>
-                <option value="BTR">출장 복명서</option>
-                <option value="HLW">휴일근무 신청서</option>
-                <option value="WOT">연장근무신청서</option>
+                <option value="default" selected>결재 양식 선택</option>
+                <option value="holidayDocument">근태 신청서(휴가)</option>
+                <option value="businessTripDocument">출장 신청서</option>
+                <option value="businessTripReport">출장 복명서</option>
+                <option value="holidayWork">휴일근무 신청서</option>
+                <option value="workOvertime">연장근무신청서</option>
            	</select>
         </div>
         <div class="d-flex flex-column align-items-top" style="width: 40%;">

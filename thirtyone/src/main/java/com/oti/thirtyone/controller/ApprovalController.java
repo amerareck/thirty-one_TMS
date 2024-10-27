@@ -1,10 +1,20 @@
 package com.oti.thirtyone.controller;
 
+import java.io.File;
+import java.io.IOException;
+
+import javax.servlet.ServletContext;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.oti.thirtyone.dto.PageParam;
 
@@ -15,11 +25,15 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/approval")
 public class ApprovalController {
 	
+	@Autowired
+    private ServletContext servletContext;
+	
 	@ModelAttribute
 	public void settings(Model model) {
 		model.addAttribute("selectedTitle", "approval");
 		model.addAttribute("ApprovalRequest", true);
 		model.addAttribute("commonCSS", false);
+		
 	}
 
 	@GetMapping("/draft")
@@ -129,5 +143,18 @@ public class ApprovalController {
 		}
 		
 		return "approval/approvalReadyList";
+	}
+	
+	@ResponseBody
+	@GetMapping(value = "/getDraftDoc", produces = "text/html; charset=UTF-8")
+	public String getDraftDocument(String type, Model model) throws IOException {
+		log.info("실행");
+		
+		String realPath = servletContext.getRealPath("/WEB-INF/views/documentSample/"+type+".html");
+        File docHTML = new File(realPath);
+		Document document = Jsoup.parse(docHTML, "UTF-8");
+		Element element = document.getElementById(type);
+		
+		return element != null ? element.html() : "";
 	}
 }
