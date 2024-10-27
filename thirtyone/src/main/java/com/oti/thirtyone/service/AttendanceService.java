@@ -43,6 +43,22 @@ public class AttendanceService {
 		
 		return distance;
 	}
+
+	public boolean checkIn(String empId) {
+		int isCheckIn = atdDao.selectCheckInToday(empId);
+		log.info(isCheckIn);
+		if(isCheckIn == 0) atdDao.insertCheckIn(empId);
+		return isCheckIn > 0;
+		
+	}
+	
+	public boolean checkOut(String empId) {
+		int isCheckIn = atdDao.selectCheckInToday(empId);
+		log.info(isCheckIn);
+		if(isCheckIn > 0) atdDao.updateCheckOut(empId);
+		return isCheckIn > 0;
+		
+	}
 	
 	
 	

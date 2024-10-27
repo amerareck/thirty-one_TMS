@@ -86,14 +86,37 @@ $(document).ready(function() {
 	  maximumAge: 0,
 	};
 
-	function success(pos) {
-	  var crd = pos.coords;
+	function success(pos, atd) {
+		var crd = pos.coords;
+		console.log(atd);
+		
+		$.ajax({
+			method: 'post',
+			url: '/thirtyone/atd/' + atd,
+			data: {
+				"latitude" : crd.latitude,
+				"longitude" : crd.longitude
+			},
+			success : function (data){
+					  
+			},
+			error : function (request, status, error){
+						  
+			}
+		})
+
 	}
 
 	function error(err) {
 	  console.warn(`ERROR(${err.code}): ${err.message}`);
-	}
-
-	navigator.geolocation.getCurrentPosition(success, error, options);
+	}	
+	
+	$(".sidebar-start, .start-time-btn").on("click", function(){ 
+		navigator.geolocation.getCurrentPosition((pos) => success(pos, "checkIn"), error, options);
+	});
+	
+	$(".sidebar-end, .end-time-btn").on("click", function(){ 
+		navigator.geolocation.getCurrentPosition((pos) => success(pos, "checkOut"), error, options);
+	});
 
 });

@@ -42,10 +42,27 @@ public class AttendanceController {
 		int deptId = empService.getDeptId(empId);
 		String regionalOffice = deptService.getRegionalOffice(deptId);
 		
-		log.info(latitude + " ");
-		log.info(longitude + " ");
 		double distance = atdService.distanceCalculation(latitude, longitude, regionalOffice);
-		log.info(distance);
+		boolean result = false;
+		if(distance < 1000) {
+			result = atdService.checkIn(empId);
+		}
+		
+		return ResponseEntity.ok("출근");
+	}
+	
+	@PostMapping("checkOut")
+	public ResponseEntity<String> checkOut(double latitude, double longitude, Authentication authentication){
+		String empId= authentication.getName();
+		int deptId = empService.getDeptId(empId);
+		String regionalOffice = deptService.getRegionalOffice(deptId);
+		
+		double distance = atdService.distanceCalculation(latitude, longitude, regionalOffice);
+		boolean result = false;
+		if(distance < 1000) {
+		result = atdService.checkOut(empId);
+		}
+		
 		return ResponseEntity.ok("출근");
 	}
 	
