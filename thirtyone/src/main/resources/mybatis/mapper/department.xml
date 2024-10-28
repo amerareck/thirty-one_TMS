@@ -12,4 +12,9 @@
 		from departments
 		where dept_id=#{deptId}
 	</select>
+	
+	<select id="selectDeptList" resultType="Department">
+		select dept_id, dept_name, emp_id, regional_office
+		from departments
+	</select>
 </mapper>

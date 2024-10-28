@@ -38,12 +38,12 @@
 					</tr>
 				</thead>
 				<tbody>
-					<c:forEach begin="1" end="8">
-						<tr>
-							<td>오티아이</td>
-							<td>부장</td>
-							<td>2010/03/12</td>
-							<td>공공사업1DIV</td>
+					<c:forEach items="${empDeptList}" var="empDept">
+						<tr onclick="location.href = '${pageContext.request.contextPath}/admin/empDetail?empId=${empDept.empInfo.empId}'">
+							<td>${empDept.empInfo.empName}</td>
+							<td>${empDept.empInfo.position}</td>
+							<td><fmt:formatDate value='${empDept.empInfo.empHiredate}' pattern='yyyy-MM-dd'/></td>
+							<td>${empDept.deptName}</td>
 						</tr>
 					</c:forEach>
 				</tbody>
