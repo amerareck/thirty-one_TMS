@@ -24,27 +24,9 @@
 	height: 900px;
 }
 
-.modal-dialog {
-    display: flex;
-    flex-direction: column;
-    width: auto;
-    max-width: 80%;
-    margin: auto;
-}
-
-.modal-content {
-    display: flex;
-    flex-direction: column;
-    height: auto;
-}
-
 .modal-body {
-    flex: 1 1 auto;
-    overflow-y: visible;
-}
-
-.modal-footer {
-    flex-shrink: 0;
+    overflow-y: auto;
+    max-height: calc(100vh - 200px);
 }
 
 .modal-approval-line {
@@ -56,6 +38,7 @@
 .custom-card {
     border-radius: 10px;
     padding: 20px;
+    width: fit-content;
 }
 .tree-container, .user-select-container, .approval-line-container {
     border: 1.2pt solid #BABABA;

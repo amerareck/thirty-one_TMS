@@ -18,14 +18,15 @@
         	<div class="d-flex align-items-center w-100 mb-3 hol-doc hidden">
 				<label for="dateOfHoliday" class="fw-bold mb-2" style="width: 25%; margin-left: 20px">신청 기간</label>
 				<div id="dateOfHoliday" class="d-flex align-items-center" style="width: 75%;">
-					<input type="date" id="holidayStartDate" class="form-control p-2" style="height: 35px; font-size: 0.9rem;" placeholder="휴가 시작일" readonly >
+					<input type="text" id="holidayStartDate" class="form-control p-2" style="height: 35px; font-size: 0.9rem;" placeholder="휴가 시작일" readonly >
 					<span class="fw-bold mx-2">~</span>
-					<input type="date" id="holidayEndDate" class="form-control p-2" style="height: 35px; font-size: 0.9rem;" placeholder="휴가 종료일" readonly >
+					<input type="text" id="holidayEndDate" class="form-control p-2" style="height: 35px; font-size: 0.9rem;" placeholder="휴가 종료일" readonly >
 				</div>
           	</div>
           	<div class="d-flex align-items-center w-100 mb-3 hol-doc hidden">
           		<label for="holidayType" class="fw-bold mb-2" style="width: 25%; margin-left: 20px">휴가 유형</label>
         		<select id="holidayType" class="form-select" style="width: 75%; font-size: 0.9rem">
+        			<option value="default" selected disabled>유형 선택</option>
         			<option value="familyEvent">경조사</option>
         			<option value="childbirth">출산</option>
         			<option value="sickLeave">병가</option>
@@ -34,9 +35,9 @@
         	<div class="d-flex align-items-center w-100 mb-3 biz-trip hidden">
           		<label for="dateOfBizTrip" class="fw-bold mb-2" style="width: 25%; margin-left: 20px">신청 기간</label>
         		<div id="dateOfBizTrip" class="d-flex align-items-center" style="width: 75%;">
-					<input type="date" id="bizTripStartDate" class="form-control p-2" style="height: 35px; font-size: 0.9rem;" placeholder="출장 시작일" readonly >
+					<input type="text" id="bizTripStartDate" class="form-control p-2" style="height: 35px; font-size: 0.9rem;" placeholder="출장 시작일" readonly >
 					<span class="fw-bold mx-2">~</span>
-					<input type="date" id="bizTripEndDate" class="form-control p-2" style="height: 35px; font-size: 0.9rem;" placeholder="출장 종료일" readonly >
+					<input type="text" id="bizTripEndDate" class="form-control p-2" style="height: 35px; font-size: 0.9rem;" placeholder="출장 종료일" readonly >
 				</div>
         	</div>
         	<div class="d-flex align-items-center w-100 mb-3 biz-trip hidden" >
@@ -45,7 +46,7 @@
 					<textarea class="form-control" cols="2" placeholder="간략하게 목적만 작성하시오." style="font-size: 0.9rem;"></textarea>
 				</div>
         	</div>
-        	<div class="d-flex align-items-center w-100 mb-3 hol-work hidden" >
+        	<div class="d-flex align-items-center w-100 hol-work hidden" >
 				<label for="datetimeOfholidayWork" class="fw-bold mb-2" style="width: 25%; margin-left: 20px">신청 기간</label>
 				<div id="datetimeOfholidayWork" class="d-flex flex-column align-items-center" style="width: 75%;">
 					<div class="d-flex align-items-center w-100">
@@ -58,7 +59,7 @@
 					</div>
 				</div>
           	</div>
-          	<div class="d-flex align-items-center w-100 mb-3 work-over hidden" >
+          	<div class="d-flex align-items-center w-100 work-over hidden" >
 				<label for="datetimeOfWorkOvertime" class="fw-bold mb-2" style="width: 25%; margin-left: 20px">신청 기간</label>
 				<div id="datetimeOfWorkOvertime" class="d-flex flex-column align-items-center" style="width: 75%;">
 					<div class="d-flex align-items-center w-100">
@@ -86,32 +87,39 @@
         <div class="d-flex align-items-top" style="width: 85%;">
             <div class="me-3" style="width: 25%;">
                 <select class="form-select" id="draftDepartmentSelect">
-                    <option selected>부서 선택</option>
-                    <option value="department-1">공공사업1Div</option>
-                    <option value="department-2">공공사업2Div</option>
-                    <option value="department-3">공공사업3Div</option>
+                    <option selected disabled>부서 선택</option>
+                    <c:forEach items="${departments}" var="dept">
+                    	<option value="${dept.deptId}">${dept.deptName}</option>
+                    </c:forEach>
                 </select>
             </div>
             <div style="width: 30%;">
+            	<select class="form-select" id="draftReferrer" style="width: 98%;" disabled >
+            		<option selected>참조자 선택</option>
+            	</select>
+            	<%-- 
                 <select class="form-select" id="draftReferrer" style="width: 98%;">
                     <option selected>참조자 선택</option>
                     <option value="referrer-1">정원석 사원</option>
                     <option value="referrer-2">서지혜 사원</option>
                     <option value="referrer-3">엄성현 사원</option>
                 </select>
+            	 --%>
             </div>
             <div class="d-flex align-items-top justify-content-start" style="width: 50%;">
-                <select multiple class="form-select ms-3" id="draftRefSelectBox" size="3" style="width: 35%">
-                    <option value="selected-referrer-1">서지혜 사원</option>
+                <select multiple class="form-select ms-3" id="draftRefSelectBox" size="3" style="width: 50%">
+                	<%-- 
+	                <option value="selected-referrer-1">서지혜 사원</option>
+                	--%>
                 </select>
                 <div class="d-flex ms-1" style="margin-top: 1px; flex-direction: column;">
-                 <button type="button" class="btn btn-secondary btn-sm mb-1">추가</button>
-                 <button type="button" class="btn btn-secondary btn-sm">삭제</button>
+	                <button type="button" class="btn btn-secondary btn-sm mb-1" id="addDraftReferrer">추가</button>
+	                <button type="button" class="btn btn-secondary btn-sm" id="removeDraftReferrer">삭제</button>
                 </div>
             </div>
         </div>
     </div>
-    <div class="d-flex mb-5" style="width: 100%;">
+    <div class="d-flex mb-4" style="width: 100%;">
         <div class="d-flex align-items-center" style="width: 100%;">
             <label for="approvalLineSelect" class="fw-bold" style="width: 15%;">결재 라인</label>
             <select class="form-select" id="approvalLineSelect" style="width: 45%;">
@@ -119,10 +127,11 @@
                 <option value="selected-apprval-2">기본 결재선2</option>
                 <option value="selected-apprval-3">기본 결재선3</option>
             </select>
-            <button type="button" class="btn btn-secondary" style="margin-left: 20px; height: 90%;" data-bs-toggle="modal" data-bs-target="#approvalLine">결재선 선택</button>
+            <button type="button" class="btn btn-secondary" style="margin-left: 20px; height: 90%;" id="approvalLineCall">결재선 선택</button>
         </div>
     </div>
-    <div class="d-flex align-items-center justify-content-center mb-4">
+    <div class="d-flex align-items-center justify-content-center mb-4" id="approvalLineDiagram">
+    	<%-- 
         <div class="custom-card text-end">
             <div class="name-text mt-1">정준하 <span class="role-text">과장</span></div>
             <div class="dept-text mt-2">공공사업1DIV</div>
@@ -141,6 +150,7 @@
             <div class="name-text mt-1">유재석 <span class="role-text">부장</span></div>
             <div class="dept-text mt-2">공공사업1DIV</div>
         </div>
+    	--%>
     </div>
     <div class="d-flex flex-column align-items-start" style="width: 100%;">
     	<div class="d-flex align-items-center me-3" style="width: 100%;">
@@ -170,6 +180,7 @@
    flatpickr("#holidayStartDate", {
        dateFormat: "Y-m-d",
        allowInput: true,
+       minDate: new Date(),
        onChange: function(selectedDates, dateStr, instance) {
 	        const startDate = selectedDates[0];
 	        const endPicker = flatpickr("#holidayEndDate", {
@@ -180,13 +191,10 @@
 	        endPicker.set('minDate', startDate);
       }
    });
-   flatpickr("#holidayEndDate", {
-       dateFormat: "Y-m-d",
-       allowInput: true
-   });
    flatpickr("#bizTripStartDate", {
        dateFormat: "Y-m-d",
        allowInput: true,
+       minDate: new Date(),
        onChange: function(selectedDates, dateStr, instance) {
 	        const startDate = selectedDates[0];
 	        const endPicker = flatpickr("#bizTripEndDate", {
@@ -197,10 +205,6 @@
 	        endPicker.set('minDate', startDate);
        }
    	});
-   flatpickr("#bizTripEndDate", {
-       dateFormat: "Y-m-d",
-       allowInput: true
-   });
    flatpickr("#holidayWorkStartDatetime", {
 	    enableTime: true,
 	    dateFormat: "Y-m-d H:i:S",
@@ -209,6 +213,7 @@
 	        firstDayOfWeek: 1 // 주의 첫 날 설정 (1 = 월요일)
 	    },
 	    allowInput: true,
+	    minDate: new Date(),
 	    onChange: function(selectedDates, dateStr, instance) {
 	        const startDate = selectedDates[0];
 	        const endPicker = flatpickr("#holidayWorkEndDatetime", {
@@ -224,18 +229,6 @@
 	        endPicker.set('minDate', startDate);
 	    }
 	});
-   flatpickr("#holidayWorkEndDatetime", {
-		enableTime: true,
-	    dateFormat: "Y-m-d H:i:S",
-	    time_24hr: true,
-	    locale: {
-	        firstDayOfWeek: 1
-	    },
-	    allowInput: true,
-	    onChange: function(selectedDates, dateStr, instance) {
-	    	console.log(selectedDates);
-	    }
-	});
    flatpickr("#workOvertimeStartDatetime", {
 	    enableTime: true,
 	    dateFormat: "Y-m-d H:i:S",
@@ -244,6 +237,7 @@
 	        firstDayOfWeek: 1 // 주의 첫 날 설정 (1 = 월요일)
 	    },
 	    allowInput: true,
+	    minDate: new Date(),
 	    onChange: function(selectedDates, dateStr, instance) {
 	        const startDate = selectedDates[0];
 	        const endPicker = flatpickr("#workOvertimeEndDatetime", {
@@ -257,18 +251,6 @@
 	            minDate: startDate
 	        });
 	        endPicker.set('minDate', startDate);
-	    }
-	});
-  flatpickr("#workOvertimeEndDatetime", {
-		enableTime: true,
-	    dateFormat: "Y-m-d H:i:S",
-	    time_24hr: true,
-	    locale: {
-	        firstDayOfWeek: 1
-	    },
-	    allowInput: true,
-	    onChange: function(selectedDates, dateStr, instance) {
-	    	console.log(selectedDates);
 	    }
 	});
    

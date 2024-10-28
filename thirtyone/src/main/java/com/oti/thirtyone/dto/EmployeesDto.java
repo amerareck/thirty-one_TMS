@@ -26,4 +26,16 @@ public class EmployeesDto {
 	private String empRole;
 	private int deptId;
 	private String position;
+	
+	public EmployeesDto() {}
+	public EmployeesDto(String empId, String empName, int deptId, String position) {
+		this.empId = empId;
+		this.empName = empName;
+		this.deptId = deptId;
+		this.position = position;
+	}
+	
+	
+	
+	
 }

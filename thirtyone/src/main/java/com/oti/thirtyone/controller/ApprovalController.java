@@ -2,9 +2,14 @@ package com.oti.thirtyone.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.List;
 
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletResponse;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -13,10 +18,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.oti.thirtyone.dto.Departments;
+import com.oti.thirtyone.dto.EmployeesDto;
 import com.oti.thirtyone.dto.PageParam;
+import com.oti.thirtyone.service.ApprovalService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -27,6 +37,8 @@ public class ApprovalController {
 	
 	@Autowired
     private ServletContext servletContext;
+	@Autowired
+	private ApprovalService approvalService;
 	
 	@ModelAttribute
 	public void settings(Model model) {
@@ -42,6 +54,8 @@ public class ApprovalController {
 		
 		model.addAttribute("selectedSub", "draft");
 		model.addAttribute("title", "기안서 작성");
+		
+		model.addAttribute("departments", approvalService.getOrgChart());
 		
 		return "approval/draftForm";
 	}
@@ -156,5 +170,111 @@ public class ApprovalController {
 		Element element = document.getElementById(type);
 		
 		return element != null ? element.html() : "";
+	}
+	
+	@GetMapping(value = "/getOrgChart", produces = "application/json; charset=UTF-8")
+	public void getOrgChart(HttpServletResponse res) {
+		log.info("실행");
+		
+		List<Departments> orgList = approvalService.getOrgChart();
+		
+		JSONObject json = new JSONObject();
+		JSONObject orgChart = new JSONObject();
+		
+		JSONObject core = new JSONObject();
+		JSONArray data = new JSONArray();
+		JSONObject topDept = new JSONObject();
+		topDept.put("text", "오티아이[OTI]");
+		topDept.put("icon", "fa-solid fa-building");
+		JSONArray childs = new JSONArray();
+		for(int i=0; i<orgList.size(); i++) {
+			JSONObject dept = new JSONObject();
+			dept.put("id", Integer.toString(orgList.get(i).getDeptId()));
+			dept.put("text", orgList.get(i).getDeptName());
+			dept.put("icon", "fas fa-users");
+			childs.put(dept);
+		}
+		topDept.put("children", childs);
+		data.put(topDept);
+		core.put("data", data);
+		
+		JSONObject themes = new JSONObject();
+		themes.put("dots", false);
+		themes.put("icons", true);
+		
+		orgChart.put("core", core);
+		orgChart.put("themes", themes);
+		json.put("status", "ok");
+		json.put("org-chart", orgChart);
+		
+		try(PrintWriter pw = res.getWriter()) {
+			res.setContentType("application/json; charset=UTF-8");
+			res.setCharacterEncoding("UTF-8");
+			pw.println(json.toString());
+			pw.flush();
+		} catch(IOException ioe) {
+			ioe.printStackTrace();
+		}
+	}
+	
+	@GetMapping(value = "/getOrgEmp", produces = "application/json; charset=UTF-8")
+	public void getOrgEmployee(int deptId, HttpServletResponse res) {
+		log.info("실행");
+		
+		List<EmployeesDto> empList = approvalService.getOrgEmp();
+		JSONObject json = new JSONObject();
+		JSONArray orgEmp = new JSONArray();
+		
+		for(EmployeesDto emp : empList) {
+			JSONObject empInfo = new JSONObject();
+			if(emp.getDeptId() != deptId) continue;
+			
+			empInfo.put("empId", emp.getEmpId());
+			empInfo.put("name", emp.getEmpName());
+			empInfo.put("empPosition", emp.getPosition());
+			orgEmp.put(empInfo);
+		}
+		
+		json.put("status", "ok");
+		json.put("empInfo", orgEmp);
+		
+		try(PrintWriter pw = res.getWriter()) {
+			res.setContentType("application/json; charset=UTF-8");
+			res.setCharacterEncoding("UTF-8");
+			pw.println(json.toString());
+			pw.flush();
+		} catch(IOException ioe) {
+			ioe.printStackTrace();
+		}
+	}
+	
+	@PostMapping("getDeptName")
+	public void getDeptNames(@RequestBody List<String> approvalDeptId, HttpServletResponse res) {
+		log.info("실행");
+		
+		JSONObject json = new JSONObject();
+		JSONArray deptNames = new JSONArray();
+		List<Departments> deptList = approvalService.getOrgChart();
+		
+		for(String deptId : approvalDeptId) {
+			int deptid = Integer.parseInt(deptId);
+			for(Departments dto : deptList) {
+				if(deptid == dto.getDeptId()) {
+					deptNames.put(dto.getDeptName());
+					break;
+				}
+			}
+		}
+		
+		json.put("status", "ok");
+		json.put("deptNames", deptNames);
+		try(PrintWriter pw = res.getWriter()) {
+			res.setContentType("application/json; charset=UTF-8");
+			res.setCharacterEncoding("UTF-8");
+			pw.println(json.toString());
+			pw.flush();
+		} catch(IOException ioe) {
+			ioe.printStackTrace();
+		}
 	}
 }
