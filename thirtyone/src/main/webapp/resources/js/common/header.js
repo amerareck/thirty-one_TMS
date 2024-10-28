@@ -118,5 +118,15 @@ $(document).ready(function() {
 	$(".sidebar-end, .end-time-btn").on("click", function(){ 
 		navigator.geolocation.getCurrentPosition((pos) => success(pos, "checkOut"), error, options);
 	});
+	
+	$.ajax({
+		method: "get",
+		url: contextPath+'/getInfo',
+		success: function(data){
+			$(".emp-name").text(data.empName + " " + data.position);
+			$(".dept-name").text(data.deptName);
+		}
+		
+	})
 
 });

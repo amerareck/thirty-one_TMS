@@ -1,10 +1,15 @@
 package com.oti.thirtyone.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.oti.thirtyone.dto.EmployeesDto;
 import com.oti.thirtyone.security.EmployeeDetails;
@@ -19,7 +24,7 @@ public class HomeController {
 	@Autowired
 	DepartmentService deptService;
 	
-	@GetMapping("/")
+	@GetMapping("/home")
 	public String home(Model model, Authentication authentication){
 		if(authentication != null) {
 			EmployeeDetails empDetails = (EmployeeDetails) authentication.getPrincipal();
@@ -36,6 +41,27 @@ public class HomeController {
 		model.addAttribute("title", "");
 		model.addAttribute("selectedTitle", "home");
 		return "home";
+	}
+	
+	@GetMapping("/")
+	public String loginForm() {
+		return "employee/loginForm";
+	}
+	
+	@GetMapping("/getInfo")
+	@ResponseBody
+	public ResponseEntity<Map<String, String>> getInfo(Model model, Authentication authentication) {
+		EmployeeDetails empDetail = (EmployeeDetails) authentication.getPrincipal();
+		EmployeesDto empDto = empDetail.getEmployee();
+		String deptName = deptService.getDeptName(empDto.getDeptId());
+		
+		Map<String, String> empInfo = new HashMap<>(); 
+		empInfo.put("empName", empDto.getEmpName());
+		empInfo.put("position", empDto.getPosition());
+		empInfo.put("deptName", deptName);
+		
+		return ResponseEntity.ok(empInfo);
+		
 	}
 	
 }
