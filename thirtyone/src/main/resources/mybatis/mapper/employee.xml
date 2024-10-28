@@ -26,4 +26,5 @@
 		from employees
 		where emp_id=#{empId}
 	</select>
+	
 </mapper>

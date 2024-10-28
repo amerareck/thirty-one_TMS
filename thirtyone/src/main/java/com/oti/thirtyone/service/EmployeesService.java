@@ -25,6 +25,10 @@ public class EmployeesService {
 		int result = empDao.selectDeptId(empId);
 		return result;
 	}
+
+	public boolean hasEmpId(String empId) {		
+		return empDao.selectByEmpId(empId) != null ? false : true;
+	}
 	
 	
 }
