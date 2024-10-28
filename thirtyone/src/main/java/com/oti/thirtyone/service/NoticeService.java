@@ -42,8 +42,13 @@ public class NoticeService {
 	public NoticeDto selectByNoticeId(int noticeId) {
 		return noticeDao.selectByNoticeId(noticeId);
 	}
+	
+	//이전글 다음글
+	public NoticeDto prevNext(int noticeId) {
+		return noticeDao.prevNext(noticeId);
+	}
 
-	//파일다운
+	//파일
 	public NoticeFileDto selectAttachByNoticeId(int noticeId) {
 		NoticeFileDto noticeFile = noticeDao.selectAttachByNoticeId(noticeId);
 		return noticeFile;
@@ -62,5 +67,14 @@ public class NoticeService {
 	public void updateHitCount(int noticeId) {
 		noticeDao.updateHitCount(noticeId);
 	}
+	
+	//공지사항 삭제
+	public void deleteNoticeFile(int noticeId) {
+		noticeDao.deleteNoticeFile(noticeId);
+	}
+
+	public void deleteNotice(int noticeId) {
+		noticeDao.deleteNotice(noticeId);
+	}	
 }
 
