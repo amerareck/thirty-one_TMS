@@ -51,6 +51,10 @@
 	background-color: white;
 	border: none;
 }
+
+.emp-postal-box{
+	grid-template-columns: 2fr 4fr 2fr 1fr !important;
+}
 .middle-container label, .right-container label, .bottom-container label;{
 	font-size: 16px;
 	font-weight: 500;
@@ -65,9 +69,18 @@
 	background-color: white;
 }
 
-#empAddress{
+#empPostal{
+	margin-left: -2px;
 	height: 40px;
-	width: 250px;
+	width: 180px;
+	font-size: 13px;
+	color: var(--darkgray);
+	background-color: white;
+}
+
+#empAddress, #empDetailAddress{
+	height: 40px;
+	width: 300px;
 	font-size: 13px;
 	color: var(--darkgray);
 	background-color: white;
@@ -104,3 +117,13 @@
 	font-weight: bold;
 }
 
+.search-address{
+	height: 40px;
+	width:120px;
+	margin-left:20px;
+	border: none;
+	border-radius: 5px;
+	background-color: var(--dimgray);
+	color: var(--darkgray);
+	font-size: 14px;
+}

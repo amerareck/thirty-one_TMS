@@ -31,7 +31,35 @@
 		update employees set 
 			emp_password = #{empPassword}
 		where emp_id = #{empId}
-		
-		
 	</update>
+	
+	<update id="updateEmpInfoByEmp" parameterType="Employee">
+		update employees set
+			emp_email = #{empEmail}, emp_postal = #{empPostal}, emp_address = #{empAddress},
+			emp_detail_address=#{empDetailAddress}, emp_tel = #{empTel}
+		where emp_id=#{empId}			
+	</update>
+	
+	<select id="selectEmpList" parameterType="Pager" resultType="Employee">
+		<![CDATA[
+			select emp_id, emp_name, position, emp_hiredate, dept_id
+			from (
+				select rownum as rnum, emp_id, emp_name, position, emp_hiredate, dept_id
+				from(
+					select emp_id, emp_name, position, emp_hiredate, dept_id
+					from employees
+					where emp_role='ROLE_USER'
+				)
+				where rownum <= #{endRowNo}			
+			)
+			where rnum >= #{startRowNo}	
+		]]>		
+	</select>
+	
+	<select id="countRows" parameterType="int">
+		select COUNT (emp_id)
+		from employees
+		where emp_role='ROLE_USER'
+	</select>
+	
 </mapper>

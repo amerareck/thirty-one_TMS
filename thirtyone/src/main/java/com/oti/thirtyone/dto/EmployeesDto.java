@@ -24,6 +24,7 @@ public class EmployeesDto {
 	private Date empHiredate;
 	private Date empResignationDate;
 	private String empRole;
+	private String empMemo;
 	private int deptId;
 	private String position;
 }
