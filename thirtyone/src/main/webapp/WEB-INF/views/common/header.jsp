@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -49,16 +50,14 @@
 <body>
 	<div class="header">
 		<img class="logo-image"
-			src="${pageContext.request.contextPath}/resources/image/logo.png" onclick="location.href = '${pageContext.request.contextPath}/'">
+			src="${pageContext.request.contextPath}/resources/image/logo.png" onclick="location.href = '${pageContext.request.contextPath}/home'">
 		<div class="profile-img-box">
 			<img class="profile-img"
 				src="${pageContext.request.contextPath}/resources/image/profileDefault.png">
 			<div class="emp-name-box">
 				<span class="emp-name">
-					<%-- <sec:authentication property="principal.employee.empName" />
-					<sec:authentication property="principal.employee.position" /> --%>
 				</span> 
-				<span class="dept-name">			
+				<span class="dept-name">	
 				</span>
 			</div>
 			<img class="three-dots-vertical dropdown-toggle"
@@ -71,7 +70,7 @@
 			</ul>
 		</div>
 	</div>
-	<c:if test="${admin}">
+	<sec:authorize access="hasRole('ROLE_ADMIN')">
 		<div class="container-box">
 			<div class="sidebar">
 				<%-- ############################### 아코디언 #################################### --%>
@@ -164,8 +163,8 @@
 
 				</div>
 			</div>
-	</c:if>
-	<c:if test="${!admin}">
+	</sec:authorize>
+	<sec:authorize access="!hasRole('ROLE_ADMIN')">
 		<div class="container-box">
 			<div class="sidebar">
 				<div class="sidebar-attendance">
@@ -185,7 +184,7 @@
 				</div>
 				<%-- ############################### 아코디언 #################################### --%>
 				<div class="nav-bar">
-					<div class="sidebar-home sidebar-title ${selectedTitle=='home'? 'selected' : ''}" onclick="location.href='${pageContext.request.contextPath}/'">
+					<div class="sidebar-home sidebar-title ${selectedTitle=='home'? 'selected' : ''}" onclick="location.href='${pageContext.request.contextPath}/home'">
 						<div>
 						    <img class="home-icon sidebar-icon" 
 						        src="${pageContext.request.contextPath}${selectedTitle != 'home' ? '/resources/image/icon/home.svg' : '/resources/image/icon/home-selected.svg'}" 
@@ -256,6 +255,9 @@
 			</div>
 		
 	
-	</c:if>
+	</sec:authorize>
+	<script type="text/javascript">
+		contextPath = '${pageContext.request.contextPath}';
+	</script>
 	
 	

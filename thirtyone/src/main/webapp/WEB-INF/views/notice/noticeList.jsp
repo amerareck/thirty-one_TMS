@@ -36,7 +36,7 @@
 						alt="검색 아이콘">
 				</button>
 			</div>
-
+			<%-- <input type="hidden" name="empId" value="${notice.empId}"> --%>
 		</div>
 	</div>
 
@@ -72,7 +72,7 @@
 				</c:choose></td>
 			<td>${notice.noticeTitle}</td>
 			<td>${notice.empId}</td>
-			<td><fmt:formatDate value= "${notice.noticeDate}" pattern="yyyy-MM-dd-HH:mm:ss"/></td>
+			<td><fmt:formatDate value= "${notice.noticeDate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 			<td>${notice.noticeHitCount}</td>
 		</tr>
 		<tbody class="line"></tbody>
@@ -84,7 +84,9 @@
 		작성하기</button>
 		
 		<div class="pagination">
-			<a href="noticeList?pageNo=1">처음</a>
+			<a href="noticeList?pageNo=1">
+				<img src="${pageContext.request.contextPath}/resources/image/prev_icon.png" alt="prev" style="width:110px">
+			</a>
 			
 			<c:if test="${pager.groupNo>1}">
 				<a href="noticeList?pageNo=${pager.startPageNo-1}">이전</a>			
@@ -92,7 +94,7 @@
 			
 			<c:forEach begin="${pager.startPageNo}" end="${pager.endPageNo}" step="1" var="i">
 				<c:if test="${pager.pageNo==i}">
-					<button class="page-num active" onclick="location.href='${pageContext.request.contextPath}/notice/noticeList?pageNo=${i}'">
+					<button class="page-num active" onclick="location.href='${pageContext.request.contextPath}/notice/noticeList?pageNo=${i}'" style="color:#686868">
 						${i}
 					</button>	
 				</c:if>
@@ -101,19 +103,15 @@
 						${i}
 					</button>
 				</c:if>
-			
-			<c:if test="${pager.pageNo!=i}">
-				<button class="page-num"  onclick="location.href='${pageContext.request.contextPath}/notice/noticeList?pageNo=${i}'">
-					${i}
-				</button>
-			</c:if>
 		</c:forEach>
 		
 		<c:if test="${pager.groupNo<pager.totalGroupNo}">
 			<a href="noticeList?pageNo=${pager.endPageNo+1}">다음</a>
 		</c:if>
 		
-		<a href="noticeList?pageNo=${pager.totalPageNo}">마지막</a>
+		<a href="noticeList?pageNo=${pager.totalPageNo}">
+			<img src="${pageContext.request.contextPath}/resources/image/next_icon.png" alt="next" style="width:110px">
+		</a>
 		
 		</div>
 		

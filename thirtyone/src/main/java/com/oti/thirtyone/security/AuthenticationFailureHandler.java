@@ -21,7 +21,7 @@ public class AuthenticationFailureHandler
 				HttpServletResponse response,
 				AuthenticationException exception) throws IOException, ServletException {
 		log.info("실행");
-		setDefaultFailureUrl("/loginForm");
+		setDefaultFailureUrl("/emp/loginForm");
 		
 		super.onAuthenticationFailure(request, response, exception);
 	}

@@ -8,9 +8,14 @@ document.getElementById('contentForm').addEventListener("submit", function(e) {
 	}
 });
 
-//유효성 검사
+$(document).ready(function() {
+	$('#summernote').summernote()
+});
+
+
+// 유효성 검사
 function contentValidChk() {
-	var editor = document.getElementById("editor").value;
+	var summernote = document.getElementById("summernote").value;
 	var titleBox = document.getElementById("titleBox").value;
 	
 	if (titleBox.length === 0 || titleBox == "") {
@@ -18,27 +23,28 @@ function contentValidChk() {
 		return false;
 	}
 
-	if (editor.length === 0) {
+	if (summernote.length === 0) {
 		alert("내용이 비어있습니다. 내용을 입력해주세요.");
 		return false;
 	}
 	return true;
 }
+/*
+ * $('textarea').on('keyup', function() { var editor = $(this).val(); var
+ * titleBox = $(this).val();
+ */
 
-/*$('textarea').on('keyup', function() {
-	var editor = $(this).val();
-	var titleBox = $(this).val();*/
 
 
-
-//부트스트랩 모달
+// 부트스트랩 모달
 const exampleModal = document.getElementById('exampleModal')
 
 exampleModal.addEventListener('shown.bs.modal', () => {
 	exampleModal.focus()
 })
 
-//드래그 앤 드랍
+
+// 드래그 앤 드랍
 const box = document.querySelector("dropZone");
 
 window.addEventListener("dragover", function(e) {
@@ -69,7 +75,7 @@ window.addEventListener("drop", function(e) {
 function addFileList(files) {
 	const fileList = document.getElementById("fileList");
 };
-//드래그 앤 드랍 이미지 출력
+// 드래그 앤 드랍 이미지 출력
 const dropZone = document.querySelector("#dropZone");
 const fileBox = document.querySelector(".fileBox");
 
@@ -101,7 +107,7 @@ dropZone.addEventListener('drop', (e)=> {
 			const data=event.target.result;
 			console.log(data);
 			
-			$(".fileBox p").empty(); // 처음에만 empty사용 후 여러개 하고싶으면 append로
+			$(".fileBox p").remove(); // 처음에만 empty사용 후 여러개 하고싶으면 append로
 										// 추가해줘야 한다.
 			$('#preview').attr("src", data);
 			$('#preview').css("width", "100px");
@@ -110,13 +116,64 @@ dropZone.addEventListener('drop', (e)=> {
 		reader.readAsDataURL(files[0]);
 	}
 });
-//빈 영역 클릭시 이미지 첨부 가능
+// 빈 영역 클릭시 이미지 첨부 가능
 document.querySelector(".fileBox").addEventListener("click", () => {
 	document.querySelector("#uploadFile").click();
 	});
 });
 
-//체크박스
+
+// input:file 이미지 미리보기
+$(function() {
+	$("input:file").change(function() {
+		var files = $(this).prop('files');
+		if(files.length > 0) {
+			const reader=new FileReader();
+			reader.onload=(event)=> {
+				const data=event.target.result;				
+				console.log(data);
+				
+				$(".fileBox p").empty();
+
+				const imgElement = $('<img>', {
+					src: data,
+					css: {width: '100px', margin: '5px'}
+				});
+				$(".fileBox").append(imgElement);
+			}
+			reader.readAsDataURL(files[0]);
+		}
+	})	
+});
+
+
+//파일 삭제
+function deleteFile() {
+	const deleteFile = document.getElementById("deleteFile");
+	$("input:file").change(function() {
+	const files = $(this).prop('files');
+	
+	if(files.length === 0) {
+		console.log(files);
+		deleteFile.style.display = "none";
+	} else {
+		deleteFile.style.display = "block";
+		
+		deleteFile.addEventListener("click", (e) => {
+			e.preventDefault();
+			fileBox.innerHTML = '';
+			$(".fileBox p").empty();
+			deleteFile.style.display = "none";
+			document.getElementById("uploadFile").value = '';
+		});
+		
+	}
+})
+}
+
+
+
+// 체크박스
 function getCheckboxValue() {
 	
 	const query = 'input[name="deptId"]:checked';
@@ -134,4 +191,6 @@ function getCheckboxValue() {
 	console.log(result);
 	
 }
-	
+
+
+

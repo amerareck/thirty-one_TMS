@@ -4,6 +4,14 @@
 
 <meta name='viewport' content='width=device-width, initial-scale=1'>
 
+<!-- include libraries(jQuery, bootstrap) -->
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+<!-- include summernote css/js -->
+<link href="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote.min.js"></script>
 
 <link rel="stylesheet" type="text/css"
 	href="${pageContext.request.contextPath}/resources/css/noticeWriteForm.css">
@@ -93,10 +101,11 @@
 
 				<div class="fileContent" href="javascript:" id="dropZone">
 						<div class="fileBox">
-							<img
+							<input type="hidden" name="noticeFileData" value="${noticeFile.noticeFileData}">
+							<p><img
 								src="${pageContext.request.contextPath}/resources/image/plusFile_icon.png"
 								alt="plusFile" style="width: 44px" id="preview" />
-							<p>마우스로 파일을 끌어놓으세요.</p>
+							마우스로 파일을 끌어놓으세요.</p>
 						</div>
 						<div class="line file"></div> <input type="file" id="uploadFile" 
 						class="button-small upload" value="내 PC" accept="image/*" name="attachFile" multiple><%-- <img
@@ -108,14 +117,15 @@
 			<div class="line"></div>
 			<div class="contentBtn">
 				<!-- <div contenteditable="true"> -->
-				<textarea id="editor" name="noticeContent" rows="10" cols="100" style="white-space:pre;">${notice.noticeContent}</textarea>
+				<textarea id="summernote" name="noticeContent">${notice.noticeContent}</textarea>
 			</div>
 			<div class="noticeButton">
 				<button class="button-medium cancel"
 					onclick="location.href='${pageContext.request.contextPath}/notice/noticeDetail?noticeId=${notice.noticeId}'">취소</button>
-				<input type="submit" class="button-medium" id="save" value="수정"></input>
+				<input type="submit" class="button-medium" id="save" name="action" value="수정"></input>
 			</div>
-			<input type="text" name="noticeId" value="${notice.noticeId}" style="display:hidden">
+			<input type="hidden" name="noticeId" value="${notice.noticeId}">
+			<input type="hidden" name="empId" value="${employees.empId}">
 	</form>
 	</div>
 </div>

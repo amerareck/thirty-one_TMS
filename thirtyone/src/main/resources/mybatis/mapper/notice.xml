@@ -27,9 +27,26 @@
 		#{noticeFileId}, #{noticeFileName}, #{noticeFileData}, #{noticeFileType}, #{noticeId})
 	</insert>
 	
-	<select id="selectListPager" parameterType="int" resultType="Notice">
-		SELECT * FROM NOTICES 
-        ORDER BY (CASE WHEN NOTICE_IMPORTANT = '1' THEN 1 ELSE 2 END), NOTICE_ID ASC
+	<select id="selectListPager" parameterType="Pager" resultType="Notice">
+		<![CDATA[		
+			SELECT ROWNUM AS RNUM, NOTICE_ID, NOTICE_TITLE, NOTICE_DATE, NOTICE_HIT_COUNT, NOTICE_IMPORTANT, EMP_ID
+			FROM (
+				SELECT ROWNUM AS RNUM, NOTICE_ID, NOTICE_TITLE, NOTICE_DATE, NOTICE_HIT_COUNT, NOTICE_IMPORTANT, EMP_ID
+				FROM (
+					SELECT NOTICE_ID, NOTICE_TITLE, NOTICE_DATE, NOTICE_HIT_COUNT, NOTICE_IMPORTANT, EMP_ID
+					FROM NOTICES
+			        ORDER BY (CASE WHEN NOTICE_IMPORTANT = '1' THEN 1 ELSE 2 END), NOTICE_ID DESC
+		        )
+				WHERE ROWNUM <= #{endRowNo}
+			)
+			WHERE RNUM >= #{startRowNo}	
+		
+		]]>		
+	</select>
+	
+	<select id="countRows" parameterType="int">
+		SELECT COUNT (*)
+		FROM NOTICES
 	</select>
 	
 	<select id="selectByNoticeId" parameterType="int" resultType="Notice">
@@ -42,9 +59,14 @@
 		WHERE NOTICE_ID = #{noticeId}	
 	</select>
 	
-	<select id="countRows" parameterType="int">
-		SELECT COUNT (*)
-		FROM NOTICES
+	<select id="prevNext" resultType="Notice">
+		SELECT * FROM (SELECT NOTICE_ID, NOTICE_TITLE,
+		LAG(NOTICE_ID, 1, 0) OVER(ORDER BY NOTICE_ID) PREVNUM,
+		LAG(NOTICE_TITLE, 1, '이전글이 없습니다') OVER(ORDER BY NOTICE_ID) PREVTITLE,
+		
+		LEAD(NOTICE_ID, 1, 0) OVER(ORDER BY NOTICE_ID) NEXTNUM,
+		LEAD(NOTICE_TITLE, 1, '다음글이 없습니다') OVER(ORDER BY NOTICE_ID) NEXTTITLE
+		FROM NOTICES) WHERE NOTICE_ID=#{noticeId} ORDER BY NOTICE_ID
 	</select>
 	
 	<update id="updateNotice" parameterType="Notice">
@@ -72,7 +94,17 @@
 			NOTICE_HIT_COUNT = NOTICE_HIT_COUNT + 1
 		WHERE NOTICE_ID = #{noticeId}		
 	</update>
+	
+	<delete id="deleteNoticeFile" parameterType="int">
+		DELETE FROM NOTICE_FILES
+		WHERE NOTICE_ID = #{noticeId}
+	</delete>
 
+	<delete id="deleteNotice" parameterType="int">
+		DELETE FROM NOTICES
+		WHERE NOTICE_ID = #{noticeId}	
+	</delete>
+	
 
 
 

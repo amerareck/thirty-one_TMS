@@ -1,6 +1,12 @@
 package com.oti.thirtyone.controller;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
@@ -11,11 +17,17 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.oti.thirtyone.dto.Departments;
 import com.oti.thirtyone.dto.EmployeesDto;
 import com.oti.thirtyone.dto.JoinFormDto;
+import com.oti.thirtyone.dto.Pager;
+import com.oti.thirtyone.dto.PositionsDto;
+import com.oti.thirtyone.service.DepartmentService;
 import com.oti.thirtyone.service.EmployeesService;
+import com.oti.thirtyone.service.PositionService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -26,6 +38,10 @@ public class AdminController {
 	
 	@Autowired
 	EmployeesService empService;
+	@Autowired
+	DepartmentService deptService;
+	@Autowired
+	PositionService posService;
 	
 	@ModelAttribute
 	public void settings(Model model) {
@@ -69,10 +85,10 @@ public class AdminController {
 		}
 		
 		PasswordEncoder passwordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
-		empDto.setEmpPassword(passwordEncoder.encode("2024001"));
+		empDto.setEmpPassword(passwordEncoder.encode("admin1234"));
 		
 		// 추가로 변경해야 함 (로직 적으로)
-		empDto.setEmpNumber(2024001);
+		empDto.setEmpNumber(2024000);
 		log.info("asd");
 		empService.joinEmp(empDto);
 		
@@ -80,15 +96,45 @@ public class AdminController {
 	}
 	
 	@GetMapping("/searchList")
-	public String searchList(Model model) {
+	public String searchList(Model model, @RequestParam(defaultValue = "1") int pageNo, HttpSession session) {
+		
+		int totalRows = empService.countRows();
+		Pager pager = new Pager(10, 5, totalRows, pageNo);
+		session.setAttribute("pager", pager);
+		List<EmployeesDto> empList = empService.selectEmpList(pager);
+		List<Map<String, Object>> empDeptList = new LinkedList<>();
+
+		for(EmployeesDto empDto : empList) {
+			Map<String, Object> empDept = new HashMap<>();
+			empDept.put("empInfo", empDto);
+			String deptName = deptService.getDeptName(empDto.getDeptId());
+			empDept.put("deptName", deptName);
+			empDeptList.add(empDept);
+		}
+		
+		model.addAttribute("empDeptList", empDeptList);
 		model.addAttribute("selectedTitle", "adminEmp");
 		model.addAttribute("selectedSub", "searchList");
 		model.addAttribute("title", "직원관리");
+		
 		return "admin/searchList";
 	}
 	
 	@GetMapping("/empDetail")
-	public String empDetail(Model model) {
+	public String empDetail(Model model, String empId) {
+		EmployeesDto empDto = empService.getEmpInfo(empId);
+		String deptName = deptService.getDeptName(empDto.getDeptId());
+		
+		List<Departments> deptList = deptService.getDeptList();
+		List<PositionsDto> positionList = posService.getPosList();
+		
+		String[] stateList = {"재직", "휴직", "퇴직"}; //ENUM으로 변경 예정
+		
+		model.addAttribute("stateList", stateList);
+		model.addAttribute("posList", positionList);
+		model.addAttribute("deptList", deptList);
+		model.addAttribute("deptName", deptName);
+		model.addAttribute("empInfo", empDto);
 		model.addAttribute("title", "정원석님의 정보 수정하기");
 		model.addAttribute("selectedTitle", "adminEmp");
 		model.addAttribute("selectedSub", "empDetail");

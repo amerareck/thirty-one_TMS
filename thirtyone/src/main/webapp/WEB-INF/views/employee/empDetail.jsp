@@ -3,6 +3,7 @@
 <%@ include file="/WEB-INF/views/common/header.jsp"%>
 
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/employee/empDetail.css" />
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <div class="content-box">
 	<div class="main-container" >
 		<p class="title-31">${title}</p>
@@ -10,8 +11,9 @@
 			<div><a href="#">기본정보</a></div>
 		</div>
 		<div class="main-line"></div>
-		<form class="emp-update-form">
+		<form method="post" action="updateEmp" class="emp-update-form" name="formInfo">
 			<div class="top-container">
+				<input type="number" name='modifier' id='modifier' value=1 style="display:none;">
 				<div class="left-container">
 					<div>
 						<img src="${pageContext.request.contextPath}/resources/image/sky-profile-img.png">	
@@ -20,47 +22,57 @@
 				<div class="middle-container">
 					<div>
 						<label for="empNum">사원번호</label>
-						<input type="text" value="2005" disabled>
+						<input type="text" value="${empInfo.empNumber}" disabled>
 					</div>
 					<div>
 						<label for="empEmail">이메일</label>
-						<input type="email" id="empEmail" name="empEmail" value="2005@naver.com">
+						<input type="email" id="empEmail" name="empEmail" value="${empInfo.empEmail}">
 					</div>
 					<div>
 						<label for="empPosition">직급</label>
-						<input type="text" id="empPosition" name="empPosition" value="사원" disabled>
+						<input type="text" id="empPosition" name="empPosition" value="${empInfo.position }" disabled>
 					</div>
 					<div>
 						<label for="empNum">입사일</label>
-						<input type="date" value="2024-10-20" disabled>
+						<input type="date" value="<fmt:formatDate value='${empInfo.empHiredate }' pattern='yyyy-MM-dd'/>" disabled>
 					</div>
 					<div>
 						<label for="empDept">부서</label>
-						<input type="text" id="empPosition" name="empPosition" value="공공사업1DIV" disabled>
+						<input type="text" id="empPosition" name="empPosition" value="${deptName}" disabled>
 
 					</div>
 					<div>
 						<label for="empStatus">재직상태</label>
-						<input type="text" id="empStatus" name="empStatus" value="재직" disabled>
+						<input type="text" id="empStatus" name="empStatus" value="${empInfo.empState }" disabled>
 					</div>
 				</div>
 				<div class="right-container">
 					<div>
 						<label for="empName">이름</label>
-						<input type="text" id="empName" name="empName" value="정원석" disabled>
+						<input type="text" id="empName" name="empName" value="${empInfo.empName }" disabled>
+					</div>
+					<div class="emp-postal-box">
+						<label for="empPostal">우편번호</label>
+						<input type="text" id="empPostal" name="empPostal" value="${empInfo.empPostal }" readonly>
+						
+						<button class="search-address" id="btnZipcode" type="button">주소찾기</button>
 					</div>
 					<div>
 						<label for="empAddress">주소</label>
-						<input type="text" id="empAddress" name="#empAddress" value="서울시 혜화로 헤화 101-1">
+						<input type="text" id="empAddress" name="empAddress" value="${empInfo.empAddress }" readonly>
+					</div>
+					<div>
+						<label for="empDetailAddress">상세 주소</label>
+						<input type="text" id="empDetailAddress" name="empDetailAddress" value="${empInfo.empDetailAddress }" >
 					</div>
 					<div>
 						<label for="empTel">전화번호</label>
-						<input type="tel" id="empTel" name="empTel" value="010-1234-5678">
+						<input type="tel" id="empTel" name="empTel" value="${empInfo.empTel}">
 						
 					</div>
 					<div>
 						<label for="empBirth">생년월일</label>
-						<input type="date" value="1995-11-16" disabled>
+						<input type="date" value="<fmt:formatDate value='${empInfo.empBirth}' pattern='yyyy-MM-dd'/>" disabled>
 					</div>
 				</div>
 			</div>

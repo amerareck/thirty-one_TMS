@@ -23,4 +23,7 @@ public class JoinFormDto {
 	private MultipartFile empImage;
 	private int deptId;
 	private String position;
+	private String empMemo;
+	private String empState;
+	private int modifier;
 }
