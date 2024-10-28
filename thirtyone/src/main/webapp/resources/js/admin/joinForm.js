@@ -140,22 +140,17 @@ signupGo.addEventListener('click', function (e) {
 
 	 if (!idCheck) {
 		 e.preventDefault();
-		 console.log("못함");
-	     return; 
 	 }
 	 else if(!inputPhoneCheck()){
 		e.preventDefault();
 		console.log("못함");
-	    return; 
 	 }
 	 else if(!inputEmailCheck()){
 		e.preventDefault();
-		console.log("못함");
 	    return;
 	 }
 	 else if(!inputNameCheck()){
 		e.preventDefault();
-		console.log("못함");
 	    return;
 	 }
 	 

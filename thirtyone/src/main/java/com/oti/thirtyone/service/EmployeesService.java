@@ -1,5 +1,8 @@
 package com.oti.thirtyone.service;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,6 +31,13 @@ public class EmployeesService {
 
 	public boolean hasEmpId(String empId) {		
 		return empDao.selectByEmpId(empId) != null ? false : true;
+	}
+
+	public void updateEmpPw(String empId, String empPassword) {
+		Map<String, String> empInfo = new HashMap<>();
+		empInfo.put("empId", empId);
+		empInfo.put("empPassword", empPassword);
+		empDao.updateEmpPw(empInfo);
 	}
 	
 	

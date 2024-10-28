@@ -75,7 +75,9 @@
 	</form>
 </div>
 
-
+<script type="text/javascript">
+	const contextPath = '${pageContext.request.contextPath}';
+</script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/admin/joinForm.js"></script>
 		
 <%@ include file="/WEB-INF/views/common/footer.jsp"%>

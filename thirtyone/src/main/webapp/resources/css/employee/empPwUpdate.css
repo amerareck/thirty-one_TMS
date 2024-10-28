@@ -13,9 +13,12 @@
 	font-weight: bold;
 	margin-bottom: 20px;
 }
-.emp-create-box p {
-	color: var(--darkgray);
-	font-size: 16px;
+.emp-create-box span {
+	color: #F03F40;
+	font-size: 12px;
+}
+
+.input-pw, .emp-create-box p {
 	margin-bottom: 20px;
 }
 

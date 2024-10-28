@@ -27,4 +27,11 @@
 		where emp_id=#{empId}
 	</select>
 	
+	<update id="updateEmpPw" parameterType="map">
+		update employees set 
+			emp_password = #{empPassword}
+		where emp_id = #{empId}
+		
+		
+	</update>
 </mapper>
