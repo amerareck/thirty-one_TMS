@@ -32,5 +32,4 @@
 	    <property name="defaultCharset" value="UTF-8"/>
 	</bean>
 
-
 </beans>
