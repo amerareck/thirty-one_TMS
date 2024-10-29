@@ -12,6 +12,7 @@
 		</div>
 		<div class="main-line"></div>
 			<div class="top-container">
+				<input type="text" id="empId" name="empId" style="display: none;" value="${empInfo.empId }">
 				<input type="number" id="modifier" name="modifier" style="display: none;" value="2">
 				<div class="left-container">
 					<div>
@@ -32,8 +33,8 @@
 						<input type="email" value="${empInfo.empEmail }" disabled>
 					</div>
 					<div>
-						<label for="empPosition">직급</label>
-						<select class="form-select" id="empPosition" name="empPosition">
+						<label for="position">직급</label>
+						<select class="form-select" id="position" name="position">
 							<option selected>${empInfo.position }</option>
 							<c:forEach items="${posList}" var="pos"> 
 								<option>${pos.position }</option>
@@ -50,7 +51,7 @@
 					</div>
 					<div>
 						<label for="empDept">부서</label>
-						<select class="form-select" id="empDept" name="empDept">
+						<select class="form-select" id="empDept" name="deptId">
 							<option value="${empInfo.deptId}" selected> ${deptName }</option>
 							<c:forEach items="${deptList}" var="dept"> 
 								<option value="${dept.deptId}" >${dept.deptName}</option>
@@ -86,8 +87,8 @@
 						<input type="date" value="<fmt:formatDate value='${empInfo.empBirth}' pattern='yyyy-MM-dd'/>" disabled>
 					</div>
 					<div>
-						<label for="empStatus">재직상태</label>
-						<select class="form-select" id="empStatus" name="empStatus">
+						<label for="empState">재직상태</label>
+						<select class="form-select" id="empState" name="empState">
 							<option selected> ${empInfo.empState}</option>
 							<c:forEach items="${stateList}" var="state"> 
 								<option>${state}</option>

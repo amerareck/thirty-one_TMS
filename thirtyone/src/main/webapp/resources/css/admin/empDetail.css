@@ -57,7 +57,7 @@
 	color: var(--darkgray);
 }
 
-#empPosition{
+#position{
 	height: 40px;
 	width: 100px;
 	font-size: 13px;
@@ -78,7 +78,7 @@
 	width: 120px;
 }
 
-#empStatus{
+#empState{
 	height: 40px;
 	width: 120px;
 	font-size: 13px;

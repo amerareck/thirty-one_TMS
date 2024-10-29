@@ -48,6 +48,10 @@ public class EmployeesService {
 		
 	}
 
+	public void updateEmpInfoByAdmin(EmployeesDto empDto) {
+		empDao.updateEmpInfoByAdmin(empDto);
+	}
+
 	public List<EmployeesDto> selectEmpList(Pager pager) {
 		return empDao.selectEmpList(pager);
 	}
@@ -88,6 +92,7 @@ public class EmployeesService {
 		}
 			
 	}
+
 	
 	
 }

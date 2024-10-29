@@ -40,6 +40,15 @@
 		where emp_id=#{empId}			
 	</update>
 	
+	<update id="updateEmpInfoByAdmin" parameterType="Employee">
+		update employees set
+			emp_name = #{empName}, dept_id = #{deptId}, position=#{position},
+			emp_memo = #{empMemo}, emp_state=#{empState},
+			emp_image_data = #{empImageData}, emp_image_name=#{empImageName},
+			emp_image_type = #{empImageType}
+		where emp_id=#{empId}			
+	</update>
+	
 	<select id="selectEmpList" parameterType="Pager" resultType="Employee">
 		<![CDATA[
 			select emp_id, emp_name, position, emp_hiredate, dept_id

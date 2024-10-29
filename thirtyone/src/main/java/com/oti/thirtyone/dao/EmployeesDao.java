@@ -21,6 +21,8 @@ public interface EmployeesDao {
 
 	int updateEmpInfoByEmp(EmployeesDto empDto);
 
+	int updateEmpInfoByAdmin(EmployeesDto empDto);
+
 	List<EmployeesDto> selectEmpList(Pager pager);
 
 	int countRows();

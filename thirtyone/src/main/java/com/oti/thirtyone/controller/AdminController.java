@@ -148,6 +148,7 @@ public class AdminController {
 	
 	@GetMapping("/empDetail")
 	public String empDetail(Model model, String empId) {
+		log.info("asdasfasf:   " + empId);
 		EmployeesDto empDto = empService.getEmpInfo(empId);
 		String deptName = deptService.getDeptName(empDto.getDeptId());
 		
@@ -163,7 +164,7 @@ public class AdminController {
 		model.addAttribute("empInfo", empDto);
 		model.addAttribute("title", empDto.getEmpName() + "님의 정보 수정하기");
 		model.addAttribute("selectedTitle", "adminEmp");
-		model.addAttribute("selectedSub", "empDetail");
+		model.addAttribute("selectedSub", "searchList");
 		return "admin/empDetail";
 	}
 	
@@ -177,7 +178,7 @@ public class AdminController {
 	
 	@GetMapping("/org")
 	public String getOrgChartPage(Model model) {
-		log.info("실행");
+		List<Departments> deptList = deptService.getDeptList();
 		
 		model.addAttribute("title", "조직도");
 		model.addAttribute("selectedTitle", "org");
