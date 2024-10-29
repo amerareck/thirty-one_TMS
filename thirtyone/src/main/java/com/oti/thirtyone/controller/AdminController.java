@@ -195,8 +195,9 @@ public class AdminController {
 	
 	@GetMapping("/position")
 	public String getPositionPage(Model model) {
-		log.info("실행");
-		
+		List<PositionsDto> posList = posService.getPosList();
+
+		model.addAttribute("posList", posList);
 		model.addAttribute("title", "조직도");
 		model.addAttribute("selectedTitle", "org");
 		model.addAttribute("selectedSub", "organization");
@@ -205,9 +206,32 @@ public class AdminController {
 		return "admin/org/orgPosition";
 	}
 	
+	@PostMapping("/createPos")
+	public ResponseEntity<String> createPos(String pos){
+		posService.createPos(pos);
+		return ResponseEntity.ok("OK");
+	}
+	
+	@GetMapping("/moveUpPos")
+	public ResponseEntity<String> moveUpPos(int posClass){
+		if(posClass == 1) return ResponseEntity.ok("OK");
+		int prePosClass = posClass - 1;
+		posService.moveUpPos(posClass, prePosClass);
+		
+		return ResponseEntity.ok("OK");
+	}
+	
+	@GetMapping("/moveDownPos")
+	public ResponseEntity<String> moveDownPos(int posClass){
+		if(posClass == 1) return ResponseEntity.ok("OK");
+		int afterPosClass = posClass + 1;
+		posService.moveUpPos(afterPosClass, posClass);
+		
+		return ResponseEntity.ok("OK");
+	}
+	
 	@GetMapping("/employee")
 	public String getEmployeePage(Model model) {
-		log.info("실행");
 		
 		model.addAttribute("title", "조직도");
 		model.addAttribute("selectedTitle", "org");

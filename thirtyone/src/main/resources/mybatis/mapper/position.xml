@@ -5,6 +5,22 @@
 	<select id="selectPosList" resultType="Position">
 		select position, position_class
 		from positions	
+		order by position_class
 	</select>
+	<insert id="insertPos" parameterType="String">
+		insert into positions
+			(position, position_class)
+		values
+			(#{pos}, ((select Max(position_class) from positions) + 1) )
+	</insert>
 	
-</mapper>
+	<update id="updateMovePos">
+		update positions
+		set position_class = 
+			CASE 
+			    WHEN position_class = #{posClass} THEN #{prePosClass}
+			    WHEN position_class = #{prePosClass} THEN #{posClass}
+			END
+		where position_class IN (#{prePosClass}, #{posClass})
+	</update>
+</mapper> 

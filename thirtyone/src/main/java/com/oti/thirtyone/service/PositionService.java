@@ -19,4 +19,13 @@ public class PositionService {
 	public List<PositionsDto> getPosList() {
 		return posDao.selectPosList();
 	}
+
+	public void createPos(String pos) {
+		posDao.insertPos(pos);
+		
+	}
+
+	public void moveUpPos(int posClass, int prePosClass) {
+		posDao.updateMovePos(posClass, prePosClass);
+	}
 }
