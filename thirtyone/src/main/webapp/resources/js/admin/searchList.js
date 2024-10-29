@@ -1,10 +1,12 @@
 function enterkeySearch(){
 	if (window.event.keyCode == 13			) {
 		search($('#search').val(), $('#search-menu').val() );
-		console.log($('#search-menu').val());
 	}
 }
 
+$('.search-btn').on("click", function () {
+	search($('#search').val(), $('#search-menu').val() );
+})
 
 function search(value, category){
 	

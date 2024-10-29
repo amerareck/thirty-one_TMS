@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
     <!DOCTYPE html>
 <html>
 <head>
@@ -42,7 +43,17 @@
 				<input type="password" id="empPassword" name="empPassword" placeholder="비밀번호를 입력해주세요." required>
 				<a href="#">비밀번호를 잊으셨나요?</a>
 			</div>
-				<button type="submit" class="button-x-large">로그인</button>
+			<c:if test="${SPRING_SECURITY_LAST_EXCEPTION != null}">
+				<div class="login-fail mt-2">
+					<c:if test="${SPRING_SECURITY_LAST_EXCEPTION.message == 'Bad credentials'}">
+						아이디 또는 비밀번호가 틀립니다.
+					</c:if>
+				</div>
+			</c:if>
+				
+			<c:remove var="SPRING_SECURITY_LAST_EXCEPTION" scope="session" />
+			
+			<button type="submit" class="button-x-large">로그인</button>
 			</form>
 			
 		</div>

@@ -18,7 +18,7 @@
 				<div class="searchBar">
 					<input type="text" placeholder=" 검색" id="search"
 						onkeyup="enterkeySearch()" autocomplete="off">
-					<button type="button" class="btn">
+					<button type="button" class="btn search-btn">
 						<img
 							src="${pageContext.request.contextPath}/resources/image/search_icon.png"
 							alt="검색 아이콘">
