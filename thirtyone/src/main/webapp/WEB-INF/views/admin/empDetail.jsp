@@ -6,12 +6,13 @@
 <div class="content-box">
 	<div class="main-container" >
 		<p class="title-31">${title}</p>
-		<form class="emp-update-form" action="${pageContext.request.contextPath}/emp/updateEmp">
+		<form class="emp-update-form" action="${pageContext.request.contextPath}/emp/updateEmp" method="post">
 		<div class="emp-subtitle sub-title">
 			<div><a href="#">기본정보</a></div>
 		</div>
 		<div class="main-line"></div>
 			<div class="top-container">
+				<input type="text" id="empId" name="empId" style="display: none;" value="${empInfo.empId }">
 				<input type="number" id="modifier" name="modifier" style="display: none;" value="2">
 				<div class="left-container">
 					<div>
@@ -32,8 +33,8 @@
 						<input type="email" value="${empInfo.empEmail }" disabled>
 					</div>
 					<div>
-						<label for="empPosition">직급</label>
-						<select class="form-select" id="empPosition" name="empPosition">
+						<label for="position">직급</label>
+						<select class="form-select" id="position" name="position">
 							<option selected>${empInfo.position }</option>
 							<c:forEach items="${posList}" var="pos"> 
 								<option>${pos.position }</option>
@@ -50,7 +51,7 @@
 					</div>
 					<div>
 						<label for="empDept">부서</label>
-						<select class="form-select" id="empDept" name="empDept">
+						<select class="form-select" id="empDept" name="deptId">
 							<option value="${empInfo.deptId}" selected> ${deptName }</option>
 							<c:forEach items="${deptList}" var="dept"> 
 								<option value="${dept.deptId}" >${dept.deptName}</option>
@@ -83,11 +84,11 @@
 					</div>
 					<div>
 						<label for="empBirth">생년월일</label>
-						<input type="date" value="<fmt:formatDate value='${empDept.empInfo.empBirth}' pattern='yyyy-MM-dd'/>" disabled>
+						<input type="date" value="<fmt:formatDate value='${empInfo.empBirth}' pattern='yyyy-MM-dd'/>" disabled>
 					</div>
 					<div>
-						<label for="empStatus">재직상태</label>
-						<select class="form-select" id="empStatus" name="empStatus">
+						<label for="empState">재직상태</label>
+						<select class="form-select" id="empState" name="empState">
 							<option selected> ${empInfo.empState}</option>
 							<c:forEach items="${stateList}" var="state"> 
 								<option>${state}</option>
@@ -98,7 +99,7 @@
 			</div>
 			<div class="bottom-container">
 				<label for="empMemo">메모</label>
-				<textarea id="empMemo" name="empMemo" rows="6"></textarea>
+				<textarea id="empMemo" name="empMemo" rows="6">${empInfo.empMemo}</textarea>
 				<div class="button-box">
 					<button class="button-large" type="reset">취소</button>
 					<button class="button-large" type="submit">직원 상세정보 저장</button>

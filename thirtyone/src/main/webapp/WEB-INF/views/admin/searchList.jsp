@@ -6,20 +6,19 @@
 <div class="content-box">
 	<div class="main-container" >
 		<p class="title-31">${title}</p>
-		<div class="top-container"><button class="button-medium">+ 직원 추가하기</button></div>
+		<div class="top-container"><button class="button-medium" onclick="location.href='${pageContext.request.contextPath}/admin/joinForm'">+ 직원 추가하기</button></div>
 		<div class="middle-container">
-			<p>총 직원수: 20</p>
+			<p>검색된 직원수: ${total}</p>
 			<div class="search">
 				<select class="form-select" id="search-menu" name="holiday-type">
-					<option selected>멤버이름</option>
-					<option value="1">종일</option>
-					<option value="2">반차</option>
-					<option value="3">반반차</option>
+					<option value="0" selected>이름</option>
+					<option value="1">직급</option>
+					<option value="2">부서</option>
 				</select>
 				<div class="searchBar">
-					<input type="text" placeholder=" 이름검색" id="search"
+					<input type="text" placeholder=" 검색" id="search"
 						onkeyup="enterkeySearch()" autocomplete="off">
-					<button type="button" class="btn">
+					<button type="button" class="btn search-btn">
 						<img
 							src="${pageContext.request.contextPath}/resources/image/search_icon.png"
 							alt="검색 아이콘">
@@ -64,8 +63,10 @@
                </ul>
           	</nav>
 		</div>
-		
-
+	
+<script type="text/javascript">
+	contextPath = '${pageContext.request.contextPath}';
+</script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/admin/searchList.js"></script>
 		
 <%@ include file="/WEB-INF/views/common/footer.jsp"%>

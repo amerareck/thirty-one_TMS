@@ -61,7 +61,7 @@ public class EmployeeController {
 		EmployeesDto empDto = userInfo.getEmployee();
 		String deptName = deptService.getDeptName(empDto.getDeptId());
 
-		model.addAttribute("title", "정원석님의 정보 수정하기");
+		model.addAttribute("title", empDto.getEmpName() + "님의 정보 수정하기");
 		model.addAttribute("empInfo", empDto);
 		model.addAttribute("deptName", deptName);
 		
@@ -118,11 +118,13 @@ public class EmployeeController {
 	
 	@PostMapping("updateEmp")
 	public String updateEmp(JoinFormDto formDto, Authentication authentication) throws IOException {
-		String empId = authentication.getName();
+
 		
 		EmployeesDto empDto = new EmployeesDto();
-		empDto.setEmpId(empId);
+		String empId = "";
 		if(formDto.getModifier() == 1) {
+			empId = authentication.getName();
+			empDto.setEmpId(empId);
 			empDto.setEmpEmail(formDto.getEmpEmail());
 			empDto.setEmpPostal(formDto.getEmpPostal());
 			empDto.setEmpAddress(formDto.getEmpAddress());
@@ -131,8 +133,16 @@ public class EmployeeController {
 			
 			empService.updateEmpInfoByEmp(empDto);
 			
+			EmployeeDetails userDetails = (EmployeeDetails) empDetailService.loadUserByUsername(empId);
+			authentication = 
+					new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+			SecurityContextHolder.getContext().setAuthentication(authentication);
+
+			return "redirect:/emp/empDetail";
 		}else {				
-			log.info(formDto.toString());
+			
+			empId = formDto.getEmpId();
+			empDto.setEmpId(empId);
 			empDto.setEmpName(formDto.getEmpName());
 			empDto.setDeptId(formDto.getDeptId());
 			empDto.setPosition(formDto.getPosition());
@@ -145,18 +155,11 @@ public class EmployeeController {
 				empDto.setEmpImageName(profileImg.getOriginalFilename());
 				empDto.setEmpImageType(profileImg.getContentType());
 			}
-		}
-		
 
-		EmployeeDetails userDetails = (EmployeeDetails) empDetailService.loadUserByUsername(empId);
-		authentication = 
-				new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-		SecurityContextHolder.getContext().setAuthentication(authentication);
-		
-		if(formDto.getModifier() == 1)
-			return "redirect:/emp/empDetail";
-		else 
-			return "redirect:/admin/empDetail";
+			empService.updateEmpInfoByAdmin(empDto);
+			return "redirect:/admin/empDetail?empId="+empId;
+		}
+
 	}
 	
 	@GetMapping("getUserInfo")

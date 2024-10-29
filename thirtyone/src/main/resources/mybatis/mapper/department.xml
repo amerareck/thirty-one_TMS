@@ -16,5 +16,52 @@
 	<select id="selectDeptList" resultType="Department">
 		select dept_id, dept_name, emp_id, regional_office
 		from departments
+		order by regional_office
 	</select>
+
+	<select id="selectDeptListByRegion" parameterType="Pager" resultType="Department">
+		<![CDATA[
+			select dept_id, dept_name, emp_id, regional_office
+			from( 
+				select rownum as rnum, dept_id, dept_name, emp_id, regional_office
+					from( 
+					select dept_id, dept_name, emp_id, regional_office
+						from departments
+						order by regional_office, dept_id
+				)
+				where rownum <= #{endRowNo}			
+			)
+			where rnum >= #{startRowNo}	
+		]]>
+	</select>
+	
+	<insert id="insertDept" parameterType="Department">
+		insert into departments
+			( dept_id, dept_name, emp_id, regional_office)
+		values
+			( #{deptId}, #{deptName}, #{empId}, #{regionalOffice})  
+		
+	</insert>
+	
+	<update id="updateDeptRegionalOffice">
+		update departments
+		set regional_office = #{regionalOffice}
+		where dept_id = #{deptId}
+	</update>
+	<update id="updateDeptName">
+		update departments
+		set dept_name = #{deptName}
+		where dept_id = #{deptId}
+	</update>
+
+	<update id="updateDeptHead">
+		update departments
+		set emp_id= #{empId}
+		where dept_id = #{deptId}
+	</update>
+	
+	<delete id="deleteDept" parameterType="int">
+		delete from departments
+		where dept_id=#{deptId}
+	</delete>
 </mapper>

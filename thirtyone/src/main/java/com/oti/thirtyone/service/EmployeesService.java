@@ -1,6 +1,7 @@
 package com.oti.thirtyone.service;
 
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -47,6 +48,10 @@ public class EmployeesService {
 		
 	}
 
+	public void updateEmpInfoByAdmin(EmployeesDto empDto) {
+		empDao.updateEmpInfoByAdmin(empDto);
+	}
+
 	public List<EmployeesDto> selectEmpList(Pager pager) {
 		return empDao.selectEmpList(pager);
 	}
@@ -59,6 +64,49 @@ public class EmployeesService {
 	public EmployeesDto getEmpInfo(String empId) {
 		return empDao.selectByEmpId(empId);
 	}
+
+	public List<EmployeesDto> getEmpListBySearch(String query, int category, Pager pager) {
+		List<EmployeesDto> empList = new LinkedList<>();
+		Map<String, Object> searchInfo = new HashMap<>();
+		searchInfo.put("query", query);
+		searchInfo.put("pager", pager);
+		if(category == 0) {
+			empList = empDao.selectEmpListByName(searchInfo);
+		}else if(category == 1) {
+			empList = empDao.selectEmpListByPos(searchInfo);
+		}else {
+			empList = empDao.selectEmpListByDept(searchInfo);
+		}
+			
+		return empList;
+	}
+
+	public int countRowsBySearch(String query, int category) {
+		
+		if(category == 0) {
+			return empDao.countRowsByName(query);
+		}else if(category == 1) {
+			return empDao.countRowsByPos(query);
+		}else {
+			return empDao.countRowsByDept(query);
+		}
+			
+	}
+
+	public EmployeesDto getEmpInfoByEmpNum(int deptHead) {
+		return empDao.selectEmpInfoByeEmpNum(deptHead);
+		
+	}
+
+	public int countRowsByDept(int deptId) {
+		return empDao.countRowsByDeptId(deptId); 
+	}
+
+	public void updateEmpDept(String empId, int deptId) {
+		empDao.updateEmpDept(empId, deptId);
+		
+	}
+
 	
 	
 }

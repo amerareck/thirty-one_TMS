@@ -9,6 +9,7 @@ import java.util.Map;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -111,7 +112,8 @@ public class AdminController {
 			empDept.put("deptName", deptName);
 			empDeptList.add(empDept);
 		}
-		
+
+		model.addAttribute("total", totalRows);
 		model.addAttribute("empDeptList", empDeptList);
 		model.addAttribute("selectedTitle", "adminEmp");
 		model.addAttribute("selectedSub", "searchList");
@@ -120,8 +122,34 @@ public class AdminController {
 		return "admin/searchList";
 	}
 	
+	@GetMapping("/searchEmp")
+	public String searchList(Model model, String query, int category,
+			 	@RequestParam(defaultValue = "1") int pageNo, HttpSession session){
+		int totalRows = empService.countRowsBySearch(query, category);
+		Pager pager = new Pager(10, 5, totalRows, pageNo);
+		session.setAttribute("pager", pager);
+		List<EmployeesDto> empList = empService.getEmpListBySearch(query, category, pager);
+		List<Map<String, Object>> empDeptList = new LinkedList<>();
+		
+		for(EmployeesDto empDto : empList) {
+			Map<String, Object> empDept = new HashMap<>();
+			empDept.put("empInfo", empDto);
+			String deptName = deptService.getDeptName(empDto.getDeptId());
+			empDept.put("deptName", deptName);
+			empDeptList.add(empDept);
+		}
+		
+		model.addAttribute("total", totalRows);
+		model.addAttribute("empDeptList", empDeptList);
+		model.addAttribute("selectedTitle", "adminEmp");
+		model.addAttribute("selectedSub", "searchList");
+		model.addAttribute("title", "직원관리");
+		return "admin/searchList";
+	}
+	
 	@GetMapping("/empDetail")
 	public String empDetail(Model model, String empId) {
+		log.info("asdasfasf:   " + empId);
 		EmployeesDto empDto = empService.getEmpInfo(empId);
 		String deptName = deptService.getDeptName(empDto.getDeptId());
 		
@@ -135,9 +163,9 @@ public class AdminController {
 		model.addAttribute("deptList", deptList);
 		model.addAttribute("deptName", deptName);
 		model.addAttribute("empInfo", empDto);
-		model.addAttribute("title", "정원석님의 정보 수정하기");
+		model.addAttribute("title", empDto.getEmpName() + "님의 정보 수정하기");
 		model.addAttribute("selectedTitle", "adminEmp");
-		model.addAttribute("selectedSub", "empDetail");
+		model.addAttribute("selectedSub", "searchList");
 		return "admin/empDetail";
 	}
 	
@@ -150,9 +178,13 @@ public class AdminController {
 	}
 	
 	@GetMapping("/org")
-	public String getOrgChartPage(Model model) {
-		log.info("실행");
-		
+	public String getOrgChartPage(Model model, @RequestParam(defaultValue = "1") int pageNo, HttpSession session) {
+		int totalRows = empService.countRows();
+		Pager pager = new Pager(10, 5, totalRows, pageNo);
+		session.setAttribute("pager", pager);
+		List<Departments> deptList = deptService.getDeptListByRegion(pager);
+
+		model.addAttribute("deptList", deptList);
 		model.addAttribute("title", "조직도");
 		model.addAttribute("selectedTitle", "org");
 		model.addAttribute("selectedSub", "organization");

@@ -10,6 +10,16 @@
 		where emp_id=#{empId}
 	</select>
 	
+	<select id="selectEmpInfoByeEmpNum" parameterType="int" resultType="Employee">
+		select emp_id, emp_number, emp_password, emp_name, emp_email, emp_gender, emp_birth, emp_postal,
+			emp_address, emp_detail_address, emp_tel, emp_image_name, emp_image_data, emp_image_type,
+			emp_state, emp_hiredate, emp_resignation_date, emp_role, emp_memo, dept_id, position
+		from employees
+		where emp_number=#{empNum}
+	</select>
+	
+	
+	
 	<insert id="insertEmp" parameterType="Employee">
 		insert into employees ( 
 		emp_id, emp_number, emp_password, emp_name, emp_email, emp_gender, emp_birth, emp_postal,
@@ -40,6 +50,15 @@
 		where emp_id=#{empId}			
 	</update>
 	
+	<update id="updateEmpInfoByAdmin" parameterType="Employee">
+		update employees set
+			emp_name = #{empName}, dept_id = #{deptId}, position=#{position},
+			emp_memo = #{empMemo}, emp_state=#{empState},
+			emp_image_data = #{empImageData}, emp_image_name=#{empImageName},
+			emp_image_type = #{empImageType}
+		where emp_id=#{empId}			
+	</update>
+	
 	<select id="selectEmpList" parameterType="Pager" resultType="Employee">
 		<![CDATA[
 			select emp_id, emp_name, position, emp_hiredate, dept_id
@@ -56,10 +75,89 @@
 		]]>		
 	</select>
 	
+	<select id="selectEmpListByName" parameterType="map" resultType="Employee">
+		<![CDATA[	
+			select emp_id, emp_name, position, emp_hiredate, dept_id
+			from(
+				select rownum as rnum, emp_id, emp_name, position, emp_hiredate, dept_id
+				from(
+					select emp_id, emp_name, position, emp_hiredate, dept_id
+					from employees
+					where emp_role='ROLE_USER' and emp_name like '%'||#{query}||'%'
+					)
+				where rownum <= #{pager.endRowNo}
+				)
+			where rnum >= #{pager.startRowNo}
+		]]>
+	</select>
+	
+	<select id="selectEmpListByDept" parameterType="map" resultType="Employee">
+		<![CDATA[	
+			select emp_id, emp_name, position, emp_hiredate, dept_id
+			from(
+				select rownum as rnum, emp_id, emp_name, position, emp_hiredate, dept_id
+				from(
+					select e.emp_id, e.emp_name, e.position, e.emp_hiredate, e.dept_id
+					from employees e join departments d 
+					on e.dept_id = d.dept_id
+					where e.emp_role='ROLE_USER' and d.dept_name like '%'||#{query}||'%'
+					)
+				where rownum <= #{pager.endRowNo}
+				)
+			where rnum >= #{pager.startRowNo}
+		]]>
+	</select>
+	
+	<select id="selectEmpListByPos" parameterType="map" resultType="Employee">
+		<![CDATA[	
+			select emp_id, emp_name, position, emp_hiredate, dept_id
+			from(
+				select rownum as rnum, emp_id, emp_name, position, emp_hiredate, dept_id
+				from(
+					select emp_id, emp_name, position, emp_hiredate, dept_id
+					from employees
+					where emp_role='ROLE_USER' and position like '%'||#{query}||'%'
+					)
+				where rownum <= #{pager.endRowNo}
+				)
+			where rnum >= #{pager.startRowNo}
+		]]>
+	</select>
+		
 	<select id="countRows" parameterType="int">
 		select COUNT (emp_id)
 		from employees
 		where emp_role='ROLE_USER'
 	</select>
 	
+	<select id="countRowsByName" parameterType="String" resultType="int">
+		select count(emp_id)
+		from employees
+		where emp_role='ROLE_USER' and emp_name like '%'||#{query}||'%'
+	</select>
+	
+	<select id="countRowsByPos" parameterType="String" resultType="int">
+		select count(emp_id)
+		from employees
+		where emp_role='ROLE_USER' and position like '%'||#{query}||'%'		
+	</select>
+	
+	<select id="countRowsByDept" parameterType="String" resultType="int">
+		select count(e.emp_id)
+		from employees e join departments d 
+		on e.dept_id = d.dept_id
+		where e.emp_role='ROLE_USER' and d.dept_name like '%'||#{query}||'%'
+	</select>
+	
+	<select id="countRowsByDeptId" parameterType="int" resultType="int">
+		select count(emp_id)
+		from employees
+		where emp_role='ROLE_USER' and dept_id = #{deptId}
+	</select>
+	
+	<update id="updateEmpDept">
+		update employees
+		set dept_id = #{deptId}
+		where emp_id = #{empId}
+	</update>
 </mapper>
