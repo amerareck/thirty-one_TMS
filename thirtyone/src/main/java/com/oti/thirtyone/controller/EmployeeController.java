@@ -55,7 +55,7 @@ public class EmployeeController {
 		EmployeesDto empDto = userInfo.getEmployee();
 		String deptName = deptService.getDeptName(empDto.getDeptId());
 
-		model.addAttribute("title", "정원석님의 정보 수정하기");
+		model.addAttribute("title", empDto.getEmpName() + "님의 정보 수정하기");
 		model.addAttribute("empInfo", empDto);
 		model.addAttribute("deptName", deptName);
 		
@@ -112,6 +112,7 @@ public class EmployeeController {
 	
 	@PostMapping("updateEmp")
 	public String updateEmp(JoinFormDto formDto, Authentication authentication) throws IOException {
+
 		String empId = authentication.getName();
 		
 		EmployeesDto empDto = new EmployeesDto();
@@ -150,6 +151,6 @@ public class EmployeeController {
 		if(formDto.getModifier() == 1)
 			return "redirect:/emp/empDetail";
 		else 
-			return "redirect:/admin/empDetail";
+			return "redirect:/admin/empDetail?empId="+empId;
 	}
 }

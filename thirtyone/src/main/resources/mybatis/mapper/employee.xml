@@ -56,10 +56,79 @@
 		]]>		
 	</select>
 	
+	<select id="selectEmpListByName" parameterType="map" resultType="Employee">
+		<![CDATA[	
+			select emp_id, emp_name, position, emp_hiredate, dept_id
+			from(
+				select rownum as rnum, emp_id, emp_name, position, emp_hiredate, dept_id
+				from(
+					select emp_id, emp_name, position, emp_hiredate, dept_id
+					from employees
+					where emp_role='ROLE_USER' and emp_name like '%'||#{query}||'%'
+					)
+				where rownum <= #{pager.endRowNo}
+				)
+			where rnum >= #{pager.startRowNo}
+		]]>
+	</select>
+	
+	<select id="selectEmpListByDept" parameterType="map" resultType="Employee">
+		<![CDATA[	
+			select emp_id, emp_name, position, emp_hiredate, dept_id
+			from(
+				select rownum as rnum, emp_id, emp_name, position, emp_hiredate, dept_id
+				from(
+					select e.emp_id, e.emp_name, e.position, e.emp_hiredate, e.dept_id
+					from employees e join departments d 
+					on e.dept_id = d.dept_id
+					where e.emp_role='ROLE_USER' and d.dept_name like '%'||#{query}||'%'
+					)
+				where rownum <= #{pager.endRowNo}
+				)
+			where rnum >= #{pager.startRowNo}
+		]]>
+	</select>
+	
+	<select id="selectEmpListByPos" parameterType="map" resultType="Employee">
+		<![CDATA[	
+			select emp_id, emp_name, position, emp_hiredate, dept_id
+			from(
+				select rownum as rnum, emp_id, emp_name, position, emp_hiredate, dept_id
+				from(
+					select emp_id, emp_name, position, emp_hiredate, dept_id
+					from employees
+					where emp_role='ROLE_USER' and position like '%'||#{query}||'%'
+					)
+				where rownum <= #{pager.endRowNo}
+				)
+			where rnum >= #{pager.startRowNo}
+		]]>
+	</select>
+	
+	
+	
 	<select id="countRows" parameterType="int">
 		select COUNT (emp_id)
 		from employees
 		where emp_role='ROLE_USER'
 	</select>
 	
+	<select id="countRowsByName" parameterType="String" resultType="int">
+		select count(emp_id)
+		from employees
+		where emp_role='ROLE_USER' and emp_name like '%'||#{query}||'%'
+	</select>
+	
+	<select id="countRowsByPos" parameterType="String" resultType="int">
+		select count(emp_id)
+		from employees
+		where emp_role='ROLE_USER' and position like '%'||#{query}||'%'		
+	</select>
+	
+	<select id="countRowsByDept" parameterType="String" resultType="int">
+		select count(e.emp_id)
+		from employees e join departments d 
+		on e.dept_id = d.dept_id
+		where e.emp_role='ROLE_USER' and d.dept_name like '%'||#{query}||'%'
+	</select>
 </mapper>

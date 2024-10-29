@@ -25,4 +25,16 @@ public interface EmployeesDao {
 
 	int countRows();
 
+	List<EmployeesDto> selectEmpListByName(Map<String, Object> searchInfo);
+
+	List<EmployeesDto> selectEmpListByPos(Map<String, Object> searchInfo);
+
+	List<EmployeesDto> selectEmpListByDept(Map<String, Object> searchInfo);
+
+	int countRowsByName(String query);
+
+	int countRowsByPos(String query);
+
+	int countRowsByDept(String query);
+
 }
