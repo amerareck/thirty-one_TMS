@@ -16,15 +16,17 @@ public interface NoticeDao {
 	 //공지사항 첨부파일
 	 public int insertNoticeFile(NoticeFileDto notice);
 	 
-	 public int insertNoticeFileWithEmpId(NoticeDto notice);
-	 
 	 //공지사항 조회
 	 public List<NoticeDto> selectListPager(Pager pager);	 
 	 public int countRows();
 	 
+	 //검색
+	 public List<NoticeDto> searchNotice(String noticeTitle);
+	 
 	 //공지사항 상세페이지 조회
 	 public NoticeDto selectByNoticeId(int noticeId);	 
 	 public NoticeFileDto selectAttachByNoticeId(int noticeId);
+	 public List<NoticeFileDto> selectAttachFiles(int noticeId);
 	 public NoticeDto prevNext(int noticeId);
 	 
 	 //공지사항 수정
@@ -37,6 +39,7 @@ public interface NoticeDao {
 	 //공지사항 삭제
 	 public int deleteNoticeFile(int noticeId);
 	 public int deleteNotice(int noticeId);
+	 public int deleteFile(NoticeFileDto noticeFile);
 
 	
 

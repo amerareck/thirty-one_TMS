@@ -77,12 +77,15 @@
 
 					<div class="fileContent">
 						<c:choose>
-							<c:when test="${noticeFile.noticeFileName != null }">
-								<img src="attachDownload?noticeId=${notice.noticeId}" width="80">
-								<p>
-									다운로드: <a href="attachDownload?noticeId=${noticeFile.noticeId}"><i
-										class="bi bi-download"></i></a>
-								</p>
+							<%-- <c:when test="${not empty noticeFiles}"> --%>
+							<c:when test="${not empty noticeFile}">
+								<c:forEach var="noticeFile" items="${noticeFile}">
+									<img src="attachDownload?noticeFileId=${noticeFile.noticeFileId}" width="80">
+										<p>
+											다운로드: <a href="attachDownload?noticeFileId=${noticeFile.noticeFileId}"><i
+												class="bi bi-download"></i></a>
+										</p>
+								</c:forEach>
 							</c:when>
 
 							<c:otherwise>없음</c:otherwise>

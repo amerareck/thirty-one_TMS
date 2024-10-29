@@ -47,11 +47,23 @@ public class NoticeService {
 	public NoticeDto prevNext(int noticeId) {
 		return noticeDao.prevNext(noticeId);
 	}
+	
+	//검색
+	public List<NoticeDto> searchNotice(String noticeTitle) {
+		List<NoticeDto> list = noticeDao.searchNotice(noticeTitle);
+		return list;
+	}
 
-	//파일
+	//특정파일
 	public NoticeFileDto selectAttachByNoticeId(int noticeId) {
 		NoticeFileDto noticeFile = noticeDao.selectAttachByNoticeId(noticeId);
 		return noticeFile;
+	}
+	
+	//여러파일
+	public List<NoticeFileDto> selectAttachFiles(int noticeId) {
+		List<NoticeFileDto> noticeFiles = noticeDao.selectAttachFiles(noticeId);
+		return noticeFiles;
 	}
 	
 	
@@ -75,6 +87,10 @@ public class NoticeService {
 
 	public void deleteNotice(int noticeId) {
 		noticeDao.deleteNotice(noticeId);
-	}	
+	}
+	
+	public void deleteFile(NoticeFileDto noticeFile) {
+		noticeDao.deleteFile(noticeFile);
+	}
 }
 

@@ -43,6 +43,11 @@ exampleModal.addEventListener('shown.bs.modal', () => {
 	exampleModal.focus()
 })
 
+$('#deptModal').click(function(e) {
+	var param = $("form[name=deptId]").serialize();
+	console.log(param);
+})
+
 
 // 드래그 앤 드랍
 const box = document.querySelector("dropZone");
@@ -78,10 +83,6 @@ function addFileList(files) {
 // 드래그 앤 드랍 이미지 출력
 const dropZone = document.querySelector("#dropZone");
 const fileBox = document.querySelector(".fileBox");
-
-fileBox.addEventListener('click', (e)=> {
-	e.preventDefault();
-});
 
 dropZone.addEventListener('dragover', (e)=> {
 	e.preventDefault();
@@ -123,54 +124,75 @@ document.querySelector(".fileBox").addEventListener("click", () => {
 });
 
 
-// input:file 이미지 미리보기
+// input:file 이미지 미리보기 & 삭제하기
 $(function() {
 	$("input:file").change(function() {
-		var files = $(this).prop('files');
-		if(files.length > 0) {
-			const reader=new FileReader();
-			reader.onload=(event)=> {
-				const data=event.target.result;				
-				console.log(data);
+		const files = $(this).prop('files');
+		const fileBox = $(".fileBox");
+		
+		/*$("#uploadFile").change(function() {
+			const files = this.files;
+			handleFiles(files);
+		});*/
+		
+		
+		if (files.length == 0) {
+			fileBox.append('<p><img src="${pageContext.request.contextPath}/resources/image/plusFile_icon.png" alt="plusFile" style="width: 44px" id="preview" /> 마우스로 파일을 끌어놓으세요.</p>');
 				
-				$(".fileBox p").empty();
-
-				const imgElement = $('<img>', {
-					src: data,
-					css: {width: '100px', margin: '5px'}
-				});
-				$(".fileBox").append(imgElement);
-			}
-			reader.readAsDataURL(files[0]);
-		}
-	})	
-});
-
-
-//파일 삭제
-function deleteFile() {
-	const deleteFile = document.getElementById("deleteFile");
-	$("input:file").change(function() {
-	const files = $(this).prop('files');
+			} else {			
+			
+			for (let i=0; i < files.length; i++) {
+				const reader=new FileReader();
+				reader.onload=(event)=> {
+					const data=event.target.result;				
+					console.log(data);
+					
+					$(".fileBox p").empty();
 	
-	if(files.length === 0) {
-		console.log(files);
-		deleteFile.style.display = "none";
-	} else {
-		deleteFile.style.display = "block";
-		
-		deleteFile.addEventListener("click", (e) => {
-			e.preventDefault();
-			fileBox.innerHTML = '';
-			$(".fileBox p").empty();
-			deleteFile.style.display = "none";
-			document.getElementById("uploadFile").value = '';
-		});
-		
-	}
-})
-}
+					const imgElement = $('<img>', {
+						src: data,
+						css: {width: '100px', margin: '5px'}
+					});
+					
+					const deleteFileId = files[i].name;
+					
+					const deleteFile = $( '<button>', {
+						text: 'x',
+						class: 'deleteFile', 
+						css: {background: 'transparent', border: 'transparent'},	
+						'data-delete-file': deleteFileId
+					});				
+					
+					deleteFile.on("click", (e) => {
+						e.preventDefault();
+						e.stopPropagation();
+						
+						const noticeFileId = deleteFile.data('delete-file');
+						
+					$.ajax({
+						method: 'POST',
+						url: contextPath +'/notice/deleteFile',
+						contentType: 'application/json',
+						data: JSON.stringify({noticeFileId: noticeFileId}),
+						success: function(response) {
+							imgElement.remove();
+							deleteFile.remove();							
+						},
+						error: function(xhr, status, error) {
+							console.error('Error:', xhr.status, error);
+						}
+					});
+				});
 
+					/*$(".fileBox").append(imgElement);*/
+					fileBox.append(imgElement).append(deleteFile);
+				};
+				reader.readAsDataURL(files[i]);
+				/*}*/
+			}
+		}
+	});
+});
 
 
 // 체크박스
@@ -191,6 +213,5 @@ function getCheckboxValue() {
 	console.log(result);
 	
 }
-
 
 

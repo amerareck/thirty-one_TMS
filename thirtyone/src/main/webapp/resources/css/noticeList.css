@@ -86,7 +86,7 @@
 	font-size: 12px;
 }
 
-#search {
+#enterkeySearch {
 	height: 30px;
     border: 1px solid #E2E2E2;
     border-radius: 5px;
@@ -114,7 +114,7 @@
 
 .search {
 	display: flex;
-	margin: 0 0 30px 620px;
+	/* margin: 0 0 30px 620px; */
 }
 
 .tableContent img {

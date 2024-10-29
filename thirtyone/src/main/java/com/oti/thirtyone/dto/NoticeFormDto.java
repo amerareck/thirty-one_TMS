@@ -18,6 +18,6 @@ public class NoticeFormDto {
 	private int noticeDeleted;
 	private String empId;
 	
-	private MultipartFile attachFile;
+	private MultipartFile[] attachFile;
 
 }

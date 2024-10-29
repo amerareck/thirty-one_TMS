@@ -104,9 +104,11 @@
 								src="${pageContext.request.contextPath}/resources/image/plusFile_icon.png"
 								alt="plusFile" style="width: 44px" id="preview" />
 							마우스로 파일을 끌어놓으세요.</p>
-							<div id="deleteFile"><i class="bi bi-x-circle"></i></div>
 						</div>
-
+						<input type="hidden" class="deleteFile" data-delete-file="noticeFileId">
+							<!-- <i class="bi bi-x-circle"></i>
+						</button> -->
+						
 						<div class="line file"></div> <input type="file" id="uploadFile"
 						class="button-small upload" value="내 PC" accept="image/*" name="attachFile" multiple><%-- <img
 						src="${pageContext.request.contextPath}/resources/image/upload_icon.png"
@@ -125,7 +127,11 @@
 			</div>			
 			<input type="hidden" name="empId" value="${employees.empId}">
 	</form>
-	</div>
+				<!-- <form action="deleteFile" method="POST" enctype="multipart/form-data" >
+					<input type="submit" class="deleteFile" id="deleteFileId">
+						<i class="bi bi-x-circle"></i>
+				</form> -->
+			</div>
 </div>
 <script
 	src="${pageContext.request.contextPath}/resources/js/noticeWriteForm.js"></script>
