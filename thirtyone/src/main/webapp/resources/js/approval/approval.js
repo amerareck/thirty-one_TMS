@@ -1,3 +1,84 @@
+// datetime 라이브러리 설정(flatpickr)
+flatpickr("#holidayStartDate", {
+	dateFormat: "Y-m-d",
+	allowInput: true,
+	minDate: new Date(),
+	onChange: function(selectedDates, dateStr, instance) {
+		const startDate = selectedDates[0];
+		const endPicker = flatpickr("#holidayEndDate", {
+			dateFormat: "Y-m-d",
+			allowInput: true,
+			minDate: startDate
+		});
+		endPicker.set('minDate', startDate);
+	}
+});
+
+flatpickr("#bizTripStartDate", {
+	dateFormat: "Y-m-d",
+	allowInput: true,
+	minDate: new Date(),
+	onChange: function(selectedDates, dateStr, instance) {
+	const startDate = selectedDates[0];
+	const endPicker = flatpickr("#bizTripEndDate", {
+		dateFormat: "Y-m-d",
+	    allowInput: true,
+	    minDate: startDate
+	});
+	endPicker.set('minDate', startDate);
+	}
+});
+
+flatpickr("#holidayWorkStartDatetime", {
+	enableTime: true,
+	dateFormat: "Y-m-d H:i:S",
+	time_24hr: true,
+	locale: {
+	    firstDayOfWeek: 1 // 주의 첫 날 설정 (1 = 월요일)
+	},
+	allowInput: true,
+	minDate: new Date(),
+	onChange: function(selectedDates, dateStr, instance) {
+		const startDate = selectedDates[0];
+	    const endPicker = flatpickr("#holidayWorkEndDatetime", {
+			enableTime: true,
+			dateFormat: "Y-m-d H:i:S",
+		    time_24hr: true,
+		    locale: {
+		        firstDayOfWeek: 1
+		    },
+		    allowInput: true,
+		    minDate: startDate
+	    });
+	endPicker.set('minDate', startDate);
+	}
+});
+
+flatpickr("#workOvertimeStartDatetime", {
+	enableTime: true,
+	dateFormat: "Y-m-d H:i:S",
+	time_24hr: true,
+	locale: {
+	    firstDayOfWeek: 1 // 주의 첫 날 설정 (1 = 월요일)
+	},
+	allowInput: true,
+	minDate: new Date(),
+	onChange: function(selectedDates, dateStr, instance) {
+	    const startDate = selectedDates[0];
+	    const endPicker = flatpickr("#workOvertimeEndDatetime", {
+			enableTime: true,
+			dateFormat: "Y-m-d H:i:S",
+		    time_24hr: true,
+		    locale: {
+		        firstDayOfWeek: 1
+		    },
+		    allowInput: true,
+		    minDate: startDate
+	    });
+	endPicker.set('minDate', startDate);
+	}
+});
+
 // jstree를 이용한 조직도 로딩
 $(function() {
 	var path = window.location.pathname;
@@ -109,6 +190,7 @@ $('#btnApprovalLineSelect').on('click', function(e) {
 	const approvalPosition = [];
 	const approvalDeptId = [];
 	const approvalEmpId = [];
+	const memberInfo = {};
 	let approvalDeptNames;
 	
 	$('#approvalLineBox').find('.approval-line-item').each(function(){
@@ -144,6 +226,57 @@ $('#btnApprovalLineSelect').on('click', function(e) {
 				}
 			}
 			$('#approvalLineDiagram').html(diagramTags);
+			
+			// 서버 전송을 위한 select 태그에 요소 삽입.
+			const selectTag = $('#approvalLineInfo').find('select');
+			selectTag.empty();
+			for(let i=0; i<approvalEmpId.length; i++) {
+				selectTag.append(`
+					<option selected value="${i}-${approvalEmpId[i]}"></option>
+				`);
+			}
+			
+			// document 결재선 반영
+			$.ajax({
+				url: '../emp/getUserInfo',
+				method: 'get',
+				success: function(data) { //어떤 자료를 받아왔는지, 쉽게 알 수 있도록 요렇게 넣습니다...
+					memberInfo.empId = data.empId;
+					memberInfo.empNumber = data.empNumber;
+					memberInfo.empName = data.empName;
+					memberInfo.empTel = data.empTel;
+					memberInfo.empHiredate = data.empHiredate;
+					memberInfo.deptId = data.deptId;
+					memberInfo.deptName = data.deptName;
+					memberInfo.position = data.position;
+					
+					const editor = tinymce.get('draftDocument');
+				    const contentDocument = editor.getDoc();
+				    const date = new Date();
+				    const year = String(date.getFullYear()).slice(-2);
+				    const month = String(date.getMonth() + 1).padStart(2, '0');
+				    const day = String(date.getDate()).padStart(2, '0');
+				    const formattedDate = `${year}-${month}-${day}`;
+				    
+				    for(let i=0; i<=approvalEmpId.length; i++) {
+				    	const empPosition = $(contentDocument.getElementById('approvalLine-position-'+i));	
+				    	const empName = $(contentDocument.getElementById('approvalLine-name-'+i));
+				    	
+				    	if(i==0) {
+				    		empPosition.text(memberInfo.position);
+				    		empName.text(memberInfo.empName);
+				    		$(contentDocument.getElementById('approval-result-'+i)).text('상신');
+				    		$(contentDocument.getElementById('approval-result-date-'+i)).text('('+formattedDate+')');
+				    	} else {
+				    		empPosition.text(approvalPosition[i-1]);
+				    		empName.text(approvalNames[i-1]);
+				    	}
+				    }
+				},
+				error: function (xhr, status, error) {
+		            console.log('Error: ' + error);
+		        },
+			});
 		},
 		error: function (xhr, status, error) {
             console.log('Error: ' + error);
@@ -199,13 +332,13 @@ $('#addDraftReferrer').on('click', function(){
 	
 	const editor = tinymce.get('draftDocument');
     const contentDocument = editor.getDoc();
-    const myElement = contentDocument.getElementById('holidayDocumentReferrer');
+    const myElement = contentDocument.getElementById('draftDocumentReferrer');
     
     
     if($(myElement).children().length>0) {
-    	$(myElement).append(`<span id="${selectedReferrer.val()}">, ${selectedReferrer.text()}</span>`);
+    	$(myElement).append(`<span id="${selectedReferrer.val()}" style="font-size: 10pt;">, ${selectedReferrer.text()}</span>`);
     } else {
-    	$(myElement).append(`<span id="${selectedReferrer.val()}">${selectedReferrer.text()}</span>`);
+    	$(myElement).append(`<span id="${selectedReferrer.val()}" style="font-size: 10pt;">${selectedReferrer.text()}</span>`);
     }
 });
 
@@ -215,7 +348,7 @@ $('#removeDraftReferrer').on('click', function(){
 	
 	const editor = tinymce.get('draftDocument');
     const contentDocument = editor.getDoc();
-    const myElement = contentDocument.getElementById('holidayDocumentReferrer');
+    const myElement = contentDocument.getElementById('draftDocumentReferrer');
     $(myElement).find(`#${selectedReferrer.val()}`).remove();
     
     const child = $(myElement).children(':first');
@@ -225,7 +358,7 @@ $('#removeDraftReferrer').on('click', function(){
 $('#draftTitle').on('keyup', function(){
 	const editor = tinymce.get('draftDocument');
     const contentDocument = editor.getDoc();
-    const myElement = contentDocument.getElementById('holidayDocumentTitle');
+    const myElement = contentDocument.getElementById('DocumentDraftTitle');
     
     $(myElement).text($('#draftTitle').val());
 });
@@ -235,7 +368,7 @@ $('#holidayStartDate').on('change', function(){
     const contentDocument = editor.getDoc();
     const myElement = contentDocument.getElementById('holidayDocumentStartDay');
     
-    $(myElement).text($('#holidayStartDate').val()+'  ~ ');
+    $(myElement).text($('#holidayStartDate').val()+'\u00A0\u00A0~\u00A0');
 });
 
 $('#holidayEndDate').on('change', function(){
@@ -252,4 +385,120 @@ $('#holidayType').on('change', function(){
     const myElement = contentDocument.getElementById('holidayDocumentType');
     
     $(myElement).text($('#holidayType option:selected').text());
+});
+
+$('#bizTripStartDate').on('change', function(){
+	const editor = tinymce.get('draftDocument');
+    const contentDocument = editor.getDoc();
+    const myElement = contentDocument.getElementById('draftBizTripStartDay');
+    const startDay = $('#bizTripStartDate').val();
+    const year = startDay.split('-')[0];
+    const month = startDay.split('-')[1];
+    const day = startDay.split('-')[2];
+    
+    $(myElement).text(year+'년\u00A0'+month+'월\u00A0'+day+'일\u00A0\u00A0'+'(오전/오후)\u00A0\u00A0시');
+});
+
+$('#bizTripEndDate').on('change', function(){
+	const editor = tinymce.get('draftDocument');
+    const contentDocument = editor.getDoc();
+    const myElement = contentDocument.getElementById('draftBizTripEndDay');
+    const endDay = $('#bizTripEndDate').val();
+    const year = endDay.split('-')[0];
+    const month = endDay.split('-')[1];
+    const day = endDay.split('-')[2];
+    
+    if($(myElement).attr('data-no-lodgment') == 'not') {
+    	$(myElement).text(year+'년\u00A0'+month+'월\u00A0'+day+'일\u00A0\u00A0'+'(오전/오후)\u00A0\u00A0시\u00A0\u00A0');    	
+    } else {
+    	$(myElement).text(year+'년\u00A0'+month+'월\u00A0'+day+'일\u00A0\u00A0'+'(오전/오후)\u00A0\u00A0시\u00A0\u00A0(\u00A0\u00A0박\u00A0\u00A0일)');
+    }
+});
+
+$('#bizTripPurposeForm').on('keyup', function(){
+	const editor = tinymce.get('draftDocument');
+    const contentDocument = editor.getDoc();
+    const myElement = contentDocument.getElementById('bizTripPurpose');
+    
+    $(myElement).text($('#bizTripPurposeForm').val());
+});
+
+$('#holidayWorkStartDatetime').on('change', function(){
+	const editor = tinymce.get('draftDocument');
+    const contentDocument = editor.getDoc();
+    const myElement = contentDocument.getElementById('workoverDatetime');
+    const startDay = $('#holidayWorkStartDatetime').val().split(' ')[0];
+    const year = startDay.split('-')[0];
+    const month = startDay.split('-')[1];
+    const day = startDay.split('-')[2];
+    const startTime = $('#holidayWorkStartDatetime').val().split(' ')[1];
+    const hour = startTime.split(':')[0];
+    const minute = startTime.split(':')[1];
+    
+    $(myElement).text(year+'년\u00A0'+month+'월\u00A0'+day+'일\u00A0'+hour+'시\u00A0'+minute+'분\u00A0\u00A0~');    	
+});
+
+$('#holidayWorkEndDatetime').on('change', function(){
+	const editor = tinymce.get('draftDocument');
+    const contentDocument = editor.getDoc();
+    const myElement = contentDocument.getElementById('workoverDatetime');
+    const endDay = $('#holidayWorkEndDatetime').val().split(' ')[0];
+    const year = endDay.split('-')[0];
+    const month = endDay.split('-')[1];
+    const day = endDay.split('-')[2];
+    const endTime = $('#holidayWorkEndDatetime').val().split(' ')[1];
+    const hour = endTime.split(':')[0];
+    const minute = endTime.split(':')[1];
+    
+    const str = '\u00A0\u00A0'+year+'년\u00A0'+month+'월\u00A0'+day+'일\u00A0'+hour+'시\u00A0'+minute+'분';
+    $(myElement).text($(myElement).text()+str);
+});
+
+$('#workOvertimeStartDatetime').on('change', function(){
+	const editor = tinymce.get('draftDocument');
+    const contentDocument = editor.getDoc();
+    const myElement = contentDocument.getElementById('workovertimeStart');
+    const startDay = $('#workOvertimeStartDatetime').val().split(' ')[0];
+    const year = startDay.split('-')[0];
+    const month = startDay.split('-')[1];
+    const day = startDay.split('-')[2];
+    const startTime = $('#workOvertimeStartDatetime').val().split(' ')[1];
+    const hour = startTime.split(':')[0];
+    
+    $(myElement).text(year+'년\u00A0'+month+'월\u00A0'+day+'일\u00A0'+hour+'시\u00A0');    	
+});
+
+$('#workOvertimeEndDatetime').on('change', function(){
+	const editor = tinymce.get('draftDocument');
+    const contentDocument = editor.getDoc();
+    const myElement = contentDocument.getElementById('workovertimeEnd');
+    const startDay = $('#workOvertimeEndDatetime').val().split(' ')[0];
+    const year = startDay.split('-')[0];
+    const month = startDay.split('-')[1];
+    const day = startDay.split('-')[2];
+    const startTime = $('#workOvertimeEndDatetime').val().split(' ')[1];
+    const hour = startTime.split(':')[0];
+    
+    const firstTime = $('#workOvertimeStartDatetime').val();
+    const firstTimeDate = firstTime.split(' ')[0];
+    const firstTimeYear = parseInt(firstTimeDate.split('-')[0]);
+    const firstTimeMonth = parseInt(firstTimeDate.split('-')[1])-1;
+    const firstTimeDay = parseInt(firstTimeDate.split('-')[2]);
+    const firstTimeHour = parseInt(firstTime.split(' ')[1].split(':')[0]);
+    const startDatetime = new Date(firstTimeYear, firstTimeMonth, firstTimeDay, firstTimeHour);
+    const endDateTime = new Date(parseInt(year), parseInt(month)-1, parseInt(day), parseInt(hour));
+    const overtimeHour = (endDateTime - startDatetime) / (1000 * 60 * 60);
+    
+    $(myElement).text(year+'년\u00A0'+month+'월\u00A0'+day+'일\u00A0'+hour+'시\u00A0\u00A0(총\u00A0'+overtimeHour+'시간)');    	
+});
+
+$('#approvalAttachFile').on('change', function(){
+	const fileName = this.files[0].name;
+    $('#attatchNameTag').text(fileName);
+    $('#attatchNameTag').closest('div.d-none').removeClass('d-none');
+});
+
+$('#deleteAttacthFile').on('click', function(){
+	$('#approvalAttachFile').val('');
+	$('#attatchNameTag').closest('div').addClass('d-none');
 });

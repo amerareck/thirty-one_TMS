@@ -1,8 +1,12 @@
 package com.oti.thirtyone.controller;
 
 import java.io.IOException;
-import java.util.List;
+import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
 
+import javax.servlet.http.HttpServletResponse;
+
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -17,12 +21,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.oti.thirtyone.dto.Departments;
 import com.oti.thirtyone.dto.EmployeesDto;
 import com.oti.thirtyone.dto.JoinFormDto;
-import com.oti.thirtyone.dto.PositionsDto;
 import com.oti.thirtyone.security.EmployeeDetailService;
 import com.oti.thirtyone.security.EmployeeDetails;
+import com.oti.thirtyone.service.ApprovalService;
 import com.oti.thirtyone.service.DepartmentService;
 import com.oti.thirtyone.service.EmployeesService;
 import com.oti.thirtyone.service.PositionService;
@@ -42,6 +45,9 @@ public class EmployeeController {
 	DepartmentService deptService;
 	@Autowired
 	PositionService posService;
+	// DB에 정상적으로 데이터 삽입되기 전까지, 임시 데이터가 저장되어 있는 곳에 접근하기 위해 선언. 차후에 삭제요망.
+	@Autowired
+	ApprovalService approvalService;
 	
 	
 	@RequestMapping("loginForm")
@@ -151,5 +157,35 @@ public class EmployeeController {
 			return "redirect:/emp/empDetail";
 		else 
 			return "redirect:/admin/empDetail";
+	}
+	
+	@GetMapping("getUserInfo")
+	public void getUserInfo(Authentication auth, HttpServletResponse res) {
+		log.info("실행");
+		
+		String userId = auth.getName();
+		EmployeesDto userData = empService.getEmpInfo(userId);
+		
+		JSONObject json = new JSONObject();
+		json.put("empId", userId);
+		json.put("empNumber", userData.getEmpNumber());
+		json.put("empName", userData.getEmpName());
+		json.put("empTel", userData.getEmpTel());
+		json.put("empHiredate", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(userData.getEmpHiredate()));
+		//부서 테이블이 완성되기 전까지, 임시 데이터에서 가져오겠습니다.
+		//json.put("deptId", userData.getDeptId());
+		//json.put("deptName", deptService.getDeptName(userData.getDeptId()));
+		json.put("deptId", 111);
+		json.put("deptName", approvalService.getDeptName(111));
+		json.put("position", userData.getPosition());
+		
+		try(PrintWriter pw = res.getWriter()) {
+			res.setContentType("application/json; charset=UTF-8");
+			res.setCharacterEncoding("UTF-8");
+			pw.println(json.toString());
+			pw.flush();
+		} catch(IOException ioe) {
+			ioe.printStackTrace();
+		}
 	}
 }

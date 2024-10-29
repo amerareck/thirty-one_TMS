@@ -454,8 +454,6 @@ $('#documentForm').on('change', function() {
         data: { type: selectedValue },
         dataType: 'html',
         success: function(response) {
-        	console.log(response);
-        	
 	    	tinymce.remove('#draftDocument');
 	    	tinymce.init({
 	    		language: 'ko_KR',
@@ -469,12 +467,52 @@ $('#documentForm').on('change', function() {
 	            setup: function(editor) {
 	                editor.on('init', function() {
 	                    editor.setContent(response);
+	                    // 기안서 기본 값 대입
+	        	        $.ajax({
+	        	        	url: '../emp/getUserInfo',
+	        	        	method: 'get',
+	        	        	success: function(data) {
+	        	        		const memberInfo = {};
+	        	        		memberInfo.empId = data.empId;
+	        					memberInfo.empNumber = data.empNumber;
+	        					memberInfo.empName = data.empName;
+	        					memberInfo.empTel = data.empTel;
+	        					memberInfo.empHiredate = data.empHiredate;
+	        					memberInfo.deptId = data.deptId;
+	        					memberInfo.deptName = data.deptName;
+	        					memberInfo.position = data.position;
+	        					
+	        					const editor = tinymce.get('draftDocument');
+	        				    const contentDocument = editor.getDoc();
+	        				    const date = new Date();
+	        				    const year = String(date.getFullYear()).slice(-2);
+	        				    const month = String(date.getMonth() + 1).padStart(2, '0');
+	        				    const day = String(date.getDate()).padStart(2, '0');
+	        				    const formattedDate = `${year}-${month}-${day}`;
+	        				    
+	        				    $(contentDocument.getElementById('draftEmpDepartment')).text(memberInfo.deptName);
+	        				    $(contentDocument.getElementById('draftDocumentDate')).text(date.getFullYear()+'/'+month+'/'+day);
+	        				    $(contentDocument.getElementById('draftDocumentAuthor')).text(memberInfo.empName);
+	        				    $(contentDocument.getElementById('draftAuthorDepartment')).text(memberInfo.deptName);
+	        				    $(contentDocument.getElementById('draftAuthorHiredate')).text('\u00A0'+memberInfo.empHiredate.split(' ')[0]);
+	        				    $(contentDocument.getElementById('draftAuthorName')).text(memberInfo.empName);
+	        				    $(contentDocument.getElementById('draftAuthorPosition')).text(memberInfo.position);
+	        				    $(contentDocument.getElementById('draftAuthorEmpNumber')).text('\u00A0'+memberInfo.empNumber);
+	        				    $(contentDocument.getElementById('draftAuthorTel')).text('\u00A0'+memberInfo.empTel);
+	        				    $(contentDocument.getElementById('draftSubmitDate'))
+	        				    	.text(date.getFullYear()+'년\u00A0\u00A0'+month+'월\u00A0\u00A0'+day+'일');
+	        				    
+	        	        	},
+	        	        	error: function (xhr, status, error) {
+	        	                console.log('Error: ' + error);
+	        	            }
+	        	        });
 	               });
 	            }
 	        })
         },
-        error: function() {
-            console.error('Failed to load content');
-        }
+        error: function (xhr, status, error) {
+            console.log('Error: ' + error);
+        },
     });
 });

@@ -364,7 +364,8 @@ table th {
 .c16 {
     border-spacing: 0;
     border-collapse: collapse;
-    margin: auto
+    margin: auto;
+    width: 100%;
 }
 
 .c38 {
@@ -383,7 +384,8 @@ table th {
 
 .c43 {
     background-color: #ffffff;
-    max-width: 760px;
+    max-width: 800px;
+    width: 780px;
 }
 
 .c42 {

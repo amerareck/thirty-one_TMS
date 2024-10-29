@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.oti.thirtyone.dto.Departments;
+import com.oti.thirtyone.dto.DraftForm;
 import com.oti.thirtyone.dto.EmployeesDto;
 import com.oti.thirtyone.dto.PageParam;
 import com.oti.thirtyone.service.ApprovalService;
@@ -276,5 +277,13 @@ public class ApprovalController {
 		} catch(IOException ioe) {
 			ioe.printStackTrace();
 		}
+	}
+	
+	@PostMapping("draftSubmit")
+	public String draftSubmit(DraftForm form, Model model) {
+		log.info("실행");
+		log.info(form.toString());
+		
+		return "redirect:/home";
 	}
 }

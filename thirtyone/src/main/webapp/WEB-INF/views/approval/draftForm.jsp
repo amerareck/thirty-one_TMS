@@ -1,11 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
 <%@ include file="/WEB-INF/views/approval/approvalContainer.jsp"%>
-<form action="#" method="post" enctype="multipart/form-data">
+<form action="draftSubmit" method="post" enctype="multipart/form-data">
     <div class="d-flex align-items-top justify-content-between mb-4">
         <div class="d-flex align-items-top" style="width: 60%;">
         	<label for="documentForm" class="fw-bold mt-2" style="width: 25%;">결재 양식</label>
-            <select class="form-select" id="documentForm" style="width: 75%; height: 37.78px">
+            <select class="form-select" id="documentForm" name="draftType" style="width: 75%; height: 37.78px">
                 <option value="default" selected>결재 양식 선택</option>
                 <option value="holidayDocument">근태 신청서(휴가)</option>
                 <option value="businessTripDocument">출장 신청서</option>
@@ -18,14 +18,14 @@
         	<div class="d-flex align-items-center w-100 mb-3 hol-doc hidden">
 				<label for="dateOfHoliday" class="fw-bold mb-2" style="width: 25%; margin-left: 20px">신청 기간</label>
 				<div id="dateOfHoliday" class="d-flex align-items-center" style="width: 75%;">
-					<input type="text" id="holidayStartDate" class="form-control p-2" style="height: 35px; font-size: 0.9rem;" placeholder="휴가 시작일" readonly >
+					<input type="text" id="holidayStartDate" name="holidayStartDate" class="form-control p-2" style="height: 35px; font-size: 0.9rem;" placeholder="휴가 시작일" readonly >
 					<span class="fw-bold mx-2">~</span>
-					<input type="text" id="holidayEndDate" class="form-control p-2" style="height: 35px; font-size: 0.9rem;" placeholder="휴가 종료일" readonly >
+					<input type="text" id="holidayEndDate" name="holidayEndDate" class="form-control p-2" style="height: 35px; font-size: 0.9rem;" placeholder="휴가 종료일" readonly >
 				</div>
           	</div>
           	<div class="d-flex align-items-center w-100 mb-3 hol-doc hidden">
           		<label for="holidayType" class="fw-bold mb-2" style="width: 25%; margin-left: 20px">휴가 유형</label>
-        		<select id="holidayType" class="form-select" style="width: 75%; font-size: 0.9rem">
+        		<select id="holidayType" class="form-select" name="holidayType" style="width: 75%; font-size: 0.9rem">
         			<option value="default" selected disabled>유형 선택</option>
         			<option value="familyEvent">경조사</option>
         			<option value="childbirth">출산</option>
@@ -35,15 +35,15 @@
         	<div class="d-flex align-items-center w-100 mb-3 biz-trip hidden">
           		<label for="dateOfBizTrip" class="fw-bold mb-2" style="width: 25%; margin-left: 20px">신청 기간</label>
         		<div id="dateOfBizTrip" class="d-flex align-items-center" style="width: 75%;">
-					<input type="text" id="bizTripStartDate" class="form-control p-2" style="height: 35px; font-size: 0.9rem;" placeholder="출장 시작일" readonly >
+					<input type="text" id="bizTripStartDate" name="bizTripStartDate" class="form-control p-2" style="height: 35px; font-size: 0.9rem;" placeholder="출장 시작일" readonly >
 					<span class="fw-bold mx-2">~</span>
-					<input type="text" id="bizTripEndDate" class="form-control p-2" style="height: 35px; font-size: 0.9rem;" placeholder="출장 종료일" readonly >
+					<input type="text" id="bizTripEndDate" name="bizTripEndDate" class="form-control p-2" style="height: 35px; font-size: 0.9rem;" placeholder="출장 종료일" readonly >
 				</div>
         	</div>
         	<div class="d-flex align-items-center w-100 mb-3 biz-trip hidden" >
           		<label for="dateOfBizTrip" class="fw-bold mb-2" style="width: 25%; margin-left: 20px">출장 목적</label>
         		<div id="dateOfBizTrip" class="d-flex align-items-center" style="width: 75%;">
-					<textarea class="form-control" cols="2" placeholder="간략하게 목적만 작성하시오." style="font-size: 0.9rem;"></textarea>
+					<textarea class="form-control" id="bizTripPurposeForm" name="bizTripPurpose" cols="2" placeholder="간략하게 목적만 작성하시오." style="font-size: 0.9rem;"></textarea>
 				</div>
         	</div>
         	<div class="d-flex align-items-center w-100 hol-work hidden" >
@@ -51,11 +51,11 @@
 				<div id="datetimeOfholidayWork" class="d-flex flex-column align-items-center" style="width: 75%;">
 					<div class="d-flex align-items-center w-100">
 						<span class="fw-bold w-25" style="font-size: 0.8rem;">근무 시작</span>
-						<input type="text" id="holidayWorkStartDatetime" class="form-control p-2 w-75" style="height: 35px; font-size: 0.8rem;" placeholder="추가근무 시작" readonly >
+						<input type="text" id="holidayWorkStartDatetime" name="holidayWorkStartDate" class="form-control p-2 w-75" style="height: 35px; font-size: 0.8rem;" placeholder="추가근무 시작" readonly >
 					</div>
 					<div class="d-flex align-items-center w-100">
 						<span class="fw-bold w-25" style="font-size: 0.8rem;">근무 종료</span>					
-						<input type="text" id="holidayWorkEndDatetime" class="form-control p-2 w-75" style="height: 35px; font-size: 0.8rem;" placeholder="추가근무 종료" readonly >
+						<input type="text" id="holidayWorkEndDatetime" name="holidayWorkEndDate" class="form-control p-2 w-75" style="height: 35px; font-size: 0.8rem;" placeholder="추가근무 종료" readonly >
 					</div>
 				</div>
           	</div>
@@ -64,11 +64,11 @@
 				<div id="datetimeOfWorkOvertime" class="d-flex flex-column align-items-center" style="width: 75%;">
 					<div class="d-flex align-items-center w-100">
 						<span class="fw-bold w-25" style="font-size: 0.8rem;">근무 시작</span>
-						<input type="text" id="workOvertimeStartDatetime" class="form-control p-2 w-75" style="height: 35px; font-size: 0.8rem;" placeholder="추가근무 시작" readonly >
+						<input type="text" id="workOvertimeStartDatetime" name="workOvertimeStartDate" class="form-control p-2 w-75" style="height: 35px; font-size: 0.8rem;" placeholder="추가근무 시작" readonly >
 					</div>
 					<div class="d-flex align-items-center w-100">
 						<span class="fw-bold w-25" style="font-size: 0.8rem;">근무 종료</span>					
-						<input type="text" id="workOvertimeEndDatetime" class="form-control p-2 w-75" style="height: 35px; font-size: 0.8rem;" placeholder="추가근무 종료" readonly >
+						<input type="text" id="workOvertimeEndDatetime" name="workOvertimeEndDate" class="form-control p-2 w-75" style="height: 35px; font-size: 0.8rem;" placeholder="추가근무 종료" readonly >
 					</div>
 				</div>
           	</div>
@@ -77,7 +77,7 @@
     <div class="d-flex mb-4">
         <div class="d-flex align-items-center" style="width: 60%;">
             <label for="draftTitle" class="fw-bold mb-2" style="width: 30%; margin-right:2px;">제목</label>
-            <input type="text" class="form-control" id="draftTitle" style="width: 90%;" />
+            <input type="text" class="form-control" id="draftTitle" name="draftTitle" style="width: 90%;" />
         </div>
     </div>
     <div class="d-flex mb-4">
@@ -104,10 +104,10 @@
                     <option value="referrer-2">서지혜 사원</option>
                     <option value="referrer-3">엄성현 사원</option>
                 </select>
-            	 --%>
+            	--%>
             </div>
             <div class="d-flex align-items-top justify-content-start" style="width: 50%;">
-                <select multiple class="form-select ms-3" id="draftRefSelectBox" size="3" style="width: 50%">
+                <select multiple class="form-select ms-3" id="draftRefSelectBox" name="draftReference" size="3" style="width: 50%">
                 	<%-- 
 	                <option value="selected-referrer-1">서지혜 사원</option>
                 	--%>
@@ -129,6 +129,9 @@
             </select>
             <button type="button" class="btn btn-secondary" style="margin-left: 20px; height: 90%;" id="approvalLineCall">결재선 선택</button>
         </div>
+    </div>
+    <div class="d-none" id="approvalLineInfo">
+    	<select name="draftApprovalLine" multiple></select>
     </div>
     <div class="d-flex align-items-center justify-content-center mb-4" id="approvalLineDiagram">
     	<%-- 
@@ -152,109 +155,33 @@
         </div>
     	--%>
     </div>
-    <div class="d-flex flex-column align-items-start" style="width: 100%;">
-    	<div class="d-flex align-items-center me-3" style="width: 100%;">
-         <label for="approvalAttachFile" class="fw-bold" style="width: 15%;">첨부 파일</label>
-         <div class="d-flex align-items-center justify-content-start" style="width: 80%;">
-          <span class="text-secondary attachFont">전동열차_지연증명서.pdf</span>
-          <button type="button" class="btn p-0 ms-2" id="deleteAttacthFile"><img src="${pageContext.request.contextPath}/resources/image/close-icon.png" width="10px" /></button>
-    	    </div>
-    	</div>
-        <div class="d-flex" style="width: 100%;">
-            <div style="width: 15%; height: 100%">&nbsp;</div>
-            <input type="file" id="approvalAttachFile" class="form-control" style="width: 50%" />
-        </div>
-    </div>
+	<div class="d-flex align-items-center" style="width: 100%;">
+		<div class="d-flex align-items-center mb-1" style="width: 15%;">
+			<label for="approvalAttachFile w-100" class="fw-bold">첨부 파일</label>
+		</div>
+		<div class="d-flex flex-column align-items-start me-3" style="width: 85%;">
+			<div class="d-flex align-items-center justify-content-start w-100 d-none">
+				<span class="text-secondary attachFont" id="attatchNameTag">전동열차_지연증명서.pdf</span>
+				<button type="button" class="btn p-0 ms-2" id="deleteAttacthFile"><img src="${pageContext.request.contextPath}/resources/image/close-icon.png" width="10px" /></button>
+			</div>
+			<div class="d-flex align-items-center justify-content-start w-100">
+				<input type="file" id="approvalAttachFile" name="draftAttachFile" class="form-control" style="width: 50%" />
+			</div>
+		</div>
+	</div>
+	
+	<div class="d-flex align-items-center justify-content-end me-1">
+		<button id="draftSubmitButton" class="btn btn-secondary" style="width: 70px; height: 38px; padding: 3px; font-size: .925rem;">기안 상신</button>
+	</div>
     
-    <hr class="hr my-5" />
+    <hr class="hr mt-3 mb-5" />
 
     <div>
 		<div style="width: 90%; margin: 0 auto;">
-		    <textarea id="draftDocument"></textarea>
+		    <textarea id="draftDocument" name="documentData"></textarea>
 		</div>
-		</div>
+	</div>
 </form>
-
-<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-<script>
-   flatpickr("#holidayStartDate", {
-       dateFormat: "Y-m-d",
-       allowInput: true,
-       minDate: new Date(),
-       onChange: function(selectedDates, dateStr, instance) {
-	        const startDate = selectedDates[0];
-	        const endPicker = flatpickr("#holidayEndDate", {
-	        	dateFormat: "Y-m-d",
-	            allowInput: true,
-	            minDate: startDate
-	        });
-	        endPicker.set('minDate', startDate);
-      }
-   });
-   flatpickr("#bizTripStartDate", {
-       dateFormat: "Y-m-d",
-       allowInput: true,
-       minDate: new Date(),
-       onChange: function(selectedDates, dateStr, instance) {
-	        const startDate = selectedDates[0];
-	        const endPicker = flatpickr("#bizTripEndDate", {
-	        	dateFormat: "Y-m-d",
-	            allowInput: true,
-	            minDate: startDate
-	        });
-	        endPicker.set('minDate', startDate);
-       }
-   	});
-   flatpickr("#holidayWorkStartDatetime", {
-	    enableTime: true,
-	    dateFormat: "Y-m-d H:i:S",
-	    time_24hr: true,
-	    locale: {
-	        firstDayOfWeek: 1 // 주의 첫 날 설정 (1 = 월요일)
-	    },
-	    allowInput: true,
-	    minDate: new Date(),
-	    onChange: function(selectedDates, dateStr, instance) {
-	        const startDate = selectedDates[0];
-	        const endPicker = flatpickr("#holidayWorkEndDatetime", {
-	            enableTime: true,
-	            dateFormat: "Y-m-d H:i:S",
-	            time_24hr: true,
-	            locale: {
-	                firstDayOfWeek: 1
-	            },
-	            allowInput: true,
-	            minDate: startDate
-	        });
-	        endPicker.set('minDate', startDate);
-	    }
-	});
-   flatpickr("#workOvertimeStartDatetime", {
-	    enableTime: true,
-	    dateFormat: "Y-m-d H:i:S",
-	    time_24hr: true,
-	    locale: {
-	        firstDayOfWeek: 1 // 주의 첫 날 설정 (1 = 월요일)
-	    },
-	    allowInput: true,
-	    minDate: new Date(),
-	    onChange: function(selectedDates, dateStr, instance) {
-	        const startDate = selectedDates[0];
-	        const endPicker = flatpickr("#workOvertimeEndDatetime", {
-	            enableTime: true,
-	            dateFormat: "Y-m-d H:i:S",
-	            time_24hr: true,
-	            locale: {
-	                firstDayOfWeek: 1
-	            },
-	            allowInput: true,
-	            minDate: startDate
-	        });
-	        endPicker.set('minDate', startDate);
-	    }
-	});
-   
-</script>
 
 <%@ include file="/WEB-INF/views/approval/approvalLine.jsp" %>
 <%@ include file="/WEB-INF/views/approval/approvalContainerFooter.jsp"%>

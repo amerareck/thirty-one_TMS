@@ -33,6 +33,15 @@ public class ApprovalService {
 		return deptList;
 	}
 	
+	public String getDeptName(int deptId) {
+		List<Departments> deptList = getOrgChart();
+		for(Departments ele : deptList) {
+			if(deptId == ele.getDeptId()) return ele.getDeptName();
+		}
+		
+		return null;
+	}
+	
 	public List<EmployeesDto> getOrgEmp() {
 		log.info("실행");
 		
