@@ -127,8 +127,14 @@ public class EmployeeController {
 			
 			empService.updateEmpInfoByEmp(empDto);
 			
+			EmployeeDetails userDetails = (EmployeeDetails) empDetailService.loadUserByUsername(empId);
+			authentication = 
+					new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+			SecurityContextHolder.getContext().setAuthentication(authentication);
+
+			return "redirect:/emp/empDetail";
 		}else {				
-			log.info(formDto.toString());
+			
 			empId = formDto.getEmpId();
 			empDto.setEmpId(empId);
 			empDto.setEmpName(formDto.getEmpName());
@@ -145,17 +151,8 @@ public class EmployeeController {
 			}
 
 			empService.updateEmpInfoByAdmin(empDto);
-		}
-		
-
-		EmployeeDetails userDetails = (EmployeeDetails) empDetailService.loadUserByUsername(empId);
-		authentication = 
-				new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-		SecurityContextHolder.getContext().setAuthentication(authentication);
-		
-		if(formDto.getModifier() == 1)
-			return "redirect:/emp/empDetail";
-		else 
 			return "redirect:/admin/empDetail?empId="+empId;
+		}
+
 	}
 }

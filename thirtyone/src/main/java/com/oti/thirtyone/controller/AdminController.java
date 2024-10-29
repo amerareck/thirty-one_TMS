@@ -9,6 +9,7 @@ import java.util.Map;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -177,9 +178,13 @@ public class AdminController {
 	}
 	
 	@GetMapping("/org")
-	public String getOrgChartPage(Model model) {
-		List<Departments> deptList = deptService.getDeptList();
-		
+	public String getOrgChartPage(Model model, @RequestParam(defaultValue = "1") int pageNo, HttpSession session) {
+		int totalRows = empService.countRows();
+		Pager pager = new Pager(10, 5, totalRows, pageNo);
+		session.setAttribute("pager", pager);
+		List<Departments> deptList = deptService.getDeptListByRegion(pager);
+
+		model.addAttribute("deptList", deptList);
 		model.addAttribute("title", "조직도");
 		model.addAttribute("selectedTitle", "org");
 		model.addAttribute("selectedSub", "organization");

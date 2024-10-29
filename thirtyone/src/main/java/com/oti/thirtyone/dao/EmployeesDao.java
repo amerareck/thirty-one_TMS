@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import com.oti.thirtyone.dto.EmployeesDto;
 import com.oti.thirtyone.dto.Pager;
@@ -38,5 +39,11 @@ public interface EmployeesDao {
 	int countRowsByPos(String query);
 
 	int countRowsByDept(String query);
+
+	EmployeesDto selectEmpInfoByeEmpNum(int deptHead);
+
+	int countRowsByDeptId(int deptId);
+
+	void updateEmpDept(@Param("empId") String empId, @Param("deptId") int deptId);
 
 }

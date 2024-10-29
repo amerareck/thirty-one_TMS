@@ -93,6 +93,20 @@ public class EmployeesService {
 			
 	}
 
+	public EmployeesDto getEmpInfoByEmpNum(int deptHead) {
+		return empDao.selectEmpInfoByeEmpNum(deptHead);
+		
+	}
+
+	public int countRowsByDept(int deptId) {
+		return empDao.countRowsByDeptId(deptId); 
+	}
+
+	public void updateEmpDept(String empId, int deptId) {
+		empDao.updateEmpDept(empId, deptId);
+		
+	}
+
 	
 	
 }
