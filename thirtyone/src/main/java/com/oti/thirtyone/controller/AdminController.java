@@ -230,9 +230,32 @@ public class AdminController {
 		return ResponseEntity.ok("OK");
 	}
 	
+	@PostMapping("/changePosName")
+	public ResponseEntity<String> changePosName(int posClass, String posName){
+		String prePosName = posService.getPosName(posClass);
+		posService.chagePosName(posClass, posName, prePosName);
+		return ResponseEntity.ok("OK");
+	}
+	
 	@GetMapping("/employee")
-	public String getEmployeePage(Model model) {
+	public String getEmployeePage(Model model, @RequestParam(defaultValue = "1") int pageNo, HttpSession session) {
+
+		int totalRows = empService.countRows();
+		Pager pager = new Pager(10, 5, totalRows, pageNo);
+		session.setAttribute("pager", pager);
 		
+		List<EmployeesDto> empList = empService.selectEmpList(pager);
+		List<Map<String, Object>> empDeptList = new LinkedList<>();
+
+		for(EmployeesDto empDto : empList) {
+			Map<String, Object> empDept = new HashMap<>();
+			empDept.put("empInfo", empDto);
+			String deptName = deptService.getDeptName(empDto.getDeptId());
+			empDept.put("deptName", deptName);
+			empDeptList.add(empDept);
+		}
+		
+		model.addAttribute("empDeptList", empDeptList);
 		model.addAttribute("title", "조직도");
 		model.addAttribute("selectedTitle", "org");
 		model.addAttribute("selectedSub", "organization");

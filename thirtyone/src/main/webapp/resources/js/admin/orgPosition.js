@@ -35,3 +35,24 @@ $(document).on("click", ".fa-caret-down", function() {
 	})
 })
 
+$(document).on("click", '.fa-pencil-alt', function () {
+	let positionClass = this.dataset.pos;
+	let posname = this.dataset.posname;
+	
+	document.querySelector('.change-btn-accept').dataset.posclass= positionClass;
+	document.querySelector('.pre-pos-name').innerHTML = posname;
+})
+
+$(document).on("click", ".change-btn-accept", function () {
+	let posClass = this.dataset.posclass;
+	let posName = document.querySelector('.after-pos-name').value;
+	
+	$.ajax({
+		method: "post",
+		url: contextPath + '/admin/changePosName',
+		data: {'posClass': posClass, 'posName': posName},
+		success: function(){
+			location.reload();
+		}
+	})
+})

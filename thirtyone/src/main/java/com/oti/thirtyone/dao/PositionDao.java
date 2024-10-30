@@ -16,4 +16,8 @@ public interface PositionDao {
 
 	int updateMovePos(@Param("posClass") int posClass, @Param("prePosClass") int prePosClass);
 
+	int updatePosName(@Param("posClass")int posClass, @Param("posName") String posName);
+
+	String selectPosName(int posClass);
+
 }

@@ -22,7 +22,6 @@
 			    <option value="empName" selected>이름</option>
 			    <option value="empDept">부서</option>
 			    <option value="empPosition">직급</option>
-			    <option value="empEmail">이메일</option>
 			</select>
 			<input class="form-control" placeholder="검색" style="flex:2; height: 37.77px !important;" />
 			<button class="btn btn-outline-secondary" style="border-color: #dee2e6;" type="button"><i class="fa-solid fa-magnifying-glass"></i></button>
@@ -42,114 +41,17 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr class="table-group-divider">
-				<td class="justify-start align-middle ps-4 table-font-size"><input type="checkbox" /></td>
-				<td class="text-center align-middle table-font-size"><img src="${pageContext.request.contextPath}/resources/image/employeePicture.png" width="40px"/></td>
-				<td class="align-middle table-font-size">오티아이</td>
-				<td class="align-middle table-font-size">대표이사</td>
-				<td class="align-middle table-font-size">대표이사</td>
-				<td class="align-middle table-font-size">oti@oti.co.kr</td>
-				<td class="align-middle table-font-size">02-2248-8585</td>
-			</tr>
-			<tr class="table-group-divider">
-				<td class="justify-start align-middle ps-4 table-font-size"><input type="checkbox" /></td>
-				<td class="text-center align-middle table-font-size"><img src="${pageContext.request.contextPath}/resources/image/employeePicture.png" width="40px"/></td>
-				<td class="align-middle table-font-size">홍길동</td>
-				<td class="align-middle table-font-size">공공사업1Div.</td>
-				<td class="align-middle table-font-size">이사</td>
-				<td class="align-middle table-font-size">honggildong@oti.co.kr</td>
-				<td class="align-middle table-font-size">02-2248-8484</td>
-			</tr>
-			<tr class="table-group-divider">
-				<td class="justify-start align-middle ps-4 table-font-size"><input type="checkbox" /></td>
-				<td class="text-center align-middle table-font-size"><img src="${pageContext.request.contextPath}/resources/image/employeePicture.png" width="40px"/></td>
-				<td class="align-middle table-font-size">유재석</td>
-				<td class="align-middle table-font-size">공공사업1Div.</td>
-				<td class="align-middle table-font-size">부장</td>
-				<td class="align-middle table-font-size">jaesuk@oti.co.kr</td>
-				<td class="align-middle table-font-size">02-2249-1541</td>
-			</tr>
-			<tr class="table-group-divider">
-				<td class="justify-start align-middle ps-4 table-font-size"><input type="checkbox" /></td>
-				<td class="text-center align-middle table-font-size"><img src="${pageContext.request.contextPath}/resources/image/employeePicture.png" width="40px"/></td>
-				<td class="align-middle table-font-size">박명수</td>
-				<td class="align-middle table-font-size">공공사업1Div.</td>
-				<td class="align-middle table-font-size">차장</td>
-				<td class="align-middle table-font-size">myeongsoo@oti.co.kr</td>
-				<td class="align-middle table-font-size">02-2249-1542</td>
-			</tr>
-			<tr class="table-group-divider">
-				<td class="justify-start align-middle ps-4 table-font-size"><input type="checkbox" /></td>
-				<td class="text-center align-middle table-font-size"><img src="${pageContext.request.contextPath}/resources/image/employeePicture.png" width="40px"/></td>
-				<td class="align-middle table-font-size">정준하</td>
-				<td class="align-middle table-font-size">공공사업1Div.</td>
-				<td class="align-middle table-font-size">과장</td>
-				<td class="align-middle table-font-size">junha@oti.co.kr</td>
-				<td class="align-middle table-font-size">02-2249-1543</td>
-			</tr>
-			<tr class="table-group-divider">
-				<td class="justify-start align-middle ps-4 table-font-size"><input type="checkbox" /></td>
-				<td class="text-center align-middle table-font-size"><img src="${pageContext.request.contextPath}/resources/image/employeePicture.png" width="40px"/></td>
-				<td class="align-middle table-font-size">정형돈</td>
-				<td class="align-middle table-font-size">공공사업1Div.</td>
-				<td class="align-middle table-font-size">과장</td>
-				<td class="align-middle table-font-size">hyeongdon@oti.co.kr</td>
-				<td class="align-middle table-font-size">02-2249-1544</td>
-			</tr>
-			<tr class="table-group-divider">
-				<td class="justify-start align-middle ps-4 table-font-size"><input type="checkbox" /></td>
-				<td class="text-center align-middle table-font-size"><img src="${pageContext.request.contextPath}/resources/image/employeePicture.png" width="40px"/></td>
-				<td class="align-middle table-font-size">노홍철</td>
-				<td class="align-middle table-font-size">공공사업1Div.</td>
-				<td class="align-middle table-font-size">대리</td>
-				<td class="align-middle table-font-size">mrNho@oti.co.kr</td>
-				<td class="align-middle table-font-size">02-2249-1545</td>
-			</tr>
-			<tr class="table-group-divider">
-				<td class="justify-start align-middle ps-4 table-font-size"><input type="checkbox" /></td>
-				<td class="text-center align-middle table-font-size"><img src="${pageContext.request.contextPath}/resources/image/employeePicture.png" width="40px"/></td>
-				<td class="align-middle table-font-size">하동훈</td>
-				<td class="align-middle table-font-size">공공사업1Div.</td>
-				<td class="align-middle table-font-size">대리</td>
-				<td class="align-middle table-font-size">haha1234@oti.co.kr</td>
-				<td class="align-middle table-font-size">02-2249-1546</td>
-			</tr>
-			<tr class="table-group-divider">
-				<td class="justify-start align-middle ps-4 table-font-size"><input type="checkbox" /></td>
-				<td class="text-center align-middle table-font-size"><img src="${pageContext.request.contextPath}/resources/image/employeePicture.png" width="40px"/></td>
-				<td class="align-middle table-font-size">하동훈</td>
-				<td class="align-middle table-font-size">공공사업1Div.</td>
-				<td class="align-middle table-font-size">대리</td>
-				<td class="align-middle table-font-size">haha1234@oti.co.kr</td>
-				<td class="align-middle table-font-size">02-2249-1546</td>
-			</tr>
-			<tr class="table-group-divider">
-				<td class="justify-start align-middle ps-4 table-font-size"><input type="checkbox" /></td>
-				<td class="text-center align-middle table-font-size"><img src="${pageContext.request.contextPath}/resources/image/employeePicture.png" width="40px"/></td>
-				<td class="align-middle table-font-size">정원석</td>
-				<td class="align-middle table-font-size">공공사업1Div.</td>
-				<td class="align-middle table-font-size">사원</td>
-				<td class="align-middle table-font-size">wonsuk@oti.co.kr</td>
-				<td class="align-middle table-font-size">02-2249-1547</td>
-			</tr>
-			<tr class="table-group-divider">
-				<td class="justify-start align-middle ps-4 table-font-size"><input type="checkbox" /></td>
-				<td class="text-center align-middle table-font-size"><img src="${pageContext.request.contextPath}/resources/image/employeePicture.png" width="40px"/></td>
-				<td class="align-middle table-font-size">서지혜</td>
-				<td class="align-middle table-font-size">공공사업1Div.</td>
-				<td class="align-middle table-font-size">사원</td>
-				<td class="align-middle table-font-size">seo1515@oti.co.kr</td>
-				<td class="align-middle table-font-size">02-2249-1547</td>
-			</tr>
-			<tr class="table-group-divider">
-				<td class="justify-start align-middle ps-4 table-font-size"><input type="checkbox" /></td>
-				<td class="text-center align-middle table-font-size"><img src="${pageContext.request.contextPath}/resources/image/employeePicture.png" width="40px"/></td>
-				<td class="align-middle table-font-size">엄성현</td>
-				<td class="align-middle table-font-size">공공사업1Div.</td>
-				<td class="align-middle table-font-size">사원</td>
-				<td class="align-middle table-font-size">sunghyun1541@oti.co.kr</td>
-				<td class="align-middle table-font-size">02-2249-1548</td>
-			</tr>
+			<c:forEach items="${empDeptList}" var="emp">
+				<tr class="table-group-divider">
+					<td class="justify-start align-middle ps-4 table-font-size"><input type="checkbox" /></td>
+					<td class="text-center align-middle table-font-size"><img src="${pageContext.request.contextPath}/resources/image/employeePicture.png" width="40px"/></td>
+					<td class="align-middle table-font-size">${emp.empInfo.empName}</td>
+					<td class="align-middle table-font-size">${emp.deptName }</td>
+					<td class="align-middle table-font-size">${emp.empInfo.position }</td>
+					<td class="align-middle table-font-size">${emp.empInfo.empEmail }</td>
+					<td class="align-middle table-font-size">${emp.empInfo.empTel }</td>
+				</tr>
+			</c:forEach>
 		</tbody>
 	</table>
 	

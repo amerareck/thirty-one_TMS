@@ -61,11 +61,11 @@
 	
 	<select id="selectEmpList" parameterType="Pager" resultType="Employee">
 		<![CDATA[
-			select emp_id, emp_name, position, emp_hiredate, dept_id
+			select emp_id, emp_name, position, emp_hiredate, dept_id, emp_email, emp_tel
 			from (
-				select rownum as rnum, emp_id, emp_name, position, emp_hiredate, dept_id
+				select rownum as rnum, emp_id, emp_name, position, emp_hiredate, dept_id, emp_email, emp_tel
 				from(
-					select emp_id, emp_name, position, emp_hiredate, dept_id
+					select emp_id, emp_name, position, emp_hiredate, dept_id, emp_email, emp_tel
 					from employees
 					where emp_role='ROLE_USER'
 				)
@@ -160,4 +160,12 @@
 		set dept_id = #{deptId}
 		where emp_id = #{empId}
 	</update>
+	
+	<update id="updateEmpPosAll">
+		update employees
+		set position = #{posName}
+		where position = prePosName;
+	</update>
+	
+	
 </mapper>

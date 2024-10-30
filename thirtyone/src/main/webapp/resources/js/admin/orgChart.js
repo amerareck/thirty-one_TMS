@@ -23,11 +23,6 @@ addBtn.addEventListener("click",function() {
 	})
 })
 
-const deptMoveBtn = document.querySelectorAll('.dept-move-btn');
-const deptNameBtn = document.querySelectorAll('.dept-name-btn');
-const deptHeadBtn = document.querySelectorAll('.dept-head-btn');
-const deptIdBtn = document.querySelectorAll('.dept-id-btn');
-
 $(document).on("click", '.dept-move-btn', function () {
 	let deptId = this.dataset.deptid;
 	let region = this.dataset.region;
@@ -138,5 +133,4 @@ $(document).on("click", ".dept-delete-btn", function() {
 		}
 		
 	})
-	
 })

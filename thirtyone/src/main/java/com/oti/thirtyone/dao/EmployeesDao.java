@@ -44,6 +44,8 @@ public interface EmployeesDao {
 
 	int countRowsByDeptId(int deptId);
 
-	void updateEmpDept(@Param("empId") String empId, @Param("deptId") int deptId);
+	int updateEmpDept(@Param("empId") String empId, @Param("deptId") int deptId);
+
+	int updateEmpPosAll(@Param("posName") String posName, @Param("prePos") String prePosName);
 
 }

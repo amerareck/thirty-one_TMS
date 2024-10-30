@@ -23,4 +23,16 @@
 			END
 		where position_class IN (#{prePosClass}, #{posClass})
 	</update>
+	
+	<update id="updatePosName">
+		update positions
+		set position = #{posName}
+		where position_class = #{posClass}
+	</update>
+	
+	<select id="selectPosName" parameterType="String" resultType="String">
+		select position
+		from positions
+		where position_class = #{posClass}
+	</select>
 </mapper> 
