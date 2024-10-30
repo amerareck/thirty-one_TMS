@@ -27,6 +27,7 @@
 					from( 
 					select dept_id, dept_name, emp_id, regional_office
 						from departments
+						where dept_id != 999
 						order by regional_office, dept_id
 				)
 				where rownum <= #{endRowNo}			
@@ -64,4 +65,10 @@
 		delete from departments
 		where dept_id=#{deptId}
 	</delete>
+	
+	<select id="countRows">
+		select count(dept_id)
+		from departments
+		where dept_id != 999
+	</select>
 </mapper>

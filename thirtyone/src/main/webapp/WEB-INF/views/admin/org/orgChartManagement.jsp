@@ -31,6 +31,8 @@
 				<div class="input-group input-group-sm">
 					<input class="form-control input-text input-dept-head" placeholder="부서장" />
 					<button class="btn btn-outline-secondary btn-sm btn-border"><i class="fas fa-pencil-alt"></i></button>
+		      		<select class="form-control choice-dept-name ms-2"></select>
+		      		
 				</div>
 		      </th>
 		      <th scope="col" class="text-center align-middle">
@@ -51,11 +53,11 @@
 	    	<c:forEach items="#{deptList}" var="dept">
 			    <tr class="table-group-divider">
 			    	<td class="text-center align-middle office-column">
-			    		${dept.regionalOffice}
+			    		${dept.dept.regionalOffice}
 			    	</td>
 					<td class="text-center align-middle">
 						<div class="d-flex justify-content-between align-items-top p-3">
-					  		<div class="d-flex align-items-center">${dept.deptName}</div>
+					  		<div class="d-flex align-items-center">${dept.dept.deptName}</div>
 					  		<div class="dropdown">
 					   			<button class="btn btn-sm border-0 dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
 					   				<i class="fas fa-ellipsis-h"></i>
@@ -76,13 +78,13 @@
 								    <li>
 								    	<div class="d-flex align-items-center justify-content-center p-2">
 									    	<i class="fa-solid fa-square-arrow-up-right w-25 d-flex justify-content-center"></i>
-									    	<button class="dropdown-item w-75 text-start dept-move-btn" type="button" data-bs-toggle="modal" data-bs-target="#departMoveModal" data-region="${dept.regionalOffice}" data-deptid="${dept.deptId}">조직 이동</button>
+									    	<button class="dropdown-item w-75 text-start dept-move-btn" type="button" data-bs-toggle="modal" data-bs-target="#departMoveModal" data-region="${dept.dept.regionalOffice}" data-deptid="${dept.dept.deptId}">조직 이동</button>
 									    </div>
 								    </li>
 								    <li>
 								    	<div class="d-flex align-items-center justify-content-center p-2">
 									    	<i class="fas fa-pencil-alt w-25 d-flex justify-content-center"></i>
-									    	<button class="dropdown-item w-75 text-start dept-name-btn" type="button" data-bs-toggle="modal" data-bs-target="#deptNameChangeModal"  data-deptname="${dept.deptName}" data-deptid="${dept.deptId}">명칭 변경</button>
+									    	<button class="dropdown-item w-75 text-start dept-name-btn" type="button" data-bs-toggle="modal" data-bs-target="#deptNameChangeModal"  data-deptname="${dept.dept.deptName}" data-deptid="${dept.dept.deptId}">명칭 변경</button>
 									    </div>
 								    </li>
 <!-- 								    <li>
@@ -97,7 +99,7 @@
 					</td>
 					<td class="text-center align-middle">
 						<div class="d-flex justify-content-between align-items-top">
-			      			<div class="d-flex align-items-center">${dept.empId }</div>
+			      			<div class="d-flex align-items-center">${dept.headName }</div>
 				      		<div class="dropdown">
 					      		<button class="btn btn-sm border-0 dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
 					      			<i class="fas fa-ellipsis-h"></i>
@@ -106,7 +108,7 @@
 								    <li>
 								    	<div class="d-flex align-items-center justify-content-center p-2">
 									    	<i class="fas fa-pencil-alt w-25 d-flex justify-content-center"></i>
-									    	<button class="dropdown-item w-75 text-start dept-head-btn" type="button" data-bs-toggle="modal" data-bs-target="#deptHeadChangeModal" data-depthead="${dept.empId }" data-deptid="${dept.deptId}">부서장 변경</button>
+									    	<button class="dropdown-item w-75 text-start dept-head-btn" type="button" data-bs-toggle="modal" data-bs-target="#deptHeadChangeModal" data-depthead="${dept.headName }" data-deptid="${dept.dept.deptId}">부서장 변경</button>
 								    	</div>
 								    </li>
 								   <!--  <li>
@@ -121,7 +123,7 @@
 			      	</td>
 			      	<td class="text-center align-middle">
 						<div class="d-flex justify-content-center align-items-top">
-			      			<div class="d-flex text-center align-items-center">${dept.deptId}</div>
+			      			<div class="d-flex text-center align-items-center">${dept.dept.deptId}</div>
 <%-- 				부서아이디는 변경되면 안됨	  					      		<div class="dropdown">
 					      		<button class="btn btn-sm border-0 dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
 					      			<i class="fas fa-ellipsis-h"></i>
@@ -145,28 +147,38 @@
 			      	</td>
 			      	<td class="text-center align-middle delete-btn">
 			    		<i class="fa-regular fa-trash-can me-1"></i>
-				    	<button class="dropdown-item text-start dept-delete-btn" type="button" data-deptid="${dept.deptId}">삭제하기</button>
+				    	<button class="dropdown-item text-start dept-delete-btn" type="button" data-deptid="${dept.dept.deptId}">삭제하기</button>
 			    	</td>
 			    </tr>
 		    </c:forEach>
 	    </tbody>
 	</table>
 
-	<nav class="mt-5 mb-3 d-flex justify-content-center">
-		<ul class="pagination pagination-not-effect justify-content-center pagination-size">
-			<li class="page-item disabled">
-				<a class="page-link page-border-none text-dark" href="#" tabindex="-1" aria-disabled="true"><i class="fa-solid fa-chevron-left"></i></a>
-			</li>
-			<li class="page-item"><a class="page-link text-dark page-border-none ms-5" href="#">1</a></li>
-			<li class="page-item"><a class="page-link text-dark page-border-none ms-1" href="#">2</a></li>
-			<li class="page-item"><a class="page-link text-dark page-border-none ms-1" href="#">3</a></li>
-			<li class="page-item"><a class="page-link text-dark page-border-none ms-1" href="#">4</a></li>
-			<li class="page-item"><a class="page-link text-dark page-border-none ms-1 me-5" href="#">5</a></li>
-			<li class="page-item">
-				<a class="page-link page-border-none text-dark" href="#"><i class="fa-solid fa-chevron-right"></i></a>
-			</li>
-		</ul>
-   	</nav>
+	<div class="pagination">
+		<c:if test="${pager.groupNo>1}">
+			<a href="org?pageNo=${pager.startPageNo-1}"> 
+				<img src="${pageContext.request.contextPath}/resources/image/prev_icon.png" alt="prev" style="width: 110px">
+			</a>
+		</c:if>
+		<c:forEach begin="${pager.startPageNo}" end="${pager.endPageNo}" step="1" var="i">
+			<c:if test="${pager.pageNo==i}">
+				<button class="page-num active"
+					onclick="location.href='${pageContext.request.contextPath}/admin/org?pageNo=${i}'"
+					style="color: #686868">${i}</button>
+			</c:if>
+			<c:if test="${pager.pageNo!=i}">
+				<button class="page-num"
+					onclick="location.href='${pageContext.request.contextPath}/admin/org?pageNo=${i}'">
+					${i}</button>
+			</c:if>
+		</c:forEach>
+		<c:if test="${pager.groupNo<pager.totalGroupNo}">
+			<a href="org?pageNo=${pager.endPageNo+1}">
+				<img src="${pageContext.request.contextPath}/resources/image/next_icon.png" alt="next" style="width: 110px">
+			</a>
+		</c:if>
+
+	</div>
 </section>
 
 
@@ -247,6 +259,10 @@
 					<div class="modal-box-in">
 						<label class="modal-label">변경후 부서장</label>
 						<input class="aftermove after-dept-head" placeholder="부서장을 입력해주세요.">	
+					</div>
+					<div class="modal-box-in">
+						<label class="modal-label">부서장 사번</label>
+						<select class="form-control choice-dept-name-modal ms-2"></select>
 					</div>
 				</div>
 				<div class='button-list'>

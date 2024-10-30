@@ -93,8 +93,8 @@ public class EmployeesService {
 			
 	}
 
-	public EmployeesDto getEmpInfoByEmpNum(int deptHead) {
-		return empDao.selectEmpInfoByeEmpNum(deptHead);
+	public EmployeesDto getEmpInfoByEmpNum(int empNumber) {
+		return empDao.selectEmpInfoByeEmpNum(empNumber);
 		
 	}
 
@@ -111,6 +111,10 @@ public class EmployeesService {
 		for(String empId : empIdList) 
 			empDao.updateEmpDept(empId, deptId);
 		
+	}
+
+	public List<EmployeesDto> getEmpInfoByName(String empName) {
+		return empDao.selectEmpInfoByName(empName);
 	}
 
 	

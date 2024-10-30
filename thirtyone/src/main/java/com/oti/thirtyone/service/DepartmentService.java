@@ -60,6 +60,11 @@ public class DepartmentService {
 	public void deleteDept(int deptId) {
 		deptDao.deleteDept(deptId);
 	}
+
+	public int countRows() {
+		int totalRows = deptDao.countRows();
+		return totalRows;
+	}
 	
 	
 }

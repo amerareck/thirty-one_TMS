@@ -19,7 +19,6 @@
 	</select>
 	
 	
-	
 	<insert id="insertEmp" parameterType="Employee">
 		insert into employees ( 
 		emp_id, emp_number, emp_password, emp_name, emp_email, emp_gender, emp_birth, emp_postal,
@@ -167,5 +166,10 @@
 		where position = #{prePos}
 	</update>
 	
+	<select id="selectEmpInfoByName" parameterType="String" resultType="Employee">
+		select emp_number
+		from employees
+		where emp_name=#{empName}	
+	</select>
 	
 </mapper>

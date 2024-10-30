@@ -3,6 +3,7 @@ package com.oti.thirtyone.controller;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
+import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -191,4 +192,12 @@ public class EmployeeController {
 			ioe.printStackTrace();
 		}
 	}
+	
+	@GetMapping("getEmpNumber")
+	public ResponseEntity<List<EmployeesDto>> getEmpNumber(String empName){
+		List<EmployeesDto> numberList = empService.getEmpInfoByName(empName);
+		
+		return ResponseEntity.ok(numberList);
+	}
+	
 }

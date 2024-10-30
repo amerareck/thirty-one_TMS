@@ -181,12 +181,21 @@ public class AdminController {
 	
 	@GetMapping("/org")
 	public String getOrgChartPage(Model model, @RequestParam(defaultValue = "1") int pageNo, HttpSession session) {
-		int totalRows = empService.countRows();
+		int totalRows = deptService.countRows();
 		Pager pager = new Pager(10, 5, totalRows, pageNo);
 		session.setAttribute("pager", pager);
 		List<Departments> deptList = deptService.getDeptListByRegion(pager);
-
-		model.addAttribute("deptList", deptList);
+		List<Map<String, Object>> deptMapList = new LinkedList<>();
+		
+		for(Departments dept: deptList) {
+			Map<String, Object> deptInfoList = new HashMap<>();
+			String empName = empService.getEmpInfo(dept.getEmpId()).getEmpName();
+			deptInfoList.put("dept", dept);
+			deptInfoList.put("headName", empName);
+			deptMapList.add(deptInfoList);
+		}
+		
+		model.addAttribute("deptList", deptMapList);
 		model.addAttribute("title", "조직도");
 		model.addAttribute("selectedTitle", "org");
 		model.addAttribute("selectedSub", "organization");

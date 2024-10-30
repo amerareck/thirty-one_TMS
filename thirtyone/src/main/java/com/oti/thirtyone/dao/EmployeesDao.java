@@ -48,4 +48,6 @@ public interface EmployeesDao {
 
 	int updateEmpPosAll(@Param("posName") String posName, @Param("prePos") String prePosName);
 
+	List<EmployeesDto> selectEmpInfoByName(String empName);
+
 }

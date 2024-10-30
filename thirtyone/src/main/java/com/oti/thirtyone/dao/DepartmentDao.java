@@ -29,4 +29,6 @@ public interface DepartmentDao {
 
 	int deleteDept(int deptId);
 
+	int countRows();
+
 }
