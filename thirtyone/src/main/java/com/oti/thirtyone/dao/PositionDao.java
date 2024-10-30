@@ -20,4 +20,6 @@ public interface PositionDao {
 
 	String selectPosName(int posClass);
 
+	int deletePos(String prePosName);
+
 }

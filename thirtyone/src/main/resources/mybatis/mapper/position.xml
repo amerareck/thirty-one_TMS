@@ -26,13 +26,18 @@
 	
 	<update id="updatePosName">
 		update positions
-		set position = #{posName}
-		where position_class = #{posClass}
+		set position_class = #{posClass}
+		where position = #{posName}
 	</update>
 	
-	<select id="selectPosName" parameterType="String" resultType="String">
+	<select id="selectPosName" parameterType="int" resultType="String">
 		select position
 		from positions
 		where position_class = #{posClass}
 	</select>
+	
+	<delete id="deletePos" parameterType="String">
+		delete from positions
+		where position=#{prePosName}
+	</delete>
 </mapper> 

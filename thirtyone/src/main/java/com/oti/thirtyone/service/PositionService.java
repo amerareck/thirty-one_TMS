@@ -35,8 +35,10 @@ public class PositionService {
 	
 	@Transactional
 	public void chagePosName(int posClass, String posName, String prePosName) {
-		posDao.updatePosName(posClass, posName);
+		posDao.insertPos(posName);
 		empDao.updateEmpPosAll(posName, prePosName);
+		posDao.deletePos(prePosName);
+		posDao.updatePosName(posClass, posName);
 	}
 
 	public String getPosName(int posClass) {

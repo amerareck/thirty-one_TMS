@@ -164,7 +164,7 @@
 	<update id="updateEmpPosAll">
 		update employees
 		set position = #{posName}
-		where position = prePosName;
+		where position = #{prePos}
 	</update>
 	
 	
