@@ -93,8 +93,8 @@ public class EmployeesService {
 			
 	}
 
-	public EmployeesDto getEmpInfoByEmpNum(int deptHead) {
-		return empDao.selectEmpInfoByeEmpNum(deptHead);
+	public EmployeesDto getEmpInfoByEmpNum(int empNumber) {
+		return empDao.selectEmpInfoByeEmpNum(empNumber);
 		
 	}
 
@@ -108,6 +108,16 @@ public class EmployeesService {
 	
 	public List<EmployeesDto> getEmployeeListByDeptId(int deptId) {
 		return empDao.selectEmployeesByDeptId(deptId);
+	}
+
+	public void updateEmpDept(List<String> empIdList, int deptId) {
+		for(String empId : empIdList) 
+			empDao.updateEmpDept(empId, deptId);
+		
+	}
+
+	public List<EmployeesDto> getEmpInfoByName(String empName) {
+		return empDao.selectEmpInfoByName(empName);
 	}
 
 	

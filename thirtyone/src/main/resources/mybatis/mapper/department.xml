@@ -16,7 +16,7 @@
 	<select id="selectDeptList" resultType="Department">
 		select dept_id, dept_name, emp_id, regional_office
 		from departments
-		order by regional_office
+		order by regional_office, dept_name
 	</select>
 
 	<select id="selectDeptListByRegion" parameterType="Pager" resultType="Department">
@@ -27,6 +27,7 @@
 					from( 
 					select dept_id, dept_name, emp_id, regional_office
 						from departments
+						where dept_id != 999
 						order by regional_office, dept_id
 				)
 				where rownum <= #{endRowNo}			
@@ -75,5 +76,11 @@
 			FROM DEPARTMENTS
 			ORDER BY dept_id
 		]]>
+	</select>
+	
+	<select id="countRows">
+		select count(dept_id)
+		from departments
+		where dept_id != 999
 	</select>
 </mapper>

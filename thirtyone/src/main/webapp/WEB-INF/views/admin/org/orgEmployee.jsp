@@ -2,6 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <%@ include file="/WEB-INF/views/admin/org/orgContainer.jsp"%>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/admin/orgEmp.css" />
 <div class="sub-title m-0">
 	<div <c:if test="${activePage == 'orgChart'}">class="sub-title-active"</c:if>><a href="org">조직도 관리</a></div>
 	<div <c:if test="${activePage == 'position'}">class="sub-title-active"</c:if>><a href="position">직급 관리</a></div>
@@ -12,19 +13,19 @@
 <section style="margin: 0 auto;">
 	<div class="d-flex justify-content-between align-item-center my-2">
 		<div class="w-25 d-flex align-item-center">
-			<button type="button" class="btn btn-outline-secondary d-flex justify-content-between align-items-center" style="width: 100px; height: 37px; border-color: #e2e2e2;">
+			<button type="button" class="dept-update-btn btn btn-outline-secondary d-flex justify-content-between align-items-center" style="width: 100px; height: 37px; border-color: #e2e2e2;" 
+				data-bs-toggle="modal" data-bs-target="#dept-update-modal">
 				<i class="fas fa-pencil-alt w-25 d-flex justify-content-center"></i>
 				<span style="font-size: .875rem;">선택 수정</span>
 			</button>
 		</div>
 		<div class="input-group" style="width: 30%;">
-			<select class="form-select form-select-sm" style="flex:1;">
-			    <option value="empName" selected>이름</option>
-			    <option value="empDept">부서</option>
-			    <option value="empPosition">직급</option>
-			    <option value="empEmail">이메일</option>
+			<select class="form-select form-select-sm" id="search-menu" style="flex:1;">
+			    <option value="0" selected>이름</option>
+			    <option value="1">직급</option>
+			    <option value="2">부서</option>
 			</select>
-			<input class="form-control" placeholder="검색" style="flex:2; height: 37.77px !important;" />
+			<input class="form-control" id="search" onkeyup="enterkeySearch()" autocomplete="off" placeholder="검색" style="flex:2; height: 37.77px !important;" />
 			<button class="btn btn-outline-secondary" style="border-color: #dee2e6;" type="button"><i class="fa-solid fa-magnifying-glass"></i></button>
 		</div>
 	</div>
@@ -32,7 +33,7 @@
 	<table class="table table-hover table-header-bg">
 		<thead>
 			<tr>
-				<th scope="col" class="justify-start align-middle ps-4" style="width: 5%"><input type="checkbox" /></th>
+				<th scope="col" class="justify-start align-middle ps-4" style="width: 5%"><input class="check-all-select" type="checkbox" /></th>
 				<th scope="col" class="text-center align-middle" style="width: 15%">사진</th>
 				<th scope="col" class="align-middle" style="width: 15%">이름</th>
 				<th scope="col" class="align-middle" style="width: 15%">조직</th>
@@ -42,133 +43,82 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr class="table-group-divider">
-				<td class="justify-start align-middle ps-4 table-font-size"><input type="checkbox" /></td>
-				<td class="text-center align-middle table-font-size"><img src="${pageContext.request.contextPath}/resources/image/employeePicture.png" width="40px"/></td>
-				<td class="align-middle table-font-size">오티아이</td>
-				<td class="align-middle table-font-size">대표이사</td>
-				<td class="align-middle table-font-size">대표이사</td>
-				<td class="align-middle table-font-size">oti@oti.co.kr</td>
-				<td class="align-middle table-font-size">02-2248-8585</td>
-			</tr>
-			<tr class="table-group-divider">
-				<td class="justify-start align-middle ps-4 table-font-size"><input type="checkbox" /></td>
-				<td class="text-center align-middle table-font-size"><img src="${pageContext.request.contextPath}/resources/image/employeePicture.png" width="40px"/></td>
-				<td class="align-middle table-font-size">홍길동</td>
-				<td class="align-middle table-font-size">공공사업1Div.</td>
-				<td class="align-middle table-font-size">이사</td>
-				<td class="align-middle table-font-size">honggildong@oti.co.kr</td>
-				<td class="align-middle table-font-size">02-2248-8484</td>
-			</tr>
-			<tr class="table-group-divider">
-				<td class="justify-start align-middle ps-4 table-font-size"><input type="checkbox" /></td>
-				<td class="text-center align-middle table-font-size"><img src="${pageContext.request.contextPath}/resources/image/employeePicture.png" width="40px"/></td>
-				<td class="align-middle table-font-size">유재석</td>
-				<td class="align-middle table-font-size">공공사업1Div.</td>
-				<td class="align-middle table-font-size">부장</td>
-				<td class="align-middle table-font-size">jaesuk@oti.co.kr</td>
-				<td class="align-middle table-font-size">02-2249-1541</td>
-			</tr>
-			<tr class="table-group-divider">
-				<td class="justify-start align-middle ps-4 table-font-size"><input type="checkbox" /></td>
-				<td class="text-center align-middle table-font-size"><img src="${pageContext.request.contextPath}/resources/image/employeePicture.png" width="40px"/></td>
-				<td class="align-middle table-font-size">박명수</td>
-				<td class="align-middle table-font-size">공공사업1Div.</td>
-				<td class="align-middle table-font-size">차장</td>
-				<td class="align-middle table-font-size">myeongsoo@oti.co.kr</td>
-				<td class="align-middle table-font-size">02-2249-1542</td>
-			</tr>
-			<tr class="table-group-divider">
-				<td class="justify-start align-middle ps-4 table-font-size"><input type="checkbox" /></td>
-				<td class="text-center align-middle table-font-size"><img src="${pageContext.request.contextPath}/resources/image/employeePicture.png" width="40px"/></td>
-				<td class="align-middle table-font-size">정준하</td>
-				<td class="align-middle table-font-size">공공사업1Div.</td>
-				<td class="align-middle table-font-size">과장</td>
-				<td class="align-middle table-font-size">junha@oti.co.kr</td>
-				<td class="align-middle table-font-size">02-2249-1543</td>
-			</tr>
-			<tr class="table-group-divider">
-				<td class="justify-start align-middle ps-4 table-font-size"><input type="checkbox" /></td>
-				<td class="text-center align-middle table-font-size"><img src="${pageContext.request.contextPath}/resources/image/employeePicture.png" width="40px"/></td>
-				<td class="align-middle table-font-size">정형돈</td>
-				<td class="align-middle table-font-size">공공사업1Div.</td>
-				<td class="align-middle table-font-size">과장</td>
-				<td class="align-middle table-font-size">hyeongdon@oti.co.kr</td>
-				<td class="align-middle table-font-size">02-2249-1544</td>
-			</tr>
-			<tr class="table-group-divider">
-				<td class="justify-start align-middle ps-4 table-font-size"><input type="checkbox" /></td>
-				<td class="text-center align-middle table-font-size"><img src="${pageContext.request.contextPath}/resources/image/employeePicture.png" width="40px"/></td>
-				<td class="align-middle table-font-size">노홍철</td>
-				<td class="align-middle table-font-size">공공사업1Div.</td>
-				<td class="align-middle table-font-size">대리</td>
-				<td class="align-middle table-font-size">mrNho@oti.co.kr</td>
-				<td class="align-middle table-font-size">02-2249-1545</td>
-			</tr>
-			<tr class="table-group-divider">
-				<td class="justify-start align-middle ps-4 table-font-size"><input type="checkbox" /></td>
-				<td class="text-center align-middle table-font-size"><img src="${pageContext.request.contextPath}/resources/image/employeePicture.png" width="40px"/></td>
-				<td class="align-middle table-font-size">하동훈</td>
-				<td class="align-middle table-font-size">공공사업1Div.</td>
-				<td class="align-middle table-font-size">대리</td>
-				<td class="align-middle table-font-size">haha1234@oti.co.kr</td>
-				<td class="align-middle table-font-size">02-2249-1546</td>
-			</tr>
-			<tr class="table-group-divider">
-				<td class="justify-start align-middle ps-4 table-font-size"><input type="checkbox" /></td>
-				<td class="text-center align-middle table-font-size"><img src="${pageContext.request.contextPath}/resources/image/employeePicture.png" width="40px"/></td>
-				<td class="align-middle table-font-size">하동훈</td>
-				<td class="align-middle table-font-size">공공사업1Div.</td>
-				<td class="align-middle table-font-size">대리</td>
-				<td class="align-middle table-font-size">haha1234@oti.co.kr</td>
-				<td class="align-middle table-font-size">02-2249-1546</td>
-			</tr>
-			<tr class="table-group-divider">
-				<td class="justify-start align-middle ps-4 table-font-size"><input type="checkbox" /></td>
-				<td class="text-center align-middle table-font-size"><img src="${pageContext.request.contextPath}/resources/image/employeePicture.png" width="40px"/></td>
-				<td class="align-middle table-font-size">정원석</td>
-				<td class="align-middle table-font-size">공공사업1Div.</td>
-				<td class="align-middle table-font-size">사원</td>
-				<td class="align-middle table-font-size">wonsuk@oti.co.kr</td>
-				<td class="align-middle table-font-size">02-2249-1547</td>
-			</tr>
-			<tr class="table-group-divider">
-				<td class="justify-start align-middle ps-4 table-font-size"><input type="checkbox" /></td>
-				<td class="text-center align-middle table-font-size"><img src="${pageContext.request.contextPath}/resources/image/employeePicture.png" width="40px"/></td>
-				<td class="align-middle table-font-size">서지혜</td>
-				<td class="align-middle table-font-size">공공사업1Div.</td>
-				<td class="align-middle table-font-size">사원</td>
-				<td class="align-middle table-font-size">seo1515@oti.co.kr</td>
-				<td class="align-middle table-font-size">02-2249-1547</td>
-			</tr>
-			<tr class="table-group-divider">
-				<td class="justify-start align-middle ps-4 table-font-size"><input type="checkbox" /></td>
-				<td class="text-center align-middle table-font-size"><img src="${pageContext.request.contextPath}/resources/image/employeePicture.png" width="40px"/></td>
-				<td class="align-middle table-font-size">엄성현</td>
-				<td class="align-middle table-font-size">공공사업1Div.</td>
-				<td class="align-middle table-font-size">사원</td>
-				<td class="align-middle table-font-size">sunghyun1541@oti.co.kr</td>
-				<td class="align-middle table-font-size">02-2249-1548</td>
-			</tr>
+			<c:forEach items="${empDeptList}" var="emp">
+				<tr class="table-group-divider"	>
+					<td class="justify-start align-middle ps-4 table-font-size"><input class="check-box" type="checkbox" data-empid="${emp.empInfo.empId}"/></td>
+					<td class="text-center align-middle table-font-size"><img src="${pageContext.request.contextPath}/resources/image/employeePicture.png" width="40px"/></td>
+					<td class="align-middle table-font-size">${emp.empInfo.empName}</td>
+					<td class="align-middle table-font-size deptName">${emp.deptName }</td>
+					<td class="align-middle table-font-size">${emp.empInfo.position }</td>
+					<td class="align-middle table-font-size">${emp.empInfo.empEmail }</td>
+					<td class="align-middle table-font-size">${emp.empInfo.empTel }</td>
+				</tr>
+			</c:forEach>
 		</tbody>
 	</table>
 	
-	<div class="mt-5 mb-3 d-flex justify-content-center align-items-center w-100">
-		<nav class="d-flex justify-content-center">
-			<ul class="pagination pagination-not-effect justify-content-center pagination-size">
-				<li class="page-item disabled">
-					<a class="page-link page-border-none text-dark" href="#" tabindex="-1" aria-disabled="true"><i class="fa-solid fa-chevron-left"></i></a>
-				</li>
-				<li class="page-item"><a class="page-link text-dark page-border-none ms-5" href="#">1</a></li>
-				<li class="page-item"><a class="page-link text-dark page-border-none ms-1" href="#">2</a></li>
-				<li class="page-item"><a class="page-link text-dark page-border-none ms-1" href="#">3</a></li>
-				<li class="page-item"><a class="page-link text-dark page-border-none ms-1" href="#">4</a></li>
-				<li class="page-item"><a class="page-link text-dark page-border-none ms-1 me-5" href="#">5</a></li>
-				<li class="page-item">
-					<a class="page-link page-border-none text-dark" href="#"><i class="fa-solid fa-chevron-right"></i></a>
-				</li>
-			</ul>
-		</nav>
+	<div class="pagination">
+		<c:if test="${pager.groupNo>1}">
+			<a href="employee?pageNo=${pager.startPageNo-1}"> 
+				<img src="${pageContext.request.contextPath}/resources/image/prev_icon.png" alt="prev" style="width: 110px">
+			</a>
+		</c:if>
+		<c:forEach begin="${pager.startPageNo}" end="${pager.endPageNo}" step="1" var="i">
+			<c:if test="${pager.pageNo==i}">
+				<button class="page-num active"
+					onclick="location.href='${pageContext.request.contextPath}/admin/employee?pageNo=${i}'"
+					style="color: #686868">${i}</button>
+			</c:if>
+			<c:if test="${pager.pageNo!=i}">
+				<button class="page-num"
+					onclick="location.href='${pageContext.request.contextPath}/admin/employee?pageNo=${i}'">
+					${i}</button>
+			</c:if>
+		</c:forEach>
+		<c:if test="${pager.groupNo<pager.totalGroupNo}">
+			<a href="employee?pageNo=${pager.endPageNo+1}">
+				<img src="${pageContext.request.contextPath}/resources/image/next_icon.png" alt="next" style="width: 110px">
+			</a>
+		</c:if>
+
 	</div>
 </section>
+
+
+<div class="modal fade" id="dept-update-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+  			<div class="dept-move card">
+				<div class="modal-top">
+					<p class="mini-title">직책명 변경</p>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="mini-line"></div>
+				<div class="modal-box">
+					<div class="modal-box-in">
+						<p class="modal-label">변경전 부서</p>
+						<div class="premove pre-pos-dept"></div>
+					</div>
+					<div class="modal-box-in">
+						<label class="modal-label">변경후 부서</label>
+						<select class="aftermove after-pos-dept">
+							<c:forEach items="${deptList}" var="dept">
+								<option value="${dept.deptId}"> ${dept.deptName} </option>
+							</c:forEach>
+						</select>	
+					</div>
+				</div>
+				<div class='button-list'>
+					<button class="button-large reject" data-bs-dismiss="modal" aria-label="Close">취소</button>
+					<button class="button-large accept change-btn-accept" data-posclass="">변경</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+	let contextPath = '${pageContext.request.contextPath}';
+</script>
+<script src="${pageContext.request.contextPath}/resources/js/admin/orgEmp.js"></script>
 <%@ include file="/WEB-INF/views/admin/org/orgContainerFooter.jsp"%>

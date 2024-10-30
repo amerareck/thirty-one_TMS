@@ -31,4 +31,6 @@ public interface DepartmentDao {
 
 	List<Departments> selectDepartments();
 
+	int countRows();
+
 }

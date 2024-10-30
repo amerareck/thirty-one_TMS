@@ -47,21 +47,31 @@
 					</c:forEach>
 				</tbody>
 			</table>
-			<nav class="mt-5 mb-3">
-               <ul class="pagination justify-content-center">
-                 <li class="page-item disabled">
-                   <a class="page-link text-dark" href="#" tabindex="-1" aria-disabled="true"><img class="arrow-left" src="${pageContext.request.contextPath}/resources/image/arrow/page-left-arrow.svg" width="10px"></a>
-                 </li>
-                 <li class="page-item"><a class="page-link text-dark page-border-none ms-3" href="#">1</a></li>
-                 <li class="page-item"><a class="page-link text-dark page-border-none ms-1" href="#">2</a></li>
-                 <li class="page-item"><a class="page-link text-dark page-border-none ms-1" href="#">3</a></li>
-                 <li class="page-item"><a class="page-link text-dark page-border-none ms-1" href="#">4</a></li>
-                 <li class="page-item"><a class="page-link text-dark page-border-none ms-1 me-3" href="#">5</a></li>
-                 <li class="page-item">
-                   <a class="page-link text-dark mb-4" href="#"><img class="arrow-right" src="${pageContext.request.contextPath}/resources/image/arrow/page-right-arrow.svg" width="10px"></a>
-                 </li>
-               </ul>
-          	</nav>
+				<div class="pagination">
+					<c:if test="${pager.groupNo>1}">
+						<a href="searchList?pageNo=${pager.startPageNo-1}"> 
+							<img src="${pageContext.request.contextPath}/resources/image/prev_icon.png" alt="prev" style="width: 110px">
+						</a>
+					</c:if>
+					<c:forEach begin="${pager.startPageNo}" end="${pager.endPageNo}" step="1" var="i">
+						<c:if test="${pager.pageNo==i}">
+							<button class="page-num active"
+								onclick="location.href='${pageContext.request.contextPath}/admin/searchList?pageNo=${i}'"
+								style="color: #686868">${i}</button>
+						</c:if>
+						<c:if test="${pager.pageNo!=i}">
+							<button class="page-num"
+								onclick="location.href='${pageContext.request.contextPath}/admin/searchList?pageNo=${i}'">
+								${i}</button>
+						</c:if>
+					</c:forEach>
+					<c:if test="${pager.groupNo<pager.totalGroupNo}">
+						<a href="searchList?pageNo=${pager.endPageNo+1}">
+							<img src="${pageContext.request.contextPath}/resources/image/next_icon.png" alt="next" style="width: 110px">
+						</a>
+					</c:if>
+
+			</div>
 		</div>
 	
 <script type="text/javascript">

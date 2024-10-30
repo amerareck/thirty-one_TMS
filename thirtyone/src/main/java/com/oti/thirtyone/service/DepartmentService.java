@@ -64,6 +64,11 @@ public class DepartmentService {
 	public List<Departments> getDepartmentList() {
 		return deptDao.selectDepartments();
 	}
+
+	public int countRows() {
+		int totalRows = deptDao.countRows();
+		return totalRows;
+	}
 	
 	
 }

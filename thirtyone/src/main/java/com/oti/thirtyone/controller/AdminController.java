@@ -1,6 +1,7 @@
 package com.oti.thirtyone.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -17,6 +18,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -179,12 +181,21 @@ public class AdminController {
 	
 	@GetMapping("/org")
 	public String getOrgChartPage(Model model, @RequestParam(defaultValue = "1") int pageNo, HttpSession session) {
-		int totalRows = empService.countRows();
+		int totalRows = deptService.countRows();
 		Pager pager = new Pager(10, 5, totalRows, pageNo);
 		session.setAttribute("pager", pager);
 		List<Departments> deptList = deptService.getDeptListByRegion(pager);
-
-		model.addAttribute("deptList", deptList);
+		List<Map<String, Object>> deptMapList = new LinkedList<>();
+		
+		for(Departments dept: deptList) {
+			Map<String, Object> deptInfoList = new HashMap<>();
+			String empName = empService.getEmpInfo(dept.getEmpId()).getEmpName();
+			deptInfoList.put("dept", dept);
+			deptInfoList.put("headName", empName);
+			deptMapList.add(deptInfoList);
+		}
+		
+		model.addAttribute("deptList", deptMapList);
 		model.addAttribute("title", "조직도");
 		model.addAttribute("selectedTitle", "org");
 		model.addAttribute("selectedSub", "organization");
@@ -230,14 +241,74 @@ public class AdminController {
 		return ResponseEntity.ok("OK");
 	}
 	
+	@PostMapping("/changePosName")
+	public ResponseEntity<String> changePosName(int posClass, String posName){
+		String prePosName = posService.getPosName(posClass);
+		log.info("posClass : " + posClass + " posName : " + posName + " prePosName : " + prePosName);
+		posService.chagePosName(posClass, posName, prePosName);
+		return ResponseEntity.ok("OK");
+	}
+	
 	@GetMapping("/employee")
-	public String getEmployeePage(Model model) {
+	public String getEmployeePage(Model model, @RequestParam(defaultValue = "1") int pageNo, HttpSession session) {
+
+		int totalRows = empService.countRows();
+		Pager pager = new Pager(10, 5, totalRows, pageNo);
+		session.setAttribute("pager", pager);
 		
+		List<EmployeesDto> empList = empService.selectEmpList(pager);
+		List<Map<String, Object>> empDeptList = new LinkedList<>();
+
+		for(EmployeesDto empDto : empList) {
+			Map<String, Object> empDept = new HashMap<>();
+			empDept.put("empInfo", empDto);
+			String deptName = deptService.getDeptName(empDto.getDeptId());
+			empDept.put("deptName", deptName);
+			empDeptList.add(empDept);
+		}
+		List<Departments> deptList = deptService.getDeptList();
+		
+		model.addAttribute("deptList", deptList);
+		model.addAttribute("empDeptList", empDeptList);
 		model.addAttribute("title", "조직도");
 		model.addAttribute("selectedTitle", "org");
 		model.addAttribute("selectedSub", "organization");
 		model.addAttribute("activePage","employee");
 		
+		return "admin/org/orgEmployee";
+	}
+	
+	@PostMapping("/changeEmpDept")
+	public ResponseEntity<String> changeEmpDept(@RequestBody Map<String, Object> data){
+		List<String> empIdList = (List<String>) data.get("empList");
+		empService.updateEmpDept(empIdList,  Integer.parseInt((String) data.get("deptId")));
+		
+		return ResponseEntity.ok("OK");
+	}
+	
+	@GetMapping("/searchDeptEmp")
+	public String searchEmpListByDept(Model model, String query, int category,
+			 	@RequestParam(defaultValue = "1") int pageNo, HttpSession session){
+		int totalRows = empService.countRowsBySearch(query, category);
+		Pager pager = new Pager(10, 5, totalRows, pageNo);
+		session.setAttribute("pager", pager);
+		List<EmployeesDto> empList = empService.getEmpListBySearch(query, category, pager);
+		List<Map<String, Object>> empDeptList = new LinkedList<>();
+		
+		for(EmployeesDto empDto : empList) {
+			Map<String, Object> empDept = new HashMap<>();
+			empDept.put("empInfo", empDto);
+			String deptName = deptService.getDeptName(empDto.getDeptId());
+			empDept.put("deptName", deptName);
+			empDeptList.add(empDept);
+		}
+		
+		model.addAttribute("total", totalRows);
+		model.addAttribute("empDeptList", empDeptList);
+		model.addAttribute("title", "조직도");
+		model.addAttribute("selectedTitle", "org");
+		model.addAttribute("selectedSub", "organization");
+		model.addAttribute("activePage","employee");
 		return "admin/org/orgEmployee";
 	}
 }

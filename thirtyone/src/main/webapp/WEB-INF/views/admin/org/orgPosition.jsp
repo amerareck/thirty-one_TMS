@@ -34,7 +34,7 @@
 						<div class="d-flex text-center align-items-center h-75 ms-auto" style="width: 60%; color: #6b6b6b;">
 							<i class="pos-icon fa-solid fa-caret-up w-25 h-100" data-pos="${pos.positionClass}" style="font-size: 24px;"></i>
 							<i class="pos-icon fa-solid fa-caret-down w-25 h-100"  data-pos="${pos.positionClass}"style="font-size: 24px;"></i>
-							<i class="pos-icon fas fa-pencil-alt w-25 h-100" data-pos="${pos.positionClass}" style="font-size: 18px;"></i>
+							<i class="pos-icon fas fa-pencil-alt w-25 h-100" data-pos="${pos.positionClass}" data-posname="${pos.position}" style="font-size: 18px;" data-bs-toggle="modal" data-bs-target="#posNameChangeModal"></i>
 							<i class="pos-icon fa-regular fa-trash-can w-25" data-pos="${pos.positionClass}" style="font-size: 18px;"></i>
 			      		</div>
 			      	</td>
@@ -48,10 +48,37 @@
 					</div>
 				</td>
 		    </tr>
-		    
 	    </tbody>
 	</table>
 </section>
+
+<div class="modal fade" id="posNameChangeModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+  			<div class="dept-move card">
+				<div class="modal-top">
+					<p class="mini-title">직책명 변경</p>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="mini-line"></div>
+				<div class="modal-box">
+					<div class="modal-box-in">
+						<p class="modal-label">변경전 직책명</p>
+						<div class="premove pre-pos-name"></div>
+					</div>
+					<div class="modal-box-in">
+						<label class="modal-label">변경후 직책명</label>
+						<input class="aftermove after-pos-name" placeholder="부서장을 입력해주세요.">	
+					</div>
+				</div>
+				<div class='button-list'>
+					<button class="button-large reject" data-bs-dismiss="modal" aria-label="Close">취소</button>
+					<button class="button-large accept change-btn-accept" data-posclass="">변경</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
 
 <script type="text/javascript">
 	let contextPath = '${pageContext.request.contextPath}';

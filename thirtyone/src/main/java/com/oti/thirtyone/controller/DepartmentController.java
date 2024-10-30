@@ -43,7 +43,15 @@ public class DepartmentController {
 	}
 	
 	@PostMapping("addDept")
-	public ResponseEntity<String> addDept(Departments deptDto) {
+	public ResponseEntity<String> addDept(int deptId, String deptName, String regionalOffice, int empNumber) {
+		Departments deptDto = new Departments();
+		EmployeesDto empDto = empService.getEmpInfoByEmpNum(empNumber);
+		
+		deptDto.setDeptId(deptId);
+		deptDto.setDeptName(deptName);
+		deptDto.setRegionalOffice(regionalOffice);
+		deptDto.setEmpId(empDto.getEmpId());
+		
 		deptService.createDept(deptDto);
 		return ResponseEntity.ok("OK");
 	}
@@ -79,4 +87,12 @@ public class DepartmentController {
 		return ResponseEntity.ok(true);
 	}
 	
+	@GetMapping("hasDeptId")
+	public ResponseEntity<Boolean> hasDeptId(int deptId){
+		String deptName = deptService.getDeptName(deptId);
+		if(deptName == null || deptName.trim().isEmpty() ) 
+			return ResponseEntity.ok(true);			
+		else
+			return ResponseEntity.ok(false);
+	}
 }

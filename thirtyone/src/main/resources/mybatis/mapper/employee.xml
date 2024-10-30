@@ -19,7 +19,6 @@
 	</select>
 	
 	
-	
 	<insert id="insertEmp" parameterType="Employee">
 		insert into employees ( 
 		emp_id, emp_number, emp_password, emp_name, emp_email, emp_gender, emp_birth, emp_postal,
@@ -61,11 +60,11 @@
 	
 	<select id="selectEmpList" parameterType="Pager" resultType="Employee">
 		<![CDATA[
-			select emp_id, emp_name, position, emp_hiredate, dept_id
+			select emp_id, emp_name, position, emp_hiredate, dept_id, emp_email, emp_tel
 			from (
-				select rownum as rnum, emp_id, emp_name, position, emp_hiredate, dept_id
+				select rownum as rnum, emp_id, emp_name, position, emp_hiredate, dept_id, emp_email, emp_tel
 				from(
-					select emp_id, emp_name, position, emp_hiredate, dept_id
+					select emp_id, emp_name, position, emp_hiredate, dept_id, emp_email, emp_tel
 					from employees
 					where emp_role='ROLE_USER'
 				)
@@ -193,4 +192,17 @@
 			ORDER BY position_class
 		]]>
 	</select>
+
+	<update id="updateEmpPosAll">
+		update employees
+		set position = #{posName}
+		where position = #{prePos}
+	</update>
+	
+	<select id="selectEmpInfoByName" parameterType="String" resultType="Employee">
+		select emp_number
+		from employees
+		where emp_name=#{empName}	
+	</select>
+	
 </mapper>
