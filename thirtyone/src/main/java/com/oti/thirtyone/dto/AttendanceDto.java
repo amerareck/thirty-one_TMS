@@ -12,7 +12,7 @@ public class AttendanceDto {
 	private Date checkIn;
 	private Date checkOut;
 	private String atdState;
-	private int atdStanDardTime;
+	private int atdStandardTime;
 	private int atdOverTime;
 	private int atdApprovedTime;
 	

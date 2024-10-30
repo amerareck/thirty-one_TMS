@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.oti.thirtyone.dao.AttendanceDao;
+import com.oti.thirtyone.dto.AttendanceDto;
 
 import lombok.extern.log4j.Log4j2;
 
@@ -58,6 +59,11 @@ public class AttendanceService {
 		if(isCheckIn > 0) atdDao.updateCheckOut(empId);
 		return isCheckIn > 0;
 		
+	}
+
+	public AttendanceDto getAtdInfo(String empId) {
+		AttendanceDto atdDto = atdDao.selectAtdByEmpId(empId);
+		return atdDto;
 	}
 	
 	

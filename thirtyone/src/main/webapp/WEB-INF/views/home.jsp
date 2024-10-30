@@ -12,20 +12,40 @@
 					<div class="mini-line"></div>
 					<div class="atd-box-top">
 						<div class="atd-time">
-							<p class="mini-today">2024년10월17일</p>
-							<h1 class="mini-today-time">19:02:40</h1>
+							<p class="mini-today"></p>
+							<h1 class="mini-today-time"></h1>
 						</div>
 						<div class="atd-state">퇴근 완료 </div>
 					</div>
 					<div class="atd-box-middle"> 
-						<button class="start-time-btn"> 
-							<img src="${pageContext.request.contextPath}/resources/image/icon/check-icon.svg">
-							<span>출근</span> <span>08:43</span> 
-						</button>
-						<button class="end-time-btn">
-							<img src="${pageContext.request.contextPath}/resources/image/icon/check-icon.svg">
-							<span>퇴근</span> <span>18:01</span>
-						</button>
+						<c:if test="${!checkIn }">
+							<button class="start-time-btn"> 
+<%-- 								<img src="${pageContext.request.contextPath}/resources/image/icon/check-icon.svg"> --%>
+								<span>출근</span> <span>--:--</span> 
+							</button>
+							<button class="end-time-btn">
+<%-- 								<img src="${pageContext.request.contextPath}/resources/image/icon/check-icon.svg"> --%>
+								<span>퇴근</span> <span>--:--</span>
+							</button>
+						</c:if>
+						<c:if test="${checkIn }">
+							<button class="start-time-btn"> 
+								<img src="${pageContext.request.contextPath}/resources/image/icon/check-icon.svg">
+								<span>출근</span> <span><fmt:formatDate value="${atd.checkIn}" pattern="HH:mm" /></span> 
+							</button>
+							<c:if test="${atd.checkOut == null }">
+								<button class="end-time-btn">
+	<%-- 								<img src="${pageContext.request.contextPath}/resources/image/icon/check-icon.svg"> --%>
+									<span>퇴근</span> <span>--:--</span>
+								</button>
+							</c:if>
+							<c:if test="${atd.checkOut != null }">
+								<button class="end-time-btn">
+									<img src="${pageContext.request.contextPath}/resources/image/icon/check-icon.svg">
+									<span>퇴근</span> <span><fmt:formatDate value="${atd.checkOut}" pattern="HH:mm" /></span>
+								</button>
+							</c:if>
+						</c:if>
 					</div>
 					<div class="atd-box-bottom">
 						<p>10시간</p>

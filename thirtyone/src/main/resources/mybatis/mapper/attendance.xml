@@ -17,4 +17,10 @@
 		update attendances set check_out = sysdate
 		where TO_CHAR(atd_date, 'YY/MM/DD') = TO_CHAR(sysdate, 'YY/MM/DD') and emp_id = #{empId}
 	</update>
+	
+	<select id="selectAtdByEmpId" parameterType="String" resultType="Attendance">
+		select atd_date, emp_id, check_in, check_out, atd_state, atd_standard_time, atd_over_time, atd_approved_time
+		from attendances
+		where TO_CHAR(atd_date, 'YY/MM/DD') = TO_CHAR(sysdate, 'YY/MM/DD') and emp_id = #{empId}
+	</select>
 </mapper>

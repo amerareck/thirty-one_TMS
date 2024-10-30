@@ -1,5 +1,34 @@
 
+function updateClock() {
+    const now = new Date();    
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    const seconds = String(now.getSeconds()).padStart(2, '0');
+    
+    const timeString = `${hours}:${minutes}:${seconds}`;
+    
+    document.querySelector('.sidebar-today-time').textContent = timeString;
+    document.querySelector('.mini-today-time').textContent = timeString;
+}
+
+
+function updateToday(){
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const day = String(now.getDate()).padStart(2, '0');
+
+    const todayString = `${year}년${month}월${day}일`;
+    
+    document.querySelector('.sidebar-today').textContent = todayString;
+    document.querySelector('.mini-today').textContent = todayString;
+}
+        
 $(document).ready(function() {
+	updateToday();
+	updateClock();
+	
+	setInterval(updateClock, 1000);
 	
 	const root = document.querySelector(':root');
 	const rootStyles = getComputedStyle(root);

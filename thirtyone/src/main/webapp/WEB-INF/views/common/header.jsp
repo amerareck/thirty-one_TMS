@@ -168,8 +168,8 @@
 		<div class="container-box">
 			<div class="sidebar">
 				<div class="sidebar-attendance">
-					<p class="sidebar-today">2024년10월17일</p>
-					<h1 class="sidebar-today-time">19:02:40</h1>
+					<p class="sidebar-today"></p>
+					<h1 class="sidebar-today-time"></h1>
 					<div class="sidebar-start-time">
 						<span>출근시간</span> <span>08:43</span>
 					</div>
