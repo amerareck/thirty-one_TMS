@@ -107,6 +107,12 @@ public class EmployeesService {
 		
 	}
 
+	public void updateEmpDept(List<String> empIdList, int deptId) {
+		for(String empId : empIdList) 
+			empDao.updateEmpDept(empId, deptId);
+		
+	}
+
 	
 	
 }

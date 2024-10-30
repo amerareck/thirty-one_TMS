@@ -1,0 +1,130 @@
+
+.mini-title{
+	font-weight: bold;
+	font-size: 16px;
+	margin: 20px 0px 20px 20px;
+	margin-left: 40px;
+}
+
+.mini-line{
+	margin-left : 40px;
+	margin-right : 40px;	
+	height: 1.5px;
+	background-color: var(--lightgray); 	
+}
+
+
+.dept-move{
+	margin-bottom: 20px;
+}
+
+
+.modal-box{
+	margin: 0px 60px;
+	padding-top: 20px;
+}
+
+.modal-box-in{
+	display: grid;
+	grid-template-columns: 3fr 7fr;
+	align-items: center;
+	margin-bottom: 20px;
+}
+
+.modal-label{
+	font-size: 14px;
+	font-weight: bold;
+}
+.aftermove{
+	height: 30px;
+	font-weight: bold;
+	font-size: 12px;
+	display: flex;
+	align-items: center;
+	width:200px;
+	border-radius: 5px;
+	padding-left:5px;
+	border: 0.5px solid var(--lightgray);
+}
+
+.premove{
+	height: 30px;
+	background-color: var(--skyblue);
+	color: var(--blue);
+	font-weight: bold;
+	font-size: 12px;
+	padding-left:10px;
+	border-radius: 5px;
+	display: flex;
+	align-items: center;
+	width:200px;
+}
+
+.button-list{
+	display:flex;
+	justify-content: center;
+	
+}
+.button-large{
+	margin-top: 40px;
+	border: none;
+	margin-bottom: 127px;
+}
+.reject{
+	background-color: white;
+	border:1.5px solid var(--blue);
+	color: var(--blue);
+	font-weight: bold;
+	font-size: 16px;
+}
+
+.accept{
+	background-color: var(--blue);
+	color: white;
+	font-weight: bold;
+	font-size: 16px;
+}
+.button-medium{
+	background-color: var(--blue);
+	color: white;
+	border: none;
+	font-size: 11px;
+}
+
+.modal-top{
+	display:flex;
+	justify-content: space-between;
+	align-items:center;
+	padding-right: 40px;
+}
+
+.pre-pos-dept{
+	justify-content: space-between;
+	padding-right:10px;
+}
+
+.pre-pos-dept span{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	color: white;
+	border: none;
+	border-radius: 12px;
+	background-color: var(--blue);
+	font-size:11px;
+	width: 25px;
+	height: 18px;
+}
+
+.pagination {
+	display: flex;
+	justify-content: center;
+	margin-top: 50px;
+    align-items: center;
+}
+
+.page-num {
+	background-color: transparent;
+	border: solid transparent;
+    color: #c7c7c7;
+}
