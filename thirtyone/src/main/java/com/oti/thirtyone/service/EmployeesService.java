@@ -104,7 +104,10 @@ public class EmployeesService {
 
 	public void updateEmpDept(String empId, int deptId) {
 		empDao.updateEmpDept(empId, deptId);
-		
+	}
+	
+	public List<EmployeesDto> getEmployeeListByDeptId(int deptId) {
+		return empDao.selectEmployeesByDeptId(deptId);
 	}
 
 	

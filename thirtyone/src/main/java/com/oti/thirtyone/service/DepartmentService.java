@@ -60,6 +60,10 @@ public class DepartmentService {
 	public void deleteDept(int deptId) {
 		deptDao.deleteDept(deptId);
 	}
+
+	public List<Departments> getDepartmentList() {
+		return deptDao.selectDepartments();
+	}
 	
 	
 }

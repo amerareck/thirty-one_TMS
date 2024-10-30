@@ -175,11 +175,8 @@ public class EmployeeController {
 		json.put("empName", userData.getEmpName());
 		json.put("empTel", userData.getEmpTel());
 		json.put("empHiredate", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(userData.getEmpHiredate()));
-		//부서 테이블이 완성되기 전까지, 임시 데이터에서 가져오겠습니다.
-		//json.put("deptId", userData.getDeptId());
-		//json.put("deptName", deptService.getDeptName(userData.getDeptId()));
-		json.put("deptId", 111);
-		json.put("deptName", approvalService.getDeptName(111));
+		json.put("deptId", userData.getDeptId());
+		json.put("deptName", deptService.getDeptName(userData.getDeptId()));
 		json.put("position", userData.getPosition());
 		
 		try(PrintWriter pw = res.getWriter()) {

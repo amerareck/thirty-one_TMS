@@ -24,6 +24,11 @@
 	height: 900px;
 }
 
+.form-text {
+	color: FireBrick;
+	margin-left: 3px;
+}
+
 .modal-body {
     overflow-y: auto;
     max-height: calc(100vh - 200px);

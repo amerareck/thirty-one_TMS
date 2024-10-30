@@ -64,4 +64,16 @@
 		delete from departments
 		where dept_id=#{deptId}
 	</delete>
+	
+	<select id="selectDepartments" resultType="Department">
+		<![CDATA[
+			SELECT
+				dept_id,
+				dept_name,
+				emp_id,
+				regional_office
+			FROM DEPARTMENTS
+			ORDER BY dept_id
+		]]>
+	</select>
 </mapper>

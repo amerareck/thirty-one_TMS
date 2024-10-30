@@ -314,6 +314,11 @@ $('#draftDepartmentSelect').on('change', function(){
 });
 
 $('#addDraftReferrer').on('click', function(){
+	if ($('#documentForm').val() === 'default') {
+		alert('기안 양식을 먼저 선택해 주세요.');
+		return false;
+	}
+	
 	const selectedReferrer = $('#draftReferrer option:selected');
 	let check = true;
 	

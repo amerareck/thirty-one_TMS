@@ -46,4 +46,6 @@ public interface EmployeesDao {
 
 	void updateEmpDept(@Param("empId") String empId, @Param("deptId") int deptId);
 
+	List<EmployeesDto> selectEmployeesByDeptId(int deptId);
+
 }

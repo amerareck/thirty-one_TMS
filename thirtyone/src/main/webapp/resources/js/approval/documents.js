@@ -396,23 +396,6 @@ tinymce.init({
     })},
 });
 
-// 기안서 작성 부분 tinymce 초기화.
-tinymce.init({
-	language: 'ko_KR',
-    selector: '#draftDocument',
-    height: '600px',
-    content_css: "/thirtyone/resources/css/document-form/businessTripReport.css",
-    plugins: [
-        'anchor', 'autolink', 'charmap', 'codesample', 'emoticons', 'image', 'link', 'lists', 'media', 'searchreplace', 'table', 'visualblocks', 'wordcount'
-    ],
-    toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table | align lineheight | numlist bullist indent outdent | emoticons charmap | removeformat',
-    setup: function (editor) {
-    	editor.on('init', function() {
-            editor.setContent('');
-        })
-    },
-});
-
 //기안서 양식 선택 시.
 $('#documentForm').on('change', function() {
     const selectedValue = $(this).val();
@@ -515,4 +498,39 @@ $('#documentForm').on('change', function() {
             console.log('Error: ' + error);
         },
     });
+});
+
+$(function(){
+	const selectedValue = $('#documentForm').val();
+    if(selectedValue === 'default') {
+    	return;
+    } else {
+    	$('#draftDetailForm').children('div').each(function(){
+    		$(this).addClass('hidden');
+    	});
+    	
+    	switch (selectedValue) {
+    	case 'holidayDocument' :
+    		$('.hol-doc').each(function(){
+    			$(this).removeClass('hidden');
+    		});
+    		break;
+    	case 'businessTripDocument' :
+    	case 'businessTripReport' :
+    		$('.biz-trip').each(function(){
+    			$(this).removeClass('hidden');
+    		});
+    		break;
+    	case 'holidayWork' :
+    		$('.hol-work').each(function(){
+    			$(this).removeClass('hidden');
+    		});
+    		break;
+    	case 'workOvertime' :
+    		$('.work-over').each(function(){
+    			$(this).removeClass('hidden');
+    		});
+    		break;
+    	}
+    }
 });

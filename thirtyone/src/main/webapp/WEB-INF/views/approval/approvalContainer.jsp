@@ -5,7 +5,7 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/document-form/holidayDocument.css" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/document-form/holidayWork.css" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/document-form/workOvertime.css" />
-<script src="https://cdn.tiny.cloud/1/zt811056qttf1h18ihxacac59l9xi81x71c2zv8l9cs330q6/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
+<script src="https://cdn.tiny.cloud/1/4goby5nwvfox2v3joghm0derxikb93k0vbtgcjf42japthcq/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
 
 <div class="sectionContainer w-100">
 	<div class="card">

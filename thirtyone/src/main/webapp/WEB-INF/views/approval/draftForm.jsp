@@ -4,80 +4,102 @@
 <form action="draftSubmit" method="post" enctype="multipart/form-data">
     <div class="d-flex align-items-top justify-content-between mb-4">
         <div class="d-flex align-items-top" style="width: 60%;">
-        	<label for="documentForm" class="fw-bold mt-2" style="width: 25%;">결재 양식</label>
-            <select class="form-select" id="documentForm" name="draftType" style="width: 75%; height: 37.78px">
-                <option value="default" selected>결재 양식 선택</option>
-                <option value="holidayDocument">근태 신청서(휴가)</option>
-                <option value="businessTripDocument">출장 신청서</option>
-                <option value="businessTripReport">출장 복명서</option>
-                <option value="holidayWork">휴일근무 신청서</option>
-                <option value="workOvertime">연장근무신청서</option>
-           	</select>
+        	<label for="documentForm" class="fw-bold mt-2 ${not empty draftType ? 'mb-2' : ''}" style="width: 25%;">결재 양식</label>
+        	<div style="width: 75%;">
+	            <select class="form-select w-100" id="documentForm" name="draftType" style="height: 37.78px;" aria-describedby="documentFormValidation">
+	                <option value="default" ${form.draftType=='default' ? 'selected': ''}>결재 양식 선택</option>
+	                <option value="holidayDocument" ${form.draftType=='holidayDocument' ? 'selected': ''} >근태 신청서(휴가)</option>
+	                <option value="businessTripDocument" ${form.draftType=='businessTripDocument' ? 'selected': ''} >출장 신청서</option>
+	                <option value="businessTripReport" ${form.draftType=='businessTripReport' ? 'selected': ''} >출장 복명서</option>
+	                <option value="holidayWork" ${form.draftType=='holidayWork' ? 'selected': ''} >휴일근무 신청서</option>
+	                <option value="workOvertime" ${form.draftType=='workOvertime' ? 'selected': ''} >연장근무 신청서</option>
+	           	</select>
+	           	<div id="documentFormValidation" class="form-text">${draftType}</div>
+        	</div>
         </div>
         <div class="d-flex flex-column align-items-top" id="draftDetailForm" style="width: 40%;">
         	<div class="d-flex align-items-center w-100 mb-3 hol-doc hidden">
-				<label for="dateOfHoliday" class="fw-bold mb-2" style="width: 25%; margin-left: 20px">신청 기간</label>
-				<div id="dateOfHoliday" class="d-flex align-items-center" style="width: 75%;">
-					<input type="text" id="holidayStartDate" name="holidayStartDate" class="form-control p-2" style="height: 35px; font-size: 0.9rem;" placeholder="휴가 시작일" readonly >
-					<span class="fw-bold mx-2">~</span>
-					<input type="text" id="holidayEndDate" name="holidayEndDate" class="form-control p-2" style="height: 35px; font-size: 0.9rem;" placeholder="휴가 종료일" readonly >
+				<label for="dateOfHoliday" class="fw-bold ${not empty holidayStartDate ? 'mb-4' : 'mb-2'}" style="width: 25%; margin-left: 20px">신청 기간</label>
+				<div style="width: 75%;">
+					<div id="dateOfHoliday" class="d-flex align-items-center w-100" aria-describedby="dateOfHolidayValidation" >
+						<input type="text" id="holidayStartDate" name="holidayStartDate" class="form-control p-2" style="height: 35px; font-size: 0.9rem;" placeholder="휴가 시작일" readonly >
+						<span class="fw-bold mx-2">~</span>
+						<input type="text" id="holidayEndDate" name="holidayEndDate" class="form-control p-2" style="height: 35px; font-size: 0.9rem;" placeholder="휴가 종료일" readonly >
+					</div>
+					<div id="dateOfHolidayValidation" class="form-text">${holidayStartDate}</div>
 				</div>
           	</div>
           	<div class="d-flex align-items-center w-100 mb-3 hol-doc hidden">
-          		<label for="holidayType" class="fw-bold mb-2" style="width: 25%; margin-left: 20px">휴가 유형</label>
-        		<select id="holidayType" class="form-select" name="holidayType" style="width: 75%; font-size: 0.9rem">
-        			<option value="default" selected disabled>유형 선택</option>
-        			<option value="familyEvent">경조사</option>
-        			<option value="childbirth">출산</option>
-        			<option value="sickLeave">병가</option>
-        		</select>
+          		<label for="holidayType" class="fw-bold ${not empty holidayType ? 'mb-4' : 'mb-2'}" style="width: 25%; margin-left: 20px">휴가 유형</label>
+          		<div style="width: 75%;">
+	        		<select id="holidayType" class="form-select w-100" name="holidayType" style="font-size: 0.9rem" aria-describedby="holidayTypeValidation" >
+	        			<option value="default" selected disabled>유형 선택</option>
+	        			<option value="familyEvent">경조사</option>
+	        			<option value="childbirth">출산</option>
+	        			<option value="sickLeave">병가</option>
+	        		</select>
+	        		<div id="holidayTypeValidation" class="form-text">${holidayType}</div>
+          		</div>
         	</div>
         	<div class="d-flex align-items-center w-100 mb-3 biz-trip hidden">
-          		<label for="dateOfBizTrip" class="fw-bold mb-2" style="width: 25%; margin-left: 20px">신청 기간</label>
-        		<div id="dateOfBizTrip" class="d-flex align-items-center" style="width: 75%;">
-					<input type="text" id="bizTripStartDate" name="bizTripStartDate" class="form-control p-2" style="height: 35px; font-size: 0.9rem;" placeholder="출장 시작일" readonly >
-					<span class="fw-bold mx-2">~</span>
-					<input type="text" id="bizTripEndDate" name="bizTripEndDate" class="form-control p-2" style="height: 35px; font-size: 0.9rem;" placeholder="출장 종료일" readonly >
-				</div>
+          		<label for="dateOfBizTrip" class="fw-bold ${not empty bizTripStartDate ? 'mb-4' : 'mb-2'}" style="width: 25%; margin-left: 20px">신청 기간</label>
+          		<div style="width: 75%;">
+	        		<div id="dateOfBizTrip" class="d-flex align-items-center w-100"  aria-describedby="dateOfBizTripValidation" >
+						<input type="text" id="bizTripStartDate" name="bizTripStartDate" class="form-control p-2" style="height: 35px; font-size: 0.9rem;" placeholder="출장 시작일" readonly >
+						<span class="fw-bold mx-2">~</span>
+						<input type="text" id="bizTripEndDate" name="bizTripEndDate" class="form-control p-2" style="height: 35px; font-size: 0.9rem;" placeholder="출장 종료일" readonly >
+					</div>
+					<div id="dateOfBizTripValidation" class="form-text">${bizTripStartDate}</div>
+          		</div>
         	</div>
         	<div class="d-flex align-items-center w-100 mb-3 biz-trip hidden" >
-          		<label for="dateOfBizTrip" class="fw-bold mb-2" style="width: 25%; margin-left: 20px">출장 목적</label>
-        		<div id="dateOfBizTrip" class="d-flex align-items-center" style="width: 75%;">
-					<textarea class="form-control" id="bizTripPurposeForm" name="bizTripPurpose" cols="2" placeholder="간략하게 목적만 작성하시오." style="font-size: 0.9rem;"></textarea>
+          		<label for="purposeOfBizTrip" class="fw-bold ${not empty bizTripPurposeForm ? 'mb-4' : 'mb-2'}" style="width: 25%; margin-left: 20px">출장 목적</label>
+        		<div id="purposeOfBizTrip" class="d-flex flex-column align-items-start" style="width: 75%;">
+					<textarea class="form-control w-100" id="bizTripPurposeForm" name="bizTripPurpose" cols="2" placeholder="간략하게 목적만 작성하시오." style="font-size: 0.9rem;" aria-describedby="bizTripPurposeValidation"></textarea>
+					<div id="bizTripPurposeValidation" class="form-text">${bizTripPurposeForm}</div>
 				</div>
         	</div>
         	<div class="d-flex align-items-center w-100 hol-work hidden" >
-				<label for="datetimeOfholidayWork" class="fw-bold mb-2" style="width: 25%; margin-left: 20px">신청 기간</label>
-				<div id="datetimeOfholidayWork" class="d-flex flex-column align-items-center" style="width: 75%;">
-					<div class="d-flex align-items-center w-100">
-						<span class="fw-bold w-25" style="font-size: 0.8rem;">근무 시작</span>
-						<input type="text" id="holidayWorkStartDatetime" name="holidayWorkStartDate" class="form-control p-2 w-75" style="height: 35px; font-size: 0.8rem;" placeholder="추가근무 시작" readonly >
+				<label for="datetimeOfholidayWork" class="fw-bold ${not empty holidayWorkStartDate ? 'mb-4' : 'mb-2'}" style="width: 25%; margin-left: 20px">신청 기간</label>
+				<div style="width: 75%;">
+					<div id="datetimeOfholidayWork" class="d-flex flex-column align-items-center w-100" aria-describedby="datetimeOfholidayWorkValidation">
+						<div class="d-flex align-items-center w-100">
+							<span class="fw-bold w-25" style="font-size: 0.8rem;">근무 시작</span>
+							<input type="text" id="holidayWorkStartDatetime" name="holidayWorkStartDate" class="form-control p-2 w-75" style="height: 35px; font-size: 0.8rem;" placeholder="추가근무 시작" readonly >
+						</div>
+						<div class="d-flex align-items-center w-100">
+							<span class="fw-bold w-25" style="font-size: 0.8rem;">근무 종료</span>					
+							<input type="text" id="holidayWorkEndDatetime" name="holidayWorkEndDate" class="form-control p-2 w-75" style="height: 35px; font-size: 0.8rem;" placeholder="추가근무 종료" readonly >
+						</div>
 					</div>
-					<div class="d-flex align-items-center w-100">
-						<span class="fw-bold w-25" style="font-size: 0.8rem;">근무 종료</span>					
-						<input type="text" id="holidayWorkEndDatetime" name="holidayWorkEndDate" class="form-control p-2 w-75" style="height: 35px; font-size: 0.8rem;" placeholder="추가근무 종료" readonly >
-					</div>
+					<div id="datetimeOfholidayWorkValidation" class="form-text">${holidayWorkStartDate}</div>
 				</div>
           	</div>
           	<div class="d-flex align-items-center w-100 work-over hidden" >
-				<label for="datetimeOfWorkOvertime" class="fw-bold mb-2" style="width: 25%; margin-left: 20px">신청 기간</label>
-				<div id="datetimeOfWorkOvertime" class="d-flex flex-column align-items-center" style="width: 75%;">
-					<div class="d-flex align-items-center w-100">
-						<span class="fw-bold w-25" style="font-size: 0.8rem;">근무 시작</span>
-						<input type="text" id="workOvertimeStartDatetime" name="workOvertimeStartDate" class="form-control p-2 w-75" style="height: 35px; font-size: 0.8rem;" placeholder="추가근무 시작" readonly >
+				<label for="datetimeOfWorkOvertime" class="fw-bold ${not empty workOvertimeStartDate ? 'mb-4' : 'mb-2'}" style="width: 25%; margin-left: 20px">신청 기간</label>
+				<div style="width: 75%;">
+					<div id="datetimeOfWorkOvertime" class="d-flex flex-column align-items-center w-100" aria-describedby="datetimeOfWorkOvertimeValidation">
+						<div class="d-flex align-items-center w-100">
+							<span class="fw-bold w-25" style="font-size: 0.8rem;">근무 시작</span>
+							<input type="text" id="workOvertimeStartDatetime" name="workOvertimeStartDate" class="form-control p-2 w-75" style="height: 35px; font-size: 0.8rem;" placeholder="추가근무 시작" readonly >
+						</div>
+						<div class="d-flex align-items-center w-100">
+							<span class="fw-bold w-25" style="font-size: 0.8rem;">근무 종료</span>					
+							<input type="text" id="workOvertimeEndDatetime" name="workOvertimeEndDate" class="form-control p-2 w-75" style="height: 35px; font-size: 0.8rem;" placeholder="추가근무 종료" readonly >
+						</div>
 					</div>
-					<div class="d-flex align-items-center w-100">
-						<span class="fw-bold w-25" style="font-size: 0.8rem;">근무 종료</span>					
-						<input type="text" id="workOvertimeEndDatetime" name="workOvertimeEndDate" class="form-control p-2 w-75" style="height: 35px; font-size: 0.8rem;" placeholder="추가근무 종료" readonly >
-					</div>
+					<div id="datetimeOfWorkOvertimeValidation" class="form-text">${workOvertimeStartDate}</div>
 				</div>
           	</div>
         </div>
     </div>
     <div class="d-flex mb-4">
-        <div class="d-flex align-items-center" style="width: 60%;">
-            <label for="draftTitle" class="fw-bold mb-2" style="width: 30%; margin-right:2px;">제목</label>
-            <input type="text" class="form-control" id="draftTitle" name="draftTitle" style="width: 90%;" />
+        <div class="d-flex align-items-center" id="draftTitleContainer" style="width: 60%;">
+            <label for="draftTitle" class="fw-bold ${not empty draftTitle ? 'mb-4' : 'mb-2'}" style="width: 30%; margin-right:2px;">제목</label>
+            <div style="width: 90%;">
+	            <input type="text" class="form-control w-100" id="draftTitle" name="draftTitle" aria-describedby="draftTitleValidation" />
+	            <div id="draftTitleValidation" class="form-text">${draftTitle}</div>
+            </div>
         </div>
     </div>
     <div class="d-flex mb-4">
@@ -119,15 +141,18 @@
             </div>
         </div>
     </div>
-    <div class="d-flex mb-4" style="width: 100%;">
-        <div class="d-flex align-items-center" style="width: 100%;">
-            <label for="approvalLineSelect" class="fw-bold" style="width: 15%;">결재 라인</label>
-            <select class="form-select" id="approvalLineSelect" style="width: 45%;">
-                <option selected value="selected-apprval-1">기본 결재선</option>
-                <option value="selected-apprval-2">기본 결재선2</option>
-                <option value="selected-apprval-3">기본 결재선3</option>
-            </select>
-            <button type="button" class="btn btn-secondary" style="margin-left: 20px; height: 90%;" id="approvalLineCall">결재선 선택</button>
+    <div class="d-flex flex-column mb-4" style="width: 100%;">
+        <div class="d-flex align-items-center" id="pickApprovalLineContainer" style="width: 100%;" >
+            <label for="approvalLineSelect" class="fw-bold ${not empty draftApprovalLine ? 'mb-4' : 'mb-2'}" style="width: 15%;">결재 라인</label>
+            <div style="width: 45%;">
+	            <select class="form-select w-100" id="approvalLineSelect" aria-describedby="draftApprovalLineValidation">
+	                <option selected value="selected-apprval-1">기본 결재선</option>
+	                <option value="selected-apprval-2">기본 결재선2</option>
+	                <option value="selected-apprval-3">기본 결재선3</option>
+	            </select>
+		        <div id="draftApprovalLineValidation" class="form-text">${draftApprovalLine}</div>
+            </div>
+            <button type="button" class="btn btn-secondary ${not empty draftApprovalLine ? 'mb-4' : 'mb-2'}" style="margin-left: 20px;" id="approvalLineCall">결재선 선택</button>
         </div>
     </div>
     <div class="d-none" id="approvalLineInfo">
@@ -182,6 +207,12 @@
 		</div>
 	</div>
 </form>
+
+<c:if test="${not empty documentData}">
+	<script>
+		alert('${documentData}');
+	</script>
+</c:if>
 
 <%@ include file="/WEB-INF/views/approval/approvalLine.jsp" %>
 <%@ include file="/WEB-INF/views/approval/approvalContainerFooter.jsp"%>

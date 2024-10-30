@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -16,18 +17,25 @@ import org.jsoup.nodes.Element;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.oti.thirtyone.dto.ApprovalDTO;
 import com.oti.thirtyone.dto.Departments;
 import com.oti.thirtyone.dto.DraftForm;
 import com.oti.thirtyone.dto.EmployeesDto;
 import com.oti.thirtyone.dto.PageParam;
 import com.oti.thirtyone.service.ApprovalService;
+import com.oti.thirtyone.service.DepartmentService;
+import com.oti.thirtyone.service.EmployeesService;
+import com.oti.thirtyone.validator.DraftValidator;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -38,6 +46,10 @@ public class ApprovalController {
 	
 	@Autowired
     private ServletContext servletContext;
+	@Autowired
+	private DepartmentService deptService;
+	@Autowired
+	private EmployeesService empService;
 	@Autowired
 	private ApprovalService approvalService;
 	
@@ -56,7 +68,9 @@ public class ApprovalController {
 		model.addAttribute("selectedSub", "draft");
 		model.addAttribute("title", "기안서 작성");
 		
-		model.addAttribute("departments", approvalService.getOrgChart());
+		List<Departments> deptList = deptService.getDepartmentList();
+		deptList.removeIf(elem -> elem.getDeptId() == 999);
+		model.addAttribute("departments", deptList);
 		
 		return "approval/draftForm";
 	}
@@ -177,16 +191,17 @@ public class ApprovalController {
 	public void getOrgChart(HttpServletResponse res) {
 		log.info("실행");
 		
-		List<Departments> orgList = approvalService.getOrgChart();
+		List<Departments> orgList = deptService.getDepartmentList();
+		orgList.removeIf(elem -> elem.getDeptId() == 999);
 		
 		JSONObject json = new JSONObject();
 		JSONObject orgChart = new JSONObject();
-		
 		JSONObject core = new JSONObject();
 		JSONArray data = new JSONArray();
 		JSONObject topDept = new JSONObject();
 		topDept.put("text", "오티아이[OTI]");
 		topDept.put("icon", "fa-solid fa-building");
+		
 		JSONArray childs = new JSONArray();
 		for(int i=0; i<orgList.size(); i++) {
 			JSONObject dept = new JSONObject();
@@ -195,6 +210,7 @@ public class ApprovalController {
 			dept.put("icon", "fas fa-users");
 			childs.put(dept);
 		}
+		
 		topDept.put("children", childs);
 		data.put(topDept);
 		core.put("data", data);
@@ -222,7 +238,7 @@ public class ApprovalController {
 	public void getOrgEmployee(int deptId, HttpServletResponse res) {
 		log.info("실행");
 		
-		List<EmployeesDto> empList = approvalService.getOrgEmp();
+		List<EmployeesDto> empList = empService.getEmployeeListByDeptId(deptId);
 		JSONObject json = new JSONObject();
 		JSONArray orgEmp = new JSONArray();
 		
@@ -255,16 +271,9 @@ public class ApprovalController {
 		
 		JSONObject json = new JSONObject();
 		JSONArray deptNames = new JSONArray();
-		List<Departments> deptList = approvalService.getOrgChart();
 		
 		for(String deptId : approvalDeptId) {
-			int deptid = Integer.parseInt(deptId);
-			for(Departments dto : deptList) {
-				if(deptid == dto.getDeptId()) {
-					deptNames.put(dto.getDeptName());
-					break;
-				}
-			}
+			deptNames.put(deptService.getDeptName(Integer.parseInt(deptId)));
 		}
 		
 		json.put("status", "ok");
@@ -279,10 +288,32 @@ public class ApprovalController {
 		}
 	}
 	
+	@InitBinder("draftForm")
+	public void boardSubmitBinder(WebDataBinder binder) {
+		log.info("InitBinder 실행");
+		binder.setValidator(new DraftValidator());
+	}
+	
 	@PostMapping("draftSubmit")
-	public String draftSubmit(DraftForm form, Model model) {
+	public String draftSubmit(@Valid DraftForm form, Errors error, Model model) {
 		log.info("실행");
 		log.info(form.toString());
+		
+		if(error.hasErrors()) {
+			log.info("유효성 검출");
+			
+            error.getFieldErrors().forEach(
+            		fieldError -> model.addAttribute(fieldError.getField(), fieldError.getDefaultMessage())
+            );
+            log.info(error.getFieldErrors().toString());
+            model.addAttribute("form", form);
+            
+            return "approval/draftForm";
+		}
+		ApprovalDTO dto = new ApprovalDTO();
+		dto.setDocFormCode(approvalService.getDocType(form.getDraftType()));
+		
+		approvalService.setDraftForm(dto);
 		
 		return "redirect:/home";
 	}
