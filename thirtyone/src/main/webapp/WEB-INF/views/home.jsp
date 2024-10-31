@@ -15,26 +15,34 @@
 							<p class="mini-today"></p>
 							<h1 class="mini-today-time"></h1>
 						</div>
-						<div class="atd-state">퇴근 완료 </div>
+						<c:if test="${atd.checkIn == null }">
+							<div class="atd-state">출근 전 </div>
+						</c:if>
+						<c:if test="${atd.checkIn != null && atd.checkOut == null }">
+							<div class="atd-state">근무 중 </div>
+						</c:if>
+						<c:if test="${atd.checkIn != null && atd.checkOut != null }">
+							<div class="atd-state">퇴근 완료</div>
+						</c:if>
 					</div>
 					<div class="atd-box-middle"> 
-						<c:if test="${!checkIn }">
-							<button class="start-time-btn"> 
+						<c:if test="${atd.checkIn == null}">
+							<button class="start-time-btn null-atd"> 
 <%-- 								<img src="${pageContext.request.contextPath}/resources/image/icon/check-icon.svg"> --%>
 								<span>출근</span> <span>--:--</span> 
 							</button>
-							<button class="end-time-btn">
+							<button class="end-time-btn null-atd">
 <%-- 								<img src="${pageContext.request.contextPath}/resources/image/icon/check-icon.svg"> --%>
 								<span>퇴근</span> <span>--:--</span>
 							</button>
 						</c:if>
-						<c:if test="${checkIn }">
+						<c:if test="${atd.checkIn != null}">
 							<button class="start-time-btn"> 
 								<img src="${pageContext.request.contextPath}/resources/image/icon/check-icon.svg">
 								<span>출근</span> <span><fmt:formatDate value="${atd.checkIn}" pattern="HH:mm" /></span> 
 							</button>
 							<c:if test="${atd.checkOut == null }">
-								<button class="end-time-btn">
+								<button class="end-time-btn null-atd">
 	<%-- 								<img src="${pageContext.request.contextPath}/resources/image/icon/check-icon.svg"> --%>
 									<span>퇴근</span> <span>--:--</span>
 								</button>
@@ -48,7 +56,7 @@
 						</c:if>
 					</div>
 					<div class="atd-box-bottom">
-						<p>10시간</p>
+						<p>${workTime.hour}시간</p>
 						<div class="work-time-bar"></div>
 						<div><span>0H</span><span>8H</span><span>12H</span><span>14H</span></div>
 					</div>

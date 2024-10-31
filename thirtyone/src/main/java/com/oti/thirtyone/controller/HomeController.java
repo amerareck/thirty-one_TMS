@@ -1,5 +1,6 @@
 package com.oti.thirtyone.controller;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -41,12 +42,13 @@ public class HomeController {
 			String deptName = deptService.getDeptName(deptId);
 			AttendanceDto atdDto = atdService.getAtdInfo(empId);
 			
-			if(atdDto == null) {
-				model.addAttribute("checkIn", false);
-			}else if(atdDto.getCheckOut() == null) {
-				model.addAttribute("checkIn", true);
-				model.addAttribute("atd", atdDto);
+			if(atdDto != null && atdDto.getCheckIn() != null) {
+				boolean isLateCheck = atdService.isLateCheck(atdDto); 
+				Map<String, Long> workTime = atdService.getTimeWork(atdDto);
+				model.addAttribute("workTime", workTime);
 			}
+			
+			model.addAttribute("atd", atdDto);
 			model.addAttribute("empNamePosition", empName + " " + empPosition);
 			model.addAttribute("empDept", deptName);
 		}
@@ -62,15 +64,20 @@ public class HomeController {
 	
 	@GetMapping("/getInfo")
 	@ResponseBody
-	public ResponseEntity<Map<String, String>> getInfo(Model model, Authentication authentication) {
+	public ResponseEntity<Map<String, Object>> getInfo(Model model, Authentication authentication) {
 		EmployeeDetails empDetail = (EmployeeDetails) authentication.getPrincipal();
 		EmployeesDto empDto = empDetail.getEmployee();
-		String deptName = deptService.getDeptName(empDto.getDeptId());
 		
-		Map<String, String> empInfo = new HashMap<>(); 
+		String deptName = deptService.getDeptName(empDto.getDeptId());
+		AttendanceDto atdDto = atdService.getAtdInfo(empDto.getEmpId());
+		
+		
+		Map<String, Object> empInfo = new HashMap<>(); 
 		empInfo.put("empName", empDto.getEmpName());
 		empInfo.put("position", empDto.getPosition());
 		empInfo.put("deptName", deptName);
+		empInfo.put("empRole", empDto.getEmpRole());
+		empInfo.put("atd", atdDto);
 		
 		return ResponseEntity.ok(empInfo);
 		

@@ -1,4 +1,14 @@
+
 document.addEventListener('DOMContentLoaded', function () {
+	
+	updateToday("true");
+	updateClock("true");
+	
+	setInterval(function() {
+		updateClock("true");
+	}, 1000);
+	
+	
 	const ctx = document.getElementById('myChart').getContext('2d');
 	const ctx2 = document.getElementById('chart').getContext('2d');
 	const labels = ['정상출근', '연장근무', '조퇴', '지각', '결근'];

@@ -1,3 +1,4 @@
+       
 document.addEventListener('DOMContentLoaded', function() {
 
 	$('.main-container').css({
@@ -5,6 +6,13 @@ document.addEventListener('DOMContentLoaded', function() {
 		'margin': '0px'
 	})
 	$('.main-line').css('display', 'none');
+	
+	updateToday("true");
+	updateClock("true");
+	
+	setInterval(function() {
+		updateClock("true");
+	}, 1000);
 	
 	var calendarEl = document.getElementById('calendar');
 
@@ -57,3 +65,24 @@ document.addEventListener('DOMContentLoaded', function() {
 	calendar.render();
 });
 
+function getEmpInfo() {
+	$.ajax({
+		method: "get",
+		url: contextPath+'/getInfo',
+		success: function(data){
+			
+			if(data.atdDto !== null){
+				if(data.atd.checkIn === null || data.atd.checkIn == undefined){
+					$('.sidebar-start-time span:nth-child(2)').html('--:--');
+				}else{
+					$('.sidebar-start-time span:nth-child(2)').html(formatDateToTime(data.atd.checkIn));
+				}
+				if(data.atd.checkOut === null || data.atd.checkOut == undefined){
+					$('.sidebar-start-time span:nth-child(2)').html('--:--');
+				}else{
+					$('.sidebar-end-time span:nth-child(2)').html(formatDateToTime(data.atd.checkOut));
+				}
+			}
+		}
+	})
+}

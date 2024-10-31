@@ -1,34 +1,78 @@
-//
-//function updateClock() {
-//    const now = new Date();    
-//    const hours = String(now.getHours()).padStart(2, '0');
-//    const minutes = String(now.getMinutes()).padStart(2, '0');
-//    const seconds = String(now.getSeconds()).padStart(2, '0');
-//    
-//    const timeString = `${hours}:${minutes}:${seconds}`;
-//    
-//    document.querySelector('.sidebar-today-time').textContent = timeString;
-//    document.querySelector('.mini-today-time').textContent = timeString;
-//}
-//
-//
-//function updateToday(){
-//    const now = new Date();
-//    const year = now.getFullYear();
-//    const month = String(now.getMonth() + 1).padStart(2, '0');
-//    const day = String(now.getDate()).padStart(2, '0');
-//
-//    const todayString = `${year}년${month}월${day}일`;
-//    
-//    document.querySelector('.sidebar-today').textContent = todayString;
-//    document.querySelector('.mini-today').textContent = todayString;
-//}
-//        
+
+function updateClock(role) {
+    const now = new Date();    
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    const seconds = String(now.getSeconds()).padStart(2, '0');
+    
+    const timeString = `${hours}:${minutes}:${seconds}`;
+    if(role=="ROLE_USER"){
+    	document.querySelector('.sidebar-today-time').textContent = timeString;
+    }else if(role=="true"){
+    	document.querySelector('.sidebar-today-time').textContent = timeString;
+    	document.querySelector('.mini-today-time').textContent = timeString;
+    }
+}
+
+
+function updateToday(role){
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const day = String(now.getDate()).padStart(2, '0');
+
+    const todayString = `${year}년${month}월${day}일`;
+    if(role=="ROLE_USER"){
+	    document.querySelector('.sidebar-today').textContent = todayString;
+    }else if(role=="true"){
+    	document.querySelector('.sidebar-today').textContent = todayString;
+        document.querySelector('.mini-today').textContent = todayString;
+    }
+}
+
+function formatDateToTime(timestamp) {
+	let date = new Date(timestamp);
+
+	let hours = String(date.getHours()).padStart(2, '0');
+	let minutes = String(date.getMinutes()).padStart(2, '0');
+
+	return `${hours}:${minutes}`; 
+}
+        
 $(document).ready(function() {
-//	updateToday();
-//	updateClock();
-//	
-//	setInterval(updateClock, 1000);
+
+	$.ajax({
+		method: "get",
+		url: contextPath+'/getInfo',
+		success: function(data){
+			$(".emp-name").text(data.empName + " " + data.position);
+			$(".dept-name").text(data.deptName);
+			let role = data.empRole;
+
+			if(data.atdDto !== null){
+				if(data.atd.checkIn === null || data.atd.checkIn == undefined){
+					$('.sidebar-start-time span:nth-child(2)').html('--:--');
+				}else{
+					$('.sidebar-start-time span:nth-child(2)').html(formatDateToTime(data.atd.checkIn));
+				}
+				if(data.atd.checkOut === null || data.atd.checkOut == undefined){
+					$('.sidebar-start-time span:nth-child(2)').html('--:--');
+				}else{
+					$('.sidebar-end-time span:nth-child(2)').html(formatDateToTime(data.atd.checkOut));
+				}
+			}
+			
+			
+			updateToday(role);
+			updateClock(role);
+			
+			setInterval(function() {
+				updateClock(role);
+			}, 1000);
+		}
+		
+	})
+	
 	
 	const root = document.querySelector(':root');
 	const rootStyles = getComputedStyle(root);
@@ -148,14 +192,5 @@ $(document).ready(function() {
 		navigator.geolocation.getCurrentPosition((pos) => success(pos, "checkOut"), error, options);
 	});
 	
-	$.ajax({
-		method: "get",
-		url: contextPath+'/getInfo',
-		success: function(data){
-			$(".emp-name").text(data.empName + " " + data.position);
-			$(".dept-name").text(data.deptName);
-		}
-		
-	})
 
 });

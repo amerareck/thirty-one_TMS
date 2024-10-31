@@ -49,8 +49,14 @@
 </head>
 <body>
 	<div class="header">
-		<img class="logo-image"
-			src="${pageContext.request.contextPath}/resources/image/logo.png" onclick="location.href = '${pageContext.request.contextPath}/home'">
+		<sec:authorize access="hasRole('ROLE_ADMIN')">
+			<img class="logo-image"
+				src="${pageContext.request.contextPath}/resources/image/logo.png" onclick="location.href = '${pageContext.request.contextPath}/admin'">
+		</sec:authorize>
+		<sec:authorize access="!hasRole('ROLE_ADMIN')">	
+			<img class="logo-image"
+				src="${pageContext.request.contextPath}/resources/image/logo.png" onclick="location.href = '${pageContext.request.contextPath}/home'">
+		</sec:authorize>
 		<div class="profile-img-box">
 			<img class="profile-img"
 				src="${pageContext.request.contextPath}/resources/image/profileDefault.png">
@@ -171,10 +177,10 @@
 					<p class="sidebar-today"></p>
 					<h1 class="sidebar-today-time"></h1>
 					<div class="sidebar-start-time">
-						<span>출근시간</span> <span>08:43</span>
+						<span>출근시간</span> <span></span>
 					</div>
 					<div class="sidebar-end-time">
-						<span>퇴근시간</span> <span>18:01</span>
+						<span>퇴근시간</span> <span></span>
 					</div>
 					<div class="sidebar-attendance-btn">
 						<button class="button-small sidebar-start">출근하기</button>

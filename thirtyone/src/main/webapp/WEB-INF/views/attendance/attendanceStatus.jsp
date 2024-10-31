@@ -23,8 +23,8 @@
 					<div class="mini-line"></div>
 					<div class="atd-box-top">
 						<div class="atd-time">
-							<p class="mini-today">2024년10월17일</p>
-							<h1 class="mini-today-time">19:02:40</h1>
+							<p class="mini-today"></p>
+							<h1 class="mini-today-time"></h1>
 						</div>
 						<div class="atd-state">퇴근 완료 </div>
 					</div>

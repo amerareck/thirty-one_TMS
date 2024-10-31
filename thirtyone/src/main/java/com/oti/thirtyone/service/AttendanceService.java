@@ -1,5 +1,9 @@
 package com.oti.thirtyone.service;
 
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -64,6 +68,31 @@ public class AttendanceService {
 	public AttendanceDto getAtdInfo(String empId) {
 		AttendanceDto atdDto = atdDao.selectAtdByEmpId(empId);
 		return atdDto;
+	}
+
+	public Boolean isLateCheck(AttendanceDto atdDto) {
+		Date checkInDate = atdDto.getCheckIn();
+		
+		Date isOnTime = new Date(checkInDate.getYear(), checkInDate.getMonth(), checkInDate.getDate(), 9, 0, 0);
+		if(checkInDate.before(isOnTime))
+			return true;
+		else
+			return false;
+	}
+
+	public Map<String, Long> getTimeWork(AttendanceDto atdDto) {
+		Date checkInDate = atdDto.getCheckIn();
+		
+		Date curTime = new Date();
+		
+		long workTimeMillis = curTime.getTime() - checkInDate.getTime();
+		long workTimeHour = (workTimeMillis / (1000 * 60 * 60)) % 24;
+		long workTimeMinute = (workTimeMillis /  (1000 * 60)) % 60;
+		
+	    Map<String, Long> timeDifference = new HashMap<>();
+        timeDifference.put("hour", workTimeHour);
+        timeDifference.put("minute", workTimeMinute);
+		return timeDifference;
 	}
 	
 	
