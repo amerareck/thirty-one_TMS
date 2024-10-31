@@ -18,12 +18,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.oti.thirtyone.dto.Departments;
 import com.oti.thirtyone.dto.EmployeesDto;
 import com.oti.thirtyone.dto.NoticeDto;
 import com.oti.thirtyone.dto.NoticeFileDto;
 import com.oti.thirtyone.dto.NoticeFormDto;
 import com.oti.thirtyone.dto.Pager;
 import com.oti.thirtyone.security.EmployeeDetails;
+import com.oti.thirtyone.service.DepartmentService;
 import com.oti.thirtyone.service.NoticeService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -35,6 +37,9 @@ public class NoticeController {
 
 	@Autowired
 	NoticeService noticeService;
+	
+	@Autowired
+	DepartmentService departmentService;
 	
 	//공지사항 조회
 	@GetMapping("/noticeList")
@@ -128,9 +133,10 @@ public class NoticeController {
 	
 	//공지사항 작성
 	@PostMapping("/noticeWrite")
-	public String noticeWrite(NoticeFormDto notice, Model model, Authentication authentication) throws Exception {
+	public String noticeWrite(NoticeFormDto notice, Model model, Authentication authentication, int deptId) throws Exception {
 
 		NoticeDto dbNotice = new NoticeDto();
+		
 
 		EmployeeDetails employeeDetails = (EmployeeDetails) authentication.getPrincipal();
 		EmployeesDto employees = employeeDetails.getEmployee();
@@ -141,7 +147,9 @@ public class NoticeController {
 		dbNotice.setNoticeDate(notice.getNoticeDate());
 		dbNotice.setNoticeImportant(notice.getNoticeImportant());
 		dbNotice.setNoticeAllTarget(notice.getNoticeAllTarget());
-
+		
+		/*String deptName = departmentService.getDeptName(deptId);*/
+		
 		noticeService.noticeWrite(dbNotice);
 
 		MultipartFile[] files = notice.getAttachFile();
@@ -160,7 +168,8 @@ public class NoticeController {
 		}
 		log.info(notice.toString());
 		log.info("하이루");
-		model.addAttribute("employees", employees);
+		model.addAttribute("employees", employees);		
+		/*model.addAttribute("deptName", deptName);*/		
 		return "redirect:/notice/noticeList";
 	}
 
@@ -220,9 +229,19 @@ public class NoticeController {
 		return "redirect:/notice/noticeList?pageNo=" + pageNo;
 	}
 	
+	//공지사항 수정에서 파일 삭제
 	@PostMapping("/deleteFile")
 	public ResponseEntity<NoticeFileDto> deleteFile(@RequestBody NoticeFileDto noticeFile) {
 		noticeService.deleteFile(noticeFile);
+		log.info(noticeFile + " ");
 		return ResponseEntity.ok(noticeFile);
+	}
+	
+	//부서 모달 띄우기
+	@GetMapping("/deptList")
+	public ResponseEntity<List<Departments>> deptList() {
+		List<Departments> deptList = departmentService.getDeptList();
+		log.info(deptList + " ");
+		return ResponseEntity.ok(deptList);
 	}
 }

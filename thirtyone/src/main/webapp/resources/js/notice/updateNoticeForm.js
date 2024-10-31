@@ -125,16 +125,10 @@ document.querySelector(".fileBox").addEventListener("click", () => {
 
 
 // input:file 이미지 미리보기 & 삭제하기
-$(function() {
+/*$(function() {
 	$("input:file").change(function() {
 		const files = $(this).prop('files');
 		const fileBox = $(".fileBox");
-		
-		/*$("#uploadFile").change(function() {
-			const files = this.files;
-			handleFiles(files);
-		});*/
-		
 		
 		if (files.length == 0) {
 			fileBox.append('<p><img src="${pageContext.request.contextPath}/resources/image/plusFile_icon.png" alt="plusFile" style="width: 44px" id="preview" /> 마우스로 파일을 끌어놓으세요.</p>');
@@ -154,7 +148,7 @@ $(function() {
 						css: {width: '100px', margin: '5px'}
 					});
 					
-					const deleteFileId = files[i].name;
+					const deleteFileId = files[i].id;
 					
 					const deleteFile = $( '<button>', {
 						text: 'x',
@@ -173,10 +167,12 @@ $(function() {
 						method: 'POST',
 						url: contextPath +'/notice/deleteFile',
 						contentType: 'application/json',
-						data: JSON.stringify({noticeFileId: noticeFileId}),
-						success: function(response) {
+						data: JSON.stringify({ 'noticeFileId':noticeFileId }),
+						success: function(data) {
+							
 							imgElement.remove();
-							deleteFile.remove();							
+							deleteFile.remove();
+							console.log('삭제완료')
 						},
 						error: function(xhr, status, error) {
 							console.error('Error:', xhr.status, error);
@@ -184,15 +180,94 @@ $(function() {
 					});
 				});
 
-					/*$(".fileBox").append(imgElement);*/
+					$(".fileBox").append(imgElement);
 					fileBox.append(imgElement).append(deleteFile);
 				};
 				reader.readAsDataURL(files[i]);
-				/*}*/
+				}
 			}
 		}
 	});
+});*/
+
+const uploadFile = document.getElementById("uploadFile");
+const fileBoxDisplay = document.getElementById("fileBox");
+let filesArray = [];
+
+uploadFile.addEventListener("change", (event) => {
+	filesArray = Array.from(event.target.files); // FileList를 배열로 변환
+	displayFileList();
+	console.log(filesArray);
 });
+
+// 파일 목록을 화면에 표시
+function displayFileList() {	
+	
+	const fileBoxP = document.querySelector(".fileBox p");
+	if (fileBoxP) {
+	fileBoxP.innerHTML = "";
+	}
+
+	console.log(filesArray.length);
+	if (filesArray.length === 0) {
+		fileBoxDisplay.innerHTML = '<p><img src="/thirtyone/resources/image/plusFile_icon.png" alt="plusFile" style="width: 44px" id="preview" />&nbsp;마우스로 파일을 끌어놓으세요.</p>';
+			
+	} else {			
+	
+		 filesArray.forEach((file, index) => {
+			
+			const reader=new FileReader();
+			reader.onload=(event)=> {
+				
+				const data=event.target.result;				
+				console.log(data);			
+		
+				const imgElement = document.createElement("img");
+				imgElement.src = data;
+				imgElement.style.width = '100px';
+				imgElement.style.margin = '5px';		
+			
+				fileBoxDisplay.appendChild(imgElement)
+				
+				const removeButton = document.createElement("button");
+				removeButton.innerHTML = '<img src="/thirtyone/resources/image/cancel_icon.png" style="width: 30px">';
+				
+				removeButton.style.background = 'transparent';
+				removeButton.style.border = 'none';
+				removeButton.style.cursor = 'pointer';
+				removeButton.style.margin = '-40px 0px 20px -45px';
+				
+				removeButton.addEventListener("click", (event) => {
+					event.preventDefault();
+					event.stopPropagation();
+					removeFile(index);
+				});	
+				fileBoxDisplay.appendChild(removeButton);
+			};
+			
+			reader.readAsDataURL(file);
+		});
+	}
+}
+
+// 파일 삭제 함수
+function removeFile(index) {
+	filesArray.splice(index, 1); // 배열에서 파일 제거
+	updateFileListDisplay(); //파일 리스트 업데이트
+	displayFileList(); //이미지 미리보기 업데이트
+}
+		
+// input 요소의 FileList를 업데이트
+function updateFileListDisplay() {
+	const dataTransfer = new DataTransfer();
+	filesArray.forEach(file => dataTransfer.items.add(file));
+	uploadFile.files = dataTransfer.files; //input 요소에 업데이트된 파일 목록 설정
+}		
+
+//파일 값 불러오기
+function getFile() {
+	/*return filesArray.map(file => file.name);*/
+}
 
 
 // 체크박스

@@ -6,9 +6,9 @@
 
 
 <!-- include libraries(jQuery, bootstrap) -->
-<link href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<!-- <link href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet"> -->
+<!-- <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script> -->
+<!-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script> -->
 
 <!-- include summernote css/js -->
 <link href="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote.min.css" rel="stylesheet">
@@ -45,41 +45,8 @@
 
 			<div class="noticeTarget">
 				<div class="notice-target" >공지 대상</div>
-				<button type="button" class="button-small search"
-					data-bs-toggle="modal" data-bs-target="#exampleModal">찾기</button>
-
-
-				<!-- Modal -->
-				<div class="modal fade" id="exampleModal" tabindex="-1"
-					aria-labelledby="exampleModalLabel" aria-hidden="true">
-					<div class="modal-dialog">
-						<div class="modal-content">
-							<div class="modal-header">
-								<div class="modal-title" id="exampleModalLabel">부서 찾기</div>
-								<button type="button" class="btn-close" data-bs-dismiss="modal"
-									aria-label="Close"></button>
-							</div>
-							<div class="modal-body">
-
-							<%-- <c:forEach var="dept" items="${deptItem}">  --%>
-								<!-- 체크 -->
-								<div class="form-check">
-									<input class="form-check-input" type="checkbox" name="deptId" value="${dept.deptName}"
-										id="flexCheckDefault" onclick="getCheckboxValue()"><label class="form-check-label"
-										for="flexCheckDefault"></label>
-								</div>
-							<%-- </c:forEach> --%>
-
-							</div>
-							<div class="modal-footer">
-								<button type="button" class="button-medium cancel"
-									data-bs-dismiss="modal">취소</button>
-								<button type="submit" class="button-medium save" onclick="getCheckboxValue()">확인</button>
-							</div>
-						</div>
-					</div>
-				</div>
-
+				<button type="button" class="button-small search" id="deptSearch"
+					data-bs-toggle="modal" data-bs-target="#ganadaramabasa">찾기</button>
 
 
 				<div class="targetBox" id="result">미선택 시, 전체직원에게 공지가 노출됩니다.</div>
@@ -99,13 +66,12 @@
 				<div class="plus-file">첨부파일</div>
 
 				<div class="fileContent" href="javascript:" id="dropZone">
-						<div class="fileBox">
+						<div class="fileBox" id="fileBox">
 							<p><img
 								src="${pageContext.request.contextPath}/resources/image/plusFile_icon.png"
-								alt="plusFile" style="width: 44px" id="preview" />
-							마우스로 파일을 끌어놓으세요.</p>
+								alt="plusFile" style="width: 44px" id="preview" />&nbsp;&nbsp;마우스로 파일을 끌어놓으세요.</p>
 						</div>
-						<input type="hidden" class="deleteFile" data-delete-file="noticeFileId">
+						<input type="hidden" class="deleteFile" data-delete-file="noticeFileId" id="deleteFileId">
 							<!-- <i class="bi bi-x-circle"></i>
 						</button> -->
 						
@@ -133,7 +99,39 @@
 				</form> -->
 			</div>
 </div>
+
+<!-- Modal -->
+	<div class="modal fade" id="exampleModal" tabindex="-1"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<div class="modal-title" id="exampleModalLabel">부서 찾기</div>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close"></button>
+				</div>
+				<div class="modal-body" id="modalBody">
+
+				<c:forEach var="deptName" items="${deptName}"> 
+					<!-- 체크 -->
+					<div class="form-check">
+						<input class="form-check-input" type="checkbox" name="deptName" value="${dept.deptName}"
+							id="${dept.deptId}" onclick="getCheckboxValue()"><label class="form-check-label"
+							for="${dept.deptId}"></label>
+					</div>
+				</c:forEach>
+
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="button-medium cancel"
+						data-bs-dismiss="modal">취소</button>
+					<input type="submit" class="button-medium save" onclick="getCheckboxValue()" id="getCheckboxValue" value="확인">
+				</div>ㅋ
+			</div>
+		</div>
+	</div>
+
 <script
-	src="${pageContext.request.contextPath}/resources/js/noticeWriteForm.js"></script>
+	src="${pageContext.request.contextPath}/resources/js/notice/noticeWriteForm.js"></script>
 <script src="https://cdn.ckeditor.com/4.25.0/standard/ckeditor.js"></script>
 <%@ include file="/WEB-INF/views/common/footer.jsp"%>

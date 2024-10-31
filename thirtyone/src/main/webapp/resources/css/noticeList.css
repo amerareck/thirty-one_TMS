@@ -148,3 +148,12 @@
 	border: solid transparent;
     color: #c7c7c7;
 }
+
+#searchCancel {
+	height: 30px;
+    border: 1px solid #E2E2E2;
+    border-radius: 5px;
+    margin-left: 10px;
+    display: flex;
+    align-items: center;
+}

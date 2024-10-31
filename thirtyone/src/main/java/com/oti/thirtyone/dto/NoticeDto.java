@@ -15,6 +15,7 @@ public class NoticeDto {
 	private int noticeAllTarget;
 	private int noticeDeleted;
 	private String empId;
+	private int deptId;
 	
 	private int prevNum;
 	private int nextNum;

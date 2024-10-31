@@ -179,7 +179,6 @@
 }
 
 #uploadFile {
-	background-image: url('${pageContext.request.contextPath}/resources/image/upload_icon.png');
 	background-size: 14px;
 	margin-bottom: 15px;
 }
