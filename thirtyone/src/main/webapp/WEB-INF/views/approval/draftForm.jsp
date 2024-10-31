@@ -59,35 +59,17 @@
 					<div id="bizTripPurposeValidation" class="form-text">${bizTripPurposeForm}</div>
 				</div>
         	</div>
-        	<div class="d-flex align-items-center w-100 hol-work hidden" >
-				<label for="datetimeOfholidayWork" class="fw-bold ${not empty holidayWorkStartDate ? 'mb-4' : 'mb-2'}" style="width: 25%; margin-left: 20px">신청 기간</label>
-				<div style="width: 75%;">
-					<div id="datetimeOfholidayWork" class="d-flex flex-column align-items-center w-100" aria-describedby="datetimeOfholidayWorkValidation">
-						<div class="d-flex align-items-center w-100">
-							<span class="fw-bold w-25" style="font-size: 0.8rem;">근무 시작</span>
-							<input type="text" id="holidayWorkStartDatetime" name="holidayWorkStartDate" class="form-control p-2 w-75" style="height: 35px; font-size: 0.8rem;" placeholder="추가근무 시작" readonly >
-						</div>
-						<div class="d-flex align-items-center w-100">
-							<span class="fw-bold w-25" style="font-size: 0.8rem;">근무 종료</span>					
-							<input type="text" id="holidayWorkEndDatetime" name="holidayWorkEndDate" class="form-control p-2 w-75" style="height: 35px; font-size: 0.8rem;" placeholder="추가근무 종료" readonly >
-						</div>
-					</div>
+        	<div class="d-flex align-items-center justify-content-between w-100 hol-work hidden" >
+				<label for="datetimeOfholidayWork" class="fw-bold ${not empty holidayWorkStartDate ? 'mb-4' : 'mb-2'}" style="width: 25%; margin-left: 20px; margin-right: 10px;">근무 신청</label>
+				<div class="w-75">
+					<input type="text" id="holidayWorkStartDatetime" name="holidayWorkStartDate" class="form-control p-2" style="height: 35px; font-size: 0.8rem;" placeholder="휴가근무 신청일" aria-describedby="datetimeOfholidayWorkValidation" readonly >
 					<div id="datetimeOfholidayWorkValidation" class="form-text">${holidayWorkStartDate}</div>
-				</div>
+          		</div>
           	</div>
           	<div class="d-flex align-items-center w-100 work-over hidden" >
-				<label for="datetimeOfWorkOvertime" class="fw-bold ${not empty workOvertimeStartDate ? 'mb-4' : 'mb-2'}" style="width: 25%; margin-left: 20px">신청 기간</label>
-				<div style="width: 75%;">
-					<div id="datetimeOfWorkOvertime" class="d-flex flex-column align-items-center w-100" aria-describedby="datetimeOfWorkOvertimeValidation">
-						<div class="d-flex align-items-center w-100">
-							<span class="fw-bold w-25" style="font-size: 0.8rem;">근무 시작</span>
-							<input type="text" id="workOvertimeStartDatetime" name="workOvertimeStartDate" class="form-control p-2 w-75" style="height: 35px; font-size: 0.8rem;" placeholder="추가근무 시작" readonly >
-						</div>
-						<div class="d-flex align-items-center w-100">
-							<span class="fw-bold w-25" style="font-size: 0.8rem;">근무 종료</span>					
-							<input type="text" id="workOvertimeEndDatetime" name="workOvertimeEndDate" class="form-control p-2 w-75" style="height: 35px; font-size: 0.8rem;" placeholder="추가근무 종료" readonly >
-						</div>
-					</div>
+				<label for="datetimeOfWorkOvertime" class="fw-bold ${not empty workOvertimeStartDate ? 'mb-4' : 'mb-2'}" style="width: 25%; margin-left: 20px; margin-right: 10px;">근무 종료</label>
+				<div class="w-75">
+					<input type="text" id="workOvertimeStartDatetime" name="workOvertimeStartDate" class="form-control p-2" style="height: 35px; font-size: 0.8rem;" placeholder="추가근무 종료시각" aria-describedby="datetimeOfWorkOvertimeValidation" readonly >
 					<div id="datetimeOfWorkOvertimeValidation" class="form-text">${workOvertimeStartDate}</div>
 				</div>
           	</div>
@@ -152,7 +134,7 @@
 	            </select>
 		        <div id="draftApprovalLineValidation" class="form-text">${draftApprovalLine}</div>
             </div>
-            <button type="button" class="btn btn-secondary ${not empty draftApprovalLine ? 'mb-4' : 'mb-2'}" style="margin-left: 20px;" id="approvalLineCall">결재선 선택</button>
+            <button type="button" class="btn btn-secondary ${not empty draftApprovalLine ? 'mb-3' : 'mb-2'}" style="margin-left: 20px;" id="approvalLineCall">결재선 선택</button>
         </div>
     </div>
     <div class="d-none" id="approvalLineInfo">
@@ -194,12 +176,8 @@
 			</div>
 		</div>
 	</div>
-	
-	<div class="d-flex align-items-center justify-content-end me-1">
-		<button id="draftSubmitButton" class="btn btn-secondary" style="width: 70px; height: 38px; padding: 3px; font-size: .925rem;">기안 상신</button>
-	</div>
     
-    <hr class="hr mt-3 mb-5" />
+    <hr class="hr my-5" />
 
     <div>
 		<div style="width: 90%; margin: 0 auto;">

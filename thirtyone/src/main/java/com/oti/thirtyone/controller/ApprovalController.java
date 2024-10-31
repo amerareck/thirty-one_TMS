@@ -199,8 +199,9 @@ public class ApprovalController {
 		JSONObject core = new JSONObject();
 		JSONArray data = new JSONArray();
 		JSONObject topDept = new JSONObject();
-		topDept.put("text", "오티아이[OTI]");
+		topDept.put("text", "ThirtyOne");
 		topDept.put("icon", "fa-solid fa-building");
+		topDept.put("state", new JSONObject().put("opened", true));
 		
 		JSONArray childs = new JSONArray();
 		for(int i=0; i<orgList.size(); i++) {
@@ -307,6 +308,9 @@ public class ApprovalController {
             );
             log.info(error.getFieldErrors().toString());
             model.addAttribute("form", form);
+            List<Departments> deptList = deptService.getDepartmentList();
+    		deptList.removeIf(elem -> elem.getDeptId() == 999);
+    		model.addAttribute("departments", deptList);
             
             return "approval/draftForm";
 		}

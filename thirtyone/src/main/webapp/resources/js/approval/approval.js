@@ -2,7 +2,7 @@
 flatpickr("#holidayStartDate", {
 	dateFormat: "Y-m-d",
 	allowInput: true,
-	minDate: new Date(),
+	//minDate: new Date(),
 	onChange: function(selectedDates, dateStr, instance) {
 		const startDate = selectedDates[0];
 		const endPicker = flatpickr("#holidayEndDate", {
@@ -17,7 +17,7 @@ flatpickr("#holidayStartDate", {
 flatpickr("#bizTripStartDate", {
 	dateFormat: "Y-m-d",
 	allowInput: true,
-	minDate: new Date(),
+	//minDate: new Date(),
 	onChange: function(selectedDates, dateStr, instance) {
 	const startDate = selectedDates[0];
 	const endPicker = flatpickr("#bizTripEndDate", {
@@ -30,14 +30,13 @@ flatpickr("#bizTripStartDate", {
 });
 
 flatpickr("#holidayWorkStartDatetime", {
-	enableTime: true,
-	dateFormat: "Y-m-d H:i:S",
-	time_24hr: true,
+	dateFormat: "Y-m-d",
 	locale: {
 	    firstDayOfWeek: 1 // 주의 첫 날 설정 (1 = 월요일)
 	},
 	allowInput: true,
 	minDate: new Date(),
+	/*
 	onChange: function(selectedDates, dateStr, instance) {
 		const startDate = selectedDates[0];
 	    const endPicker = flatpickr("#holidayWorkEndDatetime", {
@@ -52,8 +51,14 @@ flatpickr("#holidayWorkStartDatetime", {
 	    });
 	endPicker.set('minDate', startDate);
 	}
+	*/
 });
 
+wotMinDate = new Date();
+wotMinDate.setHours(18, 0, 0);
+wotMaxDate = new Date();
+wotMaxDate.setHours(4, 0, 0);
+wotMaxDate.setDate(wotMaxDate.getDate()+1);
 flatpickr("#workOvertimeStartDatetime", {
 	enableTime: true,
 	dateFormat: "Y-m-d H:i:S",
@@ -62,21 +67,8 @@ flatpickr("#workOvertimeStartDatetime", {
 	    firstDayOfWeek: 1 // 주의 첫 날 설정 (1 = 월요일)
 	},
 	allowInput: true,
-	minDate: new Date(),
-	onChange: function(selectedDates, dateStr, instance) {
-	    const startDate = selectedDates[0];
-	    const endPicker = flatpickr("#workOvertimeEndDatetime", {
-			enableTime: true,
-			dateFormat: "Y-m-d H:i:S",
-		    time_24hr: true,
-		    locale: {
-		        firstDayOfWeek: 1
-		    },
-		    allowInput: true,
-		    minDate: startDate
-	    });
-	endPicker.set('minDate', startDate);
-	}
+	minDate: wotMinDate,
+	maxDate: wotMaxDate
 });
 
 // jstree를 이용한 조직도 로딩
@@ -84,7 +76,7 @@ $(function() {
 	var path = window.location.pathname;
     console.log("페이지 경로:", path);
     
-    if(path === '/thirtyone/approval/draft') {
+    if(path === '/thirtyone/approval/draft' || path === '/thirtyone/approval/draftSubmit') {
     	let orgChart;
     	$.ajax({
     		url: "getOrgChart",
@@ -436,13 +428,14 @@ $('#holidayWorkStartDatetime').on('change', function(){
     const year = startDay.split('-')[0];
     const month = startDay.split('-')[1];
     const day = startDay.split('-')[2];
-    const startTime = $('#holidayWorkStartDatetime').val().split(' ')[1];
-    const hour = startTime.split(':')[0];
-    const minute = startTime.split(':')[1];
+    //const startTime = $('#holidayWorkStartDatetime').val().split(' ')[1];
+    //const hour = startTime.split(':')[0];
+    //const minute = startTime.split(':')[1];
     
-    $(myElement).text(year+'년\u00A0'+month+'월\u00A0'+day+'일\u00A0'+hour+'시\u00A0'+minute+'분\u00A0\u00A0~');    	
+    $(myElement).text(year+'년\u00A0'+month+'월\u00A0'+day+'일 (총 8시간)');   
 });
 
+/*
 $('#holidayWorkEndDatetime').on('change', function(){
 	const editor = tinymce.get('draftDocument');
     const contentDocument = editor.getDoc();
@@ -458,21 +451,32 @@ $('#holidayWorkEndDatetime').on('change', function(){
     const str = '\u00A0\u00A0'+year+'년\u00A0'+month+'월\u00A0'+day+'일\u00A0'+hour+'시\u00A0'+minute+'분';
     $(myElement).text($(myElement).text()+str);
 });
+*/
 
 $('#workOvertimeStartDatetime').on('change', function(){
 	const editor = tinymce.get('draftDocument');
     const contentDocument = editor.getDoc();
     const myElement = contentDocument.getElementById('workovertimeStart');
+    const endElement = contentDocument.getElementById('workovertimeEnd');
     const startDay = $('#workOvertimeStartDatetime').val().split(' ')[0];
     const year = startDay.split('-')[0];
     const month = startDay.split('-')[1];
     const day = startDay.split('-')[2];
     const startTime = $('#workOvertimeStartDatetime').val().split(' ')[1];
     const hour = startTime.split(':')[0];
+    const today = new Date();
+    today.setHours(18, 0, 0);
+    const overtime = new Date();
+    overtime.setDate(parseInt(day));
+    overtime.setHours(parseInt(hour), 0, 0);
+    console.log(overtime);
+    const totalHour = (overtime - today) / (60 * 60 * 1000);
     
-    $(myElement).text(year+'년\u00A0'+month+'월\u00A0'+day+'일\u00A0'+hour+'시\u00A0');    	
+    $(myElement).text(today.getFullYear()+'년\u00A0'+today.getMonth()+'월\u00A0'+today.getDate()+'일\u00A0'+today.getHours()+'시\u00A0');
+    $(endElement).text(year+'년\u00A0'+month+'월\u00A0'+day+'일\u00A0'+hour+'시\u00A0(총\u00A0'+parseInt(totalHour)+'시간)');
 });
 
+/*
 $('#workOvertimeEndDatetime').on('change', function(){
 	const editor = tinymce.get('draftDocument');
     const contentDocument = editor.getDoc();
@@ -496,6 +500,7 @@ $('#workOvertimeEndDatetime').on('change', function(){
     
     $(myElement).text(year+'년\u00A0'+month+'월\u00A0'+day+'일\u00A0'+hour+'시\u00A0\u00A0(총\u00A0'+overtimeHour+'시간)');    	
 });
+*/
 
 $('#approvalAttachFile').on('change', function(){
 	const fileName = this.files[0].name;

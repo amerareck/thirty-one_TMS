@@ -11,7 +11,7 @@
 	            <div class="w-100 h-100">
 					<div class="w-100 d-flex justify-content-center mb-1">
 						<div class="input-group" style="width:98%">
-				  			<input type="text" class="form-control" placeholder="멤버 또는 조직 검색">
+				  			<input type="text" class="form-control" placeholder="사원 검색">
 				      		<button class="btn btn-outline-secondary" style="border-color: #dee2e6;" type="button"><i class="fa-solid fa-magnifying-glass"></i></button>
 				  		</div>
 				 	</div>
@@ -44,7 +44,7 @@
 				    	<div class="d-flex align-items-center justify-content-between">
 				        <label for="approval-line" class="form-label fw-bold">결재 라인</label>
 				        <div class="d-flex justify-content-start align-items-center mb-2" style="height: 15%">
-				            <select id="approval-line" class="form-select w-50 d-flex align-items-center font-size-small">
+				            <select id="approval-line" class="form-select d-flex align-items-center font-size-small w-50" style="height: 33.5px;">
 				                <option>기본 결재선</option>
 				            </select>
 				            <div class="input-group ms-1" style="height: 85%">
@@ -55,7 +55,7 @@
 				        </div>
 				    	</div>
 				
-				        <div class="approval-line-container d-flex flex-column justify-content-top align-items-center" id="approvalLineBox" style="height: 75%">
+				        <div class="approval-line-container d-flex flex-column justify-content-center align-items-center" id="approvalLineBox" style="height: 75%">
 				            <div class="approval-line-item" data-deptId="111" data-empid="11103" style="width: 85%">
 				                <div>
 				                    <i class="fas fa-user pe-2"></i> <b class="apl-emp-name">정준하</b> <b class="apl-emp-position">과장</b>
