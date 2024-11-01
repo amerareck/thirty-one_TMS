@@ -1,6 +1,5 @@
 package com.oti.thirtyone.controller;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -41,12 +40,13 @@ public class HomeController {
 			
 			String deptName = deptService.getDeptName(deptId);
 			AttendanceDto atdDto = atdService.getAtdInfo(empId);
-			
+			Map<String, Long> workTime = new HashMap<>();
+			workTime.put("hour", (long) 0);
 			if(atdDto != null && atdDto.getCheckIn() != null) {
-				boolean isLateCheck = atdService.isLateCheck(atdDto); 
-				Map<String, Long> workTime = atdService.getTimeWork(atdDto);
-				model.addAttribute("workTime", workTime);
+//				boolean isLateCheck = atdService.isLateCheck(atdDto); 
+				workTime = atdService.getTimeWork(atdDto);
 			}
+			model.addAttribute("workTime", workTime);
 			
 			model.addAttribute("atd", atdDto);
 			model.addAttribute("empNamePosition", empName + " " + empPosition);

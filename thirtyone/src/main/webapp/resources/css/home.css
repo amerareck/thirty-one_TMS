@@ -333,6 +333,7 @@
 }
 
 .start-time-btn, .end-time-btn{
+	padding: 0px 20px;
 	width: 240px;
 	height: 70px;
 	border:none;
@@ -362,8 +363,8 @@
 }
 .start-time-btn{
 	margin-left: 40px;
-	background-color: var(--blue);
-}
+		background-color: var(--blue);
+	}
 
 .end-time-btn{
 	margin-right: 108px;

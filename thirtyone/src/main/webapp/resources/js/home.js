@@ -1,12 +1,12 @@
        
 document.addEventListener('DOMContentLoaded', function() {
 
-	$('.main-container').css({
-		'box-shadow': 'none',
-		'margin': '0px'
-	})
-	$('.main-line').css('display', 'none');
-	
+//	$('.main-container').css({
+//		'box-shadow': 'none',
+//		'margin': '0px'
+//	})
+//	$('.main-line').css('display', 'none');
+//	
 	updateToday("true");
 	updateClock("true");
 	
@@ -64,7 +64,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	
 	calendar.render();
 });
-
+/*
 function getEmpInfo() {
 	$.ajax({
 		method: "get",
@@ -83,6 +83,11 @@ function getEmpInfo() {
 					$('.sidebar-end-time span:nth-child(2)').html(formatDateToTime(data.atd.checkOut));
 				}
 			}
-		}
-	})
-}
+		};
+	});
+}*/
+
+$('.start-time-btn, .end-time-btn').on('click', function () {
+	location.reload();
+	
+})
