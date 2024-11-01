@@ -147,6 +147,10 @@
 	margin:0px 40px 20px 40px;
 }
 
+.arrow-right, .arrow-left{
+	width: 10px;
+}
+
 .holiday-status-box {
 	margin-bottom: 40px;
 }
@@ -171,8 +175,4 @@
 	font-size: 14px;
 	font-weight: bold;
 	color: var(--darkgray);
-}
-
-.arrow-right, .arrow-left{
-	width: 10px;
 }

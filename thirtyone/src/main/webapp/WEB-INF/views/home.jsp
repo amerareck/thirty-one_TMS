@@ -37,7 +37,7 @@
 							</button>
 						</c:if>
 						<c:if test="${atd.checkIn != null}">
-							<button class="start-time-btn"> 
+							<button class="start-time-btn" disabled> 
 								<img src="${pageContext.request.contextPath}/resources/image/icon/check-icon.svg">
 								<span>출근</span> <span><fmt:formatDate value="${atd.checkIn}" pattern="HH:mm" /></span> 
 							</button>
@@ -48,7 +48,7 @@
 								</button>
 							</c:if>
 							<c:if test="${atd.checkOut != null }">
-								<button class="end-time-btn">
+								<button class="end-time-btn" disabled>
 									<img src="${pageContext.request.contextPath}/resources/image/icon/check-icon.svg">
 									<span>퇴근</span> <span><fmt:formatDate value="${atd.checkOut}" pattern="HH:mm" /></span>
 								</button>
@@ -57,7 +57,7 @@
 					</div>
 					<div class="atd-box-bottom">
 						<p>${workTime.hour}시간</p>
-						<div class="work-time-bar"></div>
+						<div class="work-time-bar" style="background-image: linear-gradient(to right, #1F5FFF 0%, #1F5FFF ${workTime.workpart}%, #BEFDB7 ${workTime.workpart+10}%, #BEFDB7 100% )"></div>
 						<div><span>0H</span><span>8H</span><span>12H</span><span>14H</span></div>
 					</div>
 				</div>

@@ -36,7 +36,7 @@
 									alt="검색 아이콘">
 							</button>
 						</div>
-						<button class="btn search" id="searchCancel" onclick="location.href='${pageContext.request.contextPath}/notice/noticeList?pageNo=${i}">취소</button>
+						<button class="btn search" id="searchCancel" <%-- onclick="location.href='${pageContext.request.contextPath}/notice/noticeList?pageNo=${i}" --%>>취소</button>
 					</div>
 				</form>
 			</div>
@@ -81,7 +81,7 @@
 				</table>
 			</c:forEach>
 
-			<button class="button-medium"
+			<button class="button-medium" id="writeButton"
 				onclick="location.href='${pageContext.request.contextPath}/notice/noticeWriteForm'">+
 				작성하기</button>
 
@@ -92,9 +92,9 @@
 					alt="prev" style="width: 110px">
 				</a>
 
-				<c:if test="${pager.groupNo>1}">
+				<%-- <c:if test="${pager.groupNo>1}">
 					<a href="noticeList?pageNo=${pager.startPageNo-1}">이전</a>
-				</c:if>
+				</c:if> --%>
 
 				<c:forEach begin="${pager.startPageNo}" end="${pager.endPageNo}"
 					step="1" var="i">
@@ -110,9 +110,9 @@
 					</c:if>
 				</c:forEach>
 
-				<c:if test="${pager.groupNo<pager.totalGroupNo}">
+				<%-- <c:if test="${pager.groupNo<pager.totalGroupNo}">
 					<a href="noticeList?pageNo=${pager.endPageNo+1}">다음</a>
-				</c:if>
+				</c:if> --%>
 
 				<a href="noticeList?pageNo=${pager.totalPageNo}"> <img
 					src="${pageContext.request.contextPath}/resources/image/next_icon.png"

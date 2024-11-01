@@ -41,6 +41,8 @@ public interface NoticeDao {
 	 public int deleteNotice(int noticeId);
 	 public int deleteFile(NoticeFileDto noticeFile);
 
+	 //부서
+	 public int insertNoticeTarget(int noticeId);
 	
 
 }
