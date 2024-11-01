@@ -95,53 +95,93 @@ document.addEventListener('DOMContentLoaded', function () {
 	
 
 	var calendarEl = document.getElementById('calendar');
+	let today = new Date();
+	let todayYear = today.getFullYear();
+	let todayMonth = ('0' + (today.getMonth() + 1)).slice(-2);
+	
 
 	var calendar = new FullCalendar.Calendar(calendarEl, {
-	    initialView: 'dayGridMonth',
-	    contentHeight: 700,
-	    initialDate: '2024-10-20',
-	    headerToolbar: {
-	      left: 'prev',
-	      center: 'title',
-	      right: 'next'
-	    },
-	    events: [
-	      {
-	        title: 'All Day Event',
-	        start: '2024-10-01'
-	      },
-	      {
-	        title: 'Long Event',
-	        start: '2024-10-07',
-	        end: '2024-10-10'
-	      },
-	      {
-	        groupId: '999',
-	        title: 'Repeating Event',
-	        start: '2024-10-09T16:00:00'
-	      },
-	      {
-	        groupId: '999',
-	        title: 'Repeating Event',
-	        start: '2024-10-16T16:00:00'
-	      },
-	      {
-	        title: 'Conference',
-	        start: '2024-10-11',
-	        end: '2024-10-13'
-	      },
-	      {
-	        title: 'Meeting',
-	        start: '2024-10-12T10:30:00',
-	        end: '2024-10-12T12:30:00'
-	      },
-	      {
-	        title: 'Birthday Party',
-	        start: '2024-10-13T07:00:00'
-	      },
-	
-	    ]
+		initialView: 'dayGridMonth',
+		views:{
+			dayGridMonth: {
+				titleFormat: { year: 'numeric', month: 'long' }
+			}
+		},
+		contentHeight: 700,
+		initialDate: today,
+		headerToolbar: {
+			left: 'prev',
+			center: 'title',
+			right: 'next'
+		},
+		events: function (fetchInfo, successCallback, failureCallback){
+			$.ajax({
+				method: "get",
+				url: contextPath + "/atd/atdCalendar",
+				data: {'year' : todayYear , 'month' : todayMonth },
+				success: function(data) {
+					successCallback(data);
+				},
+	            error: function() {
+	                failureCallback();
+	            }
+			})
+		},
+		datesSet: function(info){
+			var currentDate = calendar.getDate();
+            var month = currentDate.getMonth()+1;
+            var year = currentDate.getFullYear();
+
+
+            $.ajax({
+				method: "get",
+				url: contextPath + "/atd/atdCalendar",
+				data: {'year' : year , 'month' : month },
+				success: function(data) {
+					console.log(data);
+					calendar.getEvents().forEach(event => event.remove());
+					
+					data.forEach(eventData => {
+						calendar.addEvent(eventData);
+					});
+					
+				},
+	            error: function() {
+	                failureCallback();
+	            }
+			})
+			
+		},
 	});
 	
 	calendar.render();
+
+	
 })
+
+$(".fc-prev-button").on('click', function() {
+	var calendarEl = document.getElementById('calendar');
+	console.log("asd");
+	console.log(calendarEl);
+	
+//	$.ajax({
+//		method: "get",
+//		url: contextPath + "/atd/atdCalendar",
+//		data: {'year' : todayYear , 'month' : todayMonth },
+//		success: function(data) {
+//			var calendar = new FullCalendar.Calendar(calendarEl, {
+//				initialView: 'dayGridMonth',
+//				contentHeight: 700,
+//				initialDate: today,
+//				headerToolbar: {
+//					left: 'prev',
+//					center: 'title',
+//					right: 'next'
+//				},
+//				events: data 
+//			});
+//			calendar.render();
+//		}
+//	})
+})
+

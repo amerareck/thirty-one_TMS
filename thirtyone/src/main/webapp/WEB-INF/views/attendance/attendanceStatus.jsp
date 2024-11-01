@@ -2,9 +2,6 @@
     pageEncoding="UTF-8"%>
     
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/attendance/attendanceStatus.css" />
-<script src="${pageContext.request.contextPath}/resources/js/attendance/attendanceStatus.js"></script>
-
-
 
 <%@ include file="/WEB-INF/views/common/header.jsp"%>
 <div class="content-box">
@@ -26,19 +23,44 @@
 							<p class="mini-today"></p>
 							<h1 class="mini-today-time"></h1>
 						</div>
-						<div class="atd-state">퇴근 완료 </div>
+						<c:if test="${atd.checkIn == null }">
+							<div class="atd-state">출근 전 </div>
+						</c:if>
+						<c:if test="${atd.checkIn != null && atd.checkOut == null }">
+							<div class="atd-state">근무 중 </div>
+						</c:if>
+						<c:if test="${atd.checkIn != null && atd.checkOut != null }">
+							<div class="atd-state">퇴근 완료</div>
+						</c:if>
 					</div>
 					<div class="atd-box-middle"> 
-						<button class="start-time-btn"> 
-							<span>출근</span> <span>08:43</span> 
-						</button>
-						<button class="end-time-btn">
-							<span>퇴근</span> <span>18:01</span>
-						</button>
+						<c:if test="${atd.checkIn == null}">
+							<button class="start-time-btn "> 
+								<span>출근</span> <span>--:--</span> 
+							</button>
+							<button class="end-time-btn ">
+								<span>퇴근</span> <span>--:--</span>
+							</button>
+						</c:if>
+						<c:if test="${atd.checkIn != null}">
+							<button class="start-time-btn" disabled> 
+								<span>출근</span> <span><fmt:formatDate value="${atd.checkIn}" pattern="HH:mm" /></span> 
+							</button>
+							<c:if test="${atd.checkOut == null }">
+								<button class="end-time-btn ">
+									<span>퇴근</span> <span>--:--</span>
+								</button>
+							</c:if>
+							<c:if test="${atd.checkOut != null }">
+								<button class="end-time-btn" disabled>
+									<span>퇴근</span> <span><fmt:formatDate value="${atd.checkOut}" pattern="HH:mm" /></span>
+								</button>
+							</c:if>
+						</c:if>
 					</div>
 					<div class="atd-box-bottom">
-						<p>10시간</p>
-						<div class="work-time-bar"></div>
+						<p>${workTime.hour}시간</p>
+						<div class="work-time-bar" style="background-image: linear-gradient(to right, #1F5FFF 0%, #1F5FFF ${workTime.workpart}%, #BEFDB7 ${workTime.workpart+10}%, #BEFDB7 100% )"></div>
 						<div><span>0H</span><span>8H</span><span>12H</span><span>14H</span></div>
 					</div>
 				</div>
@@ -64,6 +86,10 @@
 			</div>
 		</div>
 
+<script type="text/javascript">
+	contextPath = '${pageContext.request.contextPath}';
+</script>
+<script src="${pageContext.request.contextPath}/resources/js/attendance/attendanceStatus.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
 <%@ include file="/WEB-INF/views/common/footer.jsp" %>

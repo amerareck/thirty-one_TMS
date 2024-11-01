@@ -2,12 +2,15 @@ package com.oti.thirtyone.service;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.oti.thirtyone.dao.AttendanceDao;
+import com.oti.thirtyone.dto.AttendanceCalendarDto;
 import com.oti.thirtyone.dto.AttendanceDto;
 
 import lombok.extern.log4j.Log4j2;
@@ -82,17 +85,76 @@ public class AttendanceService {
 
 	public Map<String, Long> getTimeWork(AttendanceDto atdDto) {
 		Date checkInDate = atdDto.getCheckIn();
-		
+		Date checkOutDate = atdDto.getCheckOut();
 		Date curTime = new Date();
+		long workTime = 0;
+		if(checkOutDate == null)
+			workTime = curTime.getTime() - checkInDate.getTime();
+		else
+			workTime = checkOutDate.getTime() - checkInDate.getTime();
 		
-		long workTimeMillis = curTime.getTime() - checkInDate.getTime();
-		long workTimeHour = (workTimeMillis / (1000 * 60 * 60)) % 24;
-		long workTimeMinute = (workTimeMillis /  (1000 * 60)) % 60;
+		long workTimeHour = (workTime / (1000 * 60 * 60)) % 24;
+		long workTimeMinute = (workTime /  (1000 * 60)) % 60;
+		long workTimeWorkPart = (long) ((workTimeHour / 14.0) * 100);
+		log.info("workTimeHour " + workTimeHour);
+		log.info(workTimeWorkPart);
 		
 	    Map<String, Long> timeDifference = new HashMap<>();
         timeDifference.put("hour", workTimeHour);
         timeDifference.put("minute", workTimeMinute);
+        timeDifference.put("workpart", workTimeWorkPart);
+        
 		return timeDifference;
+	}
+	public AttendanceCalendarDto formatInputCalendar(String title, Date date, String background, String border, String text) {
+		AttendanceCalendarDto atdCalendarDto = new AttendanceCalendarDto();
+		
+		String year = "20" + (date.getYear()+"").split("1")[1];
+		String month = String.valueOf(date.getMonth()+1);
+		String day = String.valueOf(date.getDate()).length() > 1 ? String.valueOf(date.getDate()) : "0"+date.getDate() ;
+		String hour = String.valueOf(date.getHours()).length() > 1 ? String.valueOf(date.getHours()) : "0" + date.getHours(); 
+		String minute = String.valueOf(date.getMinutes()).length() > 1 ? String.valueOf(date.getMinutes()) : "0" + date.getMinutes();
+		
+		atdCalendarDto.setTitle(title+" " + hour+":"+minute);
+		atdCalendarDto.setStart(year+"-"+month+"-"+day);
+		atdCalendarDto.setBackgroundColor(background);
+		atdCalendarDto.setBorderColor(border);
+		atdCalendarDto.setTextColor(text);
+		
+		
+		return atdCalendarDto;
+	}
+	public List<AttendanceCalendarDto> getAtdInfoList(String empId, String year, String month) {
+		
+		if(month.length() == 1) {
+			month="0" + month;
+		}
+		log.info(year + " " + month);		
+		List<AttendanceDto> atdCalendarList = atdDao.selectAtdMonthly(empId, year+"/"+month+"/15");
+		List<AttendanceCalendarDto> calendarList = new LinkedList<AttendanceCalendarDto>();
+		for (AttendanceDto atd : atdCalendarList) {
+			String title = atd.getAtdState();
+			
+			if(title.equals("정상출근")) {
+				if(atd.getCheckIn() != null) 
+					calendarList.add(formatInputCalendar("출근", atd.getCheckIn(), "#B5CAFF", "#B5CAFF", "white") );
+				if(atd.getCheckOut() != null) 
+					calendarList.add(formatInputCalendar("퇴근", atd.getCheckOut(), "#C3C3C3", "#C3C3C3", "white" ));
+			}else if(title.equals("지각")) {
+				if(atd.getCheckIn() != null) 
+					calendarList.add(formatInputCalendar("지각", atd.getCheckIn(), "white", "#B5CAFF", "#B5CAFF"));
+				if(atd.getCheckOut() != null) 
+					calendarList.add(formatInputCalendar("퇴근", atd.getCheckOut(), "#C3C3C3", "#C3C3C3", "white"));				
+			}else if(title.equals("조퇴")) {
+				if(atd.getCheckIn() != null) 
+					calendarList.add(formatInputCalendar("출근", atd.getCheckIn(), "#C3C3C3", "#C3C3C3", "white"));
+				if(atd.getCheckOut() != null) 
+					calendarList.add(formatInputCalendar("조퇴", atd.getCheckOut(), "white", "#C3C3C3", "#C3C3C3"));
+			}
+			
+			
+		}
+		return calendarList;
 	}
 	
 	

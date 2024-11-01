@@ -1,5 +1,9 @@
 package com.oti.thirtyone.controller;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -8,7 +12,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.oti.thirtyone.dto.AttendanceCalendarDto;
+import com.oti.thirtyone.dto.AttendanceDto;
 import com.oti.thirtyone.service.AttendanceService;
 import com.oti.thirtyone.service.DepartmentService;
 import com.oti.thirtyone.service.EmployeesService;
@@ -29,7 +36,22 @@ public class AttendanceController {
 	
 	
 	@GetMapping("")
-	public String movedAttendance(Model model) {
+	public String attendanceMain(Model model, Authentication authentication) {
+		String empId = authentication.getName();
+
+		AttendanceDto atdDto = atdService.getAtdInfo(empId);
+		
+		Map<String, Long> workTime = new HashMap<>();
+		workTime.put("hour", (long) 0);
+		if(atdDto != null && atdDto.getCheckIn() != null) {
+//			boolean isLateCheck = atdService.isLateCheck(atdDto); 
+			workTime = atdService.getTimeWork(atdDto);
+			log.info(workTime.toString());
+		}
+		model.addAttribute("workTime", workTime);
+		
+		model.addAttribute("atd", atdDto);
+		
 		model.addAttribute("title", "정원석님의 근태 관리");
 		model.addAttribute("selectedTitle", "hr");
 		model.addAttribute("selectedSub", "attendance");
@@ -66,6 +88,14 @@ public class AttendanceController {
 		return ResponseEntity.ok("출근");
 	}
 	
+	
+	@GetMapping("atdCalendar")
+	@ResponseBody
+	public List<AttendanceCalendarDto> atdCalender(Authentication authentication, String year, String month){
+		String empId = authentication.getName();
+		List<AttendanceCalendarDto> atdCalendarList = atdService.getAtdInfoList(empId, year, month);
+		return atdCalendarList;
+	}
 	@GetMapping("/time")
 	public String attendacnetime(Model model) {
 		model.addAttribute("title", "정원석님의 근태 관리");
