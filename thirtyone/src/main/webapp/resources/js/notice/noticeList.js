@@ -12,15 +12,17 @@ function enterkeySearch(event) {
 	}
 }
 
-function search(value) {
+/*function search(value) {
 	location.href = "/thirtyone/notice/searchNotice?noticeTitle=" + value;
 	
-}
+}*/
 
-document.getElementById("searchCancel").addEventListener("click", () => {
+document.getElementById("searchCancel").addEventListener("click", (e) => {
+	e.preventDefault();
 	const inputSearch = document.getElementById("enterkeySearch");
 	inputSearch.value = '';
-	location.href = "/thirtyone/notice/noticeList";
+	location.href = "/thirtyone/notice/noticeList?pageNum=1";
+	console.log("jjjjj");
 	
 	});
 });

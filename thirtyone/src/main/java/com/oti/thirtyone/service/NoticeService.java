@@ -92,5 +92,10 @@ public class NoticeService {
 	public void deleteFile(NoticeFileDto noticeFile) {
 		noticeDao.deleteFile(noticeFile);
 	}
+	
+	//부서
+	public void insertNoticeTarget(int noticeId) {
+		noticeDao.insertNoticeTarget(noticeId);
+	}
 }
 

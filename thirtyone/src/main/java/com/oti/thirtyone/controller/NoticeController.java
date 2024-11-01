@@ -83,12 +83,6 @@ public class NoticeController {
 		return "notice/noticeList";
 	}
 	
-	@GetMapping("/noticeWriteForm")
-	public String noticeWriteForm(Model model) {
-		model.addAttribute("title", "공지사항 작성");
-		return "notice/noticeWriteForm";
-	}
-	
 	//공지사항 상세페이지
 	@GetMapping("/noticeDetail")
 	public String noticeDetail(Model model, int noticeId) {
@@ -130,13 +124,24 @@ public class NoticeController {
 		out.flush();
 		out.close();
 	}
+
+	@GetMapping("/noticeWriteForm")
+	public String noticeWriteForm(Model model/*, int deptId*/) {
+		
+		/*String deptName = departmentService.getDeptName(deptId);*/
+		
+		model.addAttribute("title", "공지사항 작성");
+		/*model.addAttribute("deptName", deptName);		
+		model.addAttribute("deptId", deptId);*/
+		return "notice/noticeWriteForm";
+	}
 	
 	//공지사항 작성
 	@PostMapping("/noticeWrite")
-	public String noticeWrite(NoticeFormDto notice, Model model, Authentication authentication, int deptId) throws Exception {
-
+	public ResponseEntity<String> noticeWrite(NoticeFormDto notice, Model model, Authentication authentication) throws Exception {
+		log.info("khj");
 		NoticeDto dbNotice = new NoticeDto();
-		
+		List<Departments> deptList = departmentService.getDeptList();
 
 		EmployeeDetails employeeDetails = (EmployeeDetails) authentication.getPrincipal();
 		EmployeesDto employees = employeeDetails.getEmployee();
@@ -147,8 +152,7 @@ public class NoticeController {
 		dbNotice.setNoticeDate(notice.getNoticeDate());
 		dbNotice.setNoticeImportant(notice.getNoticeImportant());
 		dbNotice.setNoticeAllTarget(notice.getNoticeAllTarget());
-		
-		/*String deptName = departmentService.getDeptName(deptId);*/
+		log.info(notice.toString());
 		
 		noticeService.noticeWrite(dbNotice);
 
@@ -169,8 +173,9 @@ public class NoticeController {
 		log.info(notice.toString());
 		log.info("하이루");
 		model.addAttribute("employees", employees);		
-		/*model.addAttribute("deptName", deptName);*/		
-		return "redirect:/notice/noticeList";
+		
+		/*return "redirect:/notice/noticeList";*/
+		return ResponseEntity.ok("OK");
 	}
 
 	@GetMapping("/updateNoticeForm")
@@ -237,9 +242,10 @@ public class NoticeController {
 		return ResponseEntity.ok(noticeFile);
 	}
 	
-	//부서 모달 띄우기
+	//부서 모달
 	@GetMapping("/deptList")
 	public ResponseEntity<List<Departments>> deptList() {
+		log.info("실행");
 		List<Departments> deptList = departmentService.getDeptList();
 		log.info(deptList + " ");
 		return ResponseEntity.ok(deptList);
