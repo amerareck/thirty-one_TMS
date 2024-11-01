@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
 <div class="modal" id="approvalView">
-	<div class="modal-dialog">
+	<div class="modal-dialog modal-dialog-centered">
 	    <div class="modal-content">
 	        <div class="modal-header">
 	            <h3 class="modal-title fw-bold">전자결재 열람</h3>
@@ -70,7 +70,7 @@
 	                        <span class="text-center fs-6 mt-auto" style="font-size: 11pt;"><b>박명수</b> 차장</span>
 	                        <p class="approval-line-cube-info">&nbsp;</p>
 	                        <p class="approval-line-cube-info text-center">[대결]</p>
-	                        <p class="approval-line-cube-info text-center">24-10-12</p>
+	                        <p class="approval-line-cube-info text-center">(24-10-12)</p>
 	                        <span class="text-center fs-6 mt-auto" style="font-size: 11pt;"><b>김이박</b> 차장</span>
 	                        <p class="approval-line-cube-info">&nbsp;</p>
 	                        <div class="fw-bold fs-5 text-center mt-auto">승인</div>
@@ -84,7 +84,7 @@
 	                        <p class="approval-line-cube-info">&nbsp;</p>
 	                        
 	                        <p class="approval-line-cube-info text-center">[전결]</p>
-	                        <p class="approval-line-cube-info text-center">24-10-12</p>
+	                        <p class="approval-line-cube-info text-center">(24-10-12)</p>
 	                        <span class="text-center fs-6 mt-auto" style="font-size: 11pt;"><b>유재석</b> 부장</span>
 	                        <p class="approval-line-cube-info">&nbsp;</p>
 	                        <div class="fw-bold fs-5 text-center mt-auto">승인</div>

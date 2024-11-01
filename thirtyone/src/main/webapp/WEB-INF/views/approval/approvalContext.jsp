@@ -48,6 +48,17 @@
 		            </div>
 		            <div class="d-flex justify-content-between w-100 p-2 my-2">
 		                <div class="d-flex align-items-top justify-content-start" style="width: 70%">
+		                    <label for="approveComment" class="form-label fw-bold m-0 pt-1" style="width: 13%">결재 의견</label>
+		                    <div class="d-flex flex-column align-itmes-top justify-content-start" style="width: 80%">
+		                    	<div id="otherComment" data-index="0" class="d-flex">
+			                    	<input type="text" class="form-control-plaintext fw-bold commentName p-0" style="width:20%;" value="박명수 차장 :" readonly />
+				                    <input type="text" class="form-control-plaintext commentText w-75 p-0" value="의견 없음." readonly>
+		                    	</div>
+		                    </div>
+		                </div>
+		            </div>
+		            <div class="d-flex justify-content-between w-100 p-2 my-2">
+		                <div class="d-flex align-items-top justify-content-start" style="width: 70%">
 		                    <label for="approveComment" class="form-label fw-bold m-0" style="width: 13%">의견</label>
 		                    <textarea class="form-control" id="approveComment" cols="3" style="width: 80%"></textarea>
 		                </div>
@@ -64,28 +75,35 @@
 	                </div>
 	                <div class="approvalLineList my-auto" style="width:20%">
 	                    <div class="d-flex flex-column approval-line-cube border border-dark p-2 mt-2" style="margin: 0 auto;">
-	                        <p class="approval-line-cube-info">공공사업본부</p>
 	                        <p class="approval-line-cube-info">공공사업1Div</p>
-	                        <span class="text-center fs-6 mt-auto" style="font-size: 11pt;"><b>박명수</b> 차장</span>
-	                        <div class="fw-bold fs-5 text-center mt-auto">대기</div>
+	                        <p class="approval-line-cube-info">&nbsp;</p>
+	                        <span class="text-center fs-6 mt-auto" style="font-size: 11pt;"><strong>박명수</strong> 차장</span>
+	                        <p class="approval-line-cube-info">&nbsp;</p>
+	                        <p class="text-center approval-line-cube-info mb-2">(24-10-22)</p>
+	                        <div class="fw-bold fs-5 text-center mt-auto">승인</div>
+	                        <p class="approval-line-cube-info">&nbsp;</p>
 	                    </div>
 	                    <div class="text-center my-3">
 	                        <i class="fa-solid fa-chevron-down"></i>
 	                    </div>
 	                    <div class="d-flex flex-column approval-line-cube border border-dark p-2 mt-2" style="margin: 0 auto;">
-	                        <p class="approval-line-cube-info">공공사업본부</p>
 	                        <p class="approval-line-cube-info">공공사업1Div</p>
+	                        <p class="approval-line-cube-info">&nbsp;</p>
 	                        <span class="text-center fs-6 mt-auto" style="font-size: 11pt;"><b>유재석</b> 부장</span>
+	                        <p class="approval-line-cube-info">&nbsp;</p>
 	                        <div class="fw-bold fs-5 text-center mt-auto">대기</div>
+	                        <p class="approval-line-cube-info">&nbsp;</p>
 	                    </div>
 	                    <div class="text-center my-3">
 	                        <i class="fa-solid fa-chevron-down"></i>
 	                    </div>
 	                    <div class="d-flex flex-column approval-line-cube border border-dark p-2 mt-2" style="margin: 0 auto;">
-	                        <p class="approval-line-cube-info">임원실</p>
 	                        <p class="approval-line-cube-info">대표이사</p>
+	                        <p class="approval-line-cube-info">&nbsp;</p>
 	                        <span class="text-center fs-6 mt-auto" style="font-size: 11pt;"><b>오티아이</b> 대표</span>
+	                        <p class="approval-line-cube-info">&nbsp;</p>
 	                        <div class="fw-bold fs-5 text-center mt-auto">대기</div>
+	                        <p class="approval-line-cube-info">&nbsp;</p>
 	                    </div>
 	                </div>
 	            </div>

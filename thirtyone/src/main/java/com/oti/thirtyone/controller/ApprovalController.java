@@ -3,7 +3,10 @@ package com.oti.thirtyone.controller;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletResponse;
@@ -15,6 +18,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -28,7 +32,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.oti.thirtyone.dto.ApprovalDTO;
+import com.oti.thirtyone.dto.DocumentApprovalLineDTO;
+import com.oti.thirtyone.dto.DocumentReferenceDTO;
 import com.oti.thirtyone.dto.Departments;
+import com.oti.thirtyone.dto.DocFilesDTO;
 import com.oti.thirtyone.dto.DraftForm;
 import com.oti.thirtyone.dto.EmployeesDto;
 import com.oti.thirtyone.dto.PageParam;
@@ -160,7 +167,7 @@ public class ApprovalController {
 		log.info("실행");
 		
 		model.addAttribute("selectedSub", "approveList");
-		model.addAttribute("title", "결제 하기");
+		model.addAttribute("title", "결재 하기");
 		
 		if (param.getType()!=null && param.getType().equals("all")) {
 			model.addAttribute("activePage", "all");
@@ -296,9 +303,9 @@ public class ApprovalController {
 	}
 	
 	@PostMapping("draftSubmit")
-	public String draftSubmit(@Valid DraftForm form, Errors error, Model model) {
+	public String draftSubmit(@Valid DraftForm form, Errors error, Model model, Authentication auth) throws IOException {
 		log.info("실행");
-		log.info(form.toString());
+		//log.info(form.toString());
 		
 		if(error.hasErrors()) {
 			log.info("유효성 검출");
@@ -311,14 +318,104 @@ public class ApprovalController {
             List<Departments> deptList = deptService.getDepartmentList();
     		deptList.removeIf(elem -> elem.getDeptId() == 999);
     		model.addAttribute("departments", deptList);
+    		List<EmployeesDto> reference = new ArrayList<>();
+    		for(String ref : form.getDraftReference()) {
+    			reference.add(empService.getEmpInfo(ref));
+    		}
+    		model.addAttribute("reference", reference);
             
             return "approval/draftForm";
 		}
+		
 		ApprovalDTO dto = new ApprovalDTO();
 		dto.setDocFormCode(approvalService.getDocType(form.getDraftType()));
+		switch(dto.getDocFormCode()) {
+		case "HLD":
+			dto.setDocHolidayStartDate(form.getHolidayStartDate());
+			dto.setDocHolidayEndDate(form.getHolidayEndDate());
+			dto.setDocHolidayDay(form.getHolidayStartDate().getDate() - form.getHolidayEndDate().getDate());
+			dto.setDocHolidayType(form.getHolidayType());
+			break;
+		case "BTD":
+		case "BTR":
+			dto.setDocBiztripStartDate(form.getBizTripStartDate());
+			dto.setDocBiztripEndDate(form.getBizTripEndDate());
+			dto.setDocBiztripDay(form.getBizTripStartDate().getDate() - form.getBizTripEndDate().getDate());
+			dto.setDocBiztripPurpose(form.getBizTripPurposeForm());
+			break;
+		case "HLW":
+			dto.setDocHolidayWorkStartDate(form.getHolidayWorkStartDate());
+			break;
+		case "WOT":
+			dto.setDocWorkOvertimeEndDate(form.getWorkOvertimeEndDate());
+			break;
+		}
+		
+		dto.setDocDraftDate(new Date());
+		dto.setEmpId(auth.getName());
+		dto.setDeptId(empService.getDeptId(dto.getEmpId()));
+		dto.setDocTitle(form.getDraftTitle());
+		dto.setDocApprovalLine(new ArrayList<DocumentApprovalLineDTO>());
+		dto.setDocDocumentData(form.getDocumentData());
+		dto.setDocNumber(form.getDocNumber());
 		
 		approvalService.setDraftForm(dto);
 		
+		List<String> aplLine = form.getDraftApprovalLine();
+		for(String name : aplLine) {
+			DocumentApprovalLineDTO aplDto = new DocumentApprovalLineDTO();
+			String[] arr = name.split("-");
+			aplDto.setDocAprSeq(Integer.parseInt(arr[0]));
+			aplDto.setDocAprApprover(arr[1]);
+			aplDto.setDocNumber(dto.getDocNumber());
+			aplDto.setDocAprState("대기");
+			dto.getDocApprovalLine().add(aplDto);
+		}
+		approvalService.setApprovalLineFromDoc(dto);
+		
+		List<String> aplReferenceList = form.getDraftReference();
+		dto.setDocReferenceList(new ArrayList<DocumentReferenceDTO>());
+		for(String empId : aplReferenceList) {
+			DocumentReferenceDTO dr = new DocumentReferenceDTO();
+			dr.setEmpId(empId);
+			dr.setDocNumber(form.getDocNumber());
+			dto.getDocReferenceList().add(dr);
+		}
+		approvalService.setDocumentReference(dto);
+		
+		
+		if(!form.getDraftAttachFile().isEmpty()) {
+			dto.setDocAttachFile(new DocFilesDTO());
+			dto.getDocAttachFile().setDocFileName(form.getDraftAttachFile().getOriginalFilename());
+			dto.getDocAttachFile().setDocFileType(form.getDraftAttachFile().getContentType());
+			dto.getDocAttachFile().setDocFileData(form.getDraftAttachFile().getBytes());
+			approvalService.setDraftAttachFile(dto.getDocAttachFile());
+		}
+		
+		log.info(dto.toString());
+		
 		return "redirect:/home";
+	}
+	
+	@PostMapping("/getDocNumber")
+	public void getDocNumber(ApprovalDTO dto, Authentication auth, HttpServletResponse res) throws IOException {
+		log.info("실행");
+		log.info("draftType: "+dto.getDraftType());
+		
+		String user = auth.getName();
+		dto.setDeptId(empService.getDeptId(user));
+		dto.setDocFormCode(approvalService.getDocType(dto.getDraftType()));
+		dto.setDocDraftDate(new Date());
+		
+		String docNumber = approvalService.createDocNumber(dto);
+		
+		JSONObject json = new JSONObject();
+		json.put("docNumber", docNumber);
+		res.setContentType("application/json; charset=UTF-8");
+		res.setCharacterEncoding("UTF-8");
+		PrintWriter pw = res.getWriter();
+		pw.println(json.toString());
+		pw.flush();
+		pw.close();
 	}
 }

@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.oti.thirtyone.dao.DocumentFolderDAO">
+	<insert id="insertDraftByHLD" parameterType="Approval">
+		<![CDATA[
+			INSERT INTO DOCUMENT_FOLDER(
+				doc_number, -- 문서번호
+				doc_draft_date, -- 상신일자
+				doc_retention_period, -- 유효기간
+				doc_title, -- 문서제목
+				doc_document_data, -- 문서데이터
+				emp_id, -- 기안자
+				doc_form_code, -- 문서타입
+				doc_holiday_type, -- 휴가타입
+				doc_holiday_day, -- 휴가부여갯수
+				doc_holiday_start_date, -- 휴가시작일
+				doc_holiday_end_date -- 휴가종료일
+			) VALUES (
+				#{docNumber},
+				#{docDraftDate},
+				'영구',
+				#{docTitle},
+				#{docDocumentData},
+				#{empId},
+				#{docFormCode},
+				#{docHolidayType},
+				#{docHolidayDay},
+				#{docHolidayStartDate},
+				#{docHolidayEndDate}
+			)
+		]]>
+	</insert>
+	<insert id="insertDraftByBT" parameterType="Approval">
+		<![CDATA[
+			INSERT INTO DOCUMENT_FOLDER(
+				doc_number, -- 문서번호
+				doc_draft_date, -- 상신일자
+				doc_retention_period, -- 유효기간
+				doc_title, -- 문서제목
+				doc_document_data, -- 문서데이터
+				emp_id, -- 기안자
+				doc_form_code, -- 문서타입
+				doc_biztrip_day, -- 출장기간일
+				doc_biztrip_start_date, -- 출장시작일
+				doc_biztrip_end_date, -- 출장종료일
+				doc_biztrip_purpose -- 출장목적
+			) VALUES (
+				#{docNumber},
+				#{docDraftDate},
+				'영구',
+				#{docTitle},
+				#{docDocumentData},
+				#{empId},
+				#{docFormCode},
+				#{docBiztripDay},
+				#{docBiztripStartDate},
+				#{docBiztripEndDate},
+				#{docBiztripPurpose}
+			)
+		]]>
+	</insert>
+	<insert id="insertDraftByHLW" parameterType="Approval">
+		<![CDATA[
+			INSERT INTO DOCUMENT_FOLDER(
+				doc_number, -- 문서번호
+				doc_draft_date, -- 상신일자
+				doc_retention_period, -- 유효기간
+				doc_title, -- 문서제목
+				doc_document_data, -- 문서데이터
+				emp_id, -- 기안자
+				doc_form_code, -- 문서타입
+				doc_holiday_work_start_date, -- 휴일근무 시작일
+			) VALUES (
+				#{docNumber},
+				#{docDraftDate},
+				'영구',
+				#{docTitle},
+				#{docDocumentData},
+				#{empId},
+				#{docFormCode},
+				#{docHolidayWorkStartDate}
+			)
+		]]>
+	</insert>
+	<insert id="insertDraftByWOL" parameterType="Approval">
+		<![CDATA[
+			INSERT INTO DOCUMENT_FOLDER(
+				doc_number, -- 문서번호
+				doc_draft_date, -- 상신일자
+				doc_retention_period, -- 유효기간
+				doc_title, -- 문서제목
+				doc_document_data, -- 문서데이터
+				emp_id, -- 기안자
+				doc_form_code, -- 문서타입
+				doc_work_overtime_end_date, -- 연장근무 종료타임
+			) VALUES (
+				#{docNumber},
+				#{docDraftDate},
+				'영구',
+				#{docTitle},
+				#{docDocumentData},
+				#{empId},
+				#{docFormCode},
+				#{docWorkOvertimeEndDate}
+			)
+		]]>
+	</insert>
+</mapper>

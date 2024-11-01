@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.oti.thirtyone.dao.DocFilesDAO">
+	<insert id="insertDraftAttachFile" parameterType="DocFile">
+		<![CDATA[
+			INSERT INTO DOC_FILES(
+				DOC_FILE_ID,
+				DOC_FILE_DATA,
+				DOC_FILE_NAME,
+				DOC_NUMBER,
+				DOC_FILE_TYPE
+			) VALUES (
+				doc_files_seq.nextval,
+				#{docFileData},
+				#{docFileName},
+				#{docNumber},
+				#{docFileType}
+			)
+		]]>
+	</insert>
+</mapper>

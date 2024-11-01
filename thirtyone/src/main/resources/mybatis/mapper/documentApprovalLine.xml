@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.oti.thirtyone.dao.DocumentApprovalLineDAO">
+	<insert id="insertDocumentApprovalLine" parameterType="DocApprovalLine">
+		<![CDATA[
+			INSERT INTO DOCUMENT_APPROVAL_LINE(
+				doc_number, -- 문서번호
+				doc_apr_approver, -- 결재자 명
+				doc_apr_state, -- 결재 상태(승인, 반려, 보류, 대기 등)
+				doc_apr_seq -- 결재 순번
+			) VALUES (
+				#{docNumber},
+				#{docAprApprover},
+				#{docAprState},
+				#{docAprSeq}
+			)
+		]]>
+	</insert>
+</mapper>

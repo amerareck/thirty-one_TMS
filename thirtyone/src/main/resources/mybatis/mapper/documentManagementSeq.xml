@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.oti.thirtyone.dao.DocumentManagementSeqDAO">
+	<insert id="insertDocumentInfo" parameterType="Approval">
+		<![CDATA[
+			INSERT INTO DOCUMENT_MANAGEMENT_SEQ(
+				DEPT_ID,
+				DOC_FORM_CODE,
+				DOC_MGT_YEAR
+			) values (
+				#{deptId},
+				#{docFormCode},
+				#{docMgtYear}
+			)
+		]]>
+	</insert>
+	
+	<select id="selectRecentDocumentInfo" parameterType="Approval" resultType="Approval">
+		<![CDATA[
+			SELECT
+				dept_id,
+				doc_form_code,
+				doc_mgt_year,
+				doc_mgt_seq
+			FROM DOCUMENT_MANAGEMENT_SEQ
+			WHERE
+				dept_id = #{deptId}
+			AND doc_form_code = #{docFormCode}
+			AND doc_mgt_year = #{docMgtYear}
+			ORDER BY doc_mgt_seq DESC
+			FETCH FIRST 1 ROW ONLY
+		]]>
+	</select>
+</mapper>

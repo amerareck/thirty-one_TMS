@@ -19,6 +19,10 @@
     font-weight: 900; /* 또는 필요에 맞는 font-weight 설정 */
 }
 
+b, strong {
+	font-weight: bolder !important;
+}
+
 .defaultApprovalLineSetting {
 	max-width: 600px;
 	height: 900px;
@@ -27,6 +31,10 @@
 .form-text {
 	color: FireBrick;
 	margin-left: 3px;
+}
+
+.modal {
+	--bs-modal-width: 75% !important;
 }
 
 .modal-body {

@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
 <%@ include file="/WEB-INF/views/approval/approvalContainer.jsp"%>
-<form action="draftSubmit" method="post" enctype="multipart/form-data">
+<form action="draftSubmit" method="post" enctype="multipart/form-data" id="draftForm">
     <div class="d-flex align-items-top justify-content-between mb-4">
         <div class="d-flex align-items-top" style="width: 60%;">
         	<label for="documentForm" class="fw-bold mt-2 ${not empty draftType ? 'mb-2' : ''}" style="width: 25%;">결재 양식</label>
@@ -67,10 +67,10 @@
           		</div>
           	</div>
           	<div class="d-flex align-items-center w-100 work-over hidden" >
-				<label for="datetimeOfWorkOvertime" class="fw-bold ${not empty workOvertimeStartDate ? 'mb-4' : 'mb-2'}" style="width: 25%; margin-left: 20px; margin-right: 10px;">근무 종료</label>
+				<label for="datetimeOfWorkOvertime" class="fw-bold ${not empty workOvertimeEndDate ? 'mb-4' : 'mb-2'}" style="width: 25%; margin-left: 20px; margin-right: 10px;">근무 종료</label>
 				<div class="w-75">
-					<input type="text" id="workOvertimeStartDatetime" name="workOvertimeStartDate" class="form-control p-2" style="height: 35px; font-size: 0.8rem;" placeholder="추가근무 종료시각" aria-describedby="datetimeOfWorkOvertimeValidation" readonly >
-					<div id="datetimeOfWorkOvertimeValidation" class="form-text">${workOvertimeStartDate}</div>
+					<input type="text" id="workOvertimeStartDatetime" name="workOvertimeEndDate" class="form-control p-2" style="height: 35px; font-size: 0.8rem;" placeholder="추가근무 종료시각" aria-describedby="datetimeOfWorkOvertimeValidation" readonly >
+					<div id="datetimeOfWorkOvertimeValidation" class="form-text">${workOvertimeEndDate}</div>
 				</div>
           	</div>
         </div>
@@ -79,7 +79,7 @@
         <div class="d-flex align-items-center" id="draftTitleContainer" style="width: 60%;">
             <label for="draftTitle" class="fw-bold ${not empty draftTitle ? 'mb-4' : 'mb-2'}" style="width: 30%; margin-right:2px;">제목</label>
             <div style="width: 90%;">
-	            <input type="text" class="form-control w-100" id="draftTitle" name="draftTitle" aria-describedby="draftTitleValidation" />
+	            <input type="text" class="form-control w-100" id="draftTitle" name="draftTitle" aria-describedby="draftTitleValidation" value="${form.draftTitle}" />
 	            <div id="draftTitleValidation" class="form-text">${draftTitle}</div>
             </div>
         </div>
@@ -112,6 +112,9 @@
             </div>
             <div class="d-flex align-items-top justify-content-start" style="width: 50%;">
                 <select multiple class="form-select ms-3" id="draftRefSelectBox" name="draftReference" size="3" style="width: 50%">
+                	<c:forEach items="${reference}" var="draftReference" >
+                		<option value="${draftReference.empId}" selected>${draftReference.empName}&nbsp;${draftReference.position}</option>
+                	</c:forEach>
                 	<%-- 
 	                <option value="selected-referrer-1">서지혜 사원</option>
                 	--%>
@@ -139,6 +142,7 @@
     </div>
     <div class="d-none" id="approvalLineInfo">
     	<select name="draftApprovalLine" multiple></select>
+    	<input type="hidden" id="docNumber" name="docNumber" value="" />
     </div>
     <div class="d-flex align-items-center justify-content-center mb-4" id="approvalLineDiagram">
     	<%-- 

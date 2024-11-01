@@ -294,7 +294,7 @@ $('#draftDepartmentSelect').on('change', function(){
 		success: function(data){
 			$.each(data.empInfo, function(i, val){
 				const tag = `
-					<option value="${val.empId}">${val.name} ${val.empPosition}</option>
+					<option value="${val.empId}" selected>${val.name} ${val.empPosition}</option>
 				`;
 				$('#draftReferrer').append(tag);
 			});
@@ -511,4 +511,29 @@ $('#approvalAttachFile').on('change', function(){
 $('#deleteAttacthFile').on('click', function(){
 	$('#approvalAttachFile').val('');
 	$('#attatchNameTag').closest('div').addClass('d-none');
+});
+
+// 기안서 제출 버튼
+$('#draftSubmitButton').on('click', function(){
+	$('#draftRefSelectBox').prop('selected', true);
+	const draftType = $('#documentForm').find('option:selected').val();
+	console.log(draftType);
+	$.ajax({
+		url: "getDocNumber",
+		method: "post",
+		data: {draftType},
+		success: function(data) {
+			$('#docNumber').val(data.docNumber);
+			const editor = tinymce.get('draftDocument');
+		    const contentDocument = editor.getDoc();
+		    const myElement = contentDocument.getElementById('draftDocumentId');
+		    
+		    $(myElement).text(data.docNumber);
+		    $('#draftForm').submit();
+		},
+		error: function (xhr, status, error) {
+            console.log('Error: ' + error);
+        },
+	});
+	
 });

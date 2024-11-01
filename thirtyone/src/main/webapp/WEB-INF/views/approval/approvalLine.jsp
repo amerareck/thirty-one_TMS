@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 	
 <div class="modal" id="approvalLine" >
-	<div class="modal-dialog modal-approval-line">
+	<div class="modal-dialog modal-approval-line modal-dialog-centered">
 	    <div class="modal-content">
 	        <div class="modal-header">
 	            <h3 class="modal-title fw-bold">결재선 설정</h3>
@@ -56,7 +56,7 @@
 				    	</div>
 				
 				        <div class="approval-line-container d-flex flex-column justify-content-center align-items-center" id="approvalLineBox" style="height: 75%">
-				            <div class="approval-line-item" data-deptId="111" data-empid="11103" style="width: 85%">
+				            <div class="approval-line-item" data-deptId="111" data-empid="jjh5285" style="width: 85%">
 				                <div>
 				                    <i class="fas fa-user pe-2"></i> <b class="apl-emp-name">정준하</b> <b class="apl-emp-position">과장</b>
 				                </div>
@@ -66,7 +66,7 @@
 				                    <button class="btn btn-sm btn-outline-danger line-handler-btn btn-line-remove" ><i class="fas fa-times"></i></button>
 				                </div>
 				            </div>
-				            <div class="approval-line-item" data-deptId="111" data-empid="11102" style="width: 85%">
+				            <div class="approval-line-item" data-deptId="111" data-empid="pms1542" style="width: 85%">
 				                <div>
 				                    <i class="fas fa-user pe-2"></i> <b class="apl-emp-name">박명수</b> <b class="apl-emp-position">차장</b>
 				                </div>
@@ -76,7 +76,7 @@
 				                    <button class="btn btn-sm btn-outline-danger line-handler-btn btn-line-remove" ><i class="fas fa-times"></i></button>
 				                </div>
 				            </div>
-				            <div class="approval-line-item" data-deptId="111" data-empid="11101" style="width: 85%">
+				            <div class="approval-line-item" data-deptId="111" data-empid="yjs012" style="width: 85%">
 				                <div>
 				                    <i class="fas fa-user pe-2"></i> <b class="apl-emp-name">유재석</b> <b class="apl-emp-position">부장</b>
 				                </div>

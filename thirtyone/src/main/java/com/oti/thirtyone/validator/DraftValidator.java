@@ -43,20 +43,20 @@ public class DraftValidator implements Validator {
 					}
 					break;
 				case "holidayWork":
-					if(draft.getHolidayWorkStartDate() == null || draft.getHolidayWorkEndDate() == null) {
+					if(draft.getHolidayWorkStartDate() == null) {
 						errors.rejectValue("holidayWorkStartDate", "errors.datetimeOfholidayWork.required", "근무 일자는 반드시 선택해야 합니다.");
 					}
 					break;
 				case "workOvertime":
-					if(draft.getWorkOvertimeStartDate() == null || draft.getWorkOvertimeEndDate() == null) {
-						errors.rejectValue("workOvertimeStartDate", "errors.datetimeOfWorkOvertime.required", "근무 일자는 반드시 선택해야 합니다.");
+					if(draft.getWorkOvertimeEndDate() == null) {
+						errors.rejectValue("workOvertimeEndDate", "errors.datetimeOfWorkOvertime.required", "근무 시간은 반드시 선택해야 합니다.");
 					}
 					break;
 			}
 			
 			if(draft.getDraftTitle() == null || draft.getDraftTitle().trim().isEmpty()) {
 				errors.rejectValue("draftTitle", "errors.draftTitleContainer.required", "문서 제목은 반드시 입력해야 합니다.");
-			} else if(draft.getDraftTitle().length() < 101) {
+			} else if(draft.getDraftTitle().length() > 100) {
 				errors.rejectValue("draftTitle", "errors.draftTitleContainer.length", "문서 제목은 100자 이하여야 합니다.");
 			}
 				

@@ -10,28 +10,25 @@ import lombok.Data;
 
 @Data
 public class DraftForm {
-	private String draftType;
+	private String draftType; // 기안 유형
+	private String docNumber; // 문서 번호
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private Date holidayStartDate;
+	private Date holidayStartDate; // 휴가 시작일
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private Date holidayEndDate;
-	private String holidayType;
+	private Date holidayEndDate; // 휴가 종료일
+	private String holidayType; // 휴가 유형
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private Date bizTripStartDate;
+	private Date bizTripStartDate; // 출장 시작일
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private Date bizTripEndDate;
-	private String bizTripPurposeForm;
+	private Date bizTripEndDate; // 출장 종료일
+	private String bizTripPurposeForm; // 출장 목표
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-	private Date holidayWorkStartDate;
+	private Date holidayWorkStartDate; // 휴일 근무 종료일
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-	private Date holidayWorkEndDate;
-	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-	private Date workOvertimeStartDate;
-	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-	private Date workOvertimeEndDate;
-	private String draftTitle;
-	private List<String> draftReference;
-	private List<String> draftApprovalLine;
-	private MultipartFile draftAttachFile;
-	private String documentData;
+	private Date workOvertimeEndDate; // 연장 근무 종료 시간
+	private String draftTitle; // 기안 제목
+	private List<String> draftReference; // 참조자 리스트
+	private List<String> draftApprovalLine; // 결재선
+	private MultipartFile draftAttachFile; // 첨부파일
+	private String documentData; // 기안서
 }
