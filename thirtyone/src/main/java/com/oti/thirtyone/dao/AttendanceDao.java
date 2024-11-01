@@ -18,6 +18,8 @@ public interface AttendanceDao {
 
 	AttendanceDto selectAtdByEmpId(String empId);
 
-	List<AttendanceDto> selectAtdMonthly(@Param("empId") String empId, @Param("month") String month);
+	List<AttendanceDto> selectAtdForMonths(@Param("empId") String empId, @Param("month") String month);
+
+	List<AttendanceDto> selectAtdMonthly(@Param("empId") String empId, @Param("month") String string);
 
 }

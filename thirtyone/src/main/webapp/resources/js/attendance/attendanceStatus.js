@@ -9,10 +9,12 @@ document.addEventListener('DOMContentLoaded', function () {
 	}, 1000);
 	
 	
+	
 	const ctx = document.getElementById('myChart').getContext('2d');
 	const ctx2 = document.getElementById('chart').getContext('2d');
-	const labels = ['정상출근', '연장근무', '조퇴', '지각', '결근'];
-	new Chart(ctx, {
+	const labels = ['정상출근', '연장근무', '지각', '조퇴',  '결근'];
+	
+	let barChart = new Chart(ctx, {
 	    type: 'bar',
 	    data: {
 	  	  labels: labels,
@@ -22,11 +24,11 @@ document.addEventListener('DOMContentLoaded', function () {
 		    data: [5, 5, 5, 10, 12],
 		    fill: false,
 		    backgroundColor: [
-		      'rgba(255, 99, 132, 0.2)',
-		      'rgba(255, 159, 64, 0.2)',
-		      'rgba(255, 205, 86, 0.2)',
-		      'rgba(75, 192, 192, 0.2)',
-		      'rgba(54, 162, 235, 0.2)',
+			      'rgb(255, 99, 132)',
+			      'rgb(54, 162, 235)',
+			      'rgb(255, 205, 86)',
+			      'rgba(75, 192, 192, 0.4)',
+			      'rgba(54, 162, 235, 0.4)'
 		    ],
 		    spacing: 30 ,
 		    borderWidth: 1,
@@ -34,6 +36,11 @@ document.addEventListener('DOMContentLoaded', function () {
 		  }]
 		},
 		options: {
+			plugins: {
+	            legend: {
+	                display: false,
+	            }
+			},
 		    indexAxis: 'y',
 		    maintainAspectRatio: false,
 		    scales: {
@@ -47,25 +54,18 @@ document.addEventListener('DOMContentLoaded', function () {
 		  }
 	});
 	
-	new Chart(ctx2,{
+	let dounhnutChart = new Chart(ctx2,{
 		type: 'doughnut',
 		data: {
-			labels: [
-		    '정상출근',
-		    '연장근무',
-		    '조퇴',
-		    '지각',
-		    '결근'
-		  ],
+			labels: labels,
 		  datasets: [{
-		    label: 'My First Dataset',
 		    data: [5, 5, 5, 12, 12],
 		    backgroundColor: [
 		      'rgb(255, 99, 132)',
 		      'rgb(54, 162, 235)',
 		      'rgb(255, 205, 86)',
-		      'rgba(75, 192, 192, 0.2)',
-		      'rgba(54, 162, 235, 0.2)'
+		      'rgba(75, 192, 192, 0.4)',
+		      'rgba(54, 162, 235, 0.4)'
 		    ],
 		    hoverOffset: 4
 		  }]
@@ -93,6 +93,17 @@ document.addEventListener('DOMContentLoaded', function () {
 	    plugins: [ChartDataLabels]
 	})
 	
+	$.ajax({
+		method: "get",
+		url: contextPath + "/atd/atdStatusMonthly",
+		success: function(result){
+			barChart.data.datasets[0].data = result;
+			dounhnutChart.data.datasets[0].data = result;
+			barChart.update();
+			dounhnutChart.update();
+		}
+		
+	})
 
 	var calendarEl = document.getElementById('calendar');
 	let today = new Date();
@@ -120,6 +131,7 @@ document.addEventListener('DOMContentLoaded', function () {
 				url: contextPath + "/atd/atdCalendar",
 				data: {'year' : todayYear , 'month' : todayMonth },
 				success: function(data) {
+
 					successCallback(data);
 				},
 	            error: function() {
@@ -138,7 +150,6 @@ document.addEventListener('DOMContentLoaded', function () {
 				url: contextPath + "/atd/atdCalendar",
 				data: {'year' : year , 'month' : month },
 				success: function(data) {
-					console.log(data);
 					calendar.getEvents().forEach(event => event.remove());
 					
 					data.forEach(eventData => {
@@ -159,29 +170,4 @@ document.addEventListener('DOMContentLoaded', function () {
 	
 })
 
-$(".fc-prev-button").on('click', function() {
-	var calendarEl = document.getElementById('calendar');
-	console.log("asd");
-	console.log(calendarEl);
-	
-//	$.ajax({
-//		method: "get",
-//		url: contextPath + "/atd/atdCalendar",
-//		data: {'year' : todayYear , 'month' : todayMonth },
-//		success: function(data) {
-//			var calendar = new FullCalendar.Calendar(calendarEl, {
-//				initialView: 'dayGridMonth',
-//				contentHeight: 700,
-//				initialDate: today,
-//				headerToolbar: {
-//					left: 'prev',
-//					center: 'title',
-//					right: 'next'
-//				},
-//				events: data 
-//			});
-//			calendar.render();
-//		}
-//	})
-})
 

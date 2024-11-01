@@ -24,12 +24,18 @@
 		where TO_CHAR(atd_date, 'YY/MM/DD') = TO_CHAR(sysdate, 'YY/MM/DD') and emp_id = #{empId}
 	</select>
 	
-	<select id="selectAtdMonthly" resultType="Attendance">
+	<select id="selectAtdForMonths" resultType="Attendance">
 		select atd_date, emp_id, check_in, check_out, atd_state, atd_standard_time, atd_over_time, atd_approved_time
 		from attendances
 		WHERE atd_date BETWEEN
 	        ADD_MONTHS(TO_DATE(#{month}, 'yyyy/MM/DD'), -1) AND
 	        ADD_MONTHS(TO_DATE(#{month}, 'yyyy/MM/DD'), 1)
 	    AND emp_id = #{empId}and emp_id=#{empId}
+	</select>
+	
+	<select id="selectAtdMonthly" resultType="Attendance">
+		select atd_date, emp_id, check_in, check_out, atd_state, atd_standard_time, atd_over_time, atd_approved_time
+		from attendances
+		where to_char(atd_date, 'yyyy/MM') = #{month} and emp_id=#{empId}
 	</select>
 </mapper>

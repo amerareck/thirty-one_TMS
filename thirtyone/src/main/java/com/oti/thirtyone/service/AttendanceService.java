@@ -130,7 +130,7 @@ public class AttendanceService {
 			month="0" + month;
 		}
 		log.info(year + " " + month);		
-		List<AttendanceDto> atdCalendarList = atdDao.selectAtdMonthly(empId, year+"/"+month+"/15");
+		List<AttendanceDto> atdCalendarList = atdDao.selectAtdForMonths(empId, year+"/"+month+"/15");
 		List<AttendanceCalendarDto> calendarList = new LinkedList<AttendanceCalendarDto>();
 		for (AttendanceDto atd : atdCalendarList) {
 			String title = atd.getAtdState();
@@ -147,7 +147,7 @@ public class AttendanceService {
 					calendarList.add(formatInputCalendar("퇴근", atd.getCheckOut(), "#C3C3C3", "#C3C3C3", "white"));				
 			}else if(title.equals("조퇴")) {
 				if(atd.getCheckIn() != null) 
-					calendarList.add(formatInputCalendar("출근", atd.getCheckIn(), "#C3C3C3", "#C3C3C3", "white"));
+					calendarList.add(formatInputCalendar("출근", atd.getCheckIn(), "#B5CAFF", "#B5CAFF", "white"));
 				if(atd.getCheckOut() != null) 
 					calendarList.add(formatInputCalendar("조퇴", atd.getCheckOut(), "white", "#C3C3C3", "#C3C3C3"));
 			}
@@ -155,6 +155,35 @@ public class AttendanceService {
 			
 		}
 		return calendarList;
+	}
+
+	public int[] getAtdStats(String empId) {
+		Date today = new Date();
+		String month = (today.getMonth()+1)+"";
+		if(month.length() == 1) {
+			month="0" + month;
+		}
+		String year = "20" + (today.getYear()+"").split("1")[1];
+		log.info(year);
+		int[] stats = new int[5];
+		
+		List<AttendanceDto> atdList = atdDao.selectAtdMonthly(empId, year+"/"+month);		
+		for(AttendanceDto atd : atdList) {
+			log.info(atd.getAtdState());
+			if(atd.getAtdState().equals("정상출근")) {
+				stats[0]++;
+			}else if(atd.getAtdState().equals("연장근무")) {
+				stats[1]++;
+			}else if(atd.getAtdState().equals("지각")) {
+				stats[2]++;
+			}else if(atd.getAtdState().equals("조퇴")) {
+				stats[3]++;
+			}else if(atd.getAtdState().equals("결근")) {
+				stats[4]++;				
+			}
+			
+		}
+		return stats;
 	}
 	
 	

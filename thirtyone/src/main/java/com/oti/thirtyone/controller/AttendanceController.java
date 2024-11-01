@@ -1,5 +1,6 @@
 package com.oti.thirtyone.controller;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -95,6 +96,15 @@ public class AttendanceController {
 		String empId = authentication.getName();
 		List<AttendanceCalendarDto> atdCalendarList = atdService.getAtdInfoList(empId, year, month);
 		return atdCalendarList;
+	}
+	
+	@GetMapping("/atdStatusMonthly")
+	@ResponseBody
+	public int[]atdStatusMonthly(Authentication authentication) {
+		String empId = authentication.getName();
+		int[] status = atdService.getAtdStats(empId);
+		log.info(Arrays.toString(status));
+		return status;
 	}
 	@GetMapping("/time")
 	public String attendacnetime(Model model) {
