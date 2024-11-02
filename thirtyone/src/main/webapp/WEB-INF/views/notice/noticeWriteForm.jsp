@@ -37,6 +37,7 @@
 
 				<form id="contentForm" method="POST" action="noticeWrite"
 					enctype="multipart/form-data">
+					
 					<div class="noticeTitle" id="noticeTitle">
 						<div class="notice-title">
 							<img class="star-icon"
@@ -102,7 +103,7 @@
 							onclick="location.href='${pageContext.request.contextPath}/notice/noticeList'">취소</button>
 						<input type="submit" class="button-medium" id="save" value="저장"></input>
 					</div>
-					<input type="hidden" name="empId" value="${employees.empId}">
+					<%-- <input type="hidden" name="empId" value="${employees.empId}" data-value="${empId}" id="empId"> --%>
 					<%-- <input type="number" name="deptId" value="${deptId}" id="deptIdValue"> --%>
 					<!--append-->
 					<!-- <form action="deleteFile" method="POST" enctype="multipart/form-data" >

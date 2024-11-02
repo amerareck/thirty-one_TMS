@@ -1,5 +1,6 @@
 package com.oti.thirtyone.controller;
 
+import java.util.Arrays;
 import java.util.List;
 
 import javax.servlet.ServletOutputStream;
@@ -138,14 +139,15 @@ public class NoticeController {
 	
 	//공지사항 작성
 	@PostMapping("/noticeWrite")
-	public ResponseEntity<String> noticeWrite(NoticeFormDto notice, Model model, Authentication authentication) throws Exception {
-		log.info("khj");
+	public ResponseEntity<String> noticeWrite(NoticeFormDto notice, Model model, Authentication authentication, NoticeDto noticeDto) throws Exception {
 		NoticeDto dbNotice = new NoticeDto();
 		List<Departments> deptList = departmentService.getDeptList();
+		noticeService.insertNoticeTarget(noticeDto);
 
 		EmployeeDetails employeeDetails = (EmployeeDetails) authentication.getPrincipal();
 		EmployeesDto employees = employeeDetails.getEmployee();
 
+		dbNotice.getDeptId();
 		dbNotice.setEmpId(employees.getEmpId());
 		dbNotice.setNoticeTitle(notice.getNoticeTitle());
 		dbNotice.setNoticeContent(notice.getNoticeContent());
@@ -172,9 +174,10 @@ public class NoticeController {
 		}
 		log.info(notice.toString());
 		log.info("하이루");
+
 		model.addAttribute("employees", employees);		
+		model.addAttribute("noticeDto", noticeDto);		
 		
-		/*return "redirect:/notice/noticeList";*/
 		return ResponseEntity.ok("OK");
 	}
 

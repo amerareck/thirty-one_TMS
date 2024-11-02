@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 import com.oti.thirtyone.dto.NoticeDto;
 import com.oti.thirtyone.dto.NoticeFileDto;
+import com.oti.thirtyone.dto.NoticeFormDto;
 import com.oti.thirtyone.dto.Pager;
 
 @Mapper
@@ -42,7 +43,7 @@ public interface NoticeDao {
 	 public int deleteFile(NoticeFileDto noticeFile);
 
 	 //부서
-	 public int insertNoticeTarget(int noticeId);
+	 public int insertNoticeTarget(NoticeDto notice);
 	
 
 }

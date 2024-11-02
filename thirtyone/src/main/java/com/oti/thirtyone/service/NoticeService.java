@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.oti.thirtyone.dao.NoticeDao;
 import com.oti.thirtyone.dto.NoticeDto;
 import com.oti.thirtyone.dto.NoticeFileDto;
+import com.oti.thirtyone.dto.NoticeFormDto;
 import com.oti.thirtyone.dto.Pager;
 
 import lombok.extern.slf4j.Slf4j;
@@ -94,8 +95,8 @@ public class NoticeService {
 	}
 	
 	//부서
-	public void insertNoticeTarget(int noticeId) {
-		noticeDao.insertNoticeTarget(noticeId);
+	public void insertNoticeTarget(NoticeDto notice) {
+		noticeDao.insertNoticeTarget(notice);
 	}
 }
 
