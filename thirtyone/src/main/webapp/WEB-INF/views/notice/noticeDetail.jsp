@@ -68,7 +68,7 @@
 
 				<div class="noticeTarget">
 					<div class="notice-target">공지 대상</div>
-					<div class="target">전체</div>
+					<div class="target">${notice.deptName}</div>
 				</div>
 				<div class="line"></div>
 

@@ -44,8 +44,9 @@ public class NoticeController {
 	
 	//공지사항 조회
 	@GetMapping("/noticeList")
-	public String noticeList(Model model, @RequestParam(defaultValue = "1") int pageNo, HttpSession session) {
+	public String noticeList(Model model, @RequestParam(defaultValue = "1") int pageNo, HttpSession session, NoticeDto noticeDto) {
 		
+		noticeService.insertNoticeTarget(noticeDto);
 		int totalRows = noticeService.countRows();
 
 		if (totalRows == 0) {
@@ -61,6 +62,7 @@ public class NoticeController {
 
 		model.addAttribute("title", "공지사항");
 		model.addAttribute("notice", notice);
+		model.addAttribute("noticeDto", noticeDto);
 
 		}
 		return "notice/noticeList";
@@ -91,6 +93,7 @@ public class NoticeController {
 		NoticeDto notice = noticeService.selectByNoticeId(noticeId);
 		List<NoticeFileDto> noticeFile = noticeService.selectAttachFiles(noticeId);
 		NoticeDto prevNext = noticeService.prevNext(noticeId);
+		noticeService.insertNoticeTarget(notice);
 
 		notice.setPrevNum(prevNext.getPrevNum());
 		notice.setPrevTitle(prevNext.getPrevTitle());

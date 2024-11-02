@@ -21,6 +21,7 @@
 				<div class="text">써리원의 사내 공지사항을 조회합니다.</div>
 
 				<form action="searchNotice" method="GET">
+				<input type="hidden" id="deptId" value="${noticeDto.deptId}" name="deptId">
 					<div class="search">
 						<!-- <div id="choiceDay" class="flatpickr-input" readonly="readonly" value="연도-월-일">
 			<img src="/thirtyone/resources/image/calendar-icon.svg"></div> -->

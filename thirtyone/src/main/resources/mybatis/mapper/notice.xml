@@ -123,12 +123,12 @@
 	</delete>
 	
 	<insert id="insertNoticeTarget" parameterType="Notice">
-	    INSERT INTO NOTICE_TARGET (NOTICE_ID, DEPT_ID)
-	    VALUES
-	    <foreach collection="deptId" item="deptId" separator=",">
-	        (#{noticeId}, #{deptId})
+	    <foreach collection="deptId" item="deptId" separator=";">
+	        INSERT INTO NOTICE_TARGET (NOTICE_ID, DEPT_ID)
+	        VALUES (#{noticeId}, #{deptId})
 	    </foreach>
 	</insert>
+
 
 
 
