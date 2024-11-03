@@ -2,7 +2,6 @@
 flatpickr("#holidayStartDate", {
 	dateFormat: "Y-m-d",
 	allowInput: true,
-	//minDate: new Date(),
 	onChange: function(selectedDates, dateStr, instance) {
 		const startDate = selectedDates[0];
 		const endPicker = flatpickr("#holidayEndDate", {
@@ -17,7 +16,6 @@ flatpickr("#holidayStartDate", {
 flatpickr("#bizTripStartDate", {
 	dateFormat: "Y-m-d",
 	allowInput: true,
-	//minDate: new Date(),
 	onChange: function(selectedDates, dateStr, instance) {
 	const startDate = selectedDates[0];
 	const endPicker = flatpickr("#bizTripEndDate", {
@@ -36,22 +34,6 @@ flatpickr("#holidayWorkStartDatetime", {
 	},
 	allowInput: true,
 	minDate: new Date(),
-	/*
-	onChange: function(selectedDates, dateStr, instance) {
-		const startDate = selectedDates[0];
-	    const endPicker = flatpickr("#holidayWorkEndDatetime", {
-			enableTime: true,
-			dateFormat: "Y-m-d H:i:S",
-		    time_24hr: true,
-		    locale: {
-		        firstDayOfWeek: 1
-		    },
-		    allowInput: true,
-		    minDate: startDate
-	    });
-	endPicker.set('minDate', startDate);
-	}
-	*/
 });
 
 wotMinDate = new Date();
@@ -76,7 +58,7 @@ $(function() {
 	var path = window.location.pathname;
     console.log("페이지 경로:", path);
     
-    if(path === '/thirtyone/approval/draft' || path === '/thirtyone/approval/draftSubmit') {
+    if(path === '/thirtyone/approval/draft' || path === '/thirtyone/approval/draftSubmit' || path=== '/thirtyone/approval/settings') {
     	let orgChart;
     	$.ajax({
     		url: "getOrgChart",
@@ -428,30 +410,9 @@ $('#holidayWorkStartDatetime').on('change', function(){
     const year = startDay.split('-')[0];
     const month = startDay.split('-')[1];
     const day = startDay.split('-')[2];
-    //const startTime = $('#holidayWorkStartDatetime').val().split(' ')[1];
-    //const hour = startTime.split(':')[0];
-    //const minute = startTime.split(':')[1];
     
     $(myElement).text(year+'년\u00A0'+month+'월\u00A0'+day+'일 (총 8시간)');   
 });
-
-/*
-$('#holidayWorkEndDatetime').on('change', function(){
-	const editor = tinymce.get('draftDocument');
-    const contentDocument = editor.getDoc();
-    const myElement = contentDocument.getElementById('workoverDatetime');
-    const endDay = $('#holidayWorkEndDatetime').val().split(' ')[0];
-    const year = endDay.split('-')[0];
-    const month = endDay.split('-')[1];
-    const day = endDay.split('-')[2];
-    const endTime = $('#holidayWorkEndDatetime').val().split(' ')[1];
-    const hour = endTime.split(':')[0];
-    const minute = endTime.split(':')[1];
-    
-    const str = '\u00A0\u00A0'+year+'년\u00A0'+month+'월\u00A0'+day+'일\u00A0'+hour+'시\u00A0'+minute+'분';
-    $(myElement).text($(myElement).text()+str);
-});
-*/
 
 $('#workOvertimeStartDatetime').on('change', function(){
 	const editor = tinymce.get('draftDocument');
@@ -475,32 +436,6 @@ $('#workOvertimeStartDatetime').on('change', function(){
     $(myElement).text(today.getFullYear()+'년\u00A0'+today.getMonth()+'월\u00A0'+today.getDate()+'일\u00A0'+today.getHours()+'시\u00A0');
     $(endElement).text(year+'년\u00A0'+month+'월\u00A0'+day+'일\u00A0'+hour+'시\u00A0(총\u00A0'+parseInt(totalHour)+'시간)');
 });
-
-/*
-$('#workOvertimeEndDatetime').on('change', function(){
-	const editor = tinymce.get('draftDocument');
-    const contentDocument = editor.getDoc();
-    const myElement = contentDocument.getElementById('workovertimeEnd');
-    const startDay = $('#workOvertimeEndDatetime').val().split(' ')[0];
-    const year = startDay.split('-')[0];
-    const month = startDay.split('-')[1];
-    const day = startDay.split('-')[2];
-    const startTime = $('#workOvertimeEndDatetime').val().split(' ')[1];
-    const hour = startTime.split(':')[0];
-    
-    const firstTime = $('#workOvertimeStartDatetime').val();
-    const firstTimeDate = firstTime.split(' ')[0];
-    const firstTimeYear = parseInt(firstTimeDate.split('-')[0]);
-    const firstTimeMonth = parseInt(firstTimeDate.split('-')[1])-1;
-    const firstTimeDay = parseInt(firstTimeDate.split('-')[2]);
-    const firstTimeHour = parseInt(firstTime.split(' ')[1].split(':')[0]);
-    const startDatetime = new Date(firstTimeYear, firstTimeMonth, firstTimeDay, firstTimeHour);
-    const endDateTime = new Date(parseInt(year), parseInt(month)-1, parseInt(day), parseInt(hour));
-    const overtimeHour = (endDateTime - startDatetime) / (1000 * 60 * 60);
-    
-    $(myElement).text(year+'년\u00A0'+month+'월\u00A0'+day+'일\u00A0'+hour+'시\u00A0\u00A0(총\u00A0'+overtimeHour+'시간)');    	
-});
-*/
 
 $('#approvalAttachFile').on('change', function(){
 	const fileName = this.files[0].name;

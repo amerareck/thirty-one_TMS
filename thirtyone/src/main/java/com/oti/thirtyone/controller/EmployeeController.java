@@ -3,7 +3,9 @@ package com.oti.thirtyone.controller;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -19,11 +21,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.oti.thirtyone.dto.EmpApprovalLineDTO;
 import com.oti.thirtyone.dto.EmployeesDto;
 import com.oti.thirtyone.dto.JoinFormDto;
+import com.oti.thirtyone.dto.PositionsDto;
 import com.oti.thirtyone.security.EmployeeDetailService;
 import com.oti.thirtyone.security.EmployeeDetails;
 import com.oti.thirtyone.service.ApprovalService;
@@ -195,6 +200,74 @@ public class EmployeeController {
 		List<EmployeesDto> numberList = empService.getEmpInfoByName(empName);
 		
 		return ResponseEntity.ok(numberList);
+	}
+	
+	@PostMapping("setApprovalLine")
+	public void setApprovalLineToEmp(
+			@RequestBody List<EmpApprovalLineDTO> aplForm, 
+			Authentication auth, 
+			HttpServletResponse res) throws IOException {
+		log.info("실행");
+		
+		// List 요소들을 검증해야 하는데, 검증 방법을 아직 모르므로... (애매함) 직접 수행.
+		Set<String> names = new HashSet<>();
+		JSONObject errors = new JSONObject();
+		aplForm.forEach(item -> item.setEmpId(auth.getName()));
+		boolean isError = false;
+		
+		for(EmpApprovalLineDTO form : aplForm) {
+			if(!names.add(form.getAprLineApprover())) {
+				errors.put("errors", true);
+				errors.put("duplication", "결재자는 중복될 수 없습니다.");
+				isError = true;
+				break;
+			}
+		}
+		
+		if (!isError) {
+			List<PositionsDto> posList = posService.getPosList();
+			aplForm.forEach(item -> {
+			    item.setAplLineApproverDTO(empService.getEmpInfo(item.getAprLineApprover()));
+			    posList.forEach(elem -> {
+			        if (item.getAplLineApproverDTO() != null && 
+			            elem.getPosition().equals(item.getAplLineApproverDTO().getPosition())) {
+			            item.setPositionDTO(elem);
+			        }
+			    });
+			});
+
+			for(int i=1; i<aplForm.size(); i++) {
+				if(!aplForm.get(i).getPositionDTO()
+						.isCompareRankForHigherEquels(aplForm.get(i-1).getPositionDTO())) {
+					log.info("대상 결재자: "+aplForm.get(i).getEmpName()+"비교 결재자: "+aplForm.get(i-1).getEmpName());
+					errors.put("errors", true);
+					errors.put("seqError", "낮은 직급은 후순위 결재자가 될 수 없습니다.");
+					isError = true;
+					break;
+				}
+			}
+		}
+		
+		if(isError) {
+			PrintWriter pw = res.getWriter();
+			res.setContentType("application/json; charset=UTF-8");
+			res.setCharacterEncoding("UTF-8");
+			pw.println(errors.toString());
+			pw.flush();
+			pw.close();
+			return;
+		}
+		
+		empService.setApprovalLine(aplForm);
+		
+		JSONObject json = new JSONObject();
+		json.put("status", "ok");
+		PrintWriter pw = res.getWriter();
+		res.setContentType("application/json; charset=UTF-8");
+		res.setCharacterEncoding("UTF-8");
+		pw.println(json.toString());
+		pw.flush();
+		pw.close();
 	}
 	
 }

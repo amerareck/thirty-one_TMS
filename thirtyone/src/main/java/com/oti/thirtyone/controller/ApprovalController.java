@@ -37,6 +37,7 @@ import com.oti.thirtyone.dto.DocumentReferenceDTO;
 import com.oti.thirtyone.dto.Departments;
 import com.oti.thirtyone.dto.DocFilesDTO;
 import com.oti.thirtyone.dto.DraftForm;
+import com.oti.thirtyone.dto.EmpApprovalLineDTO;
 import com.oti.thirtyone.dto.EmployeesDto;
 import com.oti.thirtyone.dto.PageParam;
 import com.oti.thirtyone.service.ApprovalService;
@@ -83,11 +84,14 @@ public class ApprovalController {
 	}
 	
 	@GetMapping("/settings")
-	public String getApprovalSettingPage(Model model) {
+	public String getApprovalSettingPage(Authentication auth, Model model) {
 		log.info("실행");
 		
 		model.addAttribute("selectedSub", "settings");
 		model.addAttribute("title", "전자 결재 설정");
+		
+		List<EmpApprovalLineDTO> empAPL = empService.getApprovalLineListByUserId(auth.getName());
+		model.addAttribute("empAPL", empAPL);
 		
 		return "approval/approvalSettings";
 	}

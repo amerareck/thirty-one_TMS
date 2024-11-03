@@ -13,7 +13,7 @@
 			<div class="d-flex align-items-center justify-content-between me-1">
 				<p class="title-31 ps-1 pt-3">${title}</p>
 				<c:if test="${title=='기안서 작성'}">
-					<button id="draftSubmitButton" class="btn btn-secondary" style="width: 65px; height: 35px; padding: 3px; font-size: .9rem;">기안 상신</button>
+					<button id="draftSubmitButton" class="btn btn-secondary" style="width: 70px; height: 35px; padding: 3px; font-size: .9rem;">기안 상신</button>
 				</c:if>
 			</div>
 			<hr class="m-0 mb-5" />

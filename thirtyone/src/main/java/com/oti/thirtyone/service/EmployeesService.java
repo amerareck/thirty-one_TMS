@@ -8,7 +8,9 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.oti.thirtyone.dao.ApprovalLineDAO;
 import com.oti.thirtyone.dao.EmployeesDao;
+import com.oti.thirtyone.dto.EmpApprovalLineDTO;
 import com.oti.thirtyone.dto.EmployeesDto;
 import com.oti.thirtyone.dto.Pager;
 
@@ -20,6 +22,8 @@ public class EmployeesService {
 	
 	@Autowired
 	EmployeesDao empDao;
+	@Autowired
+	ApprovalLineDAO empApprovalLineDAO;
 
 	public void joinEmp(EmployeesDto empDto) {
 		log.info(empDto.toString());
@@ -120,6 +124,60 @@ public class EmployeesService {
 		return empDao.selectEmpInfoByName(empName);
 	}
 
+	public boolean setApprovalLine(List<EmpApprovalLineDTO> aplForm) {
+		if(aplForm == null || aplForm.isEmpty()) return false;
+		
+		if (isApprovalLineName(aplForm.get(0))) {
+			return updateApprovalLine(aplForm);
+		} else {
+			for (EmpApprovalLineDTO item : aplForm) {
+		        if (empApprovalLineDAO.insertNewApprovalLine(item) != 1) {
+		            return false;
+		        }
+		    }
+		}
+	    
+	    return true;
+	}
 	
+	public boolean isApprovalLineName(EmpApprovalLineDTO dto) {
+		return empApprovalLineDAO.selectApprovalLineName(dto) != null;
+	}
 	
+	public boolean updateApprovalLine(List<EmpApprovalLineDTO> aplForm) {
+		if(aplForm == null || aplForm.isEmpty()) return false;
+		
+		int len = empApprovalLineDAO.selectCountApprovalLine(aplForm.get(0));
+		if(aplForm.size() == len) {
+			for(EmpApprovalLineDTO item : aplForm) {
+				if(empApprovalLineDAO.updateApprovalLine(item) != 1) {
+					return false;
+				}
+			}
+		} else if(aplForm.size() > len) {
+			for(int i=0; i<len; i++) {
+				if(empApprovalLineDAO.updateApprovalLine(aplForm.get(i)) != 1) return false;
+			}
+			for(int i=len; i<aplForm.size(); i++) {
+				if(empApprovalLineDAO.insertApprovalLine(aplForm.get(i)) != 1) return false;
+			}
+		} else if(aplForm.size() < len) {
+			for(int i=0; i<aplForm.size(); i++) {
+				if(empApprovalLineDAO.updateApprovalLine(aplForm.get(i)) != 1) return false;
+			}
+			aplForm = empApprovalLineDAO.selectApprovalLineByIdx(aplForm.get(aplForm.size()-1));
+			for(int i=0; i<aplForm.size(); i++) {
+				if(empApprovalLineDAO.deleteApprovalLine(aplForm.get(i)) != 1) return false;
+			}
+		}
+		return true;
+	}
+	
+	public List<EmpApprovalLineDTO> getApprovalLineListByUserId(String userId) {
+		return empApprovalLineDAO.selectAllApprovalLineByEmpId(userId);
+	}
+	
+	public List<EmpApprovalLineDTO> getApprovalLineListByPager(Pager pager) {
+		return empApprovalLineDAO.selectApprovalLineByPager(pager);
+	}
 }

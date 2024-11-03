@@ -18,6 +18,7 @@
 		<typeAlias type="com.oti.thirtyone.dto.DocumentApprovalLineDTO" alias="DocApprovalLine"/>
 		<typeAlias type="com.oti.thirtyone.dto.DocFilesDTO" alias="DocFile"/>
 		<typeAlias type="com.oti.thirtyone.dto.DocumentReferenceDTO" alias="DocRef"/>
+		<typeAlias type="com.oti.thirtyone.dto.EmpApprovalLineDTO" alias="EmpApprovalLine"/>
 		
 		<typeAlias type="com.oti.thirtyone.dto.Pager" alias="Pager"/>	
 		
