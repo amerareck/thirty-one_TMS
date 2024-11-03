@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.oti.thirtyone.dao.AttendanceDao">
+	
 	<select id="selectCheckInToday" parameterType="String"  resultType="int">
 		select count(check_in)
 		from attendances
@@ -37,5 +38,10 @@
 		select atd_date, emp_id, check_in, check_out, atd_state, atd_standard_time, atd_over_time, atd_approved_time
 		from attendances
 		where to_char(atd_date, 'yyyy/MM') = #{month} and emp_id=#{empId}
+	</select>
+	<select id="selectAtdWeekly" resultType="Attendance">
+		select atd_date, emp_id, check_in, check_out, atd_state, atd_standard_time, atd_over_time, atd_approved_time
+		from attendances
+		where atd_date between TO_DATE(#{monday}, 'yyyy/MM/DD') and TO_DATE(#{sunday}, 'yyyy/MM/DD') and emp_id=#{empId}
 	</select>
 </mapper>
