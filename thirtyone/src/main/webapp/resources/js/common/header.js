@@ -48,8 +48,9 @@ $(document).ready(function() {
 			$(".emp-name").text(data.empName + " " + data.position);
 			$(".dept-name").text(data.deptName);
 			let role = data.empRole;
+			console.log(data);
 
-			if(data.atdDto !== null){
+			if(data.atd !== null){
 				if(data.atd.checkIn === null || data.atd.checkIn == undefined){
 					$('.sidebar-start-time span:nth-child(2)').html('--:--');
 				}else{

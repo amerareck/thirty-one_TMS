@@ -16,4 +16,7 @@ public class AttendanceDto {
 	private int atdOverTime;
 	private int atdApprovedTime;
 	
+
+	
+	
 }

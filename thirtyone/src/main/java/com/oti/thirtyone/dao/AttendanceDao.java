@@ -22,4 +22,6 @@ public interface AttendanceDao {
 
 	List<AttendanceDto> selectAtdMonthly(@Param("empId") String empId, @Param("month") String string);
 
+	List<AttendanceDto> selectAtdWeekly(@Param("monday") String monday, @Param("sunday") String sunday, @Param("empId") String empId);
+
 }

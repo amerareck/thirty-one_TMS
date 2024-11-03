@@ -131,7 +131,11 @@ document.addEventListener('DOMContentLoaded', function () {
 				url: contextPath + "/atd/atdCalendar",
 				data: {'year' : todayYear , 'month' : todayMonth },
 				success: function(data) {
-
+	                data.forEach(event => {
+	                    const eventType = event.title.split(' ')[0];
+	                    const orderMap = { "출근": 1, "지각": 2, "퇴근": 3, "조퇴": 4, "연장근무": 5, "휴가" : 6, "결근": 7 };
+	                    event.order = orderMap[eventType] || 8;  
+	                });
 					successCallback(data);
 				},
 	            error: function() {
@@ -139,6 +143,8 @@ document.addEventListener('DOMContentLoaded', function () {
 	            }
 			})
 		},
+	    eventOrder: "order,start",
+	    eventOrderStrict: true, 
 		datesSet: function(info){
 			var currentDate = calendar.getDate();
             var month = currentDate.getMonth()+1;
@@ -151,7 +157,6 @@ document.addEventListener('DOMContentLoaded', function () {
 				data: {'year' : year , 'month' : month },
 				success: function(data) {
 					calendar.getEvents().forEach(event => event.remove());
-					
 					data.forEach(eventData => {
 						calendar.addEvent(eventData);
 					});

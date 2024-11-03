@@ -1,5 +1,6 @@
 package com.oti.thirtyone.controller;
 
+import java.text.ParseException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -13,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.oti.thirtyone.dto.AttendanceCalendarDto;
@@ -120,6 +122,15 @@ public class AttendanceController {
 		model.addAttribute("selectedTitle", "hr");
 		model.addAttribute("selectedSub", "attendance");
 		return "attendance/attendanceProcess"; 
+	}
+	
+	@PostMapping("getAtdForWeek")
+	@ResponseBody
+	public Map<String, Object> getAtdForWeek(@RequestParam List<String> week, Authentication authentication) throws ParseException{
+		String empId = authentication.getName();
+		Map<String, Object> atdList = atdService.getAtdInfoWeekly(week.get(0), week.get(1), empId);
+		
+		return atdList;
 	}
 
 }
