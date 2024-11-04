@@ -1,5 +1,7 @@
 package com.oti.thirtyone.service;
 
+import java.util.List;
+
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.oti.thirtyone.dao.DocFilesDAO;
 import com.oti.thirtyone.dao.ReasonDao;
 import com.oti.thirtyone.dto.DocFilesDTO;
+import com.oti.thirtyone.dto.Pager;
 import com.oti.thirtyone.dto.ReasonDto;
 
 import lombok.extern.log4j.Log4j2;
@@ -40,6 +43,15 @@ public class ReasonService {
 			return false;
 		else
 			return true;
+	}
+
+	public List<ReasonDto> getReasonListByImprover(String empId, Pager pager) {
+		return reasonDao.selectReasonListByImprover(empId, pager);
+		
+	}
+
+	public int countRowsByImprover(String empId) {
+		return reasonDao.countRowsByImprover(empId);
 	}
 
 }

@@ -71,8 +71,8 @@
 						</a>
 					</c:if>
 
+				</div>
 			</div>
-		</div>
 	
 <script type="text/javascript">
 	contextPath = '${pageContext.request.contextPath}';

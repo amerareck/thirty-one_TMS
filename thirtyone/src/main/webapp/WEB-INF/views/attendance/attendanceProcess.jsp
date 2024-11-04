@@ -2,7 +2,6 @@
     pageEncoding="UTF-8"%>
     
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/attendance/attendanceProcess.css" />
-<script src="${pageContext.request.contextPath}/resources/js/attendance/attendanceProcess.js"></script>
     
 <%@ include file="/WEB-INF/views/common/header.jsp"%>
 <div class="content-box">
@@ -27,63 +26,46 @@
 						  </tr>
 						</thead>
 						<tbody>
-						  <tr>
-						    <th scope="row" class="process-profile-box">
-						    	<img class="process-profile-img" src="${pageContext.request.contextPath}/resources/image/profileDefault.png">
-						    	<div class="process-profile-info">
-						    		<h4>오티아이 부장</h4>
-						    		<p>공공사업1div</p>
-						    	</div>
-						    </th>
-						    <td>2024-10-17</td>
-						    <td>지각</td>
-						  </tr>
-						  <tr>
-						    <th scope="row" class="process-profile-box">
-						    	<img class="process-profile-img" src="${pageContext.request.contextPath}/resources/image/profileDefault.png">
-						    	<div class="process-profile-info">
-						    		<h4>오티아이 부장</h4>
-						    		<p>정원석 사원</p>
-						    	</div>
-					    	</th>
-						    <td>2024-10-17</td>
-						    <td>지각</td>
-						  </tr>
-						  <tr>
-						    <th scope="row" class="process-profile-box">
-						    	<img class="process-profile-img" src="${pageContext.request.contextPath}/resources/image/profileDefault.png">
-						    	<div class="process-profile-info">
-						    		<h4>오티아이 부장</h4>
-						    		<p>정원석 사원</p>
-						    	</div>
-					    	</th>
-						    <td>2024-10-17</td>
-						    <td>지각</td>
-						  </tr>
-						  <tr>
-						    <th scope="row" class="process-profile-box">
-						    	<img class="process-profile-img" src="${pageContext.request.contextPath}/resources/image/profileDefault.png">
-						    	<div class="process-profile-info">
-						    		<h4>오티아이 부장</h4>
-						    		<p>정원석 사원</p>
-						    	</div>
-					    	</th>
-						    <td>2024-10-17</td>
-						    <td>지각</td>
-						  </tr>
-						  <tr>
-						    <th scope="row" class="process-profile-box">
-						    	<img class="process-profile-img" src="${pageContext.request.contextPath}/resources/image/profileDefault.png">
-						    	<div class="process-profile-info">
-						    		<h4>오티아이 부장</h4>
-						    		<p>정원석 사원</p>
-						    	</div>
-					    	</th>
-						    <td>2024-10-17</td>
-						    <td>지각</td>
-						  </tr>
+							<c:forEach items="${reasonList}" var="reason">
+							  <tr>
+							    <th scope="row" class="process-profile-box">
+							    	<img class="process-profile-img" src="${pageContext.request.contextPath}/resources/image/profileDefault.png">
+							    	<div class="process-profile-info">
+							    		<h4>${reason.emp.empName }</h4>
+							    		<p>${reason.deptName}</p>
+							    	</div>
+							    </th>
+							    <td><fmt:formatDate value='${reason.reason.atdDate}' pattern='yyyy-MM-dd'/></td>
+							    <td>${reason.reason.reasonType }</td>
+							  </tr>
+						  </c:forEach>
 						</tbody>
 					</table>
+					<div class="pagination">
+						<c:if test="${pager.groupNo>1}">
+							<a href="process?pageNo=${pager.startPageNo-1}"> 
+								<img src="${pageContext.request.contextPath}/resources/image/prev_icon.png" alt="prev" style="width: 110px">
+							</a>
+						</c:if>
+						<c:forEach begin="${pager.startPageNo}" end="${pager.endPageNo}" step="1" var="i">
+							<c:if test="${pager.pageNo==i}">
+								<button class="page-num active"
+									onclick="location.href='${pageContext.request.contextPath}/atd/process?pageNo=${i}'"
+									style="color: #686868">${i}</button>
+							</c:if>
+							<c:if test="${pager.pageNo!=i}">
+								<button class="page-num"
+									onclick="location.href='${pageContext.request.contextPath}/atd/process?pageNo=${i}'">
+									${i}</button>
+							</c:if>
+						</c:forEach>
+						<c:if test="${pager.groupNo<pager.totalGroupNo}">
+							<a href="process?pageNo=${pager.endPageNo+1}">
+								<img src="${pageContext.request.contextPath}/resources/image/next_icon.png" alt="next" style="width: 110px">
+							</a>
+						</c:if>
+
+					</div>
 				</div>
 			</div>
 			<div class="reason-report-box card">
@@ -103,9 +85,14 @@
 						<input type="datetime" class="form-control" id="empName" value="2024/10/17 09:35:17" disabled>
 					</div>
 					<div>
-					  <label for="formFile" class="form-label">첨부 파일</label>
-					  <input class="form-control" type="file" id="formFile">
+						<label for="empName">퇴근 시간</label>
+						<input type="datetime" class="form-control" id="empName" value="2024/10/17 09:35:17" disabled>
 					</div>
+					<div>
+					  <label for="formFile" class="form-label">첨부 파일</label>
+					  <input class="form-control" type="file" id="formFile" readonly>
+					</div>
+					<div class="file-list"></div>
 					<div>
 					  <label for="reason" class="form-label reason">지각 사유</label>
 					  <textarea class="form-control" id="reason" rows="6" disabled>지하철이 연착되어 지각을 하였습니다.</textarea>
@@ -117,4 +104,9 @@
 				</form>
 			</div>
 		</div>
+<script type="text/javascript">
+	contextPath = '${pageContext.request.contextPath}';
+</script>
+
+<script src="${pageContext.request.contextPath}/resources/js/attendance/attendanceProcess.js"></script>
 <%@ include file="/WEB-INF/views/common/footer.jsp" %>

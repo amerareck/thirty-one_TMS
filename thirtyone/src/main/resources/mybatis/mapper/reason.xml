@@ -22,4 +22,30 @@
 		from reason
 		where emp_id = #{empId} and to_char(atd_date, 'yyyy-mm-dd') = #{day}
 	</select>
+	
+	<select id="selectReasonListByImprover" resultType="Reason">
+		<![CDATA[	
+			select reason_id, reason_type, reason_content, reason_status,
+				atd_date, emp_id, reason_improver
+			from (
+				select rownum as rnum, reason_id, reason_type, reason_content, reason_status,
+					atd_date, emp_id, reason_improver
+				from (
+					select reason_id, reason_type, reason_content, reason_status,
+						atd_date, emp_id, reason_improver
+					from reason
+					where reason_improver = #{empId} 
+					order by atd_date				
+				)
+				where rownum <= #{pager.endRowNo}
+			)
+			where rnum >= #{pager.startRowNo}
+		]]>
+	</select>
+	
+	<select id="countRowsByImprover" parameterType="String" resultType="int">
+		select count(reason_id)
+		from reason
+		where reason_improver = #{empId}
+	</select>
 </mapper>

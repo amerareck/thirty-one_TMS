@@ -4,11 +4,13 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -21,12 +23,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.oti.thirtyone.dao.ReasonDao;
 import com.oti.thirtyone.dto.AttendanceCalendarDto;
 import com.oti.thirtyone.dto.AttendanceDto;
 import com.oti.thirtyone.dto.Departments;
 import com.oti.thirtyone.dto.DocFilesDTO;
 import com.oti.thirtyone.dto.EmployeesDto;
+import com.oti.thirtyone.dto.Pager;
 import com.oti.thirtyone.dto.ReasonDto;
 import com.oti.thirtyone.dto.ReasonFormDto;
 import com.oti.thirtyone.security.EmployeeDetails;
@@ -151,43 +153,80 @@ public class AttendanceController {
 		reasonDto.setReasonImprover(deptDto.getEmpId());
 		boolean hasReason = reasonService.hasReasonOfDay(empId, reasonForm.getCheckIn().split(" ")[0]);
 		if(!hasReason) {
-			log.info(hasReason);
 			return ResponseEntity.ok(false);
 		}
-//		reasonService.insertReason(reasonDto, reasonForm.getCheckIn().split(" ")[0]);
-//		
-//		int reasonId = reasonDto.getReasonId();
-//		log.info(reasonId);
-//		MultipartFile[] files = reasonForm.getAttachFiles();
-//		if(files != null && files.length > 0) {
-//			for(MultipartFile file : files) {
-//				DocFilesDTO fileDto = new DocFilesDTO();
-//				fileDto.setDocFileName(file.getOriginalFilename());
-//				fileDto.setDocFileType(file.getContentType());
-//				fileDto.setDocFileData(file.getBytes());
-//				fileDto.setReasonId(reasonId);
-//				reasonService.insertReasonFile(fileDto);
-//			}
-//		}
+		reasonService.insertReason(reasonDto, reasonForm.getCheckIn().split(" ")[0]);
+		
+		int reasonId = reasonDto.getReasonId();
+		log.info(reasonId);
+		MultipartFile[] files = reasonForm.getAttachFiles();
+		if(files != null && files.length > 0) {
+			for(MultipartFile file : files) {
+				DocFilesDTO fileDto = new DocFilesDTO();
+				fileDto.setDocFileName(file.getOriginalFilename());
+				fileDto.setDocFileType(file.getContentType());
+				fileDto.setDocFileData(file.getBytes());
+				fileDto.setReasonId(reasonId);
+				reasonService.insertReasonFile(fileDto);
+			}
+		}
 		
 		return ResponseEntity.ok(true);
-	}
-	
-	@GetMapping("/process")
-	public String atdProcess(Model model) {
-		model.addAttribute("title", "정원석님의 근태 관리");
-		model.addAttribute("selectedTitle", "hr");
-		model.addAttribute("selectedSub", "attendance");
-		return "attendance/attendanceProcess"; 
 	}
 	
 	@PostMapping("getAtdForWeek")
 	@ResponseBody
 	public Map<String, Object> getAtdForWeek(@RequestParam List<String> week, Authentication authentication) throws ParseException{
 		String empId = authentication.getName();
-		Map<String, Object> atdList = atdService.getAtdInfoWeekly(week.get(0), week.get(1), empId);
-		
+		Map<String, Object> atdList = atdService.getAtdInfoWeekly(week.get(0), week.get(1), empId);		
 		return atdList;
 	}
 
+	@GetMapping("/process")
+	public String atdProcess(Model model, Authentication authentication, @RequestParam(defaultValue = "1") int pageNo, HttpSession session ) {
+		String empId = authentication.getName();
+		
+		int totalRows = reasonService.countRowsByImprover(empId);
+		Pager pager = new Pager(5, 5, totalRows, pageNo);
+		session.setAttribute("pager", pager);
+		
+		List<ReasonDto> reasonList = reasonService.getReasonListByImprover(empId, pager);
+		List<Map<String, Object>> reasonInfoList = new LinkedList<>();
+		
+		for(ReasonDto reason : reasonList) {
+			Map<String, Object> reasonInfo = new HashMap<>();
+			EmployeesDto empDto = empService.getEmpInfo(reason.getEmpId());
+			String deptName = deptService.getDeptName(empDto.getDeptId());
+			reasonInfo.put("emp", empDto);
+			reasonInfo.put("deptName", deptName);
+			reasonInfo.put("reason", reason);
+			
+			reasonInfoList.add(reasonInfo);
+		}
+		
+		model.addAttribute("reasonList", reasonInfoList);
+		model.addAttribute("title", "정원석님의 근태 관리");
+		model.addAttribute("selectedTitle", "hr");
+		model.addAttribute("selectedSub", "attendance");
+		return "attendance/attendanceProcess"; 
+	}
+	
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -119,26 +119,45 @@
 /* ###################사유서####################### */
 
 
-.reason-report div{
+.reason-report {
+	margin: 0px 40px;
+}
+
+.reason-report div:not(.button-box):not(.file-list){
 	margin: 15px 0px;
 	display: flex;
 	justify-content: flex-start;
 	align-items: center;
 }
 .reason-report div input{
-	background-color: white;
-	border : none;
+	background-color: white !important;
+	border : none !important;
 }
 
 .reason-report div:nth-child(4) input{
 	border: 0.5px solid var(--lightgray);
 }
-.reason-report div:nth-child(5){
-	align-items: flex-start; 
-}
+/* .reason-report div:nth-child(5){ */
+/* 	align-items: flex-start;  */
+/* } */
 .reason-report div:nth-child(6){
-	margin-top: 70px;
+	margin-top: -10px;
+	margin-left : 118px;
+	min-height: 43px;
+	border-radius: 5px;
+	border: 0.5px solid var(--lightgray);
+	font-size: 12px;
+	padding-left: 10px;
+		
+}
+.reason-report div:nth-child(7){
+	margin-top: 30px;
 	justify-content: center;
+}
+
+.reason-report div:nth-child(7) textarea{
+	border: 0.5px solid var(--lightgray);
+	background-color: white !important;
 }
 .button-large{
 	border: none;
@@ -164,4 +183,26 @@
 	font-weight: bold;
 	font-size: 20px; 
 	width: 140px;
+}
+
+.button-box{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+
+
+
+.pagination {
+	display: flex;
+	justify-content: center;
+	margin-top: 50px;
+    align-items: center;
+}
+
+.page-num {
+	background-color: transparent;
+	border: solid transparent;
+    color: #c7c7c7;
 }
