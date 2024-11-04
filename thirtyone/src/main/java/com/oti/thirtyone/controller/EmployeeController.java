@@ -239,7 +239,6 @@ public class EmployeeController {
 			for(int i=1; i<aplForm.size(); i++) {
 				if(!aplForm.get(i).getPositionDTO()
 						.isCompareRankForHigherEquels(aplForm.get(i-1).getPositionDTO())) {
-					log.info("대상 결재자: "+aplForm.get(i).getEmpName()+"비교 결재자: "+aplForm.get(i-1).getEmpName());
 					errors.put("errors", true);
 					errors.put("seqError", "낮은 직급은 후순위 결재자가 될 수 없습니다.");
 					isError = true;

@@ -147,7 +147,11 @@ public class EmployeesService {
 	public boolean updateApprovalLine(List<EmpApprovalLineDTO> aplForm) {
 		if(aplForm == null || aplForm.isEmpty()) return false;
 		
-		int len = empApprovalLineDAO.selectCountApprovalLine(aplForm.get(0));
+		int len = empApprovalLineDAO.selectApprovalLineCountById(aplForm.get(0));
+		if(aplForm.get(0).getAprLineIndex() == 0) {
+			EmpApprovalLineDTO index = empApprovalLineDAO.selectApprovalLineIndexbyName(aplForm.get(0));
+			aplForm.forEach(item -> item.setAprLineIndex(index.getAprLineIndex()));
+		}
 		if(aplForm.size() == len) {
 			for(EmpApprovalLineDTO item : aplForm) {
 				if(empApprovalLineDAO.updateApprovalLine(item) != 1) {
@@ -179,5 +183,11 @@ public class EmployeesService {
 	
 	public List<EmpApprovalLineDTO> getApprovalLineListByPager(Pager pager) {
 		return empApprovalLineDAO.selectApprovalLineByPager(pager);
+	}
+
+	public int getApprovalLineCount(String name) {
+		EmpApprovalLineDTO dto = new EmpApprovalLineDTO();
+		dto.setEmpId(name);
+		return empApprovalLineDAO.selectApprovalLineTotalCount(dto);
 	}
 }

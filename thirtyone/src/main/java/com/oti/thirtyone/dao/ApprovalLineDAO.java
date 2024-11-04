@@ -28,4 +28,10 @@ public interface ApprovalLineDAO {
 
 	List<EmpApprovalLineDTO> selectApprovalLineByPager(Pager pager);
 
+	int selectApprovalLineTotalCount(EmpApprovalLineDTO empApprovalLineDTO);
+
+	int selectApprovalLineCountById(EmpApprovalLineDTO empApprovalLineDTO);
+
+	EmpApprovalLineDTO selectApprovalLineIndexbyName(EmpApprovalLineDTO empApprovalLineDTO);
+
 }

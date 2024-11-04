@@ -6,7 +6,6 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletResponse;
@@ -40,6 +39,7 @@ import com.oti.thirtyone.dto.DraftForm;
 import com.oti.thirtyone.dto.EmpApprovalLineDTO;
 import com.oti.thirtyone.dto.EmployeesDto;
 import com.oti.thirtyone.dto.PageParam;
+import com.oti.thirtyone.dto.Pager;
 import com.oti.thirtyone.service.ApprovalService;
 import com.oti.thirtyone.service.DepartmentService;
 import com.oti.thirtyone.service.EmployeesService;
@@ -90,8 +90,12 @@ public class ApprovalController {
 		model.addAttribute("selectedSub", "settings");
 		model.addAttribute("title", "전자 결재 설정");
 		
-		List<EmpApprovalLineDTO> empAPL = empService.getApprovalLineListByUserId(auth.getName());
+		Pager pager = new Pager(3, 5, empService.getApprovalLineCount(auth.getName()), 1);
+		pager.setEmpId(auth.getName());
+		
+		List<EmpApprovalLineDTO> empAPL = empService.getApprovalLineListByPager(pager);
 		model.addAttribute("empAPL", empAPL);
+		model.addAttribute("pager", pager);
 		
 		return "approval/approvalSettings";
 	}

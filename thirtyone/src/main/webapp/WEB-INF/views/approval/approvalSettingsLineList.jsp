@@ -19,6 +19,11 @@
         </tr>
     </thead>
     <tbody>
+    	<c:if test="${empty empAPL}">
+    		<tr class="align-middle text-center my-2">
+    			<td colspan="2"><span class="text-custom-grey fs-6">북마크 중인 결재선이 없습니다.</span></td>
+    		</tr>
+    	</c:if>
     	<c:forEach items="${empAPL}" var="aplRows">
 			<tr class="align-middle text-center">
 	            <th scope="row">
@@ -30,15 +35,15 @@
 	                 <button type="button" class="btn btn-secondary btn-sm btn-custom-lightgrey">삭제</button>
 	            	</div>
 	            </td>
+	            <td class="d-none aprLineIndex">${aplRows.aprLineIndex}</td>
         	</tr>
     	</c:forEach>
+    	<%-- 
         <tr class="align-middle text-center">
             <th scope="row">
                 <span class="text-custom-grey">기본결재선1</span>
-            <%-- 
                 <button type="button" class="btn btn-custom-sm w-100">
                 </button>
-             --%>
             </th>
             <td>
             	<div class="d-flex align-items-center justify-content-center">
@@ -50,10 +55,6 @@
         <tr class="align-middle text-center">
             <th scope="row">
                 <span class="text-custom-grey">기본결재선2</span>
-            <%-- 
-                <button type="button" class="btn btn-custom-sm w-100">
-                </button>
-            --%>
             </th>
             <td>
             	<div class="d-flex align-items-center justify-content-center">
@@ -65,10 +66,6 @@
         <tr class="align-middle text-center">
             <th scope="row">
                 <span class="text-custom-grey">기본결재선3</span>
-            <%-- 
-                <button type="button" class="btn btn-custom-sm w-100">
-                </button>
-             --%>
             </th>
             <td>
             	<div class="d-flex align-items-center justify-content-center">
@@ -77,20 +74,29 @@
             	</div>
             </td>
         </tr>
+        --%>
     </tbody>
 </table>
 <nav class="w-100" style="align-self: flex-end;">
     <ul class="pagination pagination-not-effect align-items-center justify-content-center mb-0">
-    	<li class="page-item disabled">
-    		<a class="pagination-size page-link text-dark page-border-none" href="#" tabindex="-1" aria-disabled="true"><i class="fa-solid fa-chevron-left page-font-size-sm"></i></a>
+    	<li class="page-item ${pager.groupNo > 1 ? '' : 'disabled'}">
+    		<a id="pageGroupBtn-${pager.startPageNo-1}" class="pagination-size page-link text-dark page-border-none group-move" href="#" tabindex="-1" aria-disabled="true"><i class="fa-solid fa-chevron-left page-font-size-sm"></i></a>
       	</li>
+      	<c:if test="${pager.totalPageNo == 0}">
+	      	<li class="page-item disabled"><a class="pagination-size page-link text-dark page-border-none page-font-size-sm page-move" href="#">1</a></li>
+      	</c:if>
+      	<c:forEach begin="${pager.startPageNo}" end="${pager.endPageNo < pager.totalPageNo ? pager.endPageNo : pager.totalPageNo}" var="i">
+	      	<li class="page-item ${pager.pageNo == i ? 'disabled' : ''}"><a class="pagination-size page-link text-dark page-border-none page-font-size-sm page-move" href="#">${i}</a></li>
+      	</c:forEach>
+      	<li class="page-item ${pager.groupNo >= pager.totalGroupNo ? 'disabled' : ''}">
+        	<a id="pageGroupBtn-${pager.endPageNo+1}" class="pagination-size page-link text-dark page-border-none group-move" href="#"><i class="fa-solid fa-chevron-right page-font-size-sm"></i></a>
+      	</li>
+	</ul>
+	    <%--
       	<li class="page-item"><a class="pagination-size page-link text-dark page-border-none page-font-size-sm" href="#">1</a></li>
       	<li class="page-item"><a class="pagination-size page-link text-dark page-border-none page-font-size-sm" href="#">2</a></li>
       	<li class="page-item"><a class="pagination-size page-link text-dark page-border-none page-font-size-sm" href="#">3</a></li>
       	<li class="page-item"><a class="pagination-size page-link text-dark page-border-none page-font-size-sm" href="#">4</a></li>
       	<li class="page-item"><a class="pagination-size page-link text-dark page-border-none page-font-size-sm" href="#">5</a></li>
-      	<li class="page-item">
-        	<a class="pagination-size page-link text-dark page-border-none" href="#"><i class="fa-solid fa-chevron-right page-font-size-sm"></i></a>
-      	</li>
-	</ul>
+      	--%>
 </nav>

@@ -43,9 +43,19 @@
 				apr_line_approver = #{aprLineApprover} -- 결재자 ID
 			WHERE 
 				emp_id = #{empId} -- 결재선 소유자 id
-			END apr_line_index = #{apr_line_index} -- 결재선 인덱스
+			END apr_line_index = #{aprLineIndex} -- 결재선 인덱스
 		]]>
 	</update>
+	
+	<select id="selectApprovalLineIndexbyName" parameterType="EmpApprovalLine" resultType="EmpApprovalLine">
+		<![CDATA[
+			SELECT DISTINCT APPROVAL_LINE_INDEX
+			FROM APPROVAL_LINE
+			WHERE
+				APR_LINE_NAME = #{aprLineName}
+			AND EMP_ID = #{empId}
+		]]>
+	</select>
 	
 	<select id="selectApprovalLineByIdx" parameterType="EmpApprovalLine" resultType="EmpApprovalLine">
 		<![CDATA[
@@ -69,14 +79,14 @@
 			DELETE FROM APPROVAL_LINE
 			WHERE
 				emp_id = #{empId} -- 결재선 소유자 id
-			END apr_line_name = #{apr_line_name} -- 결재선 이름
-			END apr_line_index = #{apr_line_index} -- 결재선 인덱스
+			END apr_line_name = #{aprLineName} -- 결재선 이름
+			END apr_line_index = #{aprLineIndex} -- 결재선 인덱스
 		]]>
 	</delete>
 	
 	<select id="selectApprovalLineName" parameterType="EmpApprovalLine" resultType="EmpApprovalLine">
 		<![CDATA[
-			SELECT APR_LINE_NAME
+			SELECT DISTINCT APR_LINE_NAME
 			FROM APPROVAL_LINE
 			WHERE 
 				emp_id = #{empId}
@@ -102,22 +112,43 @@
 		<![CDATA[
 			WITH ApprovalList AS (
 			    SELECT
-			        DISTINCT APR_LINE_NAME,
-			        APR_LINE_INDEX,
-			        ROW_NUMBER() OVER (ORDER BY APR_LINE_INDEX) AS rn
+                    DISTINCT APR_LINE_NAME,
+			        APR_LINE_INDEX
 			    FROM APPROVAL_LINE
 			    WHERE emp_id = #{empId}
 			),
+            TARGET_LIST AS (
+                SELECT
+                    APR_LINE_NAME,
+                    APR_LINE_INDEX,
+                    ROW_NUMBER() OVER (ORDER BY APR_LINE_INDEX) AS rn
+                FROM ApprovalList
+            )
 			SELECT
-				DISTINCT APR_LINE_NAME,
+                APR_LINE_NAME,
 		        APR_LINE_INDEX
-			FROM ApprovalList
+			FROM TARGET_LIST
 			WHERE rn BETWEEN #{startRowNo} AND #{endRowNo}
 			ORDER BY APR_LINE_INDEX
 		]]>
 	</select>
 	
-	<select id="selectCountApprovalLine" parameterType="EmpApprovalLine" resultType="int">
+	<select id="selectApprovalLineTotalCount" parameterType="EmpApprovalLine" resultType="int">
+		<![CDATA[
+			WITH ApprovalList AS (
+			    SELECT DISTINCT
+			        APR_LINE_NAME,
+			        APR_LINE_INDEX
+			    FROM APPROVAL_LINE
+			    WHERE emp_id = #{empId}
+			    ORDER BY APR_LINE_INDEX
+			)
+			SELECT COUNT(*)
+			FROM ApprovalList
+		]]>
+	</select>
+	
+	<select id="selectApprovalLineCountById" parameterType="EmpApprovalLine" resultType="int">
 		<![CDATA[
 			SELECT COUNT(*)
 			FROM APPROVAL_LINE
