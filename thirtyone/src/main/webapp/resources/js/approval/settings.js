@@ -1,3 +1,14 @@
+flatpickr("#proxyStartDate", {
+	dateFormat: "Y-m-d",
+	allowInput: true,
+	conjunction: " ~ "
+});
+
+flatpickr("#proxyEndDate", {
+	dateFormat: "Y-m-d",
+	allowInput: true
+});
+
 $('#approvalLineSettingSaveBtn').on('click', function(){
 	const aplForm = [];
 	$('.approval-line-item').each(function(){

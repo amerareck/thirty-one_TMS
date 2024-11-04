@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
-<h3 class="fw-bold mb-0">결재선 설정</h3>
-<hr class="mt-1 mb-4" />
+<h3 class="fw-bold mb-0 pb-0">결재선 설정</h3>
+<hr class="mt-2 mb-4" style="border-top: 2px solid" />
 
 <div class="w-100 h-auto">
 	<div class="w-100 d-flex justify-content-center mb-0">

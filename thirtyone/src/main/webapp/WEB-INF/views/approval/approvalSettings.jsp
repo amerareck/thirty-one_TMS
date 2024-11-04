@@ -14,12 +14,12 @@
 	<div class="proxySetting1 h-auto" style="width: 45%;">
 		<div class="card mb-2 h-auto">
 		    <div class="card-body p-4">
-				<iframe src="${pageContext.request.contextPath}/resources/html/approvalProxySetting.html" width="100%" height="277px" ></iframe>
+				<%@ include file="/WEB-INF/views/approval/approvalSettingsProxy.jsp" %>
 		    </div>
 		</div>
 	    <div class="card my-2 h-auto">
 		    <div class="card-body p-4">
-				<iframe src="${pageContext.request.contextPath}/resources/html/approvalProxyCheck.html" width="100%" height="160px;"></iframe>					        
+				<%@ include file="/WEB-INF/views/approval/approvalSettingsProxyCheck.jsp" %>
 		    </div>
 		</div>
 		<div class="card mt-2 mb-0 h-auto">
@@ -29,5 +29,6 @@
 	    </div>
 	</div>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <script src="${pageContext.request.contextPath}/resources/js/approval/settings.js"></script>
 <%@ include file="/WEB-INF/views/approval/approvalContainerFooter.jsp"%>
