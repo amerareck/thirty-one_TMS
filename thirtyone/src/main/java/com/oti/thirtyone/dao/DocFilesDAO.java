@@ -9,4 +9,6 @@ public interface DocFilesDAO {
 
 	int insertDraftAttachFile(DocFilesDTO dto);
 
+	int insertReasonFile(DocFilesDTO fileDto);
+
 }

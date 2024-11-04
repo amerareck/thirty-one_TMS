@@ -18,4 +18,14 @@
 			)
 		]]>
 	</insert>
+	
+    <insert id="insertReasonFile" parameterType="DocFile">
+        <selectKey keyProperty="docFileId" resultType="int" order="BEFORE">
+            SELECT doc_files_seq.nextval FROM dual
+        </selectKey>
+        INSERT INTO DOC_FILES 
+            ( doc_file_id, doc_file_data, doc_file_name, doc_file_type, reason_id ) 
+        VALUES
+            ( #{docFileId}, #{docFileData}, #{docFileName}, #{docFileType}, #{reasonId} ) 
+    </insert>
 </mapper>

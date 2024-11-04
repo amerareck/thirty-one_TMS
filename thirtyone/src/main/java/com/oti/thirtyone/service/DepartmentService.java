@@ -69,6 +69,12 @@ public class DepartmentService {
 		int totalRows = deptDao.countRows();
 		return totalRows;
 	}
+
+	public Departments getDeptInfo(int deptId) {
+		return deptDao.selectDept(deptId);
+	}
+
+
 	
 	
 }

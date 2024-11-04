@@ -15,6 +15,7 @@ function formatMonthDay(date) {
 	
 	return `${month}-${day}`;
 }
+
 function formatTime(date){
 
 	const dateTime = new Date(date);
@@ -47,38 +48,54 @@ function getAtdforWeek(week){
 		data : {"week" : week},
 		success: function (data){	
 			
-			console.log(data);
 			drawGraph(data);
 			
 			$(".worktime-info").empty();
 			
 			data.atdList.forEach(function(atd) {
 				let formattedMonthDay = formatMonthDay(atd.atdDate);
-				let formattedCheckIn = formatTime(atd.checkIn);
-				let formattedCheckOut = formatTime(atd.checkOut);
+				let formattedCheckIn = atd.checkIn !== null ? formatTime(atd.checkIn) : "--:--";
+				let formattedCheckOut = atd.checkOut !== null ? formatTime(atd.checkOut) : "--:--";
 				let formattedOverTime = atd.atdOverTime;
-				let formattedStandardTime = `${atd.atdStandardTime}시간 00분`;
-				
+				let formattedStandardTime = atd.atdStandardTime !== null ? `${atd.atdStandardTime}시간 00분` : "0시간00분";
+				let atdState = atd.atdState !== null ? atd.atdState : "-";
 				let atdHtml =`				
 					<tr>
-					  <th scope="row">${formattedMonthDay} 월</th>
-					  <td>${atd.atdState}</td>
-					  <td>${formattedCheckIn}</td>
-					  <td>${formattedCheckOut}</td>
+					  <th scope="row">${formattedMonthDay}</th>
+					  <td class="atd-state" data-state="${atdState}">${atdState}</td>
+					  <td class="request-checkin" data-checkin="${atd.checkIn}">${formattedCheckIn}</td>
+					  <td class="request-checkout" data-checkout="${atd.checkOut}">${formattedCheckOut}</td>
 					  <td>${formattedOverTime}</td>
 					  <td>${formattedStandardTime}</td>
 					  <td><img src="${contextPath}/resources/image/icon/clock.svg"></td>
-					  <td><img src="${contextPath}/resources/image/icon/doc.svg"></td>
+					  <td><img class="atd-request-form" src="${contextPath}/resources/image/icon/doc.svg" data-bs-toggle="modal" data-bs-target="#atdRequestModal"></td>
 					</tr>
 			    `
 					
-			    $(".worktime-info").append(atdHtml);
+			    $(".worktime-info").append(atdHtml); 
 			})
 			
 			
 		}
 	})
 }
+
+$(document).on('click', ".atd-request-form", function(){
+	let checkIn = $(this).closest('tr').find(".request-checkin").data('checkin');
+	let checkOut = $(this).closest('tr').find(".request-checkout").data('checkout');
+	let state = $(this).closest('tr').find(".atd-state").data('state');
+	let checkInDate = new Date(checkIn);
+	let checkOutDate = new Date(checkOut);
+	
+	let formatedCheckIn = checkIn !== null ? formatDate(checkInDate) + " " + formatTime(checkIn) : "--:--" ;
+	let formatedCheckOut = checkOut !== null ? formatDate(checkOutDate) + " " + formatTime(checkOut) : "--:--";
+	
+	$("#checkIn").val(formatedCheckIn);
+	$("#checkOut").val(formatedCheckOut);
+	$(".accept").data('state', state);
+
+})
+
 
 document.addEventListener('DOMContentLoaded', function () {
 	
@@ -117,7 +134,7 @@ function formatDecimalToTime(value) {
 }
 
 function formatTooltipValue(value) {
-    return value - 10; // 툴팁에서는 원래 값으로 표시
+    return value - 10; 
 }
 
 function scaleData(value) {
@@ -255,3 +272,126 @@ function updateChart(chart, weekData) {
     
     chart.update();
 }
+
+var fileNo = 0;
+var filesArr = new Array();
+
+/* 첨부파일 추가 */
+function addFile(obj){
+    var maxFileCnt = 5;   // 첨부파일 최대 개수
+    var attFileCnt = document.querySelectorAll('.filebox').length;    // 기존 추가된 첨부파일 개수
+    var remainFileCnt = maxFileCnt - attFileCnt;    // 추가로 첨부가능한 개수
+    var curFileCnt = obj.files.length;  // 현재 선택된 첨부파일 개수
+
+    // 첨부파일 개수 확인
+    if (curFileCnt > remainFileCnt) {
+        alert("첨부파일은 최대 " + maxFileCnt + "개 까지 첨부 가능합니다.");
+    }
+
+    for (var i = 0; i < Math.min(curFileCnt, remainFileCnt); i++) {
+
+        const file = obj.files[i];
+
+        // 첨부파일 검증
+        if (validation(file)) {
+            // 파일 배열에 담기
+            var reader = new FileReader();
+            reader.onload = function () {
+                filesArr.push(file);
+            };
+            reader.readAsDataURL(file)
+
+            // 목록 추가
+            let htmlData = '';
+            htmlData += '<div id="file' + fileNo + '" class="filebox">';
+            htmlData += '   <p class="name">' + file.name + '</p>';
+            htmlData += '   <a class="delete" onclick="deleteFile(' + fileNo + ');"><i class="far fa-minus-square"></i></a>';
+            htmlData += '</div>';
+            $('.file-list').append(htmlData);
+            fileNo++;
+        } else {
+            continue;
+        }
+    }
+    // 초기화
+    document.querySelector("input[type=file]").value = "";
+}
+
+/* 첨부파일 검증 */
+function validation(obj){
+    const fileTypes = ['application/pdf', 'image/gif', 'image/jpeg', 'image/png', 'image/bmp', 'image/tif', 'application/haansofthwp', 'application/x-hwp'];
+    if (obj.name.length > 100) {
+        alert("파일명이 100자 이상인 파일은 제외되었습니다.");
+        return false;
+    } else if (obj.size > (100 * 1024 * 1024)) {
+        alert("최대 파일 용량인 100MB를 초과한 파일은 제외되었습니다.");
+        return false;
+    } else if (obj.name.lastIndexOf('.') == -1) {
+        alert("확장자가 없는 파일은 제외되었습니다.");
+        return false;
+    } else if (!fileTypes.includes(obj.type)) {
+        alert("첨부가 불가능한 파일은 제외되었습니다.");
+        return false;
+    } else {
+        return true;
+    }
+}
+
+/* 첨부파일 삭제 */
+function deleteFile(num) {
+    document.querySelector("#file" + num).remove();
+    filesArr[num].is_delete = true;
+}
+
+
+/* 폼 전송 */
+function submitForm(e) {
+	e.preventDefault();
+	let state = $('.accept').data('state');
+	
+	console.log(state);
+    // 폼데이터 담기
+    let form = document.querySelector(".reason-report");
+    let formData = new FormData(form);
+    let newFormData = new FormData();
+    
+    newFormData.append("state", state);
+    for (var i = 0; i < filesArr.length; i++) {
+        // 삭제되지 않은 파일만 폼데이터에 담기
+        if (!filesArr[i].is_delete) {
+            newFormData.append("attachFiles", filesArr[i]);
+        }
+    }
+    
+    for( let[key, value] of formData.entries()){
+    	if(key !== "formFile")
+    		newFormData.append(key, value);
+    }
+    
+    for (let [key, value] of newFormData.entries()) {
+        console.log(key, value); // 각 키와 값이 출력됩니다.
+    }
+    
+    $.ajax({
+        method: 'POST',
+        url: contextPath + '/atd/reasonRequest',
+        dataType: 'json', 
+        processData: false,
+        contentType: false,
+        data: newFormData,
+        success: function (data) {
+        	if(data)
+        		alert("성공");
+        	else 
+        		alert("이미 제출한 사유서 입니다.");
+        	
+        },
+        error: function (xhr, desc, err) {
+            alert('에러가 발생 하였습니다.');
+            return;
+        }
+    })
+}
+
+
+

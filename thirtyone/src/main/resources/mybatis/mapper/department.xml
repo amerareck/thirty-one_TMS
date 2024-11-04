@@ -83,4 +83,10 @@
 		from departments
 		where dept_id != 999
 	</select>
+	
+	<select id="selectDept" parameterType="int">
+		select dept_id, dept_name, emp_id, regional_office
+		from departments
+		where dept_id = #{deptId}
+	</select>
 </mapper>

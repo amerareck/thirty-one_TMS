@@ -13,6 +13,7 @@
 		<typeAlias type="com.oti.thirtyone.dto.NoticeFileDto" alias="NoticeFile"/>
 		<typeAlias type="com.oti.thirtyone.dto.Departments" alias="Department"/>
 		<typeAlias type="com.oti.thirtyone.dto.AttendanceDto" alias="Attendance"/>
+		<typeAlias type="com.oti.thirtyone.dto.ReasonDto" alias="Reason"/>
 		<typeAlias type="com.oti.thirtyone.dto.PositionsDto" alias="Position"/>
 		<typeAlias type="com.oti.thirtyone.dto.ApprovalDTO" alias="Approval"/>
 		<typeAlias type="com.oti.thirtyone.dto.DocumentApprovalLineDTO" alias="DocApprovalLine"/>
