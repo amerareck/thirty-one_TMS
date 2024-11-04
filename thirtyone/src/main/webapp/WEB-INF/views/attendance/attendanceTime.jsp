@@ -3,6 +3,7 @@
     
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/attendance/attendanceTime.css" />
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     
 <%@ include file="/WEB-INF/views/common/header.jsp"%>
 <div class="content-box">
@@ -41,6 +42,47 @@
 		  </tbody>
 		</table>
 
+<div class="modal fade" id="atdRequestModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+  			<div class="dept-move card">
+				<p class="mini-title">사유서</p>
+				<div class="mini-line"></div>
+				<form class="reason-report">
+					<div>
+						<label for="empName">이름</label>
+						<input type="text" class="form-control" id="empName" value="${emp.empName}" disabled>
+					</div>
+					<div>
+						<label for="empDept">부서</label>
+						<input type="text" class="form-control" id="empDept" value="${deptName }" disabled>
+					</div>
+					<div>
+						<label for="checkIn">출근 시간</label>
+						<input type="datetime" class="form-control" name="checkIn" id="checkIn" readonly>
+					</div>
+					<div>
+						<label for="checkOut">퇴근 시간</label>
+						<input type="datetime" class="form-control" id="checkOut" name="checkOut" disabled>
+					</div>
+					<div>
+					  <label for="formFile" class="form-label">첨부 파일</label>
+					  <input class="form-control" onchange="addFile(this);" type="file" id="formFile" name="formFile" multiple>
+					</div>
+					<div class="file-list"></div>
+					<div>
+					  <label for="reason" class="form-label reason">사유</label>
+					  <textarea class="form-control" id="reason" name="reason" rows="6" placeholder="여기에 내용을 입력하세요"></textarea>
+					</div>
+					<div class="button-box">
+						<button class="button-large reject" data-bs-dismiss="modal" aria-label="Close">취소</button>
+						<button class="button-large accept" onclick="submitForm(event)">제출</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>

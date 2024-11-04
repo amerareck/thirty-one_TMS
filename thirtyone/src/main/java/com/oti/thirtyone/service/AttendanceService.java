@@ -200,21 +200,18 @@ public class AttendanceService {
 	}
 	public List<Date> getWeeklyDate(String monday, String sunday) throws ParseException{	        
         
-        // 문자열을 Date로 변환
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Date startDate = dateFormat.parse(monday);
         Date endDate = dateFormat.parse(sunday);
         
-        // 날짜 범위를 저장할 리스트
         List<Date> dateList = new ArrayList<>();
         
-        // 시작 날짜부터 끝 날짜까지 반복하며 리스트에 추가
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(startDate);
 
         while (!calendar.getTime().after(endDate)) {
-            dateList.add(calendar.getTime()); // 현재 날짜를 리스트에 추가
-            calendar.add(Calendar.DATE, 1); // 하루씩 증가
+            dateList.add(calendar.getTime()); 
+            calendar.add(Calendar.DATE, 1);
         }
         
         return dateList;
@@ -289,6 +286,11 @@ public class AttendanceService {
 		dataList.put("weeklyData", weeklyDate);
 		
 		return dataList;
+	}
+
+	public AttendanceDto getAtdInfoOneDay(String empId, String day) {
+		return atdDao.selectAtdOneDay(empId, day);
+		
 	}
 	
 	

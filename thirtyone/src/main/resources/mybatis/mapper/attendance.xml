@@ -7,6 +7,7 @@
 		from attendances
 		where TO_CHAR(atd_date, 'YY/MM/DD') = TO_CHAR(sysdate, 'YY/MM/DD') and emp_id = #{empId}
 	</select>
+	
 	<insert id="insertCheckIn" parameterType="String">
 		insert into attendances
 			(atd_date, emp_id, check_in, atd_state, atd_standard_time)
@@ -14,6 +15,7 @@
 			(sysdate, #{empId}, sysdate, '정상출근', 8)
 			
 	</insert>
+	
 	<update id="updateCheckOut" parameterType="String">
 		update attendances set check_out = sysdate
 		where TO_CHAR(atd_date, 'YY/MM/DD') = TO_CHAR(sysdate, 'YY/MM/DD') and emp_id = #{empId}
@@ -39,9 +41,16 @@
 		from attendances
 		where to_char(atd_date, 'yyyy/MM') = #{month} and emp_id=#{empId}
 	</select>
+	
 	<select id="selectAtdWeekly" resultType="Attendance">
 		select atd_date, emp_id, check_in, check_out, atd_state, atd_standard_time, atd_over_time, atd_approved_time
 		from attendances
 		where atd_date between TO_DATE(#{monday}, 'yyyy/MM/DD') and TO_DATE(#{sunday}, 'yyyy/MM/DD') and emp_id=#{empId}
+	</select>
+	
+	<select id="selectAtdOneDay" resultType="Attendance">
+		select atd_date, emp_id, check_in, check_out, atd_state, atd_standard_time, atd_over_time, atd_approved_time
+		from attendances
+		where to_char(atd_date, 'yyyy-mm-dd') = #{day} and emp_id=#{empId}
 	</select>
 </mapper>

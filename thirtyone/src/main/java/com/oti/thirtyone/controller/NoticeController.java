@@ -59,7 +59,7 @@ public class NoticeController {
 			session.setAttribute("pager", pager);
 
 			List<NoticeDto> notice = noticeService.selectListPager(pager);
-			log.info(notice.toString());
+//			log.info(notice.toString());
 
 			model.addAttribute("title", "공지사항");
 			model.addAttribute("notice", notice);
@@ -171,7 +171,7 @@ public class NoticeController {
 		dbNotice.setNoticeDate(notice.getNoticeDate());
 		dbNotice.setNoticeImportant(notice.getNoticeImportant());
 		dbNotice.setNoticeAllTarget(notice.getNoticeAllTarget());
-		log.info(notice.toString());
+//		log.info(notice.toString());
 
 		noticeService.noticeWrite(dbNotice);
 
@@ -192,12 +192,12 @@ public class NoticeController {
 				dbFile.setNoticeFileType(mf.getContentType());
 				dbFile.setNoticeFileId(1);
 				dbFile.setNoticeId(dbNotice.getNoticeId());
-				log.info(dbFile.toString());
+//				log.info(dbFile.toString());
 				noticeService.insertNoticeFile(dbFile);
 			}
 		}
-		log.info(notice.toString());
-		log.info("하이루");
+//		log.info(notice.toString());
+//		log.info("하이루");
 
 		model.addAttribute("employees", employees);
 		model.addAttribute("noticeDto", noticeDto);

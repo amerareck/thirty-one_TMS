@@ -33,4 +33,6 @@ public interface DepartmentDao {
 
 	int countRows();
 
+	Departments selectDept(int deptId);
+
 }
