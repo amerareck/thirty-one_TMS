@@ -25,56 +25,18 @@
     		</tr>
     	</c:if>
     	<c:forEach items="${empAPL}" var="aplRows">
-			<tr class="align-middle text-center">
+			<tr class="align-middle text-center aprLineIndex" data-aprLineIndex="${aplRows.aprLineIndex}">
 	            <th scope="row">
 	                <span class="text-custom-grey">${aplRows.aprLineName}</span>
 	            </th>
 	            <td>
 	            	<div class="d-flex align-items-center justify-content-center">
-	                 <button type="button" class="btn btn-dark btn-sm btn-custom-grey me-1">조회</button>
-	                 <button type="button" class="btn btn-secondary btn-sm btn-custom-lightgrey">삭제</button>
+		                 <button type="button" class="btn btn-dark btn-sm btn-custom-grey me-1 callApprovalLine">조회</button>
+		                 <button type="button" class="btn btn-secondary btn-sm btn-custom-lightgrey removeApprovalLine">삭제</button>
 	            	</div>
 	            </td>
-	            <td class="d-none aprLineIndex">${aplRows.aprLineIndex}</td>
         	</tr>
     	</c:forEach>
-    	<%-- 
-        <tr class="align-middle text-center">
-            <th scope="row">
-                <span class="text-custom-grey">기본결재선1</span>
-                <button type="button" class="btn btn-custom-sm w-100">
-                </button>
-            </th>
-            <td>
-            	<div class="d-flex align-items-center justify-content-center">
-                 <button type="button" class="btn btn-dark btn-sm btn-custom-grey me-1">조회</button>
-                 <button type="button" class="btn btn-secondary btn-sm btn-custom-lightgrey">삭제</button>
-            	</div>
-            </td>
-        </tr>
-        <tr class="align-middle text-center">
-            <th scope="row">
-                <span class="text-custom-grey">기본결재선2</span>
-            </th>
-            <td>
-            	<div class="d-flex align-items-center justify-content-center">
-                 <button type="button" class="btn btn-dark btn-sm btn-custom-grey me-1">조회</button>
-                 <button type="button" class="btn btn-secondary btn-sm btn-custom-lightgrey">삭제</button>
-            	</div>
-            </td>
-        </tr>
-        <tr class="align-middle text-center">
-            <th scope="row">
-                <span class="text-custom-grey">기본결재선3</span>
-            </th>
-            <td>
-            	<div class="d-flex align-items-center justify-content-center">
-                 <button type="button" class="btn btn-dark btn-sm btn-custom-grey me-1">조회</button>
-                 <button type="button" class="btn btn-secondary btn-sm btn-custom-lightgrey">삭제</button>
-            	</div>
-            </td>
-        </tr>
-        --%>
     </tbody>
 </table>
 <nav class="w-100" style="align-self: flex-end;">

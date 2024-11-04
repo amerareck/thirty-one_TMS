@@ -39,51 +39,21 @@
         <label for="approval-line" class="form-label fw-bold">결재 라인 북마크 설정</label>
    	</div>
    	
-	<div class="p-2 mt-2" aria-describedby="approvalLineFormValidation">
+	<div class="p-2 mt-2" id="aplFormContainer" aria-describedby="approvalLineFormValidation">
 		<div class="d-flex justify-content-center align-items-center mb-2" >
             <div class="input-group w-100" style="height: 85%">
                 <input type="text" class="form-control d-flex align-items-center font-size-small " id="approvalLineSettingNameForm" style="height: 33.33px !important;" placeholder="결재선 이름" aria-label="결재 라인 생성">
-                <button class="btn btn-light d-flex align-items-center font-size-small" id="approvalLineSettingSaveBtn" style="border-color: #dee2e6; height: 33.33px !important;" type="button">저장</button>
-                <button class="btn btn-light d-flex align-items-center font-size-small" style="border-color: #dee2e6; height: 33.33px !important;" type="button">삭제</button>
+                <button class="btn btn-light d-flex align-items-center font-size-small" id="approvalLineSettingSaveBtn" style="border-color: #dee2e6; height: 33.33px !important;" type="button">생성</button>
+                <button class="btn btn-light d-flex align-items-center font-size-small" id="approvalLineSettingUpdateBtn" style="border-color: #dee2e6; height: 33.33px !important;" type="button">수정</button>
+                <button class="btn btn-light d-flex align-items-center font-size-small removeApprovalLine" style="border-color: #dee2e6; height: 33.33px !important;" type="button">삭제</button>
             </div>
         </div>
         <div class="approval-line-container d-flex flex-column justify-content-start align-items-center h-auto" id="approvalLineBox">
-            <div class="approval-line-item" data-deptId="111" data-empid="jjh5285" data-seq="0" style="width: 85%">
-                <div>
-                    <i class="fas fa-user pe-2"></i> <b class="apl-emp-name">정준하</b> <b class="apl-emp-position">과장</b>
-                </div>
-                <div>
-                    <button class="btn btn-sm btn-outline-secondary line-handler-btn btn-line-up" ><i class="fas fa-arrow-up"></i></button>
-                    <button class="btn btn-sm btn-outline-secondary line-handler-btn btn-line-down" ><i class="fas fa-arrow-down"></i></button>
-                    <button class="btn btn-sm btn-outline-danger line-handler-btn btn-line-remove" ><i class="fas fa-times"></i></button>
-                </div>
-            </div>
-            <div class="approval-line-item" data-deptId="111" data-empid="pms1542" data-seq="1" style="width: 85%">
-                <div>
-                    <i class="fas fa-user pe-2"></i> <b class="apl-emp-name">박명수</b> <b class="apl-emp-position">차장</b>
-                </div>
-                <div>
-                    <button class="btn btn-sm btn-outline-secondary line-handler-btn btn-line-up" ><i class="fas fa-arrow-up"></i></button>
-                    <button class="btn btn-sm btn-outline-secondary line-handler-btn btn-line-down" ><i class="fas fa-arrow-down"></i></button>
-                    <button class="btn btn-sm btn-outline-danger line-handler-btn btn-line-remove" ><i class="fas fa-times"></i></button>
-                </div>
-            </div>
-            <div class="approval-line-item" data-deptId="111" data-empid="yjs012" data-seq="2" style="width: 85%">
-                <div>
-                    <i class="fas fa-user pe-2"></i> <b class="apl-emp-name">유재석</b> <b class="apl-emp-position">부장</b>
-                </div>
-                <div>
-                    <button class="btn btn-sm btn-outline-secondary line-handler-btn btn-line-up" ><i class="fas fa-arrow-up"></i></button>
-                    <button class="btn btn-sm btn-outline-secondary line-handler-btn btn-line-down" ><i class="fas fa-arrow-down"></i></button>
-                    <button class="btn btn-sm btn-outline-danger line-handler-btn btn-line-remove" ><i class="fas fa-times"></i></button>
-                </div>
-            </div>
+            <%-- 결재선 box --%>
         </div>
-        <%--
         <div class="d-flex justify-content-end my-2" style="margin-left: 10px;" >
-  			<button type="button" class="btn btn-secondary btn-sm mb-2" style="background-color: #5A5A5A;" >저장</button>
+  			<button type="button" id="approvalLineClearBtn" class="btn btn-secondary btn-sm mb-2" style="background-color: #5A5A5A;" >Reset</button>
 		</div>
-        --%>
 	</div>
 	<div id="approvalLineFormValidation" class="form-text m-0 px-2"></div>
 </div>

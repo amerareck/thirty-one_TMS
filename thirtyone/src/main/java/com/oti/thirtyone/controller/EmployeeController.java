@@ -257,7 +257,11 @@ public class EmployeeController {
 			return;
 		}
 		
-		empService.setApprovalLine(aplForm);
+		if(aplForm.get(0).getHandler().equals("save")) {
+			empService.setApprovalLine(aplForm);
+		} else {
+			empService.updateApprovalLine(aplForm);
+		}
 		
 		JSONObject json = new JSONObject();
 		json.put("status", "ok");
@@ -269,4 +273,47 @@ public class EmployeeController {
 		pw.close();
 	}
 	
+	@GetMapping(value="getEmpApprovalLine", produces = "application/json; charset=UTF-8")
+	public void getEmpApprovalLine(EmpApprovalLineDTO dto, Authentication auth, HttpServletResponse res) {
+		log.info("실행");
+		
+		dto.setEmpId(auth.getName());
+		List<EmpApprovalLineDTO> list = empService.getApprovalLineListByIndex(dto);
+		list.forEach(item -> {
+			EmployeesDto approverInfo = empService.getEmpInfo(item.getAprLineApprover());
+			item.setApproverDeptId(approverInfo.getDeptId());
+			item.setEmpName(approverInfo.getEmpName());
+			item.setPosition(approverInfo.getPosition());
+		});
+		
+		JSONObject json = new JSONObject();
+		json.put("list", list);
+		try(PrintWriter pw = res.getWriter()) {
+			res.setContentType("application/json; charset=UTF-8");
+			res.setCharacterEncoding("UTF-8");
+			pw.println(json.toString());
+			pw.flush();
+		} catch(IOException ioex) {
+			ioex.printStackTrace();
+		}
+	}
+	
+	@PostMapping("deleteEmpApl")
+	public void deleteEmpApprovalLine(EmpApprovalLineDTO dto, Authentication auth, HttpServletResponse res) {
+		log.info("실행");
+		
+		dto.setEmpId(auth.getName());
+		empService.removeEmpApprovalLine(dto);
+		
+		JSONObject json = new JSONObject();
+		json.put("status", "ok");
+		try(PrintWriter pw = res.getWriter()) {
+			res.setContentType("application/json; charset=UTF-8");
+			res.setCharacterEncoding("UTF-8");
+			pw.println(json.toString());
+			pw.flush();
+		} catch(IOException ioex) {
+			ioex.printStackTrace();
+		}
+	}
 }

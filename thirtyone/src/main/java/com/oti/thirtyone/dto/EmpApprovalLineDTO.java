@@ -16,4 +16,8 @@ public class EmpApprovalLineDTO {
 	
 	private EmployeesDto aplLineApproverDTO; // 결재자 정보
 	private PositionsDto positionDTO; // 결재자 직위 정보
+	
+	private String handler; // ajax 핸들러
+	private String keyword; // ajax 검색 키워드
+	private int pageNo; // 페이지 번호
 }

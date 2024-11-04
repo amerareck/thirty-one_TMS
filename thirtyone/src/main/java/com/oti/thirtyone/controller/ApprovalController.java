@@ -30,6 +30,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.oti.thirtyone.dto.ApprovalDTO;
 import com.oti.thirtyone.dto.DocumentApprovalLineDTO;
 import com.oti.thirtyone.dto.DocumentReferenceDTO;
@@ -425,5 +427,71 @@ public class ApprovalController {
 		pw.println(json.toString());
 		pw.flush();
 		pw.close();
+	}
+	
+	@GetMapping("/getApprovalLineList")
+	public String getApprovalLineList(int pageNo, Authentication auth, Model model) {
+		log.info("실행");
+		Pager pager = new Pager(3, 5, empService.getApprovalLineCount(auth.getName()), pageNo);
+		pager.setEmpId(auth.getName());
+		model.addAttribute("pager", pager);
+		
+		List<EmpApprovalLineDTO> empAPL = empService.getApprovalLineListByPager(pager);
+		model.addAttribute("empAPL", empAPL);
+		
+		return "approval/approvalSettingsLineList";
+	}
+	
+	@GetMapping("/getApprovalLineListJson")
+	public void getApprovalLineListJson(EmpApprovalLineDTO dto, Authentication auth, HttpServletResponse res) throws JsonProcessingException {
+		log.info("실행");
+		Pager pager = new Pager(3, 5, empService.getApprovalLineCount(auth.getName()), dto.getPageNo());
+		pager.setEmpId(auth.getName());
+		
+		JSONObject json = new JSONObject();
+		ObjectMapper mapper = new ObjectMapper();
+		String pagerJson = mapper.writeValueAsString(pager);
+		json.put("pager", pagerJson);
+		
+		List<EmpApprovalLineDTO> resultList = empService.getApprovalLineListByPager(pager);
+		json.put("resultList", resultList);
+		
+		res.setContentType("application/json; charset=UTF-8");
+		res.setCharacterEncoding("UTF-8");
+		try(PrintWriter pw = res.getWriter()) {
+			pw.println(json.toString());
+			pw.flush();
+		} catch(IOException ioex) {
+			ioex.printStackTrace();
+		}
+	}
+	
+	@GetMapping("/searchApprovalLine")
+	public void searchApprovalLine(EmpApprovalLineDTO dto, Authentication auth, HttpServletResponse res) throws JsonProcessingException {
+		log.info("실행");
+		dto.setEmpId(auth.getName());
+		log.info(dto.toString());
+		Pager pager = new Pager(3, 5, empService.getSearchApprovalLineCount(dto), dto.getPageNo());
+		pager.setKeyword(dto.getKeyword());
+		pager.setEmpId(auth.getName());
+		
+		List<EmpApprovalLineDTO> resultList = empService.getSearchApprovalLineList(pager);
+		
+		JSONObject json = new JSONObject();
+		json.put("resultList", resultList);
+		//json.put("pager", pager);
+		
+		ObjectMapper mapper = new ObjectMapper();
+		String pagerJson = mapper.writeValueAsString(pager);
+		json.put("pager", pagerJson);
+		
+		res.setContentType("application/json; charset=UTF-8");
+		res.setCharacterEncoding("UTF-8");
+		try(PrintWriter pw = res.getWriter()) {
+			pw.println(json.toString());
+			pw.flush();
+		} catch(IOException ioex) {
+			ioex.printStackTrace();
+		}
 	}
 }

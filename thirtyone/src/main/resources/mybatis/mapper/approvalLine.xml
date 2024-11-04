@@ -35,21 +35,18 @@
 		]]>
 	</insert>
 	
-	<update id="updateApprovalLine" parameterType="EmpApprovalLine">
+	<delete id="deleteApprovalLine" parameterType="EmpApprovalLine">
 		<![CDATA[
-			UPDATE APPROVAL_LINE
-			SET apr_line_name = #{aprLineName}, -- 결재선 북마크 이름
-				apr_line_seq = #{aprLineSeq}, -- 결재자 순번
-				apr_line_approver = #{aprLineApprover} -- 결재자 ID
-			WHERE 
-				emp_id = #{empId} -- 결재선 소유자 id
-			END apr_line_index = #{aprLineIndex} -- 결재선 인덱스
+			DELETE FROM APPROVAL_LINE
+			WHERE
+				APR_LINE_INDEX = #{aprLineIndex}
+			AND EMP_ID = #{empId}
 		]]>
-	</update>
+	</delete>
 	
 	<select id="selectApprovalLineIndexbyName" parameterType="EmpApprovalLine" resultType="EmpApprovalLine">
 		<![CDATA[
-			SELECT DISTINCT APPROVAL_LINE_INDEX
+			SELECT DISTINCT apr_line_index
 			FROM APPROVAL_LINE
 			WHERE
 				APR_LINE_NAME = #{aprLineName}
@@ -71,26 +68,6 @@
 			AND apr_line_name = #{aprLineName},
 			AND apr_line_index <= #{aprLineIndex}
 			ORDER BY apr_line_seq
-		]]>
-	</select>
-	
-	<delete id="deleteApprovalLine" parameterType="EmpApprovalLine">
-		<![CDATA[
-			DELETE FROM APPROVAL_LINE
-			WHERE
-				emp_id = #{empId} -- 결재선 소유자 id
-			END apr_line_name = #{aprLineName} -- 결재선 이름
-			END apr_line_index = #{aprLineIndex} -- 결재선 인덱스
-		]]>
-	</delete>
-	
-	<select id="selectApprovalLineName" parameterType="EmpApprovalLine" resultType="EmpApprovalLine">
-		<![CDATA[
-			SELECT DISTINCT APR_LINE_NAME
-			FROM APPROVAL_LINE
-			WHERE 
-				emp_id = #{empId}
-			AND apr_line_name = #{aprLineName}
 		]]>
 	</select>
 	
@@ -121,7 +98,7 @@
                 SELECT
                     APR_LINE_NAME,
                     APR_LINE_INDEX,
-                    ROW_NUMBER() OVER (ORDER BY APR_LINE_INDEX) AS rn
+                    ROW_NUMBER() OVER (ORDER BY APR_LINE_INDEX DESC) AS rn
                 FROM ApprovalList
             )
 			SELECT
@@ -129,7 +106,6 @@
 		        APR_LINE_INDEX
 			FROM TARGET_LIST
 			WHERE rn BETWEEN #{startRowNo} AND #{endRowNo}
-			ORDER BY APR_LINE_INDEX
 		]]>
 	</select>
 	
@@ -155,6 +131,58 @@
 			WHERE
 				emp_id = #{empId}
 			AND apr_line_name = #{aprLineName}
+		]]>
+	</select>
+	
+	<select id="selectApprovalLineListByIndex" parameterType="EmpApprovalLine" resultType="EmpApprovalLine" >
+		<![CDATA[
+			SELECT 
+				apr_line_name,
+				apr_line_seq,
+				emp_id,
+				apr_line_approver,
+				apr_line_index
+			FROM APPROVAL_LINE
+			WHERE 
+				apr_line_name = #{aprLineName}
+			AND apr_line_index = #{aprLineIndex}
+		]]>
+	</select>
+	
+	<select id="selectApprovalLineCountByKeyword" parameterType="EmpApprovalLine" resultType="int">
+		<![CDATA[
+			SELECT
+				COUNT(DISTINCT apr_line_name)
+			FROM APPROVAL_LINE
+			WHERE
+				apr_line_name LIKE '%${keyword}%'
+			AND emp_id = #{empId}
+		]]>
+	</select>
+	
+	<select id="selectApprovalLineListByKeyword" parameterType="Pager" resultType="EmpApprovalLine">
+		<![CDATA[
+			WITH ApprovalList AS (
+				SELECT
+					DISTINCT apr_line_name,
+					apr_line_index
+				FROM APPROVAL_LINE
+				WHERE
+					apr_line_name LIKE '%${keyword}%'
+				AND emp_id = #{empId}
+			),
+			TARGET_LIST AS (
+                SELECT
+                    APR_LINE_NAME,
+                    APR_LINE_INDEX,
+                    ROW_NUMBER() OVER (ORDER BY APR_LINE_INDEX DESC) AS rn
+                FROM ApprovalList
+            )
+            SELECT
+                APR_LINE_NAME,
+		        APR_LINE_INDEX
+			FROM TARGET_LIST
+			WHERE rn BETWEEN #{startRowNo} AND #{endRowNo}
 		]]>
 	</select>
 </mapper>

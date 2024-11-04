@@ -16,13 +16,9 @@ public interface ApprovalLineDAO {
 
 	int selectCountApprovalLine(EmpApprovalLineDTO item);
 
-	int updateApprovalLine(EmpApprovalLineDTO item);
-
 	int deleteApprovalLine(EmpApprovalLineDTO item);
 
 	List<EmpApprovalLineDTO> selectApprovalLineByIdx(EmpApprovalLineDTO item);
-
-	EmpApprovalLineDTO selectApprovalLineName(EmpApprovalLineDTO dto);
 
 	List<EmpApprovalLineDTO> selectAllApprovalLineByEmpId(String userId);
 
@@ -33,5 +29,11 @@ public interface ApprovalLineDAO {
 	int selectApprovalLineCountById(EmpApprovalLineDTO empApprovalLineDTO);
 
 	EmpApprovalLineDTO selectApprovalLineIndexbyName(EmpApprovalLineDTO empApprovalLineDTO);
+
+	List<EmpApprovalLineDTO> selectApprovalLineListByIndex(EmpApprovalLineDTO dto);
+
+	int selectApprovalLineCountByKeyword(EmpApprovalLineDTO dto);
+
+	List<EmpApprovalLineDTO> selectApprovalLineListByKeyword(Pager pager);
 
 }

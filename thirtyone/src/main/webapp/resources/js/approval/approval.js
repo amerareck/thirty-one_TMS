@@ -115,6 +115,7 @@ $('#approvalLineEmpSelect').on('click', function(){
         selectedValues.push($(this).val());
         selectedTexts.push($(this).text());
     });
+    let aplLineSeq = $('.approval-line-item').length;
     
     if($('#approvalLineBox .approval-line-item').length + selectedOptions.length > 5) {
     	alert('결재자는 5인을 초과할 수 없습니다.');
@@ -125,8 +126,9 @@ $('#approvalLineEmpSelect').on('click', function(){
     	let name = selectedTexts[i].split(" ")[0];
     	let position = selectedTexts[i].split(" ")[1];
     	let empid= selectedValues[i];
+    	aplLineSeq = aplLineSeq + i;
     	approvalLines += `
-    	<div class="approval-line-item" data-deptId="${selectedDept}" data-empId="${empid}" style="width: 85%">
+    	<div class="approval-line-item" data-deptId="${selectedDept}" data-empId="${empid}" data-seq="${aplLineSeq}" style="width: 85%">
             <div>
                 <i class="fas fa-user pe-2"></i> <b class="apl-emp-name">${name}</b> <b class="apl-emp-position">${position}</b>
             </div>
@@ -144,18 +146,31 @@ $('#approvalLineEmpSelect').on('click', function(){
 $('#approvalLineBox').on('click', '.btn-line-up', function(e){
 	e.stopPropagation();
 	const target = $(this).closest('.approval-line-item');
+	const temp = target.attr('data-seq');
+	target.attr('data-seq', target.prev().attr('data-seq'));
+	target.prev().attr('data-seq', temp);
 	target.insertBefore(target.prev());
 });
 
 $('#approvalLineBox').on('click', '.btn-line-down', function(e){
 	e.stopPropagation();
 	const target = $(this).closest('.approval-line-item');
+	const temp = target.attr('data-seq');
+	target.attr('data-seq', target.next().attr('data-seq'));
+	target.next().attr('data-seq', temp);
 	target.insertAfter(target.next());
 });
 
 $('#approvalLineBox').on('click', '.btn-line-remove', function(e){
-	e.stopPropagation();
-	const target = $(this).closest('.approval-line-item');
+    e.stopPropagation();
+    const target = $(this).closest('.approval-line-item');
+    let nowNode = target.next();
+    
+    while (nowNode.length != 0) {
+        let currentSeq = parseInt(nowNode.attr('data-seq'));
+        nowNode.attr('data-seq', currentSeq - 1);
+        nowNode = nowNode.next();
+    }
 	target.remove();
 });
 

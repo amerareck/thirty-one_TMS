@@ -127,53 +127,22 @@ public class EmployeesService {
 	public boolean setApprovalLine(List<EmpApprovalLineDTO> aplForm) {
 		if(aplForm == null || aplForm.isEmpty()) return false;
 		
-		if (isApprovalLineName(aplForm.get(0))) {
-			return updateApprovalLine(aplForm);
-		} else {
-			for (EmpApprovalLineDTO item : aplForm) {
-		        if (empApprovalLineDAO.insertNewApprovalLine(item) != 1) {
-		            return false;
-		        }
-		    }
-		}
-	    
+		for (EmpApprovalLineDTO item : aplForm) {
+	        if (empApprovalLineDAO.insertNewApprovalLine(item) != 1) {
+	            return false;
+	        }
+	    }
 	    return true;
-	}
-	
-	public boolean isApprovalLineName(EmpApprovalLineDTO dto) {
-		return empApprovalLineDAO.selectApprovalLineName(dto) != null;
 	}
 	
 	public boolean updateApprovalLine(List<EmpApprovalLineDTO> aplForm) {
 		if(aplForm == null || aplForm.isEmpty()) return false;
 		
-		int len = empApprovalLineDAO.selectApprovalLineCountById(aplForm.get(0));
-		if(aplForm.get(0).getAprLineIndex() == 0) {
-			EmpApprovalLineDTO index = empApprovalLineDAO.selectApprovalLineIndexbyName(aplForm.get(0));
-			aplForm.forEach(item -> item.setAprLineIndex(index.getAprLineIndex()));
+		empApprovalLineDAO.deleteApprovalLine(aplForm.get(0));
+		for(EmpApprovalLineDTO empAPL : aplForm) {
+			if(empApprovalLineDAO.insertApprovalLine(empAPL) != 1) return false;
 		}
-		if(aplForm.size() == len) {
-			for(EmpApprovalLineDTO item : aplForm) {
-				if(empApprovalLineDAO.updateApprovalLine(item) != 1) {
-					return false;
-				}
-			}
-		} else if(aplForm.size() > len) {
-			for(int i=0; i<len; i++) {
-				if(empApprovalLineDAO.updateApprovalLine(aplForm.get(i)) != 1) return false;
-			}
-			for(int i=len; i<aplForm.size(); i++) {
-				if(empApprovalLineDAO.insertApprovalLine(aplForm.get(i)) != 1) return false;
-			}
-		} else if(aplForm.size() < len) {
-			for(int i=0; i<aplForm.size(); i++) {
-				if(empApprovalLineDAO.updateApprovalLine(aplForm.get(i)) != 1) return false;
-			}
-			aplForm = empApprovalLineDAO.selectApprovalLineByIdx(aplForm.get(aplForm.size()-1));
-			for(int i=0; i<aplForm.size(); i++) {
-				if(empApprovalLineDAO.deleteApprovalLine(aplForm.get(i)) != 1) return false;
-			}
-		}
+		
 		return true;
 	}
 	
@@ -189,5 +158,21 @@ public class EmployeesService {
 		EmpApprovalLineDTO dto = new EmpApprovalLineDTO();
 		dto.setEmpId(name);
 		return empApprovalLineDAO.selectApprovalLineTotalCount(dto);
+	}
+
+	public List<EmpApprovalLineDTO> getApprovalLineListByIndex(EmpApprovalLineDTO dto) {
+		return empApprovalLineDAO.selectApprovalLineListByIndex(dto);
+	}
+
+	public boolean removeEmpApprovalLine(EmpApprovalLineDTO dto) {
+		return empApprovalLineDAO.deleteApprovalLine(dto) == 1;
+	}
+
+	public int getSearchApprovalLineCount(EmpApprovalLineDTO dto) {
+		return empApprovalLineDAO.selectApprovalLineCountByKeyword(dto);
+	}
+
+	public List<EmpApprovalLineDTO> getSearchApprovalLineList(Pager pager) {
+		return empApprovalLineDAO.selectApprovalLineListByKeyword(pager);
 	}
 }

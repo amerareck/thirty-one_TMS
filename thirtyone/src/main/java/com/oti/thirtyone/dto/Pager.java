@@ -19,6 +19,7 @@ public class Pager {
    private int endRowIndex;   //페이지의 마지막 행 인덱스
    
    private String empId; // 사용자 id
+   private String keyword; // 검색 키워드
 
    public Pager(int rowsPerPage, int pagesPerGroup, int totalRows, int pageNo) {
       this.rowsPerPage = rowsPerPage;
