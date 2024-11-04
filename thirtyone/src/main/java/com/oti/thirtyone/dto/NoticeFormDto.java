@@ -19,5 +19,6 @@ public class NoticeFormDto {
 	private String empId;
 	
 	private MultipartFile[] attachFile;
+	private int[] deptId;
 
 }

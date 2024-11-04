@@ -8,11 +8,15 @@
 			SELECT NOTICES_SEQ.NEXTVAL FROM DUAL
 		</selectKey>
 		INSERT INTO NOTICES(
-		NOTICE_ID, NOTICE_TITLE, NOTICE_CONTENT, NOTICE_DATE, NOTICE_HIT_COUNT,
-		NOTICE_IMPORTANT, NOTICE_ALL_TARGET, NOTICE_DELETED, EMP_ID)
+		NOTICE_ID, NOTICE_TITLE, NOTICE_CONTENT,
+		NOTICE_DATE, NOTICE_HIT_COUNT,
+		NOTICE_IMPORTANT, NOTICE_ALL_TARGET,
+		NOTICE_DELETED, EMP_ID)
 		VALUES(
-		#{noticeId}, #{noticeTitle}, #{noticeContent}, sysdate, 0,
-		#{noticeImportant}, #{noticeAllTarget}, #{noticeDeleted}, #{empId}
+		#{noticeId}, #{noticeTitle},
+		#{noticeContent}, sysdate, 0,
+		#{noticeImportant}, #{noticeAllTarget},
+		#{noticeDeleted}, #{empId}
 		)
 	</insert>
 
@@ -22,12 +26,15 @@
 			SELECT NOTICE_FILES_SEQ.NEXTVAL FROM DUAL
 		</selectKey>
 		INSERT INTO NOTICE_FILES (
-		NOTICE_FILE_ID, NOTICE_FILE_NAME, NOTICE_FILE_DATA, NOTICE_FILE_TYPE, NOTICE_ID)
+		NOTICE_FILE_ID, NOTICE_FILE_NAME,
+		NOTICE_FILE_DATA, NOTICE_FILE_TYPE, NOTICE_ID)
 		VALUES (
-		#{noticeFileId}, #{noticeFileName}, #{noticeFileData}, #{noticeFileType}, #{noticeId})
+		#{noticeFileId}, #{noticeFileName}, #{noticeFileData},
+		#{noticeFileType}, #{noticeId})
 	</insert>
-	
-	<select id="selectListPager" parameterType="Pager" resultType="Notice">
+
+	<select id="selectListPager" parameterType="Pager"
+		resultType="Notice">
 		<![CDATA[		
 			SELECT ROWNUM AS RNUM, NOTICE_ID, NOTICE_TITLE, NOTICE_DATE, NOTICE_HIT_COUNT, NOTICE_IMPORTANT, EMP_ID
 			FROM (
@@ -35,102 +42,145 @@
 				FROM (
 					SELECT NOTICE_ID, NOTICE_TITLE, NOTICE_DATE, NOTICE_HIT_COUNT, NOTICE_IMPORTANT, EMP_ID
 					FROM NOTICES
+					WHERE NOTICE_DELETED = 0
 			        ORDER BY (CASE WHEN NOTICE_IMPORTANT = '1' THEN 1 ELSE 2 END), NOTICE_ID DESC
 		        )
 				WHERE ROWNUM <= #{endRowNo}
 			)
 			WHERE RNUM >= #{startRowNo}	
 		
-		]]>		
+		]]>
 	</select>
-	
-	<select id="searchNotice" parameterType="String" resultType="Notice">
-		SELECT *
-		FROM NOTICES
-		WHERE NOTICE_TITLE LIKE '%'||#{noticeTitle}||'%'
-		ORDER BY (CASE WHEN NOTICE_IMPORTANT = '1' THEN 1 ELSE 2 END), NOTICE_ID DESC
+
+	<select id="searchNotice" parameterType="Map"
+		resultType="Notice">
+		<![CDATA[
+        SELECT * FROM (
+            SELECT ROWNUM AS RNUM, NOTICE_ID, NOTICE_TITLE, NOTICE_DATE, NOTICE_HIT_COUNT, NOTICE_IMPORTANT, EMP_ID
+            FROM (
+                SELECT NOTICE_ID, NOTICE_TITLE, NOTICE_DATE, NOTICE_HIT_COUNT, NOTICE_IMPORTANT, EMP_ID
+                FROM NOTICES
+                WHERE NOTICE_TITLE LIKE '%' || #{noticeTitle} || '%'
+                AND NOTICE_DELETED = 0
+                ORDER BY (CASE WHEN NOTICE_IMPORTANT = '1' THEN 1 ELSE 2 END), NOTICE_ID DESC
+            )
+            WHERE ROWNUM <= #{pager.endRowNo} 
+        )
+        WHERE RNUM >= #{pager.startRowNo}
+    	]]>
 	</select>
-	
+
+	<select id="searchCountRows" parameterType="String"
+		resultType="int">
+		SELECT COUNT (*) FROM NOTICES
+		WHERE NOTICE_TITLE LIKE
+		'%'||#{noticeTitle}||'%'
+	</select>
+
 	<select id="countRows" parameterType="int">
 		SELECT COUNT (*)
-		FROM NOTICES
+		FROM
+		NOTICES
 	</select>
-	
-	<select id="selectByNoticeId" parameterType="int" resultType="Notice">
+
+	<select id="selectByNoticeId" parameterType="int"
+		resultType="Notice">
 		SELECT * FROM NOTICES
-		WHERE NOTICE_ID = #{noticeId}	
+		WHERE NOTICE_ID = #{noticeId}
 	</select>
 
-	<select id="selectAttachByNoticeId" parameterType="int" resultType="NoticeFile">
+	<select id="selectAttachByNoticeId" parameterType="int"
+		resultType="NoticeFile">
 		SELECT * FROM NOTICE_FILES
-		WHERE NOTICE_FILE_ID = #{noticeFileId}	
+		WHERE NOTICE_FILE_ID =
+		#{noticeFileId}
 	</select>
 
-	<select id="selectAttachFiles" parameterType="int" resultType="NoticeFile">
+	<select id="selectAttachFiles" parameterType="int"
+		resultType="NoticeFile">
 		SELECT * FROM NOTICE_FILES
-		WHERE NOTICE_ID = #{noticeId}	
+		WHERE NOTICE_ID = #{noticeId}
 	</select>
-	
+
 	<select id="prevNext" resultType="Notice">
-		SELECT * FROM (SELECT NOTICE_ID, NOTICE_TITLE,
-		LAG(NOTICE_ID, 1, 0) OVER(ORDER BY NOTICE_ID) PREVNUM,
-		LAG(NOTICE_TITLE, 1, '이전글이 없습니다') OVER(ORDER BY NOTICE_ID) PREVTITLE,
-		
+		SELECT * FROM (SELECT
+		NOTICE_ID, NOTICE_TITLE,
+		LAG(NOTICE_ID, 1, 0) OVER(ORDER BY NOTICE_ID)
+		PREVNUM,
+		LAG(NOTICE_TITLE, 1, '이전글이 없습니다') OVER(ORDER BY NOTICE_ID)
+		PREVTITLE,
+
 		LEAD(NOTICE_ID, 1, 0) OVER(ORDER BY NOTICE_ID) NEXTNUM,
-		LEAD(NOTICE_TITLE, 1, '다음글이 없습니다') OVER(ORDER BY NOTICE_ID) NEXTTITLE
-		FROM NOTICES) WHERE NOTICE_ID=#{noticeId} ORDER BY NOTICE_ID
+		LEAD(NOTICE_TITLE, 1, '다음글이
+		없습니다') OVER(ORDER BY NOTICE_ID) NEXTTITLE
+		FROM NOTICES) WHERE
+		NOTICE_ID=#{noticeId} ORDER BY NOTICE_ID
 	</select>
-	
+
 	<update id="updateNotice" parameterType="Notice">
 		UPDATE NOTICES SET
-			NOTICE_TITLE = #{noticeTitle},
-			NOTICE_CONTENT = #{noticeContent},
-			NOTICE_DATE = sysdate,
-			NOTICE_IMPORTANT = #{noticeImportant},
-			NOTICE_ALL_TARGET = #{noticeAllTarget}		
+		NOTICE_TITLE = #{noticeTitle},
+		NOTICE_CONTENT = #{noticeContent},
+		NOTICE_DATE = sysdate,
+		NOTICE_IMPORTANT = #{noticeImportant},
+		NOTICE_ALL_TARGET = #{noticeAllTarget}
 		WHERE NOTICE_ID = #{noticeId}
 	</update>
-	
+
 	<update id="updateNoticeFile" parameterType="NoticeFile">
 		UPDATE NOTICE_FILES SET
-			<if test="noticeFileName != null">
-				NOTICE_FILE_NAME = #{noticeFileName},
-				NOTICE_FILE_TYPE = #{noticeFileType},
-				NOTICE_FILE_DATA = #{noticeFileData}
-			</if>
-		WHERE NOTICE_ID = #{noticeId}	
+		<if test="noticeFileName != null">
+			NOTICE_FILE_NAME = #{noticeFileName},
+			NOTICE_FILE_TYPE = #{noticeFileType},
+			NOTICE_FILE_DATA = #{noticeFileData}
+		</if>
+		WHERE NOTICE_ID = #{noticeId}
 	</update>
-	
+
 	<update id="updateHitCount" parameterType="int">
 		UPDATE NOTICES SET
-			NOTICE_HIT_COUNT = NOTICE_HIT_COUNT + 1
-		WHERE NOTICE_ID = #{noticeId}		
+		NOTICE_HIT_COUNT = NOTICE_HIT_COUNT + 1
+		WHERE NOTICE_ID = #{noticeId}
 	</update>
-	
-	<delete id="deleteNoticeFile" parameterType="int">
-		DELETE FROM NOTICE_FILES
+
+	<!-- <delete id="deleteNoticeFile" parameterType="int">
+		DELETE FROM
+		NOTICE_FILES
 		WHERE NOTICE_ID = #{noticeId}
 	</delete>
 
 	<delete id="deleteNotice" parameterType="int">
 		DELETE FROM NOTICES
-		WHERE NOTICE_ID = #{noticeId}	
-	</delete>
-	
-	<delete id="deleteFile" parameterType="int">
-		DELETE FROM NOTICE_FILES
+		WHERE NOTICE_ID = #{noticeId}
+	</delete> -->
+
+	<!-- 비활성 -->
+	<update id="deactivateNoticeById" parameterType="int">
+		UPDATE NOTICES SET NOTICE_DELETED = 1 
+		WHERE NOTICE_ID = #{noticeId}
+	</update>
+
+	<delete id="deleteFileFromDb" parameterType="int">
+		DELETE FROM
+		NOTICE_FILES
 		WHERE NOTICE_FILE_ID = #{noticeFileId}
 	</delete>
-	
+
 	<insert id="insertNoticeTarget" parameterType="Notice">
-	    <foreach collection="deptId" item="deptId" separator=";">
-	        INSERT INTO NOTICE_TARGET (NOTICE_ID, DEPT_ID)
-	        VALUES (#{noticeId}, #{deptId})
-	    </foreach>
+		INSERT ALL
+		<foreach collection="deptId" item="deptId" separator="">
+			INTO NOTICE_TARGET (
+			NOTICE_ID, DEPT_ID)
+			VALUES (
+			#{noticeId}, #{deptId}
+			)
+		</foreach>
+		SELECT 1 FROM dual
 	</insert>
-
-
-
-
-
+	
+	<update id="updateNoticeTarget" parameterType="Notice">
+		UPDATE NOTICES 
+		SET NOTICE_ALL_TARGET = 1
+		WHERE NOTICE_ID = #{noticeId}
+	</update>
 </mapper>

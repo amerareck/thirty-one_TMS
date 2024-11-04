@@ -21,13 +21,8 @@
 				<div class="text">써리원의 사내 공지사항을 조회합니다.</div>
 
 				<form action="searchNotice" method="GET">
-				<input type="hidden" id="deptId" value="${noticeDto.deptId}" name="deptId">
+				<input type="hidden" value="${pager.pageNo}" name="pageNo">
 					<div class="search">
-						<!-- <div id="choiceDay" class="flatpickr-input" readonly="readonly" value="연도-월-일">
-			<img src="/thirtyone/resources/image/calendar-icon.svg"></div> -->
-						<!-- <input type="date" id="date" min="1994-01-01" max="2077-12-31"
-				value="연도-월-일"> -->
-
 						<div class="searchBar">
 							<input type="text" placeholder=" 제목검색" id="enterkeySearch" value="${param.noticeTitle}"
 								name="noticeTitle" onkeyup="enterkeySearch()" autocomplete="off" >
@@ -88,37 +83,47 @@
 
 
 			<div class="pagination">
-				<a href="noticeList?pageNo=1"> <img
-					src="${pageContext.request.contextPath}/resources/image/prev_icon.png"
-					alt="prev" style="width: 110px">
-				</a>
-
-				<%-- <c:if test="${pager.groupNo>1}">
-					<a href="noticeList?pageNo=${pager.startPageNo-1}">이전</a>
-				</c:if> --%>
-
-				<c:forEach begin="${pager.startPageNo}" end="${pager.endPageNo}"
-					step="1" var="i">
-					<c:if test="${pager.pageNo==i}">
-						<button class="page-num active"
-							onclick="location.href='${pageContext.request.contextPath}/notice/noticeList?pageNo=${i}'"
-							style="color: #686868">${i}</button>
-					</c:if>
-					<c:if test="${pager.pageNo!=i}">
-						<button class="page-num"
-							onclick="location.href='${pageContext.request.contextPath}/notice/noticeList?pageNo=${i}'">
-							${i}</button>
-					</c:if>
-				</c:forEach>
-
-				<%-- <c:if test="${pager.groupNo<pager.totalGroupNo}">
-					<a href="noticeList?pageNo=${pager.endPageNo+1}">다음</a>
-				</c:if> --%>
-
-				<a href="noticeList?pageNo=${pager.totalPageNo}"> <img
-					src="${pageContext.request.contextPath}/resources/image/next_icon.png"
-					alt="next" style="width: 110px">
-				</a>
+				<c:if test="${pager.pageNo>1}">
+					<a href="noticeList?pageNo=1">
+						<img
+						src="${pageContext.request.contextPath}/resources/image/double_prev_icon.png"
+						alt="doublePrev" style="width: 20px">
+					</a>
+					<a href="noticeList?pageNo=${pager.pageNo-1}">
+						<img
+						src="${pageContext.request.contextPath}/resources/image/prev_icon.png"
+						alt="prev" style="width: 110px">
+					</a>
+				</c:if>
+				
+				<c:forEach begin="${pager.startPageNo}" end="${pager.endPageNo}" var="i">
+					<c:choose>
+						<c:when test="${i == pager.pageNo}">
+							<span style="color: #686868">${i}</span>
+						</c:when>
+						<c:otherwise>
+							<c:if test="${not empty noticeTitle}">
+								<a href="searchNotice?pageNo=${i}&noticeTitle=${noticeTitle}" style="color: #686868">${i}</a>
+							</c:if>
+							<c:if test="${empty noticeTitle}">
+								<a href="noticeList?pageNo=${i}" style="color: #686868">${i}</a>
+							</c:if>	
+						</c:otherwise>
+					</c:choose>			
+				</c:forEach>	
+				
+				<c:if test="${pager.pageNo< pager.totalPageNo}">
+					<a href="noticeList?pageNo=${pager.pageNo+1}">
+						<img
+						src="${pageContext.request.contextPath}/resources/image/next_icon.png"
+						alt="next" style="width: 110px">
+					</a>
+					<a href="noticeList?pageNo=${pager.totalPageNo}">
+						<img
+						src="${pageContext.request.contextPath}/resources/image/double_next_icon.png"
+						alt="next" style="width: 20px">
+					</a>
+				</c:if>
 
 			</div>
 

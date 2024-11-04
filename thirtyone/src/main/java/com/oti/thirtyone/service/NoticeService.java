@@ -50,10 +50,15 @@ public class NoticeService {
 	}
 	
 	//검색
-	public List<NoticeDto> searchNotice(String noticeTitle) {
-		List<NoticeDto> list = noticeDao.searchNotice(noticeTitle);
+	public List<NoticeDto> searchNotice(String noticeTitle, Pager pager) {
+		List<NoticeDto> list = noticeDao.searchNotice(noticeTitle, pager);
 		return list;
 	}
+	
+	public int searchCountRows(String noticeTitle) {
+		int totalRows = noticeDao.searchCountRows(noticeTitle);
+		return totalRows;
+	}	
 
 	//특정파일
 	public NoticeFileDto selectAttachByNoticeId(int noticeId) {
@@ -82,21 +87,31 @@ public class NoticeService {
 	}
 	
 	//공지사항 삭제
-	public void deleteNoticeFile(int noticeId) {
+	/*public void deleteNoticeFile(int noticeId) {
 		noticeDao.deleteNoticeFile(noticeId);
-	}
+	}*/
 
-	public void deleteNotice(int noticeId) {
+	/*public void deleteNotice(int noticeId) {
 		noticeDao.deleteNotice(noticeId);
+	}*/
+
+	public void deactivateNoticeById(int noticeId) {
+		noticeDao.deactivateNoticeById(noticeId);
 	}
 	
-	public void deleteFile(NoticeFileDto noticeFile) {
-		noticeDao.deleteFile(noticeFile);
+	public void deleteFileFromDb(NoticeFileDto noticeFile) {
+		noticeDao.deleteFileFromDb(noticeFile);
 	}
 	
 	//부서
 	public void insertNoticeTarget(NoticeDto notice) {
 		noticeDao.insertNoticeTarget(notice);
 	}
+
+	public void updateNoticeTarget(NoticeDto notice) {
+		noticeDao.updateNoticeTarget(notice);
+	}
+
+	
 }
 

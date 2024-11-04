@@ -339,11 +339,10 @@ document.addEventListener("DOMContentLoaded", function() {
 	function updateDepartmentSelection() {
 		console.log("호출됨");
 		const deptNameCheck = $('input[name="deptId"]:checked');
-		const selectedDeptName = [];
-		
+		const selectedDeptName = [];		
 		result.innerHTML = "";
 		
-		if (deptNameCheck.lenght === 0) {
+		if (deptNameCheck.length === 0) {
 			result.innerHTML = "미선택 시, 전체직원에게 공지가 노출됩니다.";
 		} else {
 			deptNameCheck.each(function() {
@@ -362,8 +361,8 @@ document.addEventListener("DOMContentLoaded", function() {
 	
 	//선택된 부서 ID 가져오기
 	function getCheckedDeptIds() {
-		const deptNameCheck = $('input[name="deptId"]:checked');
-		return deptNameCheck.map(function() {
+		/*const deptNameCheck = $('input[name="deptId"]:checked');*/
+		return $('input[name="deptId"]:checked').map(function() {
 			return $(this).val();
 		}).get();
 	}
@@ -372,18 +371,13 @@ document.addEventListener("DOMContentLoaded", function() {
 	
 	//공지 작성 폼 제출
 	function submitForm() {
-		const formData = new FormData(contentForm);
-		
-		/*const empDiv = document.getElementById("empId");
-		const empId = empDiv.getAttribute("data-value");*/
-		
-		
+		const formData = new FormData(contentForm);				
 		console.log("Form Data:", [...formData]);
 		
 		filesArray.forEach(file => formData.append('attachFile', file));
 		
-		const checkedDeptIds = getCheckedDeptIds();
-		checkedDeptIds.forEach(deptId => formData.append('deptId', deptId)); // 배열처럼 사용
+		const checkedDeptIds = getCheckedDeptIds().map(id => parseInt(id));
+		checkedDeptIds.forEach(deptId => formData.append('deptId[]', deptId)); // 배열처럼 사용
 		console.log("부서 ID:", checkedDeptIds);
 		
 		
@@ -438,15 +432,12 @@ document.addEventListener("DOMContentLoaded", function() {
 	dropZone.addEventListener('drop', handleDrop);
 	
 	uploadFile.addEventListener("change", (event) => {
-		const tempList = Array.from(event.target.files);
-		tempList.forEach(file => {
-			if (file.type.match('image.*')) {
-				filesArray.push(file);
-				displayFileList();
-			} else {
-				alert("이미지 파일이 아닙니다.");
-			}
+		filesArray = Array.from(event.target.files);
+		let tempList = Array.from(event.target.files); // FileList를 배열로 변환
+		   tempList.forEach(function (file, index)  {
+		      filesArray.push(file);
 		});
+		displayFileList();
 	});
 	
 	document.querySelector(".fileBox").addEventListener("click", () => {
@@ -457,12 +448,13 @@ document.addEventListener("DOMContentLoaded", function() {
 	function handleDrop(event) {
 		event.preventDefault();
 		const files = event.dataTransfer.files;
+		handleFiles(files);
+	}
+	
+	//파일 처리 함수
+	function handleFiles(files) {
 		Array.from(files).forEach(file => {
-			if (file.type.match('image.*')) {
 				filesArray.push(file);
-			} else {
-				alert("이미지 파일이 아닙니다.");
-			}
 		});
 		displayFileList();
 	}
@@ -474,24 +466,37 @@ document.addEventListener("DOMContentLoaded", function() {
 			fileBoxDisplay.innerHTML = '<p><img src="/thirtyone/resources/image/plusFile_icon.png" alt="plusFile" style="width: 44px" />&nbsp;마우스로 파일을 끌어놓으세요.</p>';
 		} else {
 			filesArray.forEach((file, index) => {
-				const imgElement = document.createElement("img");
-				imgElement.src = URL.createObjectURL(file);
-				imgElement.style.width = '100px';
-				imgElement.style.margin = '5px';
-				fileBoxDisplay.appendChild(imgElement);
+				const fileElement = document.createElement("div");
+				fileElement.style.display = 'flex';
+				fileElement.style.alignItems = 'center';		
+				
+				if (file.type.match('image.*')) {					
+					const imgElement = document.createElement("img");
+					imgElement.src = URL.createObjectURL(file);
+					imgElement.style.width = '100px';
+					imgElement.style.margin = '5px';
+					fileBoxDisplay.appendChild(imgElement);
+				} else {
+					
+					const fileName = document.createElement("span");
+					fileName.textContent = file.name;
+					fileElement.appendChild(fileName);
+				}	
 				
 				const removeButton = document.createElement("button");
 				removeButton.innerHTML = '<img src="/thirtyone/resources/image/cancel_icon.png" style="width: 30px">';
                 removeButton.style.background = 'transparent';
                 removeButton.style.border = 'none';
                 removeButton.style.cursor = 'pointer';
-                removeButton.addEventListener("click", (event) => {
-                	event.preventDefault();
-                	event.stopPropagation();
-                	removeFile(index);
+                removeButton.style.margin = '-40px 0px 20px -45px';
+	            
+	            removeButton.addEventListener("click", (event) => {
+	               event.preventDefault();
+	               event.stopPropagation();
+	               removeFile(index)
                 });
-                fileBoxDisplay.appendChild(removeButton);
-				
+                fileElement.appendChild(removeButton);		
+                fileBoxDisplay.appendChild(fileElement);
 			});
 		}
 	}
@@ -499,16 +504,17 @@ document.addEventListener("DOMContentLoaded", function() {
 	//파일 삭제 함수
 	function removeFile(index) {
 		filesArray.splice(index, 1);
+		updateFileListDisplay();
 		displayFileList();
+		
+	}
+	
+	// input 요소의 FileList를 업데이트
+	function updateFileListDisplay() {
+	   const dataTransfer = new DataTransfer();
+	   filesArray.forEach(file => dataTransfer.items.add(file));
+	   uploadFile.files = dataTransfer.files; // input 요소에 업데이트된 파일 목록 설정
 	}
 });
 	
 	
-
-
-
-
-
-
-
-
