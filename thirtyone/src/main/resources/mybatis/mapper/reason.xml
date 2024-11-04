@@ -34,7 +34,7 @@
 					select reason_id, reason_type, reason_content, reason_status,
 						atd_date, emp_id, reason_improver
 					from reason
-					where reason_improver = #{empId} 
+					where reason_improver = #{empId} and reason_status = '대기'
 					order by atd_date				
 				)
 				where rownum <= #{pager.endRowNo}
@@ -48,4 +48,17 @@
 		from reason
 		where reason_improver = #{empId}
 	</select>
+	
+	<select id="selectReason" parameterType="int" resultType="Reason">
+		select reason_id, reason_type, reason_content, reason_status,
+			atd_date, emp_id, reason_improver
+		from reason
+		where reason_id = #{reasonId}	
+	</select>
+	
+	<update id="updateReasonStatus" parameterType="int">
+		update reason 
+		set reason_status = '승인'
+		where reason_id = #{reasonId} 
+	</update>
 </mapper>

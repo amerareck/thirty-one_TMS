@@ -19,4 +19,8 @@ public interface ReasonDao {
 
 	int countRowsByImprover(String empId);
 
+	ReasonDto selectReason(int reasonId);
+
+	int updateReasonStatus(int reasonId);
+
 }

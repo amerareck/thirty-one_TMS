@@ -54,4 +54,20 @@ public class ReasonService {
 		return reasonDao.countRowsByImprover(empId);
 	}
 
+	public ReasonDto getReasoninfo(int reasonId) {
+		return reasonDao.selectReason(reasonId);
+	}
+
+	public DocFilesDTO getReasonFile(int fileId) {
+		return fileDao.selectReasonFile(fileId);
+	}
+
+	public List<DocFilesDTO> getReasonFileList(int reasonId) {
+		return fileDao.selectReasonFileList(reasonId);
+	}
+
+	public void updateReasonStatus(int reasonId) {
+		reasonDao.updateReasonStatus(reasonId);
+	}
+
 }

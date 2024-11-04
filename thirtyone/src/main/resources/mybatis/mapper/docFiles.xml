@@ -28,4 +28,16 @@
         VALUES
             ( #{docFileId}, #{docFileData}, #{docFileName}, #{docFileType}, #{reasonId} ) 
     </insert>
+    
+    <select id="selectReasonFile" parameterType="int">
+    	select doc_file_id, doc_file_data, doc_file_name, doc_file_type, reason_id
+    	from doc_files
+    	where doc_file_id = #{fileId}
+    </select>
+    
+    <select id="selectReasonFileList" parameterType="int">
+ 	    select doc_file_id, doc_file_data, doc_file_name, doc_file_type, reason_id
+    	from doc_files
+    	where reason_id = #{reasonId}
+    </select>
 </mapper>

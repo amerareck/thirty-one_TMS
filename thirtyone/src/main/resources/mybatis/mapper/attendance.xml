@@ -53,4 +53,10 @@
 		from attendances
 		where to_char(atd_date, 'yyyy-mm-dd') = #{day} and emp_id=#{empId}
 	</select>
+	
+	<select id="selectAtdOneDayByDate" resultType="Attendance">
+		select atd_date, emp_id, check_in, check_out, atd_state, atd_standard_time, atd_over_time, atd_approved_time
+		from attendances
+		where to_char(atd_date, 'yyyy-mm-dd') = to_char(#{day}, 'yyyy-mm-dd') and emp_id=#{empId}
+	</select>
 </mapper>

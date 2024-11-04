@@ -292,6 +292,10 @@ public class AttendanceService {
 		return atdDao.selectAtdOneDay(empId, day);
 		
 	}
+
+	public AttendanceDto getAtdInfoOneDay(String empId, Date atdDate) {
+		return atdDao.selectAtdOneDayByDate(empId, atdDate);
+	}
 	
 	
 	

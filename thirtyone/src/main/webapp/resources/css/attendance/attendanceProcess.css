@@ -30,11 +30,11 @@
 }
 
 .process-list-box {
-    /* 기존 스타일 유지 */
+    
     display: flex;
     flex-direction: column;
-    overflow: hidden; /* 자식 요소가 벗어나지 않도록 설정 */
-    height: 100%; /* 부모 박스가 자식 높이에 맞춰 늘어나도록 설정 */
+    overflow: hidden;
+    height: 100%; 
 }
 
 .process-list-table{
@@ -47,6 +47,10 @@
 .process-list-table tr{
 	display:flex;
 	align-items:center;
+}
+
+.process-list-table tr:hover{
+	cursor: pointer;
 }
 
 .process-list-table thead th:nth-child(1), .process-list-table tbody th:nth-child(1) {
@@ -140,9 +144,9 @@
 /* .reason-report div:nth-child(5){ */
 /* 	align-items: flex-start;  */
 /* } */
-.reason-report div:nth-child(6){
-	margin-top: -10px;
-	margin-left : 118px;
+.file-list{
+	margin-right: 20px;
+	width: 400px;
 	min-height: 43px;
 	border-radius: 5px;
 	border: 0.5px solid var(--lightgray);
@@ -150,12 +154,12 @@
 	padding-left: 10px;
 		
 }
-.reason-report div:nth-child(7){
+.reason-report div:nth-child(6){
 	margin-top: 30px;
 	justify-content: center;
 }
 
-.reason-report div:nth-child(7) textarea{
+.reason-report div:nth-child(6) textarea{
 	border: 0.5px solid var(--lightgray);
 	background-color: white !important;
 }

@@ -1,6 +1,8 @@
 package com.oti.thirtyone.controller;
 
 import java.io.IOException;
+import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -8,6 +10,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -211,7 +214,47 @@ public class AttendanceController {
 		return "attendance/attendanceProcess"; 
 	}
 	
+	@GetMapping("/getRequestReason")
+	@ResponseBody
+	public Map<String, Object> getRequestReason(String empId, int reasonId) {
+		Map<String, Object> requestInfo = new HashMap<>();
+		
+		EmployeesDto empDto = empService.getEmpInfo(empId);
+		ReasonDto reasonDto = reasonService.getReasoninfo(reasonId);
+		String deptName = deptService.getDeptName(empDto.getDeptId());  
+		AttendanceDto atdDto = atdService.getAtdInfoOneDay(empId, reasonDto.getAtdDate());
+		List<DocFilesDTO> fileList = reasonService.getReasonFileList(reasonDto.getReasonId());
+		
+		requestInfo.put("fileList", fileList);
+		requestInfo.put("emp", empDto);
+		requestInfo.put("reason", reasonDto);
+		requestInfo.put("deptName", deptName);
+		requestInfo.put("atd", atdDto);
+		
+		return requestInfo;
+	}
+	
+	@GetMapping("/attachDownload")
+	public void attachDownload(int fileId, HttpServletResponse response) throws Exception {
+		DocFilesDTO file = reasonService.getReasonFile(fileId);
 
+		String contentType = file.getDocFileType();
+		response.setContentType(contentType);
+		
+		String fileName = file.getDocFileName();
+		String encodingFileName = new String(fileName.getBytes("UTF-8"), "ISO-8859-1");
+		response.setHeader("Content-Disposition", "attachment; filename=\"" + encodingFileName + "\"");
+		
+		OutputStream out = response.getOutputStream();
+		out.write(file.getDocFileData());
+		out.flush();
+		out.close();
+	}
+	
+	@PostMapping("/requsetAccept")
+	public void requestAccept(int reasonId) {
+		reasonService.updateReasonStatus(reasonId);
+	}
 }
 
 

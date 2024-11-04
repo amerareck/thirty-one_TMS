@@ -27,7 +27,7 @@
 						</thead>
 						<tbody>
 							<c:forEach items="${reasonList}" var="reason">
-							  <tr>
+							  <tr class="process-tr" data-reasonid="${reason.reason.reasonId}" data-empid="${reason.emp.empId}">
 							    <th scope="row" class="process-profile-box">
 							    	<img class="process-profile-img" src="${pageContext.request.contextPath}/resources/image/profileDefault.png">
 							    	<div class="process-profile-info">
@@ -64,44 +64,12 @@
 								<img src="${pageContext.request.contextPath}/resources/image/next_icon.png" alt="next" style="width: 110px">
 							</a>
 						</c:if>
-
+	
 					</div>
 				</div>
 			</div>
 			<div class="reason-report-box card">
-				<p class="mini-title">사유서</p>
-				<div class="mini-line"></div>
-				<form class="reason-report" method="post">
-					<div>
-						<label for="empName">이름</label>
-						<input type="text" class="form-control" id="empName" value="정원석 사원" disabled>
-					</div>
-					<div>
-						<label for="empDept">부서</label>
-						<input type="text" class="form-control" id="empDept" value="공공사업1DIV" disabled>
-					</div>
-					<div>
-						<label for="empName">출근 시간</label>
-						<input type="datetime" class="form-control" id="empName" value="2024/10/17 09:35:17" disabled>
-					</div>
-					<div>
-						<label for="empName">퇴근 시간</label>
-						<input type="datetime" class="form-control" id="empName" value="2024/10/17 09:35:17" disabled>
-					</div>
-					<div>
-					  <label for="formFile" class="form-label">첨부 파일</label>
-					  <input class="form-control" type="file" id="formFile" readonly>
-					</div>
-					<div class="file-list"></div>
-					<div>
-					  <label for="reason" class="form-label reason">지각 사유</label>
-					  <textarea class="form-control" id="reason" rows="6" disabled>지하철이 연착되어 지각을 하였습니다.</textarea>
-					</div>
-					<div>
-						<button class="button-large reject">반려</button>
-						<button class="button-large accept">승인</button>
-					</div>
-				</form>
+				
 			</div>
 		</div>
 <script type="text/javascript">

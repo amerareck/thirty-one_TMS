@@ -1,5 +1,6 @@
 package com.oti.thirtyone.dao;
 
+import java.util.Date;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
@@ -25,5 +26,7 @@ public interface AttendanceDao {
 	List<AttendanceDto> selectAtdWeekly(@Param("monday") String monday, @Param("sunday") String sunday, @Param("empId") String empId);
 
 	AttendanceDto selectAtdOneDay(@Param("empId") String empId,@Param("day") String day);
+
+	AttendanceDto selectAtdOneDayByDate(@Param("empId")String empId,@Param("day") Date atdDate);
 
 }

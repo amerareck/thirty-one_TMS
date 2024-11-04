@@ -1,5 +1,7 @@
 package com.oti.thirtyone.dao;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 
 import com.oti.thirtyone.dto.DocFilesDTO;
@@ -10,5 +12,9 @@ public interface DocFilesDAO {
 	int insertDraftAttachFile(DocFilesDTO dto);
 
 	int insertReasonFile(DocFilesDTO fileDto);
+
+	DocFilesDTO selectReasonFile(int fileId);
+
+	List<DocFilesDTO> selectReasonFileList(int reasonId);
 
 }
