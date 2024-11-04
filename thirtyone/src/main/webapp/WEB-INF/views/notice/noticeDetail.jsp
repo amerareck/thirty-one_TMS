@@ -6,13 +6,19 @@
 <meta name='viewport' content='width=device-width, initial-scale=1'>
 
 <!-- include libraries(jQuery, bootstrap) -->
-<link href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
+<link
+	href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+	rel="stylesheet">
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<script
+	src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
 <!-- include summernote css/js -->
-<link href="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote.min.css" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote.min.js"></script>
+<link
+	href="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote.min.css"
+	rel="stylesheet">
+<script
+	src="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote.min.js"></script>
 
 <link rel="stylesheet" type="text/css"
 	href="${pageContext.request.contextPath}/resources/css/noticeDetail.css">
@@ -68,7 +74,16 @@
 
 				<div class="noticeTarget">
 					<div class="notice-target">공지 대상</div>
-					<div class="target">${notice.deptName}</div>
+					<%-- <c:if test="${not empty notice}">
+						<c:when test="${notice.deptId != 0}">
+							<div class="target">${notice.deptId}</div>
+						</c:when>
+
+						<c:otherwise> --%>
+							<p>전체</p>
+						<%-- </c:otherwise>
+					</c:if> --%>
+
 				</div>
 				<div class="line"></div>
 
@@ -80,11 +95,30 @@
 							<%-- <c:when test="${not empty noticeFiles}"> --%>
 							<c:when test="${not empty noticeFile}">
 								<c:forEach var="noticeFile" items="${noticeFile}">
-									<img src="attachDownload?noticeFileId=${noticeFile.noticeFileId}" width="80">
-										<p>
-											다운로드: <a href="attachDownload?noticeFileId=${noticeFile.noticeFileId}"><i
-												class="bi bi-download"></i></a>
-										</p>
+									<c:choose>
+										<c:when
+											test="${noticeFile.noticeFileName.endsWith('.jpg') ||
+														noticeFile.noticeFileName.endsWith('.jpeg') ||
+														noticeFile.noticeFileName.endsWith('.png') ||
+														noticeFile.noticeFileName.endsWith('.gif')}">
+											<img
+												src="attachDownload?noticeFileId=${noticeFile.noticeFileId}"
+												width="80">
+											<p>
+												다운로드: <a
+													href="attachDownload?noticeFileId=${noticeFile.noticeFileId}"><i
+													class="bi bi-download"></i></a>
+											</p>
+										</c:when>
+										<c:otherwise>
+											${noticeFile.noticeFileName}
+											<p>
+												다운로드: <a
+													href="attachDownload?noticeFileId=${noticeFile.noticeFileId}"><i
+													class="bi bi-download"></i></a>
+											</p>
+										</c:otherwise>
+									</c:choose>
 								</c:forEach>
 							</c:when>
 
@@ -103,11 +137,14 @@
 					<div class="pre-title">이전글</div>
 					<c:choose>
 						<c:when test="${notice.prevNum == 0}">
-							<input type="button" value="이전글이 없습니다." onclick="location.href='${pageContext.request.contextPath}/notice/noticeDetail?noticeId=${notice.prevNum}'" disabled>					
+							<input type="button" value="이전글이 없습니다."
+								onclick="location.href='${pageContext.request.contextPath}/notice/noticeDetail?noticeId=${notice.prevNum}'"
+								disabled>
 						</c:when>
 						<c:otherwise>
 							<div class="preContent">
-								<input type="button" value="${notice.prevTitle}" onclick="location.href='${pageContext.request.contextPath}/notice/noticeDetail?noticeId=${notice.prevNum}'" >							
+								<input type="button" value="${notice.prevTitle}"
+									onclick="location.href='${pageContext.request.contextPath}/notice/noticeDetail?noticeId=${notice.prevNum}'">
 							</div>
 						</c:otherwise>
 					</c:choose>
@@ -119,13 +156,16 @@
 					<div class="next-title">다음글</div>
 					<c:choose>
 						<c:when test="${notice.nextNum == 0}">
-							<input type="button" value="다음글이 없습니다." onclick="location.href='${pageContext.request.contextPath}/notice/noticeDetail?noticeId=${notice.nextNum}'" disabled>
+							<input type="button" value="다음글이 없습니다."
+								onclick="location.href='${pageContext.request.contextPath}/notice/noticeDetail?noticeId=${notice.nextNum}'"
+								disabled>
 						</c:when>
 						<c:otherwise>
 							<div class="preContent">
-								<input type="button" value="${notice.nextTitle}" onclick="location.href='${pageContext.request.contextPath}/notice/noticeDetail?noticeId=${notice.nextNum}'" >
+								<input type="button" value="${notice.nextTitle}"
+									onclick="location.href='${pageContext.request.contextPath}/notice/noticeDetail?noticeId=${notice.nextNum}'">
 							</div>
-					</c:otherwise>
+						</c:otherwise>
 					</c:choose>
 				</div>
 			</div>

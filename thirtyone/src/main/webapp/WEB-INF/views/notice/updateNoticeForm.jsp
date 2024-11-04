@@ -101,16 +101,17 @@
 
 				<div class="fileContent" href="javascript:" id="dropZone">
 						<div class="fileBox">
-							<input type="hidden" name="noticeFileData" value="${noticeFile.noticeFileId}">
+							<c:forEach var="file" items="${noticeFiles}">
+							<input type="hidden" name="noticeFileName" value="${file.noticeFileName}">
+							</c:forEach>
 							<p><img
 								src="${pageContext.request.contextPath}/resources/image/plusFile_icon.png"
 								alt="plusFile" style="width: 44px" id="preview" />
 							마우스로 파일을 끌어놓으세요.</p>
 						</div>
 						<div class="line file"></div> <input type="file" id="uploadFile" 
-						class="button-small upload" value="${noticeFile.noticeFileId}" accept="image/*" name="attachFile" multiple><%-- <img
-						src="${pageContext.request.contextPath}/resources/image/upload_icon.png"
-						alt="upload" style="width: 18px;" /> --%>
+						class="button-small upload" value="${noticeFile.noticeFileId}" accept="image/*" name="attachFile" multiple>
+						
 				</div>
 			</div>
 

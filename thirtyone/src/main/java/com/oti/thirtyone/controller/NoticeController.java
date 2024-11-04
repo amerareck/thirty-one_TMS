@@ -1,5 +1,6 @@
 package com.oti.thirtyone.controller;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -38,83 +39,94 @@ public class NoticeController {
 
 	@Autowired
 	NoticeService noticeService;
-	
+
 	@Autowired
 	DepartmentService departmentService;
-	
-	//공지사항 조회
+
+	// 공지사항 조회
 	@GetMapping("/noticeList")
-	public String noticeList(Model model, @RequestParam(defaultValue = "1") int pageNo, HttpSession session, NoticeDto noticeDto) {
-		
-		noticeService.insertNoticeTarget(noticeDto);
+	public String noticeList(Model model, @RequestParam(defaultValue = "1") int pageNo, HttpSession session,
+			NoticeDto noticeDto) {
+
 		int totalRows = noticeService.countRows();
 
 		if (totalRows == 0) {
-			Pager pager = new Pager(10, 5, 0, pageNo);			
-			
+			Pager pager = new Pager(10, 5, 0, pageNo);
+
 		} else {
-		
-		Pager pager = new Pager(10, 5, totalRows, pageNo);
-		session.setAttribute("pager", pager);
 
-		List<NoticeDto> notice = noticeService.selectListPager(pager);
-		log.info(notice.toString());
+			Pager pager = new Pager(10, 5, totalRows, pageNo);
+			session.setAttribute("pager", pager);
 
-		model.addAttribute("title", "공지사항");
-		model.addAttribute("notice", notice);
-		model.addAttribute("noticeDto", noticeDto);
+			List<NoticeDto> notice = noticeService.selectListPager(pager);
+			log.info(notice.toString());
+
+			model.addAttribute("title", "공지사항");
+			model.addAttribute("notice", notice);
+			model.addAttribute("noticeDto", noticeDto);
 
 		}
 		return "notice/noticeList";
 	}
-	
-	//공지사항 검색
+
+	// 공지사항 검색
 	@GetMapping("/searchNotice")
 	public String searchNotice(Model model, @RequestParam(defaultValue = "1") int pageNo, HttpSession session,
-			String noticeTitle) {
+			@RequestParam("noticeTitle") String noticeTitle) {
 
-		int totalRows = noticeService.countRows();
+		int totalRows = noticeService.searchCountRows(noticeTitle);
+
 		Pager pager = new Pager(10, 5, totalRows, pageNo);
-		session.setAttribute("pager", pager);
+		model.addAttribute("pager", pager);
 
-		List<NoticeDto> notice = noticeService.searchNotice(noticeTitle);
-		
-		model.addAttribute("title", "공지사항");
-		model.addAttribute("notice", notice);
+		if (totalRows > 0) {
+			List<NoticeDto> notice = noticeService.searchNotice(noticeTitle, pager);
+			model.addAttribute("title", "공지사항");
+			model.addAttribute("notice", notice);
 
-		log.info(noticeTitle);
-		return "notice/noticeList";
+		} else {
+			model.addAttribute("title", "공지사항 - 검색 결과 없음");
+			model.addAttribute("notice", new ArrayList<>());
+		}
+			model.addAttribute("noticeTitle", noticeTitle);
+			log.info("Search Title: " + noticeTitle);
+			return "notice/noticeList";
 	}
-	
-	//공지사항 상세페이지
+
+	// 공지사항 상세페이지
 	@GetMapping("/noticeDetail")
-	public String noticeDetail(Model model, int noticeId) {
+	public String noticeDetail(Model model, int noticeId/*, NoticeFormDto noticeForm*/) {
 
 		NoticeDto notice = noticeService.selectByNoticeId(noticeId);
 		List<NoticeFileDto> noticeFile = noticeService.selectAttachFiles(noticeId);
 		NoticeDto prevNext = noticeService.prevNext(noticeId);
-		noticeService.insertNoticeTarget(notice);
 
+		/*noticeService.insertNoticeTarget(notice);
+		
+		notice.setDeptId(noticeForm.getDeptId());*/
 		notice.setPrevNum(prevNext.getPrevNum());
 		notice.setPrevTitle(prevNext.getPrevTitle());
 		notice.setNextNum(prevNext.getNextNum());
 		notice.setNextTitle(prevNext.getNextTitle());
+		notice.setDeptId(notice.getDeptId());
 
 		model.addAttribute("title", "공지사항");
 		model.addAttribute("notice", notice);
 		model.addAttribute("noticeFile", noticeFile);
 
 		log.info(prevNext.getPrevNum() + "");
+		log.info("Notice ID:" + notice.getNoticeId());
+		log.info("Dept ID:" + notice.getDeptId());
 		noticeService.updateHitCount(noticeId);
 		return "notice/noticeDetail";
 	}
 
-	//파일 다운로드
+	// 파일 다운로드
 	@GetMapping("/attachDownload")
 	public void attachDownload(int noticeFileId, HttpServletResponse response, Model model) throws Exception {
-		log.info(noticeFileId+ "rk");
+		log.info(noticeFileId + "rk");
 		NoticeFileDto noticeFile = noticeService.selectAttachByNoticeId(noticeFileId);
-		/*noticeService.selectAttachFiles(noticeId);*/
+		/* noticeService.selectAttachFiles(noticeId); */
 
 		String contentType = noticeFile.getNoticeFileType();
 		response.setContentType(contentType);
@@ -130,27 +142,29 @@ public class NoticeController {
 	}
 
 	@GetMapping("/noticeWriteForm")
-	public String noticeWriteForm(Model model/*, int deptId*/) {
-		
-		/*String deptName = departmentService.getDeptName(deptId);*/
-		
+	public String noticeWriteForm(Model model/* , int deptId */) {
+
+		/* String deptName = departmentService.getDeptName(deptId); */
+
 		model.addAttribute("title", "공지사항 작성");
-		/*model.addAttribute("deptName", deptName);		
-		model.addAttribute("deptId", deptId);*/
+		/*
+		 * model.addAttribute("deptName", deptName); model.addAttribute("deptId",
+		 * deptId);
+		 */
 		return "notice/noticeWriteForm";
 	}
-	
-	//공지사항 작성
+
+	// 공지사항 작성
 	@PostMapping("/noticeWrite")
-	public ResponseEntity<String> noticeWrite(NoticeFormDto notice, Model model, Authentication authentication, NoticeDto noticeDto) throws Exception {
+	public ResponseEntity<String> noticeWrite(NoticeFormDto notice, Model model, Authentication authentication,
+			NoticeDto noticeDto) throws Exception {
 		NoticeDto dbNotice = new NoticeDto();
 		List<Departments> deptList = departmentService.getDeptList();
-		noticeService.insertNoticeTarget(noticeDto);
 
 		EmployeeDetails employeeDetails = (EmployeeDetails) authentication.getPrincipal();
 		EmployeesDto employees = employeeDetails.getEmployee();
 
-		dbNotice.getDeptId();
+		dbNotice.setDeptId(notice.getDeptId());
 		dbNotice.setEmpId(employees.getEmpId());
 		dbNotice.setNoticeTitle(notice.getNoticeTitle());
 		dbNotice.setNoticeContent(notice.getNoticeContent());
@@ -158,11 +172,18 @@ public class NoticeController {
 		dbNotice.setNoticeImportant(notice.getNoticeImportant());
 		dbNotice.setNoticeAllTarget(notice.getNoticeAllTarget());
 		log.info(notice.toString());
-		
+
 		noticeService.noticeWrite(dbNotice);
 
-		MultipartFile[] files = notice.getAttachFile();
+		noticeDto.setNoticeId(dbNotice.getNoticeId());
+		/*noticeService.insertNoticeTarget(noticeDto);*/
+		
+		if (notice.getDeptId() != null && notice.getDeptId().length > 0) {
+			noticeService.insertNoticeTarget(noticeDto);
+			noticeService.updateNoticeTarget(noticeDto);
+		}
 
+		MultipartFile[] files = notice.getAttachFile();
 		for (MultipartFile mf : files) {
 			if (!mf.isEmpty()) {
 				NoticeFileDto dbFile = new NoticeFileDto();
@@ -178,9 +199,11 @@ public class NoticeController {
 		log.info(notice.toString());
 		log.info("하이루");
 
-		model.addAttribute("employees", employees);		
-		model.addAttribute("noticeDto", noticeDto);		
-		
+		model.addAttribute("employees", employees);
+		model.addAttribute("noticeDto", noticeDto);
+		log.info("공지사항이 성공적으로 저장되었습니다.");
+		log.info("deptId: " + Arrays.toString(notice.getDeptId()));
+
 		return ResponseEntity.ok("OK");
 	}
 
@@ -188,12 +211,16 @@ public class NoticeController {
 	public String updateNoticeForm(int noticeId, Model model, NoticeFileDto noticeFie) {
 		NoticeDto notice = noticeService.selectByNoticeId(noticeId);
 		NoticeFileDto noticeFile = noticeService.selectAttachByNoticeId(noticeId);
+		List<NoticeFileDto> noticeFiles = noticeService.selectAttachFiles(noticeId);
+
 		model.addAttribute("notice", notice);
 		model.addAttribute("noticeFile", noticeFile);
+		model.addAttribute("noticeFiles", noticeFiles);
+
 		return "notice/updateNoticeForm";
 	}
 
-	//공지사항 수정
+	// 공지사항 수정
 	@PostMapping("/updateNotice")
 	public String updateNotice(NoticeFormDto notice) throws Exception {
 		NoticeDto dbNotice = new NoticeDto();
@@ -228,27 +255,28 @@ public class NoticeController {
 		return "redirect:/notice/noticeDetail?noticeId=" + notice.getNoticeId();
 	}
 
-	//공지사항 삭제
+	// 공지사항 삭제
 	@GetMapping("/deleteNotice")
 	public String deleteNotice(int noticeId, HttpSession session) {
-		noticeService.deleteNoticeFile(noticeId);
-		noticeService.deleteNotice(noticeId);
+		/*noticeService.deleteNoticeFile(noticeId);
+		noticeService.deleteNotice(noticeId);*/
+		noticeService.deactivateNoticeById(noticeId);
 
 		Pager pager = (Pager) session.getAttribute("pager");
 		int pageNo = pager.getPageNo();
-		
+
 		return "redirect:/notice/noticeList?pageNo=" + pageNo;
 	}
-	
-	//공지사항 수정에서 파일 삭제
-	@PostMapping("/deleteFile")
-	public ResponseEntity<NoticeFileDto> deleteFile(@RequestBody NoticeFileDto noticeFile) {
-		noticeService.deleteFile(noticeFile);
+
+	// 공지사항 수정에서 파일 삭제
+	@PostMapping("/deleteFileFromDb")
+	public ResponseEntity<NoticeFileDto> deleteFileFromDb(@RequestBody NoticeFileDto noticeFile) {
+		noticeService.deleteFileFromDb(noticeFile);
 		log.info(noticeFile + " ");
 		return ResponseEntity.ok(noticeFile);
 	}
-	
-	//부서 모달
+
+	// 부서 모달
 	@GetMapping("/deptList")
 	public ResponseEntity<List<Departments>> deptList() {
 		log.info("실행");

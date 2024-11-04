@@ -38,7 +38,7 @@
 }
 
 .plus-file {
-	height: 100px;	
+	height: 120px;	
 }
 
 .noticeLine {
@@ -175,4 +175,5 @@
 
 .fileContent p {
 	margin-left: 20px;
+	margin-right: 20px;	
 }

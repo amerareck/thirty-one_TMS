@@ -37,7 +37,7 @@
 
 				<form id="contentForm" method="POST" action="noticeWrite"
 					enctype="multipart/form-data">
-					
+
 					<div class="noticeTitle" id="noticeTitle">
 						<div class="notice-title">
 							<img class="star-icon"
@@ -87,7 +87,7 @@
 
 							<div class="line file"></div>
 							<input type="file" id="uploadFile" class="button-small upload"
-								value="내 PC" accept="image/*" name="attachFile" multiple>
+								value="내 PC" name="attachFile" multiple>
 							<%-- <img
                   src="${pageContext.request.contextPath}/resources/image/upload_icon.png"
                   alt="upload" style="width: 18px;" /> --%>
@@ -110,47 +110,45 @@
                <input type="submit" class="deleteFile" id="deleteFileId">
                   <i class="bi bi-x-circle"></i>
             </form> -->
-				
-				
-		<!-- Modal -->
-		<div class="modal fade" id="exampleModal" tabindex="-1"
-			aria-labelledby="exampleModalLabel" aria-hidden="true">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-header">
-						<div class="modal-title" id="exampleModalLabel">부서 찾기</div>
-						<button type="button" class="btn-close" data-bs-dismiss="modal"
-							aria-label="Close"></button>
-					</div>
-					<div class="modal-body" id="modalBody">
 
-						<%-- <c:forEach var="deptName" items="${deptName}">  --%>
-						<!-- 체크 -->
-						<div class="form-check">
-							<input class="form-check-input" type="checkbox" name="deptId"
-								value="${dept.deptId}" id="${dept.deptName}"
-								onclick="getCheckboxValue()"><label
-								class="form-check-label" for="${dept.deptName}"></label>
+
+					<!-- Modal -->
+					<div class="modal fade" id="exampleModal" tabindex="-1"
+						aria-labelledby="exampleModalLabel" aria-hidden="true">
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header">
+									<div class="modal-title" id="exampleModalLabel">부서 찾기</div>
+									<button type="button" class="btn-close" data-bs-dismiss="modal"
+										aria-label="Close"></button>
+								</div>
+								<div class="modal-body" id="modalBody">
+
+									<%-- <c:forEach var="deptName" items="${deptName}">  --%>
+									<!-- 체크 -->
+									<div class="form-check">
+										<input class="form-check-input" type="checkbox" name="deptId"
+											value="${dept.deptId}" id="${dept.deptName}"
+											onclick="getCheckboxValue()"><label
+											class="form-check-label" for="${dept.deptName}"></label>
+									</div>
+									<%--  </c:forEach> --%>
+
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="button-medium cancel"
+										data-bs-dismiss="modal">취소</button>
+									<input type="submit" class="button-medium save"
+										onclick="getCheckboxValue()" id="getCheckboxValue" value="확인">
+								</div>
+							</div>
 						</div>
-						<%--  </c:forEach> --%>
-
 					</div>
-					<div class="modal-footer">
-						<button type="button" class="button-medium cancel"
-							data-bs-dismiss="modal">취소</button>
-						<input type="submit" class="button-medium save"
-							onclick="getCheckboxValue()" id="getCheckboxValue" value="확인">
-					</div>
-				</div>
-			</div>
-		</div>
 
-				
-				
 				</form>
 			</div>
 		</div>
-		
+
 
 		<script
 			src="${pageContext.request.contextPath}/resources/js/notice/noticeWriteForm.js"></script>
