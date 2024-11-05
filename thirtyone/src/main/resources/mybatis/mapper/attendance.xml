@@ -59,4 +59,16 @@
 		from attendances
 		where to_char(atd_date, 'yyyy-mm-dd') = to_char(#{day}, 'yyyy-mm-dd') and emp_id=#{empId}
 	</select>
+	
+	<update id="updateStatus">
+		update attendances 
+		set atd_state = '정상출근' 
+		where emp_id = #{empId} and 
+			atd_date = (
+					select atd_date 
+					from reason
+					where to_char(atd_date, 'yyyy-mm-dd') = #{atdDate}
+						and emp_id = #{empId}
+					)
+	</update>
 </mapper>

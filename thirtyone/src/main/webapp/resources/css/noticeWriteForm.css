@@ -79,6 +79,10 @@
     margin: 12px 34px 12px 12px;
 }
 
+.targetBox p {
+	display: flex;
+}
+
 .custom-select {
     margin: 15px 0px 15px 0;
 }

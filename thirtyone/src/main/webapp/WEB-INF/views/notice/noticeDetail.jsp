@@ -27,8 +27,6 @@
 	<div class="main-container">
 		<p class="title-31">${title}</p>
 
-
-
 		<div class="cardBox">
 			<div class="text">
 				써리원의 사내 공지사항을 조회합니다.
@@ -71,20 +69,20 @@
 				</div>
 				<div class="line"></div>
 
-
 				<div class="noticeTarget">
 					<div class="notice-target">공지 대상</div>
-					<%-- <c:if test="${not empty notice}">
-						<c:when test="${notice.deptId != 0}">
-							<div class="target">${notice.deptId}</div>
+					<c:choose>
+						<c:when test="${not empty deptName}">
+							<c:forEach var="dept" items="${deptName}">
+								<div class="target" style="margin-right: 5px;">${dept}</div>
+							</c:forEach>
 						</c:when>
-
-						<c:otherwise> --%>
+						<c:otherwise>
 							<p>전체</p>
-						<%-- </c:otherwise>
-					</c:if> --%>
-
+						</c:otherwise>
+					</c:choose>
 				</div>
+
 				<div class="line"></div>
 
 				<div class="plusFile">

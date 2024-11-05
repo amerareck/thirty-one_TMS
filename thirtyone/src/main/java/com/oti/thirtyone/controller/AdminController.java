@@ -1,7 +1,6 @@
 package com.oti.thirtyone.controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -23,14 +22,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.oti.thirtyone.dto.AttendanceDto;
 import com.oti.thirtyone.dto.Departments;
+import com.oti.thirtyone.dto.DocFilesDTO;
 import com.oti.thirtyone.dto.EmployeesDto;
 import com.oti.thirtyone.dto.JoinFormDto;
 import com.oti.thirtyone.dto.Pager;
 import com.oti.thirtyone.dto.PositionsDto;
+import com.oti.thirtyone.dto.ReasonDto;
+import com.oti.thirtyone.service.AttendanceService;
 import com.oti.thirtyone.service.DepartmentService;
 import com.oti.thirtyone.service.EmployeesService;
 import com.oti.thirtyone.service.PositionService;
+import com.oti.thirtyone.service.ReasonService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -45,6 +49,10 @@ public class AdminController {
 	DepartmentService deptService;
 	@Autowired
 	PositionService posService;
+	@Autowired
+	ReasonService reasonService;
+	@Autowired
+	AttendanceService atdSErvice;
 	
 	@ModelAttribute
 	public void settings(Model model) {
@@ -172,7 +180,37 @@ public class AdminController {
 	}
 	
 	@GetMapping("atdList")
-	public String atdList(Model model) {
+	public String atdList(Model model, @RequestParam(defaultValue = "1") int pageNo, HttpSession session) {
+		int totalRows = reasonService.countRows();
+		Pager pager = new Pager(10, 5, totalRows, pageNo);
+		log.info(pager.toString());
+		session.setAttribute("pager", pager);
+		
+		List<ReasonDto> reasonList = reasonService.getReasonList(pager);
+		List<Map<String, Object>> reasonInfoList = new LinkedList<>();
+		
+		for(ReasonDto reason : reasonList) {
+			Map<String, Object> tempInfo = new HashMap<>();
+			
+			String empId = reason.getEmpId();
+			EmployeesDto empDto = empService.getEmpInfo(empId);
+			String deptName = deptService.getDeptName(empDto.getDeptId());
+			AttendanceDto atdDto = atdSErvice.getAtdInfoOneDay(empId, reason.getAtdDate());
+			
+			List<DocFilesDTO> fileList = reasonService.getReasonFileList(reason.getReasonId());
+			
+			
+			tempInfo.put("fileList", fileList);
+			tempInfo.put("reason", reason);
+			tempInfo.put("emp", empDto);
+			tempInfo.put("deptName", deptName);
+			tempInfo.put("atd", atdDto);
+			reasonInfoList.add(tempInfo);
+			
+		}
+		
+		model.addAttribute("reasonList", reasonInfoList);
+		model.addAttribute("pager", pager);
 		model.addAttribute("title", "근태 관리");
 		model.addAttribute("selectedTitle", "adminEmp");
 		model.addAttribute("selectedSub", "atdList");
@@ -195,6 +233,7 @@ public class AdminController {
 			deptMapList.add(deptInfoList);
 		}
 		
+		model.addAttribute("pager", pager);
 		model.addAttribute("deptList", deptMapList);
 		model.addAttribute("title", "조직도");
 		model.addAttribute("selectedTitle", "org");

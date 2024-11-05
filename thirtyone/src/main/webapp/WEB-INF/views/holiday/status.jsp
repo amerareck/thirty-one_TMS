@@ -29,88 +29,49 @@
 					    <tr>
 					      <th scope="col">휴가항목</th>
 					      <th scope="col">기간</th>
-					      <th scope="col">상태</th>
 					      <th scope="col">신청일</th>
 					      <th scope="col">신청일수</th>
 					      <th scope="col">사유</th>
+					      <th scope="col">상태</th>
 					    </tr>
 					  </thead>
 					  <tbody>
-					    <tr>
-					      <th scope="row">연차</th>
-					      <td>2024-10-16 ~ 2024-10-18</td>
-					      <td><div class="btn accept-state">승인</div></td>
-					      <td>2024-10-05</td>
-					      <td>3일</td>
-					      <td>연차</td>
-					    </tr>
-				      </tbody>
-				      <tbody>
-					    <tr>
-					      <th scope="row">연차</th>
-					      <td>2024-10-16 ~ 2024-10-18</td>
-					      <td><div class="btn accept-state">승인</div></td>
-					      <td>2024-10-05</td>
-					      <td>3일</td>
-					      <td>연차</td>
-					    </tr>
-				      </tbody>
-				      <tbody>
-					    <tr>
-					      <th scope="row">연차</th>
-					      <td>2024-10-16 ~ 2024-10-18</td>
-					      <td><div class="btn accept-state">승인</div></td>
-					      <td>2024-10-05</td>
-					      <td>3일</td>
-					      <td>연차</td>
-					    </tr>
-				      </tbody>
-				      <tbody>
-					    <tr>
-					      <th scope="row">연차</th>
-					      <td>2024-10-16 ~ 2024-10-18</td>
-					      <td><div class="btn accept-state">승인</div></td>
-					      <td>2024-10-05</td>
-					      <td>3일</td>
-					      <td>연차</td>
-					    </tr>
-				      </tbody>
-				      <tbody>
-					    <tr>
-					      <th scope="row">연차</th>
-					      <td>2024-10-16 ~ 2024-10-18</td>
-						  <td><div class="btn wating-state" >대기</div></td>	
-					      <td>2024-10-05</td>
-					      <td>3일</td>
-					      <td>연차</td>
-					    </tr>
-				      </tbody>
-		    		  <tbody>
-					    <tr>
-					      <th scope="row">연차</th>
-					      <td>2024-10-16 ~ 2024-10-18</td>
-						  <td><div class="btn wating-state" >대기</div></td>	
-					      <td>2024-10-05</td>
-					      <td>3일</td>
-					      <td>연차</td>
-					    </tr>
+					  	<c:forEach items="${hdrReqList }" var="hdrReq">
+						    <tr>
+						      <th scope="row">${hdrReq.hdName }</th>
+						      <td><fmt:formatDate value="${hdrReq.hdrStartDate}" pattern="yyyy-MM-dd" /> ~ <fmt:formatDate value="${hdrReq.hdrEndDate}" pattern="yyyy-MM-dd" /></td>
+						      <td><fmt:formatDate value="${hdrReq.hdrSubmittedDate}" pattern="MM-dd" /></td>
+						      <td>${hdrReq.hdrUsedDay}일</td>
+						      <td>${hdrReq.hdrContent}</td>
+						      <td><div class="btn accept-state">${hdrReq.hdrStatus }</div></td>
+						    </tr>
+					    </c:forEach>
 				      </tbody>
 				    </table>
-				    <nav class="mt-5 mb-3">
-		                <ul class="pagination justify-content-center">
-		                  <li class="page-item disabled">
-		                    <a class="page-link text-dark" href="#" tabindex="-1" aria-disabled="true"><img class="arrow-left" src="${pageContext.request.contextPath}/resources/image/arrow/page-left-arrow.svg"></a>
-		                  </li>
-		                  <li class="page-item"><a class="page-link text-dark page-border-none ms-5" href="#">1</a></li>
-		                  <li class="page-item"><a class="page-link text-dark page-border-none ms-1" href="#">2</a></li>
-		                  <li class="page-item"><a class="page-link text-dark page-border-none ms-1" href="#">3</a></li>
-		                  <li class="page-item"><a class="page-link text-dark page-border-none ms-1" href="#">4</a></li>
-		                  <li class="page-item"><a class="page-link text-dark page-border-none ms-1 me-5" href="#">5</a></li>
-		                  <li class="page-item">
-		                    <a class="page-link text-dark" href="#"><img class="arrow-right" src="${pageContext.request.contextPath}/resources/image/arrow/page-right-arrow.svg"></a>
-		                  </li>
-		                </ul>
-		            </nav>
+				    <div class="pagination">
+						<c:if test="${pager.groupNo>1}">
+							<a href="process?pageNo=${pager.startPageNo-1}"> 
+								<img src="${pageContext.request.contextPath}/resources/image/prev_icon.png" alt="prev" style="width: 110px">
+							</a>
+						</c:if>
+						<c:forEach begin="${pager.startPageNo}" end="${pager.endPageNo}" step="1" var="i">
+							<c:if test="${pager.pageNo==i}">
+								<button class="page-num active"
+									onclick="location.href='${pageContext.request.contextPath}/atd/process?pageNo=${i}'"
+									style="color: #686868">${i}</button>
+							</c:if>
+							<c:if test="${pager.pageNo!=i}">
+								<button class="page-num"
+									onclick="location.href='${pageContext.request.contextPath}/atd/process?pageNo=${i}'">
+									${i}</button>
+							</c:if>
+						</c:forEach>
+						<c:if test="${pager.groupNo<pager.totalGroupNo}">
+							<a href="process?pageNo=${pager.endPageNo+1}">
+								<img src="${pageContext.request.contextPath}/resources/image/next_icon.png" alt="next" style="width: 110px">
+							</a>
+						</c:if>
+					</div>
 				</div>
 			</div>
 			<div class="right-container">
@@ -143,7 +104,9 @@
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
 
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-
+<script type="text/javascript">
+	contextPath = '${pageContext.request.contextPath}'
+</script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/holiday/status.js"></script>
 
 <%@ include file="/WEB-INF/views/common/footer.jsp"%>

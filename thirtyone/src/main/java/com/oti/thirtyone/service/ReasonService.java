@@ -1,5 +1,6 @@
 package com.oti.thirtyone.service;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -7,6 +8,7 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.oti.thirtyone.dao.AttendanceDao;
 import com.oti.thirtyone.dao.DocFilesDAO;
 import com.oti.thirtyone.dao.ReasonDao;
 import com.oti.thirtyone.dto.DocFilesDTO;
@@ -21,9 +23,10 @@ public class ReasonService {
 	
 	@Autowired
 	ReasonDao reasonDao;
-	
 	@Autowired
 	DocFilesDAO fileDao;
+	@Autowired
+	AttendanceDao adtDao;
 	
 	@Transactional
 	public void insertReason(ReasonDto reasonDto, String day) {
@@ -66,8 +69,19 @@ public class ReasonService {
 		return fileDao.selectReasonFileList(reasonId);
 	}
 
-	public void updateReasonStatus(int reasonId) {
+	@Transactional
+	public void updateReasonStatus(int reasonId, String empId, String atdDate) {
 		reasonDao.updateReasonStatus(reasonId);
+		adtDao.updateStatus(reasonId, empId, atdDate);
+		reasonDao.updateReasonCompletedDate(reasonId);
+	}
+
+	public List<ReasonDto> getReasonList(Pager pager) {
+		return reasonDao.selectReasonList(pager);
+	}
+
+	public int countRows() {
+		return reasonDao.countRows();
 	}
 
 }

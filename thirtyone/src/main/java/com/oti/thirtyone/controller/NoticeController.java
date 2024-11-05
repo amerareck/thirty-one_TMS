@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.oti.thirtyone.dto.Departments;
@@ -25,6 +26,7 @@ import com.oti.thirtyone.dto.EmployeesDto;
 import com.oti.thirtyone.dto.NoticeDto;
 import com.oti.thirtyone.dto.NoticeFileDto;
 import com.oti.thirtyone.dto.NoticeFormDto;
+import com.oti.thirtyone.dto.NoticeTargetDto;
 import com.oti.thirtyone.dto.Pager;
 import com.oti.thirtyone.security.EmployeeDetails;
 import com.oti.thirtyone.service.DepartmentService;
@@ -59,7 +61,6 @@ public class NoticeController {
 			session.setAttribute("pager", pager);
 
 			List<NoticeDto> notice = noticeService.selectListPager(pager);
-//			log.info(notice.toString());
 
 			model.addAttribute("title", "공지사항");
 			model.addAttribute("notice", notice);
@@ -88,22 +89,35 @@ public class NoticeController {
 			model.addAttribute("title", "공지사항 - 검색 결과 없음");
 			model.addAttribute("notice", new ArrayList<>());
 		}
-			model.addAttribute("noticeTitle", noticeTitle);
-			log.info("Search Title: " + noticeTitle);
-			return "notice/noticeList";
+		model.addAttribute("noticeTitle", noticeTitle);
+		log.info("Search Title: " + noticeTitle);
+		return "notice/noticeList";
 	}
 
 	// 공지사항 상세페이지
 	@GetMapping("/noticeDetail")
-	public String noticeDetail(Model model, int noticeId/*, NoticeFormDto noticeForm*/) {
+	public String noticeDetail(Model model, int noticeId) {
 
 		NoticeDto notice = noticeService.selectByNoticeId(noticeId);
+		log.info("Notice fetched: " + notice);
 		List<NoticeFileDto> noticeFile = noticeService.selectAttachFiles(noticeId);
 		NoticeDto prevNext = noticeService.prevNext(noticeId);
 
-		/*noticeService.insertNoticeTarget(notice);
-		
-		notice.setDeptId(noticeForm.getDeptId());*/
+		List<NoticeTargetDto> noticeDeptList = noticeService.selectDeptId(noticeId);
+		List<Departments> deptList = departmentService.getDeptList();
+		log.info("Notice Dept List: " + noticeDeptList);
+		log.info("Dept List: " + deptList);
+
+		List<String> deptName = new ArrayList<>();
+
+		for (NoticeTargetDto noticeDept : noticeDeptList) {
+			for (Departments dept : deptList) {
+				if (noticeDept.getDeptId() == dept.getDeptId()) {
+					deptName.add(dept.getDeptName());
+				}
+			}
+		}
+
 		notice.setPrevNum(prevNext.getPrevNum());
 		notice.setPrevTitle(prevNext.getPrevTitle());
 		notice.setNextNum(prevNext.getNextNum());
@@ -113,10 +127,13 @@ public class NoticeController {
 		model.addAttribute("title", "공지사항");
 		model.addAttribute("notice", notice);
 		model.addAttribute("noticeFile", noticeFile);
+		model.addAttribute("noticeDeptList", noticeDeptList);
+		model.addAttribute("deptName", deptName);
 
 		log.info(prevNext.getPrevNum() + "");
 		log.info("Notice ID:" + notice.getNoticeId());
 		log.info("Dept ID:" + notice.getDeptId());
+		log.info("Dept Name:" + deptName);
 		noticeService.updateHitCount(noticeId);
 		return "notice/noticeDetail";
 	}
@@ -142,15 +159,8 @@ public class NoticeController {
 	}
 
 	@GetMapping("/noticeWriteForm")
-	public String noticeWriteForm(Model model/* , int deptId */) {
-
-		/* String deptName = departmentService.getDeptName(deptId); */
-
+	public String noticeWriteForm(Model model) {
 		model.addAttribute("title", "공지사항 작성");
-		/*
-		 * model.addAttribute("deptName", deptName); model.addAttribute("deptId",
-		 * deptId);
-		 */
 		return "notice/noticeWriteForm";
 	}
 
@@ -171,13 +181,13 @@ public class NoticeController {
 		dbNotice.setNoticeDate(notice.getNoticeDate());
 		dbNotice.setNoticeImportant(notice.getNoticeImportant());
 		dbNotice.setNoticeAllTarget(notice.getNoticeAllTarget());
-//		log.info(notice.toString());
+		log.info(notice.toString());
 
 		noticeService.noticeWrite(dbNotice);
 
 		noticeDto.setNoticeId(dbNotice.getNoticeId());
-		/*noticeService.insertNoticeTarget(noticeDto);*/
-		
+		/* noticeService.insertNoticeTarget(noticeDto); */
+
 		if (notice.getDeptId() != null && notice.getDeptId().length > 0) {
 			noticeService.insertNoticeTarget(noticeDto);
 			noticeService.updateNoticeTarget(noticeDto);
@@ -192,12 +202,11 @@ public class NoticeController {
 				dbFile.setNoticeFileType(mf.getContentType());
 				dbFile.setNoticeFileId(1);
 				dbFile.setNoticeId(dbNotice.getNoticeId());
-//				log.info(dbFile.toString());
+				log.info(dbFile.toString());
 				noticeService.insertNoticeFile(dbFile);
 			}
 		}
-//		log.info(notice.toString());
-//		log.info("하이루");
+		log.info("하이루");
 
 		model.addAttribute("employees", employees);
 		model.addAttribute("noticeDto", noticeDto);
@@ -218,6 +227,14 @@ public class NoticeController {
 		model.addAttribute("noticeFiles", noticeFiles);
 
 		return "notice/updateNoticeForm";
+	}
+
+	@ResponseBody
+	@GetMapping("/updateNoticeByDb")
+	public List<NoticeFileDto> updateNoticeByDb(int noticeId, Model model) {
+		List<NoticeFileDto> noticeFiles = noticeService.selectAttachFiles(noticeId);
+		model.addAttribute("noticeFiles", noticeFiles);
+		return noticeFiles;
 	}
 
 	// 공지사항 수정
@@ -247,7 +264,8 @@ public class NoticeController {
 				dbFile.getNoticeFileId();
 				dbFile.setNoticeId(dbNotice.getNoticeId());
 				log.info(dbFile.toString());
-				noticeService.updateNoticeFile(dbFile);
+				/* noticeService.updateNoticeFile(dbFile); */
+				noticeService.insertNoticeFile(dbFile);
 			}
 		}
 		log.info(notice.toString());
@@ -258,8 +276,10 @@ public class NoticeController {
 	// 공지사항 삭제
 	@GetMapping("/deleteNotice")
 	public String deleteNotice(int noticeId, HttpSession session) {
-		/*noticeService.deleteNoticeFile(noticeId);
-		noticeService.deleteNotice(noticeId);*/
+		/*
+		 * noticeService.deleteNoticeFile(noticeId);
+		 * noticeService.deleteNotice(noticeId);
+		 */
 		noticeService.deactivateNoticeById(noticeId);
 
 		Pager pager = (Pager) session.getAttribute("pager");

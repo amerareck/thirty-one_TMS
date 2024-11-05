@@ -165,7 +165,7 @@ $(document).ready(function() {
 		console.log(atd);
 		
 		$.ajax({
-			method: 'post',
+			method: 'Get',
 			url: '/thirtyone/atd/' + atd,
 			data: {
 				"latitude" : crd.latitude,

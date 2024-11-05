@@ -71,7 +71,7 @@
 					<div class="plusFile">
 						<div class="plus-file">첨부파일</div>
 
-						<div class="fileContent" href="javascript:" id="dropZone">
+						<div class="fileContent" id="dropZone">
 							<div class="fileBox" id="fileBox">
 								<p>
 									<img
@@ -103,13 +103,6 @@
 							onclick="location.href='${pageContext.request.contextPath}/notice/noticeList'">취소</button>
 						<input type="submit" class="button-medium" id="save" value="저장"></input>
 					</div>
-					<%-- <input type="hidden" name="empId" value="${employees.empId}" data-value="${empId}" id="empId"> --%>
-					<%-- <input type="number" name="deptId" value="${deptId}" id="deptIdValue"> --%>
-					<!--append-->
-					<!-- <form action="deleteFile" method="POST" enctype="multipart/form-data" >
-               <input type="submit" class="deleteFile" id="deleteFileId">
-                  <i class="bi bi-x-circle"></i>
-            </form> -->
 
 
 					<!-- Modal -->

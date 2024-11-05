@@ -3,7 +3,7 @@ package com.oti.thirtyone.dto;
 import lombok.Data;
 
 @Data
-public class AttendanceCalendarDto {
+public class CalendarDto {
 	private String title;
 	private String start;
 	private String end;
@@ -11,9 +11,9 @@ public class AttendanceCalendarDto {
 	private String borderColor;
 	private String textColor;
 	
-	public AttendanceCalendarDto() {}
+	public CalendarDto() {}
 	
-	public AttendanceCalendarDto(String title, String start, String end, String backgroundColor, String borderColor,
+	public CalendarDto(String title, String start, String end, String backgroundColor, String borderColor,
 			String textColor) {
 		this.title = title;
 		this.start = start;

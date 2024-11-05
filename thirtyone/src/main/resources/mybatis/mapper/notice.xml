@@ -92,13 +92,17 @@
 	<select id="selectAttachByNoticeId" parameterType="int"
 		resultType="NoticeFile">
 		SELECT * FROM NOTICE_FILES
-		WHERE NOTICE_FILE_ID =
-		#{noticeFileId}
+		WHERE NOTICE_FILE_ID = #{noticeFileId}
 	</select>
 
 	<select id="selectAttachFiles" parameterType="int"
 		resultType="NoticeFile">
 		SELECT * FROM NOTICE_FILES
+		WHERE NOTICE_ID = #{noticeId}
+	</select>
+	
+	<select id="selectDeptId" parameterType="int" resultType="NoticeTarget">
+		SELECT * FROM NOTICE_TARGET
 		WHERE NOTICE_ID = #{noticeId}
 	</select>
 
@@ -127,7 +131,7 @@
 		WHERE NOTICE_ID = #{noticeId}
 	</update>
 
-	<update id="updateNoticeFile" parameterType="NoticeFile">
+	<!-- <update id="updateNoticeFile" parameterType="NoticeFile">
 		UPDATE NOTICE_FILES SET
 		<if test="noticeFileName != null">
 			NOTICE_FILE_NAME = #{noticeFileName},
@@ -135,7 +139,7 @@
 			NOTICE_FILE_DATA = #{noticeFileData}
 		</if>
 		WHERE NOTICE_ID = #{noticeId}
-	</update>
+	</update> -->
 
 	<update id="updateHitCount" parameterType="int">
 		UPDATE NOTICES SET

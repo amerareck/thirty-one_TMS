@@ -23,4 +23,10 @@ public interface ReasonDao {
 
 	int updateReasonStatus(int reasonId);
 
+	int updateReasonCompletedDate(int reasonId);
+
+	int countRows();
+
+	List<ReasonDto> selectReasonList(Pager pager);
+
 }

@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Param;
 
 import com.oti.thirtyone.dto.NoticeDto;
 import com.oti.thirtyone.dto.NoticeFileDto;
-import com.oti.thirtyone.dto.NoticeFormDto;
+import com.oti.thirtyone.dto.NoticeTargetDto;
 import com.oti.thirtyone.dto.Pager;
 
 @Mapper
@@ -48,6 +48,7 @@ public interface NoticeDao {
 	 //부서
 	 public int insertNoticeTarget(NoticeDto notice);
 	 public int updateNoticeTarget(NoticeDto notice);
+	 public List<NoticeTargetDto> selectDeptId(int noticeId);
 	
 
 }

@@ -11,6 +11,7 @@
 		<typeAlias type="com.oti.thirtyone.dto.EmployeesDto" alias="Employee"/>
 		<typeAlias type="com.oti.thirtyone.dto.NoticeDto" alias="Notice"/>
 		<typeAlias type="com.oti.thirtyone.dto.NoticeFileDto" alias="NoticeFile"/>
+		<typeAlias type="com.oti.thirtyone.dto.NoticeTargetDto" alias="NoticeTarget"/>
 		<typeAlias type="com.oti.thirtyone.dto.Departments" alias="Department"/>
 		<typeAlias type="com.oti.thirtyone.dto.AttendanceDto" alias="Attendance"/>
 		<typeAlias type="com.oti.thirtyone.dto.ReasonDto" alias="Reason"/>
@@ -21,7 +22,9 @@
 		<typeAlias type="com.oti.thirtyone.dto.DocumentReferenceDTO" alias="DocRef"/>
 		<typeAlias type="com.oti.thirtyone.dto.EmpApprovalLineDTO" alias="EmpApprovalLine"/>
 		<typeAlias type="com.oti.thirtyone.dto.PageParam" alias="PageParam"/>
-		
+		<typeAlias type="com.oti.thirtyone.dto.HolidayDto" alias="Holiday"/>
+		<typeAlias type="com.oti.thirtyone.dto.HolidayRequestDto" alias="HolidayRequest"/>
+
 		<typeAlias type="com.oti.thirtyone.dto.Pager" alias="Pager"/>	
 		
 	</typeAliases>
