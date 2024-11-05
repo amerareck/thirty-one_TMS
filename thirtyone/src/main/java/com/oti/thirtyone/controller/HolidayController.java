@@ -11,7 +11,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.oti.thirtyone.dto.CalendarDto;
 import com.oti.thirtyone.dto.HolidayRequestDto;
 import com.oti.thirtyone.dto.Pager;
 import com.oti.thirtyone.enums.HolidayType;
@@ -42,6 +44,14 @@ public class HolidayController {
 		model.addAttribute("selectedTitle", "hr");
 		model.addAttribute("selectedSub", "holiday");
 		return "holiday/status";	
+	}
+	
+	@GetMapping("/myhdrCalendar")
+	@ResponseBody
+	public List<CalendarDto> myhdrCalendar(String year, String month, Authentication authentication) {
+		String empId = authentication.getName();
+		List<CalendarDto> hdrCalendarList = hdrService.getHdrCalendar(empId, year, month);
+		return hdrCalendarList;
 	}
 	@GetMapping("/request")
 	public String holidayRequest(Model model) {		

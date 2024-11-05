@@ -104,7 +104,9 @@
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
 
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-
+<script type="text/javascript">
+	contextPath = '${pageContext.request.contextPath}'
+</script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/holiday/status.js"></script>
 
 <%@ include file="/WEB-INF/views/common/footer.jsp"%>

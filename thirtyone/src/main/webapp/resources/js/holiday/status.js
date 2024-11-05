@@ -9,6 +9,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
 	var calendarEl = document.getElementById('calendar');
 	let today = new Date();
+	let todayYear = today.getFullYear();
+	let todayMonth = ('0' + (today.getMonth() + 1)).slice(-2);
+	
 	
 	var calendar = new FullCalendar.Calendar(calendarEl, {
 	    initialView: 'dayGridMonth',
@@ -18,7 +21,40 @@ document.addEventListener('DOMContentLoaded', function () {
 	      center: 'title',
 	      right: 'next'
 	    },
-//	    events: 
+	    events: function (fetchInfo, successCallback, failureCallback){
+	    	$.ajax({
+	    		method: "get",
+	    		url: contextPath + "/holiday/myhdrCalendar",
+	    		data: {'year' : todayYear , 'month' : todayMonth },
+	    		success: function(data){
+	    			successCallback(data);
+	    		},
+	            error: function() {
+	                failureCallback();
+	            }
+	    	})
+	    },
+	    dataSet: function(info){
+			var currentDate = calendar.getDate();
+            var month = currentDate.getMonth()+1;
+            var year = currentDate.getFullYear();
+            
+            $.ajax({
+				method: "get",
+				url: contextPath + "/holiday/myhdrCalendar",
+				data: {'year' : year , 'month' : month },
+				success: function(data) {
+					calendar.getEvents().forEach(event => event.remove());
+					data.forEach(eventData => {
+						calendar.addEvent(eventData);
+					});
+					
+				},
+	            error: function() {
+	                failureCallback();
+	            }
+			})
+	    }
 	});
 	
 	calendar.render();

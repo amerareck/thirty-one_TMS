@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.oti.thirtyone.dto.AttendanceCalendarDto;
+import com.oti.thirtyone.dto.CalendarDto;
 import com.oti.thirtyone.dto.AttendanceDto;
 import com.oti.thirtyone.dto.Departments;
 import com.oti.thirtyone.dto.DocFilesDTO;
@@ -80,7 +80,7 @@ public class AttendanceController {
 		return "attendance/attendanceStatus"; 
 	}
 	
-	@PostMapping("checkIn")
+	@GetMapping("checkIn")
 	public ResponseEntity<String> checkIn(double latitude, double longitude, Authentication authentication){
 		String empId= authentication.getName();
 		int deptId = empService.getDeptId(empId);
@@ -95,7 +95,7 @@ public class AttendanceController {
 		return ResponseEntity.ok("출근");
 	}
 	
-	@PostMapping("checkOut")
+	@GetMapping("checkOut")
 	public ResponseEntity<String> checkOut(double latitude, double longitude, Authentication authentication){
 		String empId= authentication.getName();
 		int deptId = empService.getDeptId(empId);
@@ -104,18 +104,19 @@ public class AttendanceController {
 		double distance = atdService.distanceCalculation(latitude, longitude, regionalOffice);
 		boolean result = false;
 		if(distance < 1000) {
+			log.info("ASD");
 			result = atdService.checkOut(empId);
 		}
 		
-		return ResponseEntity.ok("출근");
+		return ResponseEntity.ok("퇴근");
 	}
 	
 	
 	@GetMapping("atdCalendar")
 	@ResponseBody
-	public List<AttendanceCalendarDto> atdCalender(Authentication authentication, String year, String month){
+	public List<CalendarDto> atdCalendar(Authentication authentication, String year, String month){
 		String empId = authentication.getName();
-		List<AttendanceCalendarDto> atdCalendarList = atdService.getAtdInfoList(empId, year, month);
+		List<CalendarDto> atdCalendarList = atdService.getAtdInfoList(empId, year, month);
 		return atdCalendarList;
 	}
 	

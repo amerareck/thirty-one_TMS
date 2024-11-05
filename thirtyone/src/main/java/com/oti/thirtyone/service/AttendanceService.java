@@ -15,7 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.oti.thirtyone.dao.AttendanceDao;
-import com.oti.thirtyone.dto.AttendanceCalendarDto;
+import com.oti.thirtyone.dto.CalendarDto;
 import com.oti.thirtyone.dto.AttendanceDto;
 
 import lombok.extern.log4j.Log4j2;
@@ -111,8 +111,8 @@ public class AttendanceService {
         
 		return timeDifference;
 	}
-	public AttendanceCalendarDto formatInputCalendar(String title, Date date, String background, String border, String text) {
-		AttendanceCalendarDto atdCalendarDto = new AttendanceCalendarDto();
+	public CalendarDto formatInputCalendar(String title, Date date, String background, String border, String text) {
+		CalendarDto atdCalendarDto = new CalendarDto();
 		
 		String year = "20" + (date.getYear()+"").split("1")[1];
 		String month = String.valueOf(date.getMonth()+1);
@@ -132,14 +132,14 @@ public class AttendanceService {
 		return atdCalendarDto;
 	}
 	
-	public List<AttendanceCalendarDto> getAtdInfoList(String empId, String year, String month) {
+	public List<CalendarDto> getAtdInfoList(String empId, String year, String month) {
 		
 		if(month.length() == 1) {
 			month="0" + month;
 		}
 		log.info(year + " " + month);		
 		List<AttendanceDto> atdCalendarList = atdDao.selectAtdForMonths(empId, year+"/"+month+"/15");
-		List<AttendanceCalendarDto> calendarList = new LinkedList<AttendanceCalendarDto>();
+		List<CalendarDto> calendarList = new LinkedList<CalendarDto>();
 		for (AttendanceDto atd : atdCalendarList) {
 			String title = atd.getAtdState();
 			

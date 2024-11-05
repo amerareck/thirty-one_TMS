@@ -15,4 +15,6 @@ public interface HolidayRequestDao {
 
 	int countRowsByEmpId(String empId);
 
+	List<HolidayRequestDto> selectHdrByEmpId(String empId);
+
 }
