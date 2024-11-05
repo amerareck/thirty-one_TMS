@@ -144,6 +144,12 @@
     height: 50px;
 }
 
+.pagination a, .pagination span {
+	display: flex;
+	justify-content: center;
+	margin: 0 5px 0 5px;
+}
+
 .page-num {
 	background-color: transparent;
 	border: solid transparent;
