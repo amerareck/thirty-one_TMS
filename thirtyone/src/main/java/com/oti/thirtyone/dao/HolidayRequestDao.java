@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import com.oti.thirtyone.dto.HolidayDto;
 import com.oti.thirtyone.dto.HolidayRequestDto;
 import com.oti.thirtyone.dto.Pager;
 
@@ -16,5 +17,6 @@ public interface HolidayRequestDao {
 	int countRowsByEmpId(String empId);
 
 	List<HolidayRequestDto> selectHdrByEmpId(String empId);
+
 
 }

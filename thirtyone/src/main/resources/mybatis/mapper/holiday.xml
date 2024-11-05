@@ -1,5 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.oti.thirtyone.dao.HolidayDao">
+	
+	<select id="selectAnnualHoliday" parameterType="String" resultType="Holiday">
+		select hd_category, emp_id, hd_count, hd_used
+		from holiday
+		where emp_id=#{empId} and hd_category=1
+	</select>
 
+	<select id="selectSubstituteHoliday" parameterType="String" resultType="Holiday">
+		select hd_category, emp_id, hd_count, hd_used
+		from holiday
+		where emp_id=#{empId} and hd_category=2
+	</select>
 </mapper>

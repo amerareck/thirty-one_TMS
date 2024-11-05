@@ -3,8 +3,6 @@ package com.oti.thirtyone.controller;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.text.ParseException;
-import java.util.Arrays;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -26,8 +24,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.oti.thirtyone.dto.CalendarDto;
 import com.oti.thirtyone.dto.AttendanceDto;
+import com.oti.thirtyone.dto.CalendarDto;
 import com.oti.thirtyone.dto.Departments;
 import com.oti.thirtyone.dto.DocFilesDTO;
 import com.oti.thirtyone.dto.EmployeesDto;
@@ -122,10 +120,9 @@ public class AttendanceController {
 	
 	@GetMapping("/atdStatusMonthly")
 	@ResponseBody
-	public int[]atdStatusMonthly(Authentication authentication) {
+	public int[] atdStatusMonthly(Authentication authentication) {
 		String empId = authentication.getName();
 		int[] status = atdService.getAtdStats(empId);
-		log.info(Arrays.toString(status));
 		return status;
 	}
 	@GetMapping("/time")

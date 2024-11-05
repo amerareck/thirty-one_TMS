@@ -7,8 +7,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.oti.thirtyone.dao.HolidayDao;
 import com.oti.thirtyone.dao.HolidayRequestDao;
 import com.oti.thirtyone.dto.CalendarDto;
+import com.oti.thirtyone.dto.HolidayDto;
 import com.oti.thirtyone.dto.HolidayRequestDto;
 import com.oti.thirtyone.dto.Pager;
 
@@ -20,6 +22,9 @@ public class HolidayService {
 	
 	@Autowired
 	HolidayRequestDao hdrReqDao;
+	
+	@Autowired
+	HolidayDao holidayDao;
 	
 	public List<HolidayRequestDto> getHdrReqAllbyEmpId(String empId, Pager pager) {
 		return hdrReqDao.selectHdrAllByEmpId(empId, pager);
@@ -60,6 +65,22 @@ public class HolidayService {
 		}
 		
 		return hdrCalList;
+	}
+
+	public double[] getRemainHoliday(String empId) {
+		HolidayDto hd = holidayDao.selectAnnualHoliday(empId);
+		double[] holiday = new double[2];
+		holiday[0] = hd.getHdUsed();
+		holiday[1] = hd.getHdCount()-hd.getHdUsed();
+		return holiday;
+	}
+
+	public HolidayDto getAnnualHoliday(String empId) {
+		return holidayDao.selectAnnualHoliday(empId);
+	}
+
+	public HolidayDto getSubstituteHoliday(String empId) {
+		return holidayDao.selectSubstituteHoliday(empId);
 	}
 
 }

@@ -84,11 +84,10 @@
 					<p class="mini-title">휴가 현황</p>
 					<div class="holiday-status">
 						<div class="holiday-status-detail">
-							<div><span>부여일수</span><span>17일</span></div>
-							<div><span>연차</span><span>15일</span></div>
-							<div><span>대체휴가</span><span>2일</span></div>
-							<div><span>사용일수</span><span>12.5일</span></div>
-							<div><span>잔여일수</span><span>7.5일</span></div>
+							<div><span>연차 부여일수</span><span>${annual.hdCount} 일</span></div>
+							<div><span>대체휴가</span><span>${substitute != null || substitute.hdCount == 0 ? substitute.hdCount : "- "}일</span></div>
+							<div><span>연차 사용일수</span><span>${annual.hdUsed} 일</span></div>
+							<div><span>연차 잔여일수</span><span>${annual.hdCount - annual.hdUsed} 일</span></div>
 						</div>
 						<div>
 							<canvas id="doughnut-chart" style="width: 150px;"></canvas>	
