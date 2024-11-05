@@ -2,4 +2,29 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.oti.thirtyone.dao.HolidayRequestDao">
 
+	<select id="selectHdrAllByEmpId" resultType="HolidayRequest">
+		<![CDATA[		
+			select HDR_ID, HDR_SUBMITTED_DATE, HDR_START_DATE, HDR_END_DATE, HDR_CONTENT,
+				HDR_STATUS, HDR_COMPLETED_DATE, HD_CATEGORY, HDR_EMP_ID, HDR_APPROVER, HDR_USED_DAY
+			from( 
+				select rownum as rnum, HDR_ID, HDR_SUBMITTED_DATE, HDR_START_DATE, HDR_END_DATE, HDR_CONTENT,
+					HDR_STATUS, HDR_COMPLETED_DATE, HD_CATEGORY, HDR_EMP_ID, HDR_APPROVER, HDR_USED_DAY
+				from (
+					select HDR_ID, HDR_SUBMITTED_DATE, HDR_START_DATE, HDR_END_DATE, HDR_CONTENT,
+						HDR_STATUS, HDR_COMPLETED_DATE, HD_CATEGORY, HDR_EMP_ID, HDR_APPROVER, HDR_USED_DAY
+					from holiday_request 
+					where HDR_EMP_ID = #{empId}
+					order by hdr_start_date
+				)
+				where rownum <= #{pager.endRowNo}
+			)
+			where rnum >= #{pager.startRowNo}
+		]]>
+	</select>
+	
+	<select id="countRowsByEmpId" parameterType="String" resultType="int">
+		select count(hdr_id)
+		from holiday_request
+		where HDR_EMP_ID = #{enpId}
+	</select>
 </mapper>

@@ -13,14 +13,14 @@ public enum HolidayType {
         this.code = code;
         this.category = category;
     }
-
-    public static HolidayType fromCode(int code) {
+    
+    public static String getCategoryByCode(int code) {
         for (HolidayType type : HolidayType.values()) {
             if (type.code == code) {
-                return type;
+                return type.category;
             }
         }
-        throw new IllegalArgumentException("Invalid code: " + code);
+        return "알 수 없는 휴가 유형";
     }
 
     public String getCategory() {
