@@ -61,4 +61,10 @@
 		set reason_status = '승인'
 		where reason_id = #{reasonId} 
 	</update>
+	
+	<update id="updateReasonCompletedDate" parameterType="int">
+		update reason
+		set reason_completed_date = sysdate
+		where reason_id = #{reasonId}
+	</update>
 </mapper>

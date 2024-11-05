@@ -29,4 +29,6 @@ public interface AttendanceDao {
 
 	AttendanceDto selectAtdOneDayByDate(@Param("empId")String empId,@Param("day") Date atdDate);
 
+	int updateStatus(@Param("reasonId")int reasonId,@Param("empId") String empId, @Param("atdDate") String atdDate);
+
 }

@@ -2,9 +2,9 @@ package com.oti.thirtyone.controller;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -252,8 +252,9 @@ public class AttendanceController {
 	}
 	
 	@PostMapping("/requsetAccept")
-	public void requestAccept(int reasonId) {
-		reasonService.updateReasonStatus(reasonId);
+	public ResponseEntity<String> requestAccept(int reasonId, String empId, String atdDate) {
+		reasonService.updateReasonStatus(reasonId, empId, atdDate);
+		return ResponseEntity.ok("OK");
 	}
 }
 

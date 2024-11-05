@@ -22,12 +22,16 @@ function formatDate(date) {
 
 $(document).on("click", ".accept", function() {
 	let reasonId = $(".accept").data("reasonid");
+	let empId = $(".accept").data("empid");
+	let atdDate = formatDate(new Date($(this).data("atddate")));
+	console.log($(".accept").data("atddate"));
 	$.ajax({
 		method: "post",
 		url: contextPath + "/atd/requsetAccept",
-		data: {"reasonId": reasonId},
+		data: {"reasonId": reasonId ,"empId" : empId, "atdDate": atdDate},
 		success: function(data){
-			
+			alert("승인되었습니다.");
+			location.reload();
 		}
 	})
 })
@@ -42,12 +46,13 @@ $(document).on("click", ".process-tr", function() {
 		data: {"empId" : empId, "reasonId": reasonId},
 		success:function (data){
 			console.log(data);
+			console.log(data.reason.atdDate);
 			let checkIn = formatDate(new Date(data.atd.checkIn)) + " " +formatTime(data.atd.checkIn);
 			let checkOut = formatDate(new Date(data.atd.checkOut)) + " " +formatTime(data.atd.checkOut);
 			
 			let fileListHtml = "";
 	        data.fileList.forEach(file => {
-	            fileListHtml += `<a href="attachDownload?fileId=${file.docFileId}">${file.docFileName}</a><br>`;
+	            fileListHtml += `<a href="attachDownload?fileId=${file.docFileId}">${file.docFileName}</a>`;
 	        });
 			
 			const html = `
@@ -80,9 +85,9 @@ $(document).on("click", ".process-tr", function() {
 					  <label for="reason" class="form-label reason">사유</label>
 					  <textarea class="form-control" id="reason" rows="6" disabled>${data.reason.reasonContent}</textarea>
 					</div>
-					<div>
+					<div class="button-box">
 						<button class="button-large reject">반려</button>
-						<button class="button-large accept" data-reasonid="${data.reason.reasonId}">승인</button>
+						<button class="button-large accept" data-reasonid="${data.reason.reasonId}" data-empid="${data.reason.empId}" data-atddate="${data.reason.atdDate}">승인</button>
 					</div>
 				</div>`
 				$('.reason-report-box').empty();

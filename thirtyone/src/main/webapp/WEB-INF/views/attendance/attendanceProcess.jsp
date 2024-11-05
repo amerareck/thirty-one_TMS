@@ -64,12 +64,12 @@
 								<img src="${pageContext.request.contextPath}/resources/image/next_icon.png" alt="next" style="width: 110px">
 							</a>
 						</c:if>
-	
 					</div>
 				</div>
 			</div>
 			<div class="reason-report-box card">
-				
+				<p class="mini-title">사유서</p>
+				<div class="mini-line"></div>
 			</div>
 		</div>
 <script type="text/javascript">

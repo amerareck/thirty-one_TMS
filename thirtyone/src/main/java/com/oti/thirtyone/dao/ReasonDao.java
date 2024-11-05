@@ -23,4 +23,6 @@ public interface ReasonDao {
 
 	int updateReasonStatus(int reasonId);
 
+	int updateReasonCompletedDate(int reasonId);
+
 }
