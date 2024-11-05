@@ -43,6 +43,30 @@
 		]]>
 	</select>
 	
+	<select id="selectReasonList" parameterType="Pager" resultType="Reason">
+		<![CDATA[	
+			select reason_id, reason_type, reason_content, reason_status,
+				atd_date, emp_id, reason_improver
+			from (
+				select rownum as rnum, reason_id, reason_type, reason_content, reason_status,
+					atd_date, emp_id, reason_improver
+				from (
+					select reason_id, reason_type, reason_content, reason_status,
+						atd_date, emp_id, reason_improver
+					from reason
+					order by reason_status				
+				)
+				where rownum <= #{endRowNo}
+			)
+			where rnum >= #{startRowNo}
+		]]>
+	</select>
+	
+	<select id="countRows" resultType="int">
+		select count(reason_id)
+		from reason
+	</select>
+	
 	<select id="countRowsByImprover" parameterType="String" resultType="int">
 		select count(reason_id)
 		from reason

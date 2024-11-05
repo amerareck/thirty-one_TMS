@@ -1,7 +1,3 @@
-document.addEventListener('DOMContentLoaded', function () {
-
-})
-
 function formatTime(date){
 
 	const dateTime = new Date(date);

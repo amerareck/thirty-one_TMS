@@ -76,4 +76,12 @@ public class ReasonService {
 		reasonDao.updateReasonCompletedDate(reasonId);
 	}
 
+	public List<ReasonDto> getReasonList(Pager pager) {
+		return reasonDao.selectReasonList(pager);
+	}
+
+	public int countRows() {
+		return reasonDao.countRows();
+	}
+
 }
