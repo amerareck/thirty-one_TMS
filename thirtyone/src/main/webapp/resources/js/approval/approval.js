@@ -1,3 +1,7 @@
+$('.btn').on('click', function () {
+    $(this).blur();
+});
+
 // datetime 라이브러리 설정(flatpickr)
 flatpickr("#holidayStartDate", {
 	dateFormat: "Y-m-d",
@@ -53,8 +57,9 @@ flatpickr("#workOvertimeStartDatetime", {
 	maxDate: wotMaxDate
 });
 
-// jstree를 이용한 조직도 로딩
+var aprLineData;
 $(function() {
+	// jstree를 이용한 조직도 로딩
 	var path = window.location.pathname;
     console.log("페이지 경로:", path);
     
@@ -74,8 +79,101 @@ $(function() {
                 console.log('Error: ' + error);
             }
     	});
-    	
     }
+    
+    // 결재선 북마크 로딩
+    const aprLineBookMark = $('#approvalLineSelect');
+    const aprLineModalSelect = $('#approval-line');
+    $.ajax({
+    	url: '../emp/getAllEmpApprovalLine',
+    	method: 'get',
+    	success: function(data) {
+    		aprLineBookMark.empty();
+    		aprLineModalSelect.empty();
+    		aprLineBookMark.append('<option selected value="default">북마크 결재선 선택</option>');
+    		aprLineModalSelect.append('<option selected value="default">북마크 결재선 선택</option>');
+    		const names = data.aprLineNames;
+    		aprLineData = data.empAPL;
+    		for(let i=0; i<names.length; i++) {
+    			const context = `
+    				<option value="${names[i]}">${names[i]}</option>
+    			`;
+    			aprLineBookMark.append(context);
+    			aprLineModalSelect.append(context);
+    		}
+    		aprLineBookMark.prop('disabled', true);
+    	},
+		error: function (xhr, status, error) {
+            console.log('Error: ' + error);
+        }
+    });
+    
+    // 모달 결재라인 초기화
+    $('#approvalLineBox').empty();
+});
+
+$('#approval-line').on('change', function(){
+	const clickAPR = $(this).val();
+	const targetAPR = aprLineData[clickAPR]; // type: Array.
+	const aprLineBox = $('#approvalLineBox');
+	
+	aprLineBox.empty();
+	for(let data of targetAPR) {
+		const context = `
+			<div class="approval-line-item" data-deptId="${data.approverDeptId}" data-empid="${data.aprLineApprover}" data-seq="${data.aprLineSeq}" style="width: 85%">
+                <div>
+                    <i class="fas fa-user pe-2"></i> <b class="apl-emp-name">${data.empName}</b> <b class="apl-emp-position">${data.position}</b>
+                </div>
+                <div>
+                    <button class="btn btn-sm btn-outline-secondary line-handler-btn btn-line-up" ><i class="fas fa-arrow-up"></i></button>
+                    <button class="btn btn-sm btn-outline-secondary line-handler-btn btn-line-down" ><i class="fas fa-arrow-down"></i></button>
+                    <button class="btn btn-sm btn-outline-danger line-handler-btn btn-line-remove" ><i class="fas fa-times"></i></button>
+                </div>
+            </div>
+		`;
+		aprLineBox.append(context);
+	}
+	
+});
+
+$('#approvalLineSelect').on('change', function() {
+	const diagram = $('#approvalLineDiagram');
+	const aprInfo = $('#approvalLineInfo');
+	const aprNames = [];
+	
+	console.log(aprLineData);
+	const targetName = $(this).val();
+	const target = aprLineData[targetName]; // type: Array.
+	diagram.empty();
+	
+	for(let i=0; i<target.length; i++) {
+		let context = `
+			<div class="custom-card text-end">
+	            <div class="name-text mt-1">${target[i].empName} <span class="role-text">${target[i].position}</span></div>
+	            <div class="dept-text mt-2">${target[i].approverDeptName}</div>
+	        </div>
+		`;
+		if(i!=target.length-1) {
+			context += `
+				<div class="mx-3">
+					<img src="/thirtyone/resources/image/approval-arrow.png" width="20px" />
+				</div>
+			`;
+		}
+		diagram.append(context);
+	}
+	
+	// 서버 전송을 위한 select 태그에 요소 삽입.
+	const selectTag = $('#approvalLineInfo').find('select');
+	selectTag.empty();
+	for(let i=0; i<target.length; i++) {
+		selectTag.append(`
+			<option selected value="${i}-${target[i].aprLineApprover}"></option>
+		`);
+	}
+	
+	// document 결재선 반영
+	insertDocumentApprovalLine(target.length, target);
 });
 
 // 조직도에 따른 멤버 동적 로딩
@@ -126,7 +224,6 @@ $('#approvalLineEmpSelect').on('click', function(){
     	let name = selectedTexts[i].split(" ")[0];
     	let position = selectedTexts[i].split(" ")[1];
     	let empid= selectedValues[i];
-    	aplLineSeq = aplLineSeq + i;
     	approvalLines += `
     	<div class="approval-line-item" data-deptId="${selectedDept}" data-empId="${empid}" data-seq="${aplLineSeq}" style="width: 85%">
             <div>
@@ -139,6 +236,7 @@ $('#approvalLineEmpSelect').on('click', function(){
             </div>
         </div>
     	`;
+    	aplLineSeq++;
     }
     $('#approvalLineBox').append(approvalLines);
 });
@@ -226,46 +324,15 @@ $('#btnApprovalLineSelect').on('click', function(e) {
 			}
 			
 			// document 결재선 반영
-			$.ajax({
-				url: '../emp/getUserInfo',
-				method: 'get',
-				success: function(data) { //어떤 자료를 받아왔는지, 쉽게 알 수 있도록 요렇게 넣습니다...
-					memberInfo.empId = data.empId;
-					memberInfo.empNumber = data.empNumber;
-					memberInfo.empName = data.empName;
-					memberInfo.empTel = data.empTel;
-					memberInfo.empHiredate = data.empHiredate;
-					memberInfo.deptId = data.deptId;
-					memberInfo.deptName = data.deptName;
-					memberInfo.position = data.position;
-					
-					const editor = tinymce.get('draftDocument');
-				    const contentDocument = editor.getDoc();
-				    const date = new Date();
-				    const year = String(date.getFullYear()).slice(-2);
-				    const month = String(date.getMonth() + 1).padStart(2, '0');
-				    const day = String(date.getDate()).padStart(2, '0');
-				    const formattedDate = `${year}-${month}-${day}`;
-				    
-				    for(let i=0; i<=approvalEmpId.length; i++) {
-				    	const empPosition = $(contentDocument.getElementById('approvalLine-position-'+i));	
-				    	const empName = $(contentDocument.getElementById('approvalLine-name-'+i));
-				    	
-				    	if(i==0) {
-				    		empPosition.text(memberInfo.position);
-				    		empName.text(memberInfo.empName);
-				    		$(contentDocument.getElementById('approval-result-'+i)).text('상신');
-				    		$(contentDocument.getElementById('approval-result-date-'+i)).text('('+formattedDate+')');
-				    	} else {
-				    		empPosition.text(approvalPosition[i-1]);
-				    		empName.text(approvalNames[i-1]);
-				    	}
-				    }
-				},
-				error: function (xhr, status, error) {
-		            console.log('Error: ' + error);
-		        },
-			});
+			const docAprLine = [];
+			for(let i=0; i<approvalEmpId.length; i++) {
+				const empInfo = {};
+				empInfo.position = approvalPosition[i];
+				empInfo.empName = approvalNames[i];
+				docAprLine.push(empInfo);
+			}
+			
+			insertDocumentApprovalLine(approvalEmpId.length, docAprLine);
 		},
 		error: function (xhr, status, error) {
             console.log('Error: ' + error);
@@ -273,8 +340,56 @@ $('#btnApprovalLineSelect').on('click', function(e) {
 	});
 });
 
+
+function insertDocumentApprovalLine(AprLineLength, aprLineData) {
+	const memberInfo = {};
+	$.ajax({
+		url: '../emp/getUserInfo',
+		method: 'get',
+		success: function(data) { //어떤 자료를 받아왔는지, 쉽게 알 수 있도록 요렇게 넣습니다...
+			memberInfo.empId = data.empId;
+			memberInfo.empNumber = data.empNumber;
+			memberInfo.empName = data.empName;
+			memberInfo.empTel = data.empTel;
+			memberInfo.empHiredate = data.empHiredate;
+			memberInfo.deptId = data.deptId;
+			memberInfo.deptName = data.deptName;
+			memberInfo.position = data.position;
+			
+			const editor = tinymce.get('draftDocument');
+		    const contentDocument = editor.getDoc();
+		    const date = new Date();
+		    const year = String(date.getFullYear()).slice(-2);
+		    const month = String(date.getMonth() + 1).padStart(2, '0');
+		    const day = String(date.getDate()).padStart(2, '0');
+		    const formattedDate = `${year}-${month}-${day}`;
+		    
+		    for(let i=0; i<=6; i++) {
+		    	const empPosition = $(contentDocument.getElementById('approvalLine-position-'+i));	
+		    	const empName = $(contentDocument.getElementById('approvalLine-name-'+i));
+		    	
+		    	if(i==0) {
+		    		empPosition.text(memberInfo.position);
+		    		empName.text(memberInfo.empName);
+		    		$(contentDocument.getElementById('approval-result-'+i)).text('상신');
+		    		$(contentDocument.getElementById('approval-result-date-'+i)).text('('+formattedDate+')');
+		    	} else if(i<=AprLineLength){
+		    		empPosition.text(aprLineData[i-1].position);
+		    		empName.text(aprLineData[i-1].empName);
+		    	} else {
+		    		empPosition.text("");
+		    		empName.text("");
+		    	}
+		    }
+		},
+		error: function (xhr, status, error) {
+            console.log('Error: ' + error);
+        },
+	});
+}
+
 $('#approvalLineCall').on('click', function(){
-	if ($('#documentForm').val() === 'default') {
+	if ($('#documentForm').find('option:selected').val() === 'default') {
 		alert('기안 양식을 먼저 선택해 주세요.');
 		return false;
 	} else {
@@ -303,7 +418,7 @@ $('#draftDepartmentSelect').on('change', function(){
 });
 
 $('#addDraftReferrer').on('click', function(){
-	if ($('#documentForm').val() === 'default') {
+	if ($('#documentForm').find('option:selected').val() === 'default') {
 		alert('기안 양식을 먼저 선택해 주세요.');
 		return false;
 	}
@@ -486,4 +601,100 @@ $('#draftSubmitButton').on('click', function(){
         },
 	});
 	
+});
+
+// 북마크 결재선 수정 (모달)
+$('#aprLineUpdateBtn').on('click', function(){
+	const lineElem = $('.approval-line-item');
+	const listData = [];
+	const aprName = $('#approval-line').val();
+	const chageName = $('#aprLineNewName').val();
+	
+	lineElem.each(function(){
+		const dto = {};
+		dto.aprLineName = aprName;
+		dto.changeName = chageName;
+		dto.approverDeptId = $(this).attr('data-deptId');
+		dto.aprLineApprover = $(this).attr('data-empid');
+		dto.aprLineSeq = $(this).attr('data-seq');
+		dto.empName = $(this).find('b.apl-emp-name').text();
+		dto.position = $(this).find('b.apl-emp-position').text();
+		dto.handler = 'update';
+		
+		listData.push(dto);
+	});
+	
+	$.ajax({
+		url: "../emp/setApprovalLine",
+		method: "post",
+		contentType: "application/json",
+		data: JSON.stringify(listData),
+		success: function(data){
+			if(data.errors) {
+				console.log('유효성 검증 실패, 에러 출력');
+				const errorMessage = $('#aprLineValidationText');
+				
+				if(data.duplication) {
+					errorMessage.text(data.duplication);
+				} else if(data.seqError) {
+					errorMessage.text(data.seqError);
+				} else {
+					console.log('데이터가 전송되지 않음. 서버에서 확인 요망');
+				}
+				
+			}
+			if(data.status == 'ok') {
+				console.log('데이터 삽입 성공');
+				const select = $('#approval-line');
+				select.empty();
+				$.ajax({
+					url: '../emp/getAllEmpApprovalLine',
+					method: 'get',
+					success: function(data){
+						for(let elem of data.aprLineNames) {
+							const context = `
+								<option ${elem === chageName ? 'selected' : ''} value="${elem}">${elem}</option>
+							`;
+							select.append(context);
+						}
+					},
+					error: function (xhr, status, error) {
+			            console.log('Error: ' + error);
+			        },
+				});
+			}
+		},
+		error: function (xhr, status, error) {
+            console.log('Error: ' + error);
+        },
+	});
+});
+
+$('#aprLineDeleteBtn').on('click', function(){
+	const aprLineName = $('#approval-line').val();
+	$.ajax({
+		url: "../emp/getAprIndex",
+		method: "get",
+		data: {aprLineName},
+		success: function(data){
+			$.ajax({
+				url: '../emp/deleteEmpApl',
+				method: 'post',
+				data: {aprLineName, aprLineIndex: data.aprIndex},
+				success: function(data) {
+					$('#approval-line').find('option:selected').remove();
+					$('#approvalLineBox').empty();
+					$('#aprLineNewName').val('');
+					$('#approvalLineSelect').find('option:selected').remove();
+					$('#approvalLineSelect').find('option[value="default"]').prop('selected', true);
+				},
+				error: function (xhr, status, error) {
+		            console.log('Error: ' + error);
+		        },
+			});
+		},
+		error: function (xhr, status, error) {
+            console.log('Error: ' + error);
+        },
+	});
 });

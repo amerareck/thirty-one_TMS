@@ -36,4 +36,7 @@ public interface ApprovalLineDAO {
 
 	List<EmpApprovalLineDTO> selectApprovalLineListByKeyword(Pager pager);
 
+	List<String> selectApprovalLineNames(String empId);
+
+	List<EmpApprovalLineDTO> selectApprovalLineByLineName(EmpApprovalLineDTO dto);
 }

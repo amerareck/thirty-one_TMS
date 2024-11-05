@@ -11,6 +11,7 @@ public class EmpApprovalLineDTO {
 	private int aprLineIndex; // 결재라인 index
 	
 	private int approverDeptId; // 결재자 부서
+	private String approverDeptName; // 결재자 부서 이름
 	private String empName; // 결재자 이름
 	private String position; // 결재자 직위
 	
@@ -18,6 +19,7 @@ public class EmpApprovalLineDTO {
 	private PositionsDto positionDTO; // 결재자 직위 정보
 	
 	private String handler; // ajax 핸들러
+	private String changeName; // 변경하고자 하는 이름
 	private String keyword; // ajax 검색 키워드
 	private int pageNo; // 페이지 번호
 }

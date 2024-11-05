@@ -42,38 +42,50 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr>
-				<td class="text-center align-middle table-font-size"><input type="checkbox" /></td>
-				<td class="text-center align-middle table-font-size">근무 신청서</td>
-				<td class="text-center align-middle table-font-size">WOT-111-2024-011</td>
-				<td class="text-center align-middle table-font-size">10월 9일 휴일 근무 신청의 건</td>
-				<td class="text-center align-middle table-font-size">공공사업1DIV</td>
-				<td class="text-center align-middle table-font-size">사원</td>
-				<td class="text-center align-middle table-font-size">정원석</td>
-				<td class="text-center align-middle table-font-size">정준하 과장</td>
-				<td class="text-center align-middle"><button class="btn btn-outline-secondary btn-ssm">회수</button></td>
-				<td class="text-center align-middle"><img src="${pageContext.request.contextPath}/resources/image/approval-await.png" width="50px" height="20px" /></td>
-			</tr>
+			<c:forEach items="${draftList}" var="draft" varStatus="i" >
+				<tr>
+					<td class="text-center align-middle table-font-size"><input type="checkbox" /></td>
+					<td class="text-center align-middle table-font-size">${draft.docFormName}</td>
+					<td class="text-center align-middle table-font-size">${draft.docNumber}</td>
+					<td class="text-center align-middle table-font-size"><button class="btn" data-bs-toggle="modal" data-bs-target="#approvalView-${i.index}" style="font-size: 10pt !important;">${draft.docTitle}</button></td>
+					<td class="text-center align-middle table-font-size">${draft.deptName}</td>
+					<td class="text-center align-middle table-font-size">${draft.empPosition}</td>
+					<td class="text-center align-middle table-font-size">${draft.empName}</td>
+					<td class="text-center align-middle table-font-size">${draft.reviewingApprover}&nbsp;${draft.reviewingApproverPosition}</td>
+					<td class="text-center align-middle"><button class="btn btn-outline-secondary btn-ssm">회수</button></td>
+					<c:if test="${draft.approveState == '대기'}"><td class="text-center align-middle"><img src="${pageContext.request.contextPath}/resources/image/approval-await.png" width="50px" height="20px" /></td></c:if>
+					<c:if test="${draft.approveState == '진행'}"><td class="text-center align-middle"><img src="${pageContext.request.contextPath}/resources/image/approval-doing.png" width="50px" height="20px" /></td></c:if>
+					<c:if test="${draft.approveState == '승인'}"><td class="text-center align-middle"><img src="${pageContext.request.contextPath}/resources/image/approval-approve.png" width="50px" height="20px" /></td></c:if>
+					<c:if test="${draft.approveState == '반려'}"><td class="text-center align-middle"><img src="${pageContext.request.contextPath}/resources/image/approval-rejected.png" width="50px" height="20px" /></td></c:if>
+					
+				</tr>
+			</c:forEach>
 		</tbody>
 	</table>
 	
 	<div class="mt-5 mb-3 d-flex justify-content-center align-items-center w-100">
 		<nav class="d-flex justify-content-center" style="width: 95%">
 			<ul class="pagination pagination-not-effect justify-content-center pagination-size">
-				<li class="page-item disabled">
-					<a class="page-link page-border-none text-dark" href="#" tabindex="-1" aria-disabled="true"><i class="fa-solid fa-chevron-left"></i></a>
+				<li class="page-item ${pager.startPageNo == 1 ? 'disabled' : ''}">
+					<a class="page-link page-border-none text-dark" href="submitted?type=submitted&pageNo=${pager.endPageNo-pager.pagesPerGroup}" tabindex="-1" aria-disabled="true"><i class="fa-solid fa-chevron-left"></i></a>
 				</li>
+				<c:forEach begin="${pager.startPageNo}" end="${pager.endPageNo}" var="i">
+					<li class="page-item ${pager.pageNo == i ? 'disabled' : ''}"><a class="page-link text-dark page-border-none ${pager.pageNo==i ? 'fw-bold' : ''} ${i == pager.startPageNo ? 'ms-5' : 'ms-1'} ${i == pager.endPageNo ? 'me-5' : ''}" href="#">${i}</a></li>
+				</c:forEach>
+				<%-- 
 				<li class="page-item"><a class="page-link text-dark page-border-none ms-5" href="#">1</a></li>
 				<li class="page-item"><a class="page-link text-dark page-border-none ms-1" href="#">2</a></li>
 				<li class="page-item"><a class="page-link text-dark page-border-none ms-1" href="#">3</a></li>
 				<li class="page-item"><a class="page-link text-dark page-border-none ms-1" href="#">4</a></li>
 				<li class="page-item"><a class="page-link text-dark page-border-none ms-1 me-5" href="#">5</a></li>
-				<li class="page-item">
-					<a class="page-link page-border-none text-dark" href="#"><i class="fa-solid fa-chevron-right"></i></a>
+				 --%>
+				<li class="page-item ${pager.totalPageNo == pager.endPageNo ? 'disabled' : ''}">
+					<a class="page-link page-border-none text-dark" href="submitted?type=submitted&pageNo=${pager.endPageNo+1}"><i class="fa-solid fa-chevron-right"></i></a>
 				</li>
 			</ul>
 		</nav>
 		<div style="width: 5%;"><button class="btn btn-secondary btn-sm" style="background-color: #C3C3C3; border-color: #C3C3C3;">회수</button></div>
 	</div>
 </section>
+<%@ include file="/WEB-INF/views/approval/approvalViewSubmitted.jsp"%>
 <%@ include file="/WEB-INF/views/approval/approvalContainerFooter.jsp"%>

@@ -402,6 +402,7 @@ $('#documentForm').on('change', function() {
     if(selectedValue === 'default') {
     	return;
     } else {
+    	$('#approvalLineSelect').prop('disabled', false);
     	$('#draftDetailForm').children('div').each(function(){
     		$(this).addClass('hidden');
     	});

@@ -69,7 +69,7 @@
 				doc_document_data, -- 문서데이터
 				emp_id, -- 기안자
 				doc_form_code, -- 문서타입
-				doc_holiday_work_start_date, -- 휴일근무 시작일
+				DOC_HOLIDAY_WORK_START_DATE -- 휴일근무 시작일
 			) VALUES (
 				#{docNumber},
 				#{docDraftDate},
@@ -92,7 +92,7 @@
 				doc_document_data, -- 문서데이터
 				emp_id, -- 기안자
 				doc_form_code, -- 문서타입
-				doc_work_overtime_end_date, -- 연장근무 종료타임
+				doc_work_overtime_end_date -- 연장근무 종료타임
 			) VALUES (
 				#{docNumber},
 				#{docDraftDate},
@@ -105,4 +105,32 @@
 			)
 		]]>
 	</insert>
+	
+	<select id="selectDraftDocumentById" parameterType="String" resultType="Approval">
+		<![CDATA[
+			SELECT
+				doc_number,
+				doc_draft_date,
+				doc_retention_period,
+				doc_title,
+				doc_document_data,
+				emp_id,
+				doc_form_code,
+				doc_holiday_type,
+				doc_holiday_day,
+				doc_holiday_start_date,
+				doc_holiday_end_date,
+				doc_biztrip_day,
+				doc_biztrip_start_date,
+				doc_biztrip_end_date,
+				doc_biztrip_purpose,
+				doc_holiday_work_start_date,
+				doc_work_overtime_end_date,
+				doc_form_name
+			FROM DOCUMENT_FOLDER
+				LEFT OUTER JOIN DOCUMENT_FORM USING(doc_form_code)
+			WHERE emp_id = #{empId}
+			ORDER BY doc_draft_date DESC
+		]]>
+	</select>
 </mapper>

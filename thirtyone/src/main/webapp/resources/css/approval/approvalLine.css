@@ -13,6 +13,13 @@
     unicode-range: U+AC00-D7A3;
 }
 
+.btn:focus, .btn:active {
+    outline: none !important;  
+    box-shadow: none !important;  
+    border-color: inherit !important;
+}
+
+
 *{ font-family: 'Noto Sans KR', 'Roboto', sans-serif }
 .fa, .fas, .far, .fal, .fab {
     font-family: 'Font Awesome 5 Free' !important;

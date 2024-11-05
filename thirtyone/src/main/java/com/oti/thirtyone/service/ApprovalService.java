@@ -14,6 +14,7 @@ import com.oti.thirtyone.dto.ApprovalDTO;
 import com.oti.thirtyone.dto.DocFilesDTO;
 import com.oti.thirtyone.dto.DocumentApprovalLineDTO;
 import com.oti.thirtyone.dto.DocumentReferenceDTO;
+import com.oti.thirtyone.dto.PageParam;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -40,7 +41,7 @@ public class ApprovalService {
 				return documentFolderDAO.insertDraftByBT(dto) == 1;
 			case "HLW" :
 				return documentFolderDAO.insertDraftByHLW(dto) == 1;
-			case "WOL" :
+			case "WOT" :
 				return documentFolderDAO.insertDraftByWOL(dto) == 1;
 		}
 		log.info("기안 DB 반영 실패");
@@ -95,6 +96,27 @@ public class ApprovalService {
 		}
 		
 		return result;
+	}
+
+	public List<ApprovalDTO> getApproveDraftList(PageParam param) {
+		// 결재 선상에 올려진 리스트들을 모두 조회.
+		List<DocumentApprovalLineDTO> dalList = docApprovalLineDAO.selectPenddingApprovalListById(param);
+		
+		// 결재 순번에 올려진 데이터
+		
+		return null;
+	}
+
+	public List<ApprovalDTO> getDraftDocumentById(String name) {
+		return documentFolderDAO.selectDraftDocumentById(name);
+	}
+
+	public List<DocumentApprovalLineDTO> getDraftApprovalLine(String docNumber) {
+		return docApprovalLineDAO.selectDraftApprovalLineByDocNumber(docNumber);
+	}
+
+	public List<DocumentReferenceDTO> getDraftReferenceList(String docNumber) {
+		return docReferDAO.selectDraftReferenceList(docNumber);
 	}
 
 }

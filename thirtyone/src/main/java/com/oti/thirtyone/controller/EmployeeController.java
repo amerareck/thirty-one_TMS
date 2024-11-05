@@ -3,8 +3,10 @@ package com.oti.thirtyone.controller;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletResponse;
@@ -307,9 +309,61 @@ public class EmployeeController {
 		
 		JSONObject json = new JSONObject();
 		json.put("status", "ok");
+		res.setContentType("application/json; charset=UTF-8");
+		res.setCharacterEncoding("UTF-8");
+		
 		try(PrintWriter pw = res.getWriter()) {
-			res.setContentType("application/json; charset=UTF-8");
-			res.setCharacterEncoding("UTF-8");
+			pw.println(json.toString());
+			pw.flush();
+		} catch(IOException ioex) {
+			ioex.printStackTrace();
+		}
+	}
+	
+	@GetMapping("getAllEmpApprovalLine")
+	public void getAllEmpApprovalLine(Authentication auth, HttpServletResponse res) {
+		log.info("실행");
+		
+		JSONObject json = new JSONObject();
+		int count = empService.getApprovalLineCount(auth.getName());
+		Map<String, List<EmpApprovalLineDTO>> result = new HashMap<>();
+		List<String> aprLineNames = empService.getApprovalLineNames(auth.getName());
+		json.put("aprLineNames", aprLineNames);
+		for(int i=0; i<count; i++) {
+			List<EmpApprovalLineDTO> list = empService.getApprovalLineListByUserId(auth.getName(), aprLineNames.get(i));
+			list.forEach(item -> {
+				EmployeesDto approver = empService.getEmpInfo(item.getAprLineApprover());
+				item.setEmpName(approver.getEmpName());
+				item.setPosition(approver.getPosition());
+				item.setApproverDeptId(approver.getDeptId());
+				item.setApproverDeptName(deptService.getDeptName(approver.getDeptId()));
+			});
+			result.put(aprLineNames.get(i), list);
+		}
+		
+		json.put("empAPL", result);
+		res.setContentType("application/json; charset=UTF-8");
+		res.setCharacterEncoding("UTF-8");
+		
+		try(PrintWriter pw = res.getWriter()) {
+			pw.println(json.toString());
+			pw.flush();
+		} catch(IOException ioex) {
+			ioex.printStackTrace();
+		}
+	}
+	
+	@GetMapping("getAprIndex")
+	public void getAprIndex(EmpApprovalLineDTO dto, Authentication auth, HttpServletResponse res) {
+		log.info("실행");
+		dto.setEmpId(auth.getName());
+		
+		JSONObject json = new JSONObject();
+		json.put("aprIndex", empService.getApprovalLineIndexByName(dto).getAprLineIndex());
+		res.setContentType("application/json; charset=UTF-8");
+		res.setCharacterEncoding("UTF-8");
+		
+		try(PrintWriter pw = res.getWriter()) {
 			pw.println(json.toString());
 			pw.flush();
 		} catch(IOException ioex) {

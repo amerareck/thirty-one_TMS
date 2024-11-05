@@ -22,7 +22,7 @@ public class DraftForm {
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date bizTripEndDate; // 출장 종료일
 	private String bizTripPurposeForm; // 출장 목표
-	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date holidayWorkStartDate; // 휴일 근무 종료일
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date workOvertimeEndDate; // 연장 근무 종료 시간

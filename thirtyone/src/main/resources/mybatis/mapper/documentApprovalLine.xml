@@ -16,4 +16,50 @@
 			)
 		]]>
 	</insert>
+	
+	<select id="selectPenddingApprovalListById" parameterType="PageParam" resultType="DocApprovalLine">
+		<![CDATA[
+			SELECT
+				doc_number, -- 문서번호
+				doc_apr_approver, -- 결재자
+				doc_apr_comment, -- 결재 의견
+				doc_apr_state, -- 결재 상태(대기, 승인, 반려)
+				doc_apr_type, -- 결재 유형
+				doc_apr_date, -- 결재일자
+				doc_apr_seq -- 결재 순번
+			FROM DOCUMENT_APPROVAL_LINE
+			WHERE 
+				doc_apr_approver = #{docAprApprover}
+			AND doc_apr_state = '대기'
+		]]>
+	</select>
+	
+	<select id="selectDraftApprovalLineByDocNumber" parameterType="String" resultType="DocApprovalLine">
+		<![CDATA[
+			SELECT
+				doc_number,
+				doc_apr_approver,
+				doc_apr_comment,
+				doc_apr_state,
+				doc_apr_type,
+				doc_apr_date,
+				doc_apr_seq
+			FROM DOCUMENT_APPROVAL_LINE
+			WHERE doc_number = #{docNumber}
+			ORDER BY doc_apr_seq
+		]]>
+	</select>
+	
+	<select id="selectReviewingApproverEmpId" parameterType="String" resultType="DocApprovalLine">
+		<![CDATA[
+			SELECT
+				doc_apr_approver,
+				doc_apr_state
+			FROM DOCUMENT_APPROVAL_LINE
+			WHERE doc_number = #{docNumber}
+			AND doc_apr_state = '대기'
+			ORDER BY doc_apr_seq
+			FETCH FIRST 1 ROWS ONLY
+		]]>
+	</select>
 </mapper>

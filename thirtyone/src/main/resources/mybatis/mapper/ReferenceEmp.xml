@@ -12,4 +12,22 @@
 			)
 		]]>
 	</insert>
+	
+	<select id="selectDraftReferenceList" parameterType="String" resultType="DocRef">
+		<![CDATA[
+			SELECT
+			    re.doc_number,
+			    e.emp_id,
+			    e.emp_name,
+			    p.position,
+			    d.dept_id,
+			    d.dept_name
+			FROM REFERENCE_EMP re
+			LEFT OUTER JOIN EMPLOYEES e ON re.emp_id = e.emp_id
+			LEFT OUTER JOIN POSITIONS p ON e.position = p.position
+			LEFT OUTER JOIN DEPARTMENTS d ON e.dept_id = d.dept_id
+			WHERE re.doc_number = #{docNumber}
+			ORDER BY p.position_class
+		]]>
+	</select>
 </mapper>

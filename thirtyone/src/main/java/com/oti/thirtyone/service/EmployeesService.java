@@ -9,7 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.oti.thirtyone.dao.ApprovalLineDAO;
+import com.oti.thirtyone.dao.DocumentApprovalLineDAO;
 import com.oti.thirtyone.dao.EmployeesDao;
+import com.oti.thirtyone.dto.DocumentApprovalLineDTO;
 import com.oti.thirtyone.dto.EmpApprovalLineDTO;
 import com.oti.thirtyone.dto.EmployeesDto;
 import com.oti.thirtyone.dto.Pager;
@@ -24,6 +26,8 @@ public class EmployeesService {
 	EmployeesDao empDao;
 	@Autowired
 	ApprovalLineDAO empApprovalLineDAO;
+	@Autowired
+	DocumentApprovalLineDAO docAprLineDAO;
 
 	public void joinEmp(EmployeesDto empDto) {
 		log.info(empDto.toString());
@@ -138,6 +142,12 @@ public class EmployeesService {
 	public boolean updateApprovalLine(List<EmpApprovalLineDTO> aplForm) {
 		if(aplForm == null || aplForm.isEmpty()) return false;
 		
+		if(aplForm.get(0).getAprLineIndex() == 0) {
+			aplForm.forEach(item -> {
+				item.setAprLineIndex(empApprovalLineDAO.selectApprovalLineIndexbyName(item).getAprLineIndex());
+				item.setAprLineName(item.getChangeName());
+			});
+		}
 		empApprovalLineDAO.deleteApprovalLine(aplForm.get(0));
 		for(EmpApprovalLineDTO empAPL : aplForm) {
 			if(empApprovalLineDAO.insertApprovalLine(empAPL) != 1) return false;
@@ -148,6 +158,14 @@ public class EmployeesService {
 	
 	public List<EmpApprovalLineDTO> getApprovalLineListByUserId(String userId) {
 		return empApprovalLineDAO.selectAllApprovalLineByEmpId(userId);
+	}
+	
+	public List<EmpApprovalLineDTO> getApprovalLineListByUserId(String userId, String aprLineName) {
+		EmpApprovalLineDTO dto = new EmpApprovalLineDTO();
+		dto.setEmpId(userId);
+		dto.setAprLineName(aprLineName);
+		
+		return empApprovalLineDAO.selectApprovalLineByLineName(dto);
 	}
 	
 	public List<EmpApprovalLineDTO> getApprovalLineListByPager(Pager pager) {
@@ -174,5 +192,24 @@ public class EmployeesService {
 
 	public List<EmpApprovalLineDTO> getSearchApprovalLineList(Pager pager) {
 		return empApprovalLineDAO.selectApprovalLineListByKeyword(pager);
+	}
+
+	public List<String> getApprovalLineNames(String empId) {
+		return empApprovalLineDAO.selectApprovalLineNames(empId);
+	}
+
+	public EmpApprovalLineDTO getApprovalLineIndexByName(EmpApprovalLineDTO dto) {
+		return empApprovalLineDAO.selectApprovalLineIndexbyName(dto);
+	}
+
+	public EmployeesDto getReviewingApprover(String docNumber) {
+		DocumentApprovalLineDTO empId = docAprLineDAO.selectReviewingApproverEmpId(docNumber);
+		EmployeesDto result = getEmpInfo(empId.getDocAprApprover());
+		result.setDocAprState(empId.getDocAprState());
+		return result;
+	}
+
+	public EmployeesDto getLastApprover(String lastApprover) {
+		return getEmpInfo(lastApprover);
 	}
 }

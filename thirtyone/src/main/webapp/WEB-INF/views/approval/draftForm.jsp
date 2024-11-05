@@ -7,7 +7,7 @@
         	<label for="documentForm" class="fw-bold mt-2 ${not empty draftType ? 'mb-2' : ''}" style="width: 25%;">결재 양식</label>
         	<div style="width: 75%;">
 	            <select class="form-select w-100" id="documentForm" name="draftType" style="height: 37.78px;" aria-describedby="documentFormValidation">
-	                <option value="default" ${form.draftType=='default' ? 'selected': ''}>결재 양식 선택</option>
+	                <option value="default" ${form.draftType=='default' ? 'selected': ''} selected disabled>결재 양식 선택</option>
 	                <option value="holidayDocument" ${form.draftType=='holidayDocument' ? 'selected': ''} >근태 신청서(휴가)</option>
 	                <option value="businessTripDocument" ${form.draftType=='businessTripDocument' ? 'selected': ''} >출장 신청서</option>
 	                <option value="businessTripReport" ${form.draftType=='businessTripReport' ? 'selected': ''} >출장 복명서</option>
@@ -55,7 +55,7 @@
         	<div class="d-flex align-items-center w-100 mb-3 biz-trip hidden" >
           		<label for="purposeOfBizTrip" class="fw-bold ${not empty bizTripPurposeForm ? 'mb-4' : 'mb-2'}" style="width: 25%; margin-left: 20px">출장 목적</label>
         		<div id="purposeOfBizTrip" class="d-flex flex-column align-items-start" style="width: 75%;">
-					<textarea class="form-control w-100" id="bizTripPurposeForm" name="bizTripPurpose" cols="2" placeholder="간략하게 목적만 작성하시오." style="font-size: 0.9rem;" aria-describedby="bizTripPurposeValidation"></textarea>
+					<textarea class="form-control w-100" id="bizTripPurposeForm" name="bizTripPurposeForm" cols="2" placeholder="간략하게 목적만 작성하시오." style="font-size: 0.9rem;" aria-describedby="bizTripPurposeValidation"></textarea>
 					<div id="bizTripPurposeValidation" class="form-text">${bizTripPurposeForm}</div>
 				</div>
         	</div>

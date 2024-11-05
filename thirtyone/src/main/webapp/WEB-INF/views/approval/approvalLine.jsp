@@ -29,11 +29,11 @@
 				          		<select id="deptEmployees" multiple>
 				          		</select>
 				   			</div>
-				   			<div class="d-flex justify-content-end" style="margin-left: 10px;" >
-				  				<button type="button" class="btn btn-secondary btn-sm" id="approvalLineEmpSelect" style="background-color: #5A5A5A; margin: 7.5px 0" >추가</button>
-							</div>
 				       	</div>
 				    </div>
+				    <div class="d-flex justify-content-end px-2 my-0" >
+				    	<button type="button" class="btn btn-secondary btn-sm m-0" id="approvalLineEmpSelect" style="background-color: #5A5A5A; margin: 7.5px 0" >추가</button>
+					</div>
 				</div>
 
             	<hr style="margin: 20px 0" />
@@ -48,15 +48,15 @@
 				                <option>기본 결재선</option>
 				            </select>
 				            <div class="input-group ms-1" style="height: 85%">
-				                <input type="text" class="form-control d-flex align-items-center font-size-small " style="height: 85%" placeholder="결재선 이름" aria-label="결재 라인 생성">
-				                <button class="btn btn-light d-flex align-items-center font-size-small" style="border-color: #dee2e6; height: 33.33px !important;" type="button">변경</button>
-				                <button class="btn btn-light d-flex align-items-center font-size-small" style="border-color: #dee2e6; height: 33.33px !important;" type="button">삭제</button>
+				                <input type="text" class="form-control d-flex align-items-center font-size-small " id="aprLineNewName" style="height: 85%" placeholder="결재선 북마크 이름" aria-label="결재 라인 생성">
+				                <button class="btn btn-light d-flex align-items-center font-size-small" id="aprLineUpdateBtn" style="border-color: #dee2e6; height: 33.33px !important;" type="button">변경</button>
+				                <button class="btn btn-light d-flex align-items-center font-size-small" id="aprLineDeleteBtn" style="border-color: #dee2e6; height: 33.33px !important;" type="button">삭제</button>
 				            </div>
 				        </div>
 				    	</div>
 				
-				        <div class="approval-line-container d-flex flex-column justify-content-center align-items-center" id="approvalLineBox" style="height: 75%">
-				            <div class="approval-line-item" data-deptId="111" data-empid="jjh5285" style="width: 85%">
+				        <div class="approval-line-container d-flex flex-column justify-content-start align-items-center h-auto" id="approvalLineBox" style="height: 75%" aria-describedby="aprLineValidationText" >
+				            <div class="approval-line-item" data-deptId="111" data-empid="jjh5285" data-seq="0" style="width: 85%">
 				                <div>
 				                    <i class="fas fa-user pe-2"></i> <b class="apl-emp-name">정준하</b> <b class="apl-emp-position">과장</b>
 				                </div>
@@ -66,7 +66,7 @@
 				                    <button class="btn btn-sm btn-outline-danger line-handler-btn btn-line-remove" ><i class="fas fa-times"></i></button>
 				                </div>
 				            </div>
-				            <div class="approval-line-item" data-deptId="111" data-empid="pms1542" style="width: 85%">
+				            <div class="approval-line-item" data-deptId="111" data-empid="pms1542" data-seq="1" style="width: 85%">
 				                <div>
 				                    <i class="fas fa-user pe-2"></i> <b class="apl-emp-name">박명수</b> <b class="apl-emp-position">차장</b>
 				                </div>
@@ -76,7 +76,7 @@
 				                    <button class="btn btn-sm btn-outline-danger line-handler-btn btn-line-remove" ><i class="fas fa-times"></i></button>
 				                </div>
 				            </div>
-				            <div class="approval-line-item" data-deptId="111" data-empid="yjs012" style="width: 85%">
+				            <div class="approval-line-item" data-deptId="111" data-empid="yjs012" data-seq="2" style="width: 85%">
 				                <div>
 				                    <i class="fas fa-user pe-2"></i> <b class="apl-emp-name">유재석</b> <b class="apl-emp-position">부장</b>
 				                </div>
@@ -87,6 +87,7 @@
 				                </div>
 				            </div>
 				        </div>
+				        <div id="aprLineValidationText" class="form-text m-0 px-2"></div>
 				        <div class="d-flex justify-content-end my-2" style="margin-left: 10px;" >
 				  			<button type="button" class="btn btn-secondary btn-sm mb-2" style="background-color: #5A5A5A;" >추가</button>
 						</div>
@@ -94,9 +95,10 @@
 				</div>
 	        </div>
 	        <div class="modal-footer">
-	            <button type="button" class="btn btn-secondary me-2" style="background-color: #5A5A5A;" data-bs-dismiss="modal" >취소</button>
-	            <button type="button" class="btn btn-primary me-1" id="btnApprovalLineSelect" style="background-color: #1F5FFF;" data-bs-dismiss="modal" >결정</button>
+				<button type="button" class="btn btn-secondary me-2" style="background-color: #5A5A5A;" data-bs-dismiss="modal" >취소</button>
+				<button type="button" class="btn btn-primary me-1" id="btnApprovalLineSelect" style="background-color: #1F5FFF;" data-bs-dismiss="modal" >결정</button>
 	        </div>
     	</div>
+
 	</div>
 </div>

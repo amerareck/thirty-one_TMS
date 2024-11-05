@@ -185,4 +185,38 @@
 			WHERE rn BETWEEN #{startRowNo} AND #{endRowNo}
 		]]>
 	</select>
+	
+	<select id="selectApprovalLineNames" parameterType="String" resultType="String">
+		<![CDATA[
+			WITH approvalLine AS (
+				SELECT
+					DISTINCT apr_line_name,
+					apr_line_index
+				FROM APPROVAL_LINE
+				WHERE emp_id = #{empId}
+			)
+			SELECT apr_line_name
+			FROM (SELECT
+					DISTINCT apr_line_name,
+					apr_line_index
+				  FROM approvalLine
+				  ORDER BY apr_line_index)
+		]]>
+	</select>
+	
+	<select id="selectApprovalLineByLineName" parameterType="EmpApprovalLine" resultType="EmpApprovalLine" >
+		<![CDATA[
+			SELECT
+				apr_line_name,
+				apr_line_seq,
+				emp_id,
+				apr_line_approver,
+				apr_line_index
+			FROM APPROVAL_LINE
+			WHERE
+				emp_id = #{empId}
+			AND apr_line_name = #{aprLineName}
+			ORDER BY apr_line_seq
+		]]>
+	</select>
 </mapper>

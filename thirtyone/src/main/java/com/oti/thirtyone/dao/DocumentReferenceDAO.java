@@ -1,5 +1,7 @@
 package com.oti.thirtyone.dao;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 
 import com.oti.thirtyone.dto.DocumentReferenceDTO;
@@ -8,5 +10,7 @@ import com.oti.thirtyone.dto.DocumentReferenceDTO;
 public interface DocumentReferenceDAO {
 
 	int insertDocumentReference(DocumentReferenceDTO dr);
+
+	List<DocumentReferenceDTO> selectDraftReferenceList(String docNumber);
 
 }

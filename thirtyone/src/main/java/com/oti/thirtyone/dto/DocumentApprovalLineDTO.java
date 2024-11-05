@@ -14,4 +14,6 @@ public class DocumentApprovalLineDTO {
 	private Date docAprDate; // 결재 처리 일자
 	private int docAprSeq; // 결재선 순서 (낮은 순서부터 높은 순서까지 순차적 처리)
 	
+	private EmployeesDto approverInfo; // 결재자 정보
+	
 }

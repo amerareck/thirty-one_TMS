@@ -28,6 +28,9 @@ public class EmployeesDto {
 	private int deptId; // 부서 번호
 	private String position; // 사원 직위
 	
+	private String docAprState; // 결재 진행 상황
+	private String deptName; // 부서이름
+	
 	public EmployeesDto() {}
 	public EmployeesDto(String empId, String empName, int deptId, String position) {
 		this.empId = empId;

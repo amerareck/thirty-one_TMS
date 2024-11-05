@@ -33,6 +33,17 @@ public class ApprovalDTO {
 	private int docMgtYear; //기안 연도
 	private int docMgtSeq; // 기안시퀀스
 	
+	private String deptName; //기안부서 명
+	private String empPosition; //기안자 직급
+	private String empName; // 기안자 이름
+	private String reviewingApprover; // 검토자
+	private String reviewingApproverPosition; // 검토자 직급
+	private int reviewingApproverDeptId; // 검토자 직급부서 번호
+	private String reviewingApproverDeptName; // 검토자 직급부서 이름
+	private String approveState; // 결재 진행 상황 -> 결재선을 통해서 가져온다.
+	private String docFormName; // 기안유형한글
+	private EmployeesDto lastApprover; // 최종검토자
+	
 	private String draftType; // 기안유형
 	
 }

@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.servlet.ServletContext;
@@ -143,11 +144,12 @@ public class ApprovalController {
 	}
 	
 	@GetMapping("/submitted")
-	public String getSubmittedPage(PageParam param, Model model) {
+	public String getSubmittedPage(PageParam param, Authentication auth, Model model) {
 		log.info("실행");
 		
 		model.addAttribute("selectedSub", "submitted");
 		model.addAttribute("title", "기결/회수");
+		param.setPageNo(param.getPageNo() == 0 ? 1 : param.getPageNo());
 		
 		if(param.getType()!=null && param.getType().equals("retrieval")) {
 			model.addAttribute("activePage", "retrieval");
@@ -156,6 +158,40 @@ public class ApprovalController {
 		} else { //default page, type="submitted"
 			model.addAttribute("activePage", "submitted");
 			model.addAttribute("sectionTitle", "결재 상신 목록");
+			
+			List<ApprovalDTO> approvalList = approvalService.getDraftDocumentById(auth.getName());
+			approvalList.forEach(item -> {
+				EmployeesDto empDTO = empService.getEmpInfo(auth.getName());
+				item.setDeptId(empDTO.getDeptId());
+				item.setDeptName(deptService.getDeptName(item.getDeptId()));
+				item.setEmpPosition(empDTO.getPosition());
+				item.setEmpName(empDTO.getEmpName());
+				item.setDocApprovalLine(approvalService.getDraftApprovalLine(item.getDocNumber()));
+				item.setDocReferenceList(approvalService.getDraftReferenceList(item.getDocNumber()));
+				item.getDocApprovalLine().forEach(elem -> {
+					elem.setApproverInfo(empService.getEmpInfo(elem.getDocAprApprover()));
+					elem.getApproverInfo().setDeptName(deptService.getDeptName(elem.getApproverInfo().getDeptId()));
+				});
+				
+				EmployeesDto approver = empService.getReviewingApprover(item.getDocNumber());
+				item.setReviewingApprover(approver.getEmpName());
+				item.setReviewingApproverPosition(approver.getPosition());
+				item.setReviewingApproverDeptId(approver.getDeptId());
+				item.setApproveState(approver.getDocAprState());
+				item.setLastApprover(item.getDocApprovalLine().get(item.getDocApprovalLine().size()-1).getApproverInfo());
+			});
+			
+			// 여기서 페이징 처리...
+			Pager pager = new Pager(7, 5, approvalList.size(), param.getPageNo());
+			List<ApprovalDTO> result = new ArrayList<>();
+			for(int i=pager.getStartRowNo()-1; i<pager.getEndRowNo(); i++) {
+				if(approvalList.size()<=i) break;
+				result.add(approvalList.get(i));
+			}
+			log.info(result.get(0).getDocReferenceList().toString());
+			
+			model.addAttribute("draftList", result);
+			model.addAttribute("pager", pager);
 		}
 		
 		return "approval/approvalSubmitted";
@@ -173,11 +209,16 @@ public class ApprovalController {
 	}
 	
 	@GetMapping("/approveList")
-	public String getApproveReadyPage(PageParam param, Model model) {
+	public String getApproveReadyPage(PageParam param, Authentication auth, Model model) {
 		log.info("실행");
 		
 		model.addAttribute("selectedSub", "approveList");
 		model.addAttribute("title", "결재 하기");
+		/*
+		param.setEmpId(auth.getName());
+		param.setApprovalList(approvalService.getApproveDraftList(param));
+		if(param.getPageNo() == 0) param.setPageNo(1);
+		*/
 		
 		if (param.getType()!=null && param.getType().equals("all")) {
 			model.addAttribute("activePage", "all");
@@ -315,7 +356,7 @@ public class ApprovalController {
 	@PostMapping("draftSubmit")
 	public String draftSubmit(@Valid DraftForm form, Errors error, Model model, Authentication auth) throws IOException {
 		log.info("실행");
-		//log.info(form.toString());
+		log.info(form.toString());
 		
 		if(error.hasErrors()) {
 			log.info("유효성 검출");
@@ -343,14 +384,14 @@ public class ApprovalController {
 		case "HLD":
 			dto.setDocHolidayStartDate(form.getHolidayStartDate());
 			dto.setDocHolidayEndDate(form.getHolidayEndDate());
-			dto.setDocHolidayDay(form.getHolidayStartDate().getDate() - form.getHolidayEndDate().getDate());
+			dto.setDocHolidayDay(form.getHolidayEndDate().getDate() - form.getHolidayStartDate().getDate());
 			dto.setDocHolidayType(form.getHolidayType());
 			break;
 		case "BTD":
 		case "BTR":
 			dto.setDocBiztripStartDate(form.getBizTripStartDate());
 			dto.setDocBiztripEndDate(form.getBizTripEndDate());
-			dto.setDocBiztripDay(form.getBizTripStartDate().getDate() - form.getBizTripEndDate().getDate());
+			dto.setDocBiztripDay(form.getBizTripEndDate().getDate() - form.getBizTripStartDate().getDate());
 			dto.setDocBiztripPurpose(form.getBizTripPurposeForm());
 			break;
 		case "HLW":
@@ -494,4 +535,5 @@ public class ApprovalController {
 			ioex.printStackTrace();
 		}
 	}
+	
 }
