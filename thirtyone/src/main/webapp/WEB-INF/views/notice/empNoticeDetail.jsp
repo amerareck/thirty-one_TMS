@@ -31,7 +31,7 @@
 			<div class="text">
 				써리원의 사내 공지사항을 조회합니다.
 				<button type="button" class="btn list"
-					onclick="location.href='${pageContext.request.contextPath}/notice/noticeList'">목록</button>
+					onclick="location.href='${pageContext.request.contextPath}/notice/empNoticeList'">목록</button>
 			</div>
 
 			<div class="content">
@@ -132,13 +132,13 @@
 					<c:choose>
 						<c:when test="${notice.nextNum == 0}">
 							<input type="button" value="다음글이 없습니다."
-								onclick="location.href='${pageContext.request.contextPath}/empNotice/empNoticeDetail?noticeId=${notice.nextNum}'"
+								onclick="location.href='${pageContext.request.contextPath}/notice/empNoticeDetail?noticeId=${notice.nextNum}'"
 								disabled>
 						</c:when>
 						<c:otherwise>
 							<div class="preContent">
 								<input type="button" value="${notice.nextTitle}"
-									onclick="location.href='${pageContext.request.contextPath}/empNotice/empNoticeDetail?noticeId=${notice.nextNum}'">
+									onclick="location.href='${pageContext.request.contextPath}/notice/empNoticeDetail?noticeId=${notice.nextNum}'">
 							</div>
 						</c:otherwise>
 					</c:choose>
@@ -150,13 +150,13 @@
 					<c:choose>
 						<c:when test="${notice.prevNum == 0}">
 							<input type="button" value="이전글이 없습니다."
-								onclick="location.href='${pageContext.request.contextPath}/empNotice/empNoticeDetail?noticeId=${notice.prevNum}'"
+								onclick="location.href='${pageContext.request.contextPath}/notice/empNoticeDetail?noticeId=${notice.prevNum}'"
 								disabled>
 						</c:when>
 						<c:otherwise>
 							<div class="preContent">
 								<input type="button" value="${notice.prevTitle}"
-									onclick="location.href='${pageContext.request.contextPath}/empNotice/empNoticeDetail?noticeId=${notice.prevNum}'">
+									onclick="location.href='${pageContext.request.contextPath}/notice/empNoticeDetail?noticeId=${notice.prevNum}'">
 							</div>
 						</c:otherwise>
 					</c:choose>

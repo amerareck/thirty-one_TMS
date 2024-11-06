@@ -53,7 +53,7 @@
 
 				<table class="tableContent">
 					<tr
-						onclick="location.href='${pageContext.request.contextPath}/empNotice/empNoticeDetail?noticeId=${notice.noticeId}'">
+						onclick="location.href='${pageContext.request.contextPath}/notice/empNoticeDetail?noticeId=${notice.noticeId}'">
 
 						<td><c:choose>
 								<c:when test="${notice.noticeImportant == '1'}">
@@ -146,7 +146,7 @@
 		e.preventDefault();
 		const inputSearch = document.getElementById("enterkeySearch");
 		inputSearch.value = '';
-		location.href = "/thirtyone/empNotice/empNoticeList?pageNo=1";
+		location.href = "/thirtyone/notice/empNoticeList?pageNo=1";
 		console.log("jjjjj");
 		
 		});
