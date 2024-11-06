@@ -31,4 +31,6 @@ public interface AttendanceDao {
 
 	int updateStatus(@Param("reasonId")int reasonId,@Param("empId") String empId, @Param("atdDate") String atdDate);
 
+
+
 }

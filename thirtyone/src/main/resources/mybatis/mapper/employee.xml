@@ -216,11 +216,11 @@
 	
 	<select id="selectEmpAllByDeptId" parameterType="Employee">
 		<![CDATA[
-			select emp_id, emp_name, dept_id
+			select emp_id, emp_name, dept_id, position
 				from(
-					select rownum as rnum, emp_id, emp_name, dept_id
+					select rownum as rnum, emp_id, emp_name, dept_id, position
 					from (
-						select emp_id, emp_name, dept_id
+						select emp_id, emp_name, dept_id, position
 						from employees
 						where dept_id = #{emp.deptId} and emp_id != #{emp.empId}
 					)
@@ -228,6 +228,12 @@
 				)
 			where rnum >= #{pager.startRowNo}
 		]]>
+	</select>
+	
+	<select id="selectDeptEmpAll" parameterType="int" resultType="Employee">
+		select emp_id, emp_name, dept_id
+		from employees
+		where dept_id = ${deptId}
 	</select>
 	
 </mapper>

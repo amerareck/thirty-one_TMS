@@ -32,7 +32,7 @@
 								    <th scope="row" class="dept-profile-box">
 								    	<img class="dept-profile-img" src="${pageContext.request.contextPath}/resources/image/profileDefault.png">
 								    	<div class="dept-profile-info">
-								    		<h4>${deptEmp.emp.empName} ${deptEmp.emp.position }</h4>
+								    		<h4>${deptEmp.emp.empName} ${deptEmp.emp.position}</h4>
 								    		<p>${deptEmp.deptName }</p>
 								    	</div>
 								    </th>
@@ -81,33 +81,19 @@
 				<div class="attendance-stauts card">
 					<div class="atd-status-top">
 						<p class="mini-title">일일 근로 현황</p>
-						<p>2024년 10월 10일</p>
+						<p><fmt:formatDate value='${today}' pattern='yyyy년 MM월 dd일'/></p>
 					</div>			
 					<div class="mini-line"></div>
 					<div class="atd-status-box">
 						<div class="dounut-box">
 							<div class="work-status">
-								<h3>근무 현황</h3>
-								<div><span>총원</span><span>20</span></div>
-								<div><span>출근전</span><span>03</span></div>
-								<div><span>출근</span><span>13</span></div>
-								<div><span>휴가</span><span>02</span></div>
-								<div><span>휴직</span><span>01</span></div>
-								<div><span>결근</span><span>01</span></div>
+								
 							</div>
 							<div>
 								<canvas id="attendance-rate" style="width:170px;  height: 170px;"></canvas>
 							</div>
-							<div class="attendance-emp">
-								<h3>출근자 현황</h3>
-								<div><span>근무중</span><span>11</span></div>
-								<div><span>출근</span><span>01</span></div>
-								<div><span>외근</span><span>00</span></div>
-								<div><span>외출</span><span>01</span></div>
-								<div><span>기타</span><span>00</span></div>
-							</div>
 							<div>
-								<canvas id="emp-rate" style="width:170px; height: 170px;"></canvas>
+								<canvas id="emp-rate" width=170 height=200></canvas>
 							</div>
 						</div>
 						<div>
@@ -118,28 +104,26 @@
 										<td>총원</td>
 										<td>출근전</td>
 										<td>출근</td>
+										<td>퇴근</td>
+										<td>지각</td>
+										<td>조퇴</td>
 										<td>휴가</td>
-										<td>결근</td>
-										<td>근무중</td>
 										<td>출장</td>
-										<td>외근</td>
-										<td>외출</td>
-										<td>기타</td>
+										<td>결근</td>
 									</tr>
 								</thead>
 								<tbody>
 									<tr>
-										<td>74%</td>
-										<td>20</td>
-										<td>03</td>
-										<td>13</td>
-										<td>02</td>
-										<td>01</td>
-										<td>11</td>
-										<td>01</td>
-										<td>00</td>
-										<td>01</td>
-										<td>00</td>
+										<td></td>
+										<td></td>
+										<td></td>
+										<td></td>
+										<td></td>
+										<td></td>
+										<td></td>
+										<td></td>
+										<td></td>
+										<td></td>
 									</tr>
 								</tbody>
 							</table>
@@ -212,7 +196,9 @@
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>		
-		
+<script type="text/javascript">
+	const contextPath = '${pageContext.request.contextPath}'
+</script>		
 
 <script src="${pageContext.request.contextPath}/resources/js/department/department.js"></script>
 <%@ include file="/WEB-INF/views/common/footer.jsp" %>

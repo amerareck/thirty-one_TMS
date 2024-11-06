@@ -56,4 +56,6 @@ public interface EmployeesDao {
 
 	List<EmployeesDto> selectEmpAllByDeptId(@Param("emp") EmployeesDto empDto, @Param("pager") Pager pager);
 
+	List<EmployeesDto> selectDeptEmpAll(int deptId);
+
 }

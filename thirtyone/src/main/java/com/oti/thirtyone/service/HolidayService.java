@@ -38,7 +38,7 @@ public class HolidayService {
 		return hdrDao.countRowsByEmpId(empId);
 	}
 	
-	public CalendarDto formatInputCalendar(String title, Date startdate, Date enddate, String background, String border, String text) {
+	public CalendarDto formatInputCalendar(String empName, String title, Date startdate, Date enddate, String background, String border, String text) {
 		CalendarDto atdCalendarDto = new CalendarDto();
 		
 		String startyear = "20" + (startdate.getYear()+"").split("1")[1];
@@ -49,7 +49,7 @@ public class HolidayService {
 		String endmonth = String.valueOf(enddate.getMonth()+1);
 		String endday = String.valueOf(enddate.getDate()).length() > 1 ? String.valueOf(enddate.getDate()) : "0"+enddate.getDate() ;
 		
-		atdCalendarDto.setTitle("휴가");
+		atdCalendarDto.setTitle(empName + "휴가");
 		atdCalendarDto.setStart(startyear+"-"+startmonth+"-"+startday);
 		atdCalendarDto.setEnd(endyear+"-"+endmonth+"-"+endday);
 		atdCalendarDto.setBackgroundColor(background);
@@ -65,7 +65,7 @@ public class HolidayService {
 		List<CalendarDto> hdrCalList = new LinkedList<CalendarDto>();
 		
 		for(HolidayRequestDto hdrReq : hdrList) {
-			hdrCalList.add(formatInputCalendar("휴가", hdrReq.getHdrStartDate(), hdrReq.getHdrEndDate(), "#B5CAFF", "#B5CAFF", "white"));
+			hdrCalList.add(formatInputCalendar("", "휴가", hdrReq.getHdrStartDate(), hdrReq.getHdrEndDate(), "#B5CAFF", "#B5CAFF", "white"));
 		}
 		
 		return hdrCalList;
@@ -104,7 +104,7 @@ public class HolidayService {
 		List<CalendarDto> hdrCalList = new LinkedList<CalendarDto>();
 		for(HolidayRequestDto hdrReq : hdrList) {
 			String empName = empDao.selectByEmpId(hdrReq.getHdrEmpId()).getEmpName();
-			hdrCalList.add(formatInputCalendar(empName + "휴가", hdrReq.getHdrStartDate(), hdrReq.getHdrEndDate(), "#B5CAFF", "#B5CAFF", "white"));
+			hdrCalList.add(formatInputCalendar(empName, "휴가", hdrReq.getHdrStartDate(), hdrReq.getHdrEndDate(), "#B5CAFF", "#B5CAFF", "white"));
 		}
 		return hdrCalList;
 	}

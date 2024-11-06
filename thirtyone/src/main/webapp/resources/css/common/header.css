@@ -35,10 +35,13 @@
 .logo-image:hover{
 	cursor: pointer;
 }
-/* .profile-img{ */
-/* 	width:50px; */
-/* 	height: 66px; */
-/* } */
+.profile-img{
+	border-radius: 50%;
+    object-fit: cover;
+/*     width:50px; */
+/*     height: 50px; */
+    
+}
 
 .container-box{
 	display:flex;

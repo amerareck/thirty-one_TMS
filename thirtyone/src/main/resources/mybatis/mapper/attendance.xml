@@ -70,4 +70,11 @@
 						and emp_id = #{empId}
 					)
 	</update>
+<!-- 	<select id="selectDeptAtdAll" parameterType="int" resultType="Attendance">
+		select atd_date, emp_id, check_in, check_out, atd_state, atd_standard_time, atd_over_time, atd_approved_time
+		from attendance a join employees e
+		on a.emp_id = e.emp_id
+		where e.dept_id = #{deptId} and to_char(atd_date, 'yyyy-mm-dd') = to_char(#{day}, 'yyyy-mm-dd')
+	</select> -->
+	
 </mapper>

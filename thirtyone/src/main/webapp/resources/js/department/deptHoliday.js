@@ -1,5 +1,31 @@
+function formatDate(date) {
+    let year = date.getFullYear();
+    let month = ('0' + (date.getMonth() + 1)).slice(-2); 
+    let day = ('0' + date.getDate()).slice(-2);
+    
+    return `${year}-${month}-${day}`;
+}
+
+function formatMonthDay(date) {
+	const targetDate = new Date(date);
+	let month = ('0' + (targetDate.getMonth() + 1)).slice(-2); 
+	let day = ('0' + targetDate.getDate()).slice(-2);
+	
+	return `${month}-${day}`;
+}
+
+function formatTime(date){
+
+	const dateTime = new Date(date);
+
+	const hours = dateTime.getHours();
+	const minutes = dateTime.getMinutes();
+
+	return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
+}
+
 document.addEventListener('DOMContentLoaded', function () {
-	var calendarEl = document.getElementById('calendar');
+//	var calendarEl = document.getElementById('calendar');
 
 //	var calendar = new FullCalendar.Calendar(calendarEl, {
 //	    initialView: 'dayGridMonth',
@@ -44,6 +70,7 @@ document.addEventListener('DOMContentLoaded', function () {
 	    		url: contextPath + "/dept/deptHoliday",
 	    		data: {'year' : todayYear , 'month' : todayMonth },
 	    		success: function(data){
+	    			console.log(data);
 	    			successCallback(data);
 	    		},
 	            error: function() {

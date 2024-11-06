@@ -1,5 +1,6 @@
 package com.oti.thirtyone.controller;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -55,7 +56,7 @@ public class DepartmentController {
 		int deptId = empDto.getDeptId();
 		
 		int totalRows = empService.countRowsByDept(deptId);
-		Pager pager = new Pager(8, 5, totalRows, atdPageNo);
+		Pager pager = new Pager(9, 5, totalRows, atdPageNo);
 		session.setAttribute("pager", pager);
 
 		List<EmployeesDto> empList = empService.getEmpAllByDeptId(empDto, pager);
@@ -85,6 +86,8 @@ public class DepartmentController {
 			tempMap.put("hdr", hdr);
 			deptHdList.add(tempMap);
 		}
+		
+		model.addAttribute("today", new Date());
 		model.addAttribute("deptHdList", deptHdList);
 		model.addAttribute("deptEmpList", deptEmpList);
 		model.addAttribute("pager", pager);
@@ -93,6 +96,16 @@ public class DepartmentController {
 		model.addAttribute("selectedSub", "deptAtd");
 		model.addAttribute("selectedTitle", "hr");
 		return "department/department";
+	}
+	
+	@GetMapping("/deptAtdStatus")
+	@ResponseBody
+	public Map<String, int[]> deptAtdStatus(Authentication authentication) {
+		EmployeeDetails empDetail = (EmployeeDetails) authentication.getPrincipal();
+		EmployeesDto empDto = empDetail.getEmployee();
+		int deptId = empDto.getDeptId();
+		
+		return deptService.getDeptAtdStatus(deptId);
 	}
 	
 	@GetMapping("/holiday")
