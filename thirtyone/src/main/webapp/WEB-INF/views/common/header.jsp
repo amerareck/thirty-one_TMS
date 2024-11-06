@@ -205,7 +205,7 @@
 						    data-original-src="${pageContext.request.contextPath}/resources/image/icon/arrow.svg"
 							data-active-src="${pageContext.request.contextPath}/resources/image/icon/arrow-selected.svg" />
 					 </div>
-					 <div class="sidebar-notice sidebar-title ${selectedTitle=='notice'? 'selected' : ''}" onclick="location.href='${pageContext.request.contextPath}/empNotice/empNoticeList'">
+					 <div class="sidebar-notice sidebar-title ${selectedTitle=='notice'? 'selected' : ''}" onclick="location.href='${pageContext.request.contextPath}/notice/empNoticeList'">
 						<div>
 							<img class="notice-icon sidebar-icon" 
 								src="${pageContext.request.contextPath}${selectedTitle != 'notice' ? '/resources/image/icon/notice.svg' : '/resources/image/icon/notice-selected.svg'}" 
