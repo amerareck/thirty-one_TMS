@@ -5,10 +5,12 @@ import java.util.List;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -81,7 +83,7 @@ public class HolidayController {
 	}
 	
 	@PostMapping("/request")
-	public String holidayRequest(Model model, Authentication authentication , HolidayRequestDto holidayRequest) {
+	public ResponseEntity<String> holidayRequest(Model model, Authentication authentication , @ModelAttribute HolidayRequestDto holidayRequest) {
 	
 		EmployeeDetails employeeDetails = (EmployeeDetails) authentication.getPrincipal();
 		EmployeesDto employees = employeeDetails.getEmployee();
@@ -89,7 +91,8 @@ public class HolidayController {
 		hdService.insertHdrRequest(holidayRequest);
 		
 		model.addAttribute("employees", employees);
-		return "redirect:/holiday/request";
+		return ResponseEntity.ok("OK");
+		/*return "redirect:/holiday/request";*/
 	}
 	
 	@GetMapping("/process")

@@ -30,8 +30,7 @@
 				</div>
 					
 				<div class="holiday-select2">
-					<!-- <input type="hidden" id="hdCount" name="hdCount"> -->
-					<!-- <div></div> -->
+					<div></div>
 					<select class="form-select" id="holiday-duration" name="holiday-type">
 						<option selected>선택</option>
 						<option value="1">종일</option>
