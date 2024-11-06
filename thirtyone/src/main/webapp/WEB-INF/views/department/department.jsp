@@ -16,8 +16,6 @@
 					<div>
 						<p class="mini-title">부서원 근무 상태</p>
 						<div class="search">
-							<div class="main-search-drop">검색창</div>
-							<div class="main-search-box">이름 검색</div>
 						</div>
 					</div>
 					<div class="dept-attendance-cur">
@@ -29,35 +27,53 @@
 							    </tr>
 							</thead>
 							<tbody>
-								<c:forEach begin="1" end="8">
+								<c:forEach items="${deptEmpList}" var="deptEmp">
 								  <tr>
 								    <th scope="row" class="dept-profile-box">
 								    	<img class="dept-profile-img" src="${pageContext.request.contextPath}/resources/image/profileDefault.png">
 								    	<div class="dept-profile-info">
-								    		<h4>오티아이 부장</h4>
-								    		<p>공공사업1div</p>
+								    		<h4>${deptEmp.emp.empName} ${deptEmp.emp.position }</h4>
+								    		<p>${deptEmp.deptName }</p>
 								    	</div>
 								    </th>
-								    <td><div class="button-small dept-atd-state">미출근</div></td>
+								    <td>
+									    <c:choose>
+										    <c:when test="${deptEmp.atd != null }">
+										    	<div class="button-small dept-atd-state">출근</div>
+										    </c:when>
+										    <c:otherwise>
+										    	<div class="button-small dept-check-in-state">미출근</div>									    
+										    </c:otherwise>
+									    </c:choose>
+								    </td>
 								  </tr>
 							  </c:forEach>
 							</tbody>
 						</table>
-						<nav class="mt-5 mb-3">
-			                <ul class="pagination justify-content-center">
-			                  <li class="page-item disabled">
-			                    <a class="page-link text-dark" href="#" tabindex="-1" aria-disabled="true"><img class="arrow-left" src="${pageContext.request.contextPath}/resources/image/arrow/page-left-arrow.svg" width="10px"></a>
-			                  </li>
-			                  <li class="page-item"><a class="page-link text-dark page-border-none ms-3" href="#">1</a></li>
-			                  <li class="page-item"><a class="page-link text-dark page-border-none ms-1" href="#">2</a></li>
-			                  <li class="page-item"><a class="page-link text-dark page-border-none ms-1" href="#">3</a></li>
-			                  <li class="page-item"><a class="page-link text-dark page-border-none ms-1" href="#">4</a></li>
-			                  <li class="page-item"><a class="page-link text-dark page-border-none ms-1 me-3" href="#">5</a></li>
-			                  <li class="page-item">
-			                    <a class="page-link text-dark" href="#"><img class="arrow-right" src="${pageContext.request.contextPath}/resources/image/arrow/page-right-arrow.svg" width="10px"></a>
-			                  </li>
-			                </ul>
-		            	</nav>
+						<div class="pagination">
+							<c:if test="${pager.groupNo>1}">
+								<a href="?atdPageNo=${pager.startPageNo - 1}">
+						    		<img src="${pageContext.request.contextPath}/resources/image/prev_icon.png" alt="prev" style="width: 15px">
+								</a>
+							</c:if>
+							<c:forEach begin="${pager.startPageNo}" end="${pager.endPageNo}" step="1" var="i">
+								<c:if test="${pager.pageNo==i}">									
+									<button class="page-num" onclick="location.href='?atdPageNo=${i}'" style="color: #686868">
+									    ${i}
+									</button>
+								</c:if>
+								<c:if test="${pager.pageNo!=i}">									
+									<button class="page-num" onclick="location.href='?atdPageNo=${i}'">
+									    ${i}
+									</button>
+								</c:if>
+							</c:forEach>
+							<c:if test="${pager.groupNo<pager.totalGroupNo}">
+								<a href="?atdPageNo=${pager.endPageNo + 1}">
+						    		<img src="${pageContext.request.contextPath}/resources/image/next_icon.png" alt="next" style="width: 15px">
+								</a>
+							</c:if>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -134,8 +150,6 @@
 					<div>
 						<p class="mini-title">부서원 근무 상태</p>
 						<div class="search">
-							<div class="main-search-drop">검색창</div>
-							<div class="main-search-box">이름 검색</div>
 						</div>
 					</div>
 					<div class="dept-holiday">
@@ -149,39 +163,48 @@
 						        </tr>
 							</thead>
 							<tbody>
-								<c:forEach begin="1" end="4">
+								<c:forEach items="${deptHdList }" var="deptHd">
 								    <tr>
 								        <td>
 											<div class="dept-profile-box">
 									    	    <img class="dept-profile-img" src="${pageContext.request.contextPath}/resources/image/profileDefault.png">
 									    	    <div class="holiday-profile-info">
-									    	 	    <h4>오티아이 부장</h4>
-									    		    <p>공공사업1div</p>
+									    	 	    <h4>${deptHd.emp.empName} ${deptHd.emp.position} </h4>
+									    		    <p>${deptHd.deptName}</p>
 									    	    </div>
 								    	    </div>
 								        </td>
-								        <td>2024-10-16 ~ 2024-10-18</td>
-								        <td>연차</td>
-								        <td>3일</td>
+								        <td><fmt:formatDate value='${deptHd.hdr.hdrStartDate}' pattern='yyyy-MM-dd'/> ~ <fmt:formatDate value='${deptHd.hdr.hdrEndDate}' pattern='yyyy-MM-dd'/></td>
+								        <td>${deptHd.hdr.hdName}</td>
+								        <td>${deptHd.hdr.hdrUsedDay}일</td>
 								    </tr>
 							    </c:forEach>
 							</tbody>
 						</table>
-						<nav class="mt-5 mb-3">
-		                <ul class="pagination justify-content-center">
-		                  <li class="page-item disabled">
-		                    <a class="page-link text-dark" href="#" tabindex="-1" aria-disabled="true"><img class="arrow-left" src="${pageContext.request.contextPath}/resources/image/arrow/page-left-arrow.svg" width="10px"></a>
-		                  </li>
-		                  <li class="page-item"><a class="page-link text-dark page-border-none ms-3" href="#">1</a></li>
-		                  <li class="page-item"><a class="page-link text-dark page-border-none ms-1" href="#">2</a></li>
-		                  <li class="page-item"><a class="page-link text-dark page-border-none ms-1" href="#">3</a></li>
-		                  <li class="page-item"><a class="page-link text-dark page-border-none ms-1" href="#">4</a></li>
-		                  <li class="page-item"><a class="page-link text-dark page-border-none ms-1 me-3" href="#">5</a></li>
-		                  <li class="page-item">
-		                    <a class="page-link text-dark" href="#"><img class="arrow-right" src="${pageContext.request.contextPath}/resources/image/arrow/page-right-arrow.svg" width="10px"></a>
-		                  </li>
-		                </ul>
-		            	</nav>
+						<div class="pagination">
+							<c:if test="${hdpager.groupNo>1}">
+								<a href="?pageNo=${hdpager.startPageNo - 1}">
+						    		<img src="${pageContext.request.contextPath}/resources/image/prev_icon.png" alt="prev" style="width: 15px">
+								</a>
+							</c:if>
+							<c:forEach begin="${hdpager.startPageNo}" end="${hdpager.endPageNo}" step="1" var="i">
+								<c:if test="${hdpager.pageNo==i}">									
+									<button class="page-num" onclick="location.href='?pageNo=${i}'" style="color: #686868">
+									    ${i}
+									</button>
+								</c:if>
+								<c:if test="${hdpager.pageNo!=i}">									
+									<button class="page-num" onclick="location.href='?pageNo=${i}'">
+									    ${i}
+									</button>
+								</c:if>
+							</c:forEach>
+							<c:if test="${hdpager.groupNo<pager.totalGroupNo}">
+								<a href="?pageNo=${hdpager.endPageNo + 1}">
+						    		<img src="${pageContext.request.contextPath}/resources/image/next_icon.png" alt="next" style="width: 15px">
+								</a>
+							</c:if>
+						</div>
 					</div>
 				</div>
 			</div>

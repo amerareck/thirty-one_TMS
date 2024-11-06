@@ -66,7 +66,8 @@
 				from(
 					select emp_id, emp_name, position, emp_hiredate, dept_id, emp_email, emp_tel
 					from employees
-					where emp_role='ROLE_USER'
+					where emp_role='ROLE_USER' and dept_id != 999
+					order by emp_number
 				)
 				where rownum <= #{endRowNo}			
 			)
@@ -82,7 +83,8 @@
 				from(
 					select emp_id, emp_name, position, emp_hiredate, dept_id
 					from employees
-					where emp_role='ROLE_USER' and emp_name like '%'||#{query}||'%'
+					where emp_role='ROLE_USER' and emp_name like '%'||#{query}||'%' and dept_id != 999
+					order by emp_number
 					)
 				where rownum <= #{pager.endRowNo}
 				)
@@ -99,7 +101,8 @@
 					select e.emp_id, e.emp_name, e.position, e.emp_hiredate, e.dept_id
 					from employees e join departments d 
 					on e.dept_id = d.dept_id
-					where e.emp_role='ROLE_USER' and d.dept_name like '%'||#{query}||'%'
+					where e.emp_role='ROLE_USER' and d.dept_name like '%'||#{query}||'%' and dept_id != 999
+					order by e.emp_number
 					)
 				where rownum <= #{pager.endRowNo}
 				)
@@ -115,7 +118,8 @@
 				from(
 					select emp_id, emp_name, position, emp_hiredate, dept_id
 					from employees
-					where emp_role='ROLE_USER' and position like '%'||#{query}||'%'
+					where emp_role='ROLE_USER' and position like '%'||#{query}||'%' and dept_id != 999
+					order by emp_number
 					)
 				where rownum <= #{pager.endRowNo}
 				)
@@ -203,6 +207,27 @@
 		select emp_number
 		from employees
 		where emp_name=#{empName}	
+	</select>
+	
+	<select id="selectLatestEmpNumber" resultType="int">
+		select max(emp_number)
+		from employees
+	</select>
+	
+	<select id="selectEmpAllByDeptId" parameterType="Employee">
+		<![CDATA[
+			select emp_id, emp_name, dept_id
+				from(
+					select rownum as rnum, emp_id, emp_name, dept_id
+					from (
+						select emp_id, emp_name, dept_id
+						from employees
+						where dept_id = #{emp.deptId} and emp_id != #{emp.empId}
+					)
+				where rownum <=#{pager.endRowNo}
+				)
+			where rnum >= #{pager.startRowNo}
+		]]>
 	</select>
 	
 </mapper>

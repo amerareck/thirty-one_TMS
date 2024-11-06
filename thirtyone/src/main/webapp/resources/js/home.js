@@ -64,30 +64,45 @@ document.addEventListener('DOMContentLoaded', function() {
 	
 	calendar.render();
 });
-/*
-function getEmpInfo() {
-	$.ajax({
-		method: "get",
-		url: contextPath+'/getInfo',
-		success: function(data){
-			
-			if(data.atdDto !== null){
-				if(data.atd.checkIn === null || data.atd.checkIn == undefined){
-					$('.sidebar-start-time span:nth-child(2)').html('--:--');
-				}else{
-					$('.sidebar-start-time span:nth-child(2)').html(formatDateToTime(data.atd.checkIn));
-				}
-				if(data.atd.checkOut === null || data.atd.checkOut == undefined){
-					$('.sidebar-start-time span:nth-child(2)').html('--:--');
-				}else{
-					$('.sidebar-end-time span:nth-child(2)').html(formatDateToTime(data.atd.checkOut));
-				}
-			}
-		};
-	});
-}*/
 
-$('.start-time-btn, .end-time-btn').on('click', function () {
-	location.reload();
+var options = {
+	enableHighAccuracy: true,
+	timeout: 5000,
+	maximumAge: 0,
+};
+
+function success(pos, atd) {
+	var crd = pos.coords;
+	console.log(atd);
 	
-})
+	$.ajax({
+		method: 'Get',
+		url: '/thirtyone/atd/' + atd,
+		data: {
+			"latitude" : crd.latitude,
+			"longitude" : crd.longitude
+		},
+		success : function (data){
+			if(!data)
+				alert("지역이 다릅니다.");
+			location.reload();
+		},
+		error : function (request, status, error){
+					  
+		}
+	})
+
+}
+
+function error(err) {
+  console.warn(`ERROR(${err.code}): ${err.message}`);
+}	
+		
+
+$(".start-time-btn").on("click", function(){ 
+	navigator.geolocation.getCurrentPosition((pos) => success(pos, "checkIn"), error, options);
+});
+
+$(".end-time-btn").on("click", function(){ 
+	navigator.geolocation.getCurrentPosition((pos) => success(pos, "checkOut"), error, options);
+});

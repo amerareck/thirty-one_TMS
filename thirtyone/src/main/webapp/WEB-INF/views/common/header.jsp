@@ -58,8 +58,8 @@
 				src="${pageContext.request.contextPath}/resources/image/logo.png" onclick="location.href = '${pageContext.request.contextPath}/home'">
 		</sec:authorize>
 		<div class="profile-img-box">
-			<img class="profile-img"
-				src="${pageContext.request.contextPath}/resources/image/profileDefault.png">
+			<img class="profile-img" src="${pageContext.request.contextPath}/imageDown" width="50" height="66" 
+				onerror="this.onerror=null; this.src='${pageContext.request.contextPath}/resources/image/profileDefault.png'; this.width=50; this.height=50;">
 			<div class="emp-name-box">
 				<span class="emp-name">
 				</span> 
@@ -70,8 +70,10 @@
 				data-bs-toggle="dropdown" aria-expanded="false"
 				src="${pageContext.request.contextPath}/resources/image/three-dots-vertical.svg">
 			<ul class="dropdown-menu">
-				<li><a class="dropdown-item" href="${pageContext.request.contextPath}/emp/empDetail">개인정보 수정</a></li>
-				<li><a class="dropdown-item" href="${pageContext.request.contextPath}/emp/empPwUpdate">비밀번호 변경</a></li>
+				<sec:authorize access="!hasRole('ROLE_ADMIN')">
+					<li><a class="dropdown-item" href="${pageContext.request.contextPath}/emp/empDetail">개인정보 수정</a></li>
+					<li><a class="dropdown-item" href="${pageContext.request.contextPath}/emp/empPwUpdate">비밀번호 변경</a></li>
+				</sec:authorize>
 				<li><a class="dropdown-item" href="${pageContext.request.contextPath}/logout">로그아웃</a></li>
 			</ul>
 		</div>
@@ -203,7 +205,7 @@
 						    data-original-src="${pageContext.request.contextPath}/resources/image/icon/arrow.svg"
 							data-active-src="${pageContext.request.contextPath}/resources/image/icon/arrow-selected.svg" />
 					 </div>
-					 <div class="sidebar-notice sidebar-title ${selectedTitle=='notice'? 'selected' : ''}" onclick="location.href='${pageContext.request.contextPath}/notice/noticeList'">
+					 <div class="sidebar-notice sidebar-title ${selectedTitle=='notice'? 'selected' : ''}" onclick="location.href='${pageContext.request.contextPath}/notice/empNoticeList'">
 						<div>
 							<img class="notice-icon sidebar-icon" 
 								src="${pageContext.request.contextPath}${selectedTitle != 'notice' ? '/resources/image/icon/notice.svg' : '/resources/image/icon/notice-selected.svg'}" 

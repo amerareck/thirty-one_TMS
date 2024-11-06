@@ -214,4 +214,14 @@ public class EmployeesService {
 	public EmployeesDto getLastApprover(String lastApprover) {
 		return getEmpInfo(lastApprover);
 	}
+
+	public int getNewEmpNumber() {
+		int empNumber = empDao.selectLatestEmpNumber();
+		return empNumber + 1;
+	}
+
+	public List<EmployeesDto> getEmpAllByDeptId(EmployeesDto empDto, Pager pager) {
+		List<EmployeesDto> empList = empDao.selectEmpAllByDeptId(empDto, pager);
+		return empList;
+	}
 }

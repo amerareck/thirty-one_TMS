@@ -6,11 +6,14 @@
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <div class="emp-create-box card">
 	<h2>회원 등록</h2>
-	<form action="join" method="post" class="emp-create-form" name="formInfo">
+	<form action="join" method="post" class="emp-create-form" name="formInfo" enctype="multipart/form-data">
 		<div class="top-container">
 			<div>
 				<label for="empImg">사진</label>
-				<img id="empImg" name="empImg" src="${pageContext.request.contextPath}/resources/image/profile_input.png"/>
+				<label for="empImage">
+					<img id="empImg" name="empImg" src="${pageContext.request.contextPath}/resources/image/profile_input.png" style="cursor: pointer;"/>
+				</label>
+				<input type="file" accept="image/*" name="empImage" id="empImage" style="display:none;"/>
 			</div>
 			<div>
 				<label for="empName">이름</label>
@@ -53,9 +56,9 @@
 				<label for="deptId">부서</label>
 				<select class="form-select" id="deptId" name="deptId" required>
 				    <option selected>선택</option>
-				    <option value="1">공공사업1DIV</option>
-				    <option value="2">공공사업2DIV</option>
-				    <option value="3">공공사업3DIV</option>
+				   	<c:forEach items="${deptList}" var="dept">
+				   		<option value="${dept.deptId}"> ${dept.deptName}</option>
+				   	</c:forEach>
 		  		</select>
 			</div>
 			<div class="d-flex flex-column mb-4">

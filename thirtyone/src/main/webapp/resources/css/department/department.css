@@ -36,6 +36,9 @@
 
 /* ######################## 부서원 근무 상태 ############################### */
 
+.dept-attendance{
+	min-height: 975px;
+}
 .dept-attendance > div:nth-child(1) {
 	display: flex;
 	justify-content: space-between;
@@ -94,6 +97,14 @@
 	align-items: center;
 	background-color: var(--lightgray);
 	color:white;
+}
+
+.dept-check-in-state{
+	display:flex;
+	justify-content:center;
+	align-items: center;
+	color:white;
+	background-color: var(--blue);	
 }
 
 .header-dept > tr{
@@ -229,11 +240,16 @@
 }
 
 /* ########################부서원 휴가 일정###################### */
-
+.dept-holiday-box{
+	min-height: 555px;
+	margin-bottom : 20px;
+	position: relative;
+} 
 .dept-holiday-box > div:nth-child(1) {
 	display: flex;
 	justify-content: space-between;
 	margin-right: 40px;
+	
 }
 
 
@@ -292,4 +308,18 @@
 	width: 15%;
 	text-align: center;
 	vertical-align: middle;
+}
+
+
+.pagination {
+	position: absolute; 
+    bottom: 30px;
+    left: 50%; 
+    transform: translateX(-50%);
+}
+
+.page-num {
+	background-color: transparent;
+	border: solid transparent;
+    color: #c7c7c7;
 }

@@ -34,4 +34,59 @@
 		from holiday_request
 		where HDR_EMP_ID = #{enpId}
 	</select>
+	
+	
+	<insert id="insertHdrRequest" parameterType="HolidayRequest">
+		<selectKey keyProperty="hdrId" resultType="int" order="BEFORE">
+			SELECT HDR_REQ_SEQ.NEXTVAL FROM DUAL
+		</selectKey>
+			INSERT INTO HOLIDAY (
+			HD_ID, HDR_SUBMITTED_DATE, HDR_START_DATE, HDR_END_DATE, HDR_CONTENT, HDR_STATUS,
+			HDR_COMPLETED_DATE, HD_CATEGORY, HDR_EMP_ID, HDR_APPROVER, HDR_USED_DAY)
+			VALUES (
+			#{hdId}, #{hdrSubmittedDate}, #{hdrStartDate}, #{hdrEndDate}, #{hdrContent}, #{hdrStatus},
+			#{hdrCompletedDate}, #{hd_category}, #{hdrEmpId}, #{hdrApprover}, #{hdrUsedDay})	
+	</insert>
+	
+		
+	<select id="countRowByDeptHoliday" parameterType="int" resultType="int">
+		select count(h.hdr_id)
+		from holiday_request h join employees e
+		on h.hdr_emp_id = e.emp_id
+		where e.dept_id = #{deptId} and h.hdr_start_date BETWEEN SYSDATE - 15 AND ADD_MONTHS(SYSDATE, 1) and hdr_status='승인' 
+	</select>
+	
+	<select id="selectHdrByDept" resultType="HolidayRequest">
+		<![CDATA[		
+			select HDR_ID, HDR_SUBMITTED_DATE, HDR_START_DATE, HDR_END_DATE, HDR_CONTENT,
+				HDR_STATUS, HDR_COMPLETED_DATE, HD_CATEGORY, HDR_EMP_ID, HDR_APPROVER, HDR_USED_DAY
+			from (
+				select rownum rnum, HDR_ID, HDR_SUBMITTED_DATE, HDR_START_DATE, HDR_END_DATE, HDR_CONTENT,
+					HDR_STATUS, HDR_COMPLETED_DATE, HD_CATEGORY, HDR_EMP_ID, HDR_APPROVER, HDR_USED_DAY
+				from (
+					select HDR_ID, HDR_SUBMITTED_DATE, HDR_START_DATE, HDR_END_DATE, HDR_CONTENT,
+						HDR_STATUS, HDR_COMPLETED_DATE, HD_CATEGORY, HDR_EMP_ID, HDR_APPROVER, HDR_USED_DAY
+					from holiday_request join employees
+					on hdr_emp_id = emp_id
+					where dept_id = #{deptId} and hdr_start_date BETWEEN SYSDATE - 15 AND ADD_MONTHS(SYSDATE, 1)
+						and hdr_status='승인'
+					order by hdr_start_date
+				)
+				where rownum <= #{pager.endRowNo}
+			)
+			where rnum >= #{pager.startRowNo}
+		]]>
+	</select>
+	
+	<select id="selectDeptHdrCalendar" resultType="HolidayRequest">
+		select HDR_ID, HDR_SUBMITTED_DATE, HDR_START_DATE, HDR_END_DATE, HDR_CONTENT,
+			HDR_STATUS, HDR_COMPLETED_DATE, HD_CATEGORY, HDR_EMP_ID, HDR_APPROVER, HDR_USED_DAY
+		from holiday_request join employees
+		on hdr_emp_id = emp_id
+		where dept_id = #{deptId} and 
+			hdr_start_date BETWEEN
+		        ADD_MONTHS(TO_DATE(#{month}, 'yyyy/MM/DD'), -1) AND
+		        ADD_MONTHS(TO_DATE(#{month}, 'yyyy/MM/DD'), 1)
+			and hdr_status='승인'
+	</select>
 </mapper>

@@ -2,7 +2,7 @@ package com.oti.thirtyone.service;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -15,8 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.oti.thirtyone.dao.AttendanceDao;
-import com.oti.thirtyone.dto.CalendarDto;
 import com.oti.thirtyone.dto.AttendanceDto;
+import com.oti.thirtyone.dto.CalendarDto;
 
 import lombok.extern.log4j.Log4j2;
 
@@ -58,17 +58,29 @@ public class AttendanceService {
 	}
 
 	public boolean checkIn(String empId) {
+		
 		int isCheckIn = atdDao.selectCheckInToday(empId);
-		log.info(isCheckIn);
-		if(isCheckIn == 0) atdDao.insertCheckIn(empId);
+		LocalDateTime now = LocalDateTime.now();
+		
+		
+		if(isCheckIn == 0) {
+			if(now.getHour() >= 9) atdDao.insertCheckIn(empId, "지각");
+			else atdDao.insertCheckIn(empId, "정상출근");
+		}
 		return isCheckIn > 0;
 		
 	}
 	
 	public boolean checkOut(String empId) {
 		int isCheckIn = atdDao.selectCheckInToday(empId);
-		log.info(isCheckIn);
-		if(isCheckIn > 0) atdDao.updateCheckOut(empId);
+		LocalDateTime now = LocalDateTime.now();
+
+		if(isCheckIn > 0) {
+			if(now.getHour() <= 17) 
+				atdDao.updateCheckOut(empId, "조퇴");
+			else 
+				atdDao.updateCheckOut(empId, "정상출근");
+		}
 		return isCheckIn > 0;
 		
 	}

@@ -1,15 +1,18 @@
 package com.oti.thirtyone.controller;
 
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -30,6 +33,7 @@ import com.oti.thirtyone.dto.JoinFormDto;
 import com.oti.thirtyone.dto.Pager;
 import com.oti.thirtyone.dto.PositionsDto;
 import com.oti.thirtyone.dto.ReasonDto;
+import com.oti.thirtyone.security.EmployeeDetails;
 import com.oti.thirtyone.service.AttendanceService;
 import com.oti.thirtyone.service.DepartmentService;
 import com.oti.thirtyone.service.EmployeesService;
@@ -67,6 +71,9 @@ public class AdminController {
 	
 	@GetMapping("/joinForm")
 	public String joinForm(Model model){
+		List<Departments> deptList = deptService.getDepartmentList();
+		
+		model.addAttribute("deptList", deptList);
 		model.addAttribute("selectedTitle", "adminEmp");
 		model.addAttribute("selectedSub", "adminCreate");
 		return "admin/joinForm";
@@ -90,20 +97,20 @@ public class AdminController {
 		MultipartFile profileImg = formDto.getEmpImage();
 		
 		if(profileImg != null) {
+			log.info("asd");
 			empDto.setEmpImageData(profileImg.getBytes());
 			empDto.setEmpImageName(profileImg.getOriginalFilename());
 			empDto.setEmpImageType(profileImg.getContentType());
 		}
 		
 		PasswordEncoder passwordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
-		empDto.setEmpPassword(passwordEncoder.encode("admin1234"));
-		
-		// 추가로 변경해야 함 (로직 적으로)
-		empDto.setEmpNumber(2024000);
-		log.info("asd");
+		int empNumber = empService.getNewEmpNumber();
+		empDto.setEmpNumber(empNumber);
+		empDto.setEmpPassword(passwordEncoder.encode(String.valueOf(empNumber)));
+		log.info(""+empDto.getEmpNumber());
 		empService.joinEmp(empDto);
 		
-		return "admin/searchList";
+		return "redirect: searchList";
 	}
 	
 	@GetMapping("/searchList")
@@ -128,7 +135,8 @@ public class AdminController {
 		model.addAttribute("selectedTitle", "adminEmp");
 		model.addAttribute("selectedSub", "searchList");
 		model.addAttribute("title", "직원관리");
-		
+
+		model.addAttribute("isSearch", false);
 		return "admin/searchList";
 	}
 	
@@ -154,6 +162,9 @@ public class AdminController {
 		model.addAttribute("selectedTitle", "adminEmp");
 		model.addAttribute("selectedSub", "searchList");
 		model.addAttribute("title", "직원관리");
+		model.addAttribute("query", query);
+		model.addAttribute("category", category);
+		model.addAttribute("isSearch", true);
 		return "admin/searchList";
 	}
 	
@@ -176,6 +187,7 @@ public class AdminController {
 		model.addAttribute("title", empDto.getEmpName() + "님의 정보 수정하기");
 		model.addAttribute("selectedTitle", "adminEmp");
 		model.addAttribute("selectedSub", "searchList");
+		
 		return "admin/empDetail";
 	}
 	
@@ -313,7 +325,7 @@ public class AdminController {
 		model.addAttribute("selectedTitle", "org");
 		model.addAttribute("selectedSub", "organization");
 		model.addAttribute("activePage","employee");
-		
+		model.addAttribute("isSearch", false);
 		return "admin/org/orgEmployee";
 	}
 	
@@ -348,6 +360,26 @@ public class AdminController {
 		model.addAttribute("selectedTitle", "org");
 		model.addAttribute("selectedSub", "organization");
 		model.addAttribute("activePage","employee");
+		model.addAttribute("query", query);
+		model.addAttribute("category", category);
+		model.addAttribute("isSearch", true);
 		return "admin/org/orgEmployee";
+	}
+	
+	@GetMapping("/imageDown")
+	public void imageDown(String empId,
+					HttpServletResponse response) throws Exception{
+		EmployeesDto empDto = empService.getEmpInfo(empId);
+		
+		if(empDto.getEmpImageName() != null) {
+			
+			String contentType = empDto.getEmpImageType();
+			response.setContentType(contentType);		
+			
+			OutputStream out = response.getOutputStream();
+			out.write(empDto.getEmpImageData());
+			out.flush();
+			out.close();
+		}
 	}
 }

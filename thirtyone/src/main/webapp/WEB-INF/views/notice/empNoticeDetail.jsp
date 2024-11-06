@@ -31,11 +31,7 @@
 			<div class="text">
 				써리원의 사내 공지사항을 조회합니다.
 				<button type="button" class="btn list"
-					onclick="location.href='${pageContext.request.contextPath}/notice/deleteNotice?noticeId=${notice.noticeId}'">삭제</button>
-				<button type="button" class="btn list"
-					onclick="location.href='${pageContext.request.contextPath}/notice/updateNoticeForm?noticeId=${notice.noticeId}'">수정</button>
-				<button type="button" class="btn list"
-					onclick="location.href='${pageContext.request.contextPath}/notice/noticeList'">목록</button>
+					onclick="location.href='${pageContext.request.contextPath}/notice/empNoticeList'">목록</button>
 			</div>
 
 			<div class="content">
@@ -136,35 +132,37 @@
 					<c:choose>
 						<c:when test="${notice.nextNum == 0}">
 							<input type="button" value="다음글이 없습니다."
-								onclick="location.href='${pageContext.request.contextPath}/notice/noticeDetail?noticeId=${notice.nextNum}'"
+								onclick="location.href='${pageContext.request.contextPath}/notice/empNoticeDetail?noticeId=${notice.nextNum}'"
 								disabled>
 						</c:when>
 						<c:otherwise>
 							<div class="preContent">
 								<input type="button" value="${notice.nextTitle}"
-									onclick="location.href='${pageContext.request.contextPath}/notice/noticeDetail?noticeId=${notice.nextNum}'">
+									onclick="location.href='${pageContext.request.contextPath}/notice/empNoticeDetail?noticeId=${notice.nextNum}'">
 							</div>
 						</c:otherwise>
 					</c:choose>
 				</div>
+				
 				
 				<div class="preTitle">
 					<div class="pre-title">이전글</div>
 					<c:choose>
 						<c:when test="${notice.prevNum == 0}">
 							<input type="button" value="이전글이 없습니다."
-								onclick="location.href='${pageContext.request.contextPath}/notice/noticeDetail?noticeId=${notice.prevNum}'"
+								onclick="location.href='${pageContext.request.contextPath}/notice/empNoticeDetail?noticeId=${notice.prevNum}'"
 								disabled>
 						</c:when>
 						<c:otherwise>
 							<div class="preContent">
 								<input type="button" value="${notice.prevTitle}"
-									onclick="location.href='${pageContext.request.contextPath}/notice/noticeDetail?noticeId=${notice.prevNum}'">
+									onclick="location.href='${pageContext.request.contextPath}/notice/empNoticeDetail?noticeId=${notice.prevNum}'">
 							</div>
 						</c:otherwise>
 					</c:choose>
 				</div>
 				<div class="line"></div>
+
 
 			</div>
 			<div class="line" style="border: 2.5px solid #F0F0F0;"></div>

@@ -105,7 +105,7 @@ public class EmployeeController {
 	}
 	
 	@PostMapping("updatePw")
-	public void updatePw(String empPassword, Authentication authentication) {
+	public String updatePw(String empPassword, Authentication authentication) {
 		log.info(empPassword + " ");
 		String empId = authentication.getName();
 				
@@ -122,6 +122,8 @@ public class EmployeeController {
 				new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
 		//스프링 시큐리티에 인증 객체 설정
 		SecurityContextHolder.getContext().setAuthentication(authentication);
+		                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
+		return "home";
 	}
 	
 	@PostMapping("updateEmp")

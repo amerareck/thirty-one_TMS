@@ -10,10 +10,9 @@
 			<p>근태현황</p>
 			<div class="search">
 				<select class="form-select" id="search-menu" name="holiday-type">
-					<option selected>멤버이름</option>
-					<option value="1">종일</option>
-					<option value="2">반차</option>
-					<option value="3">반반차</option>
+					<option selected>이름</option>
+					<option value="1">직급</option>
+					<option value="2">부서</option>
 				</select>
 				<div class="searchBar">
 					<input type="text" placeholder=" 이름검색" id="search" autocomplete="off">

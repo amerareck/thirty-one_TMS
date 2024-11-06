@@ -46,7 +46,10 @@
 			<c:forEach items="${empDeptList}" var="emp">
 				<tr class="table-group-divider"	>
 					<td class="justify-start align-middle ps-4 table-font-size"><input class="check-box" type="checkbox" data-empid="${emp.empInfo.empId}"/></td>
-					<td class="text-center align-middle table-font-size"><img src="${pageContext.request.contextPath}/resources/image/employeePicture.png" width="40px"/></td>
+					<td class="text-center align-middle table-font-size">
+						<img class="profile-img" src="${pageContext.request.contextPath}/admin/imageDown?empId=${emp.empInfo.empId}" width="40" height="53" 
+							onerror="this.onerror=null; this.src='${pageContext.request.contextPath}/resources/image/employeePicture.png'; this.width=40; this.height=40;">
+					</td>
 					<td class="align-middle table-font-size">${emp.empInfo.empName}</td>
 					<td class="align-middle table-font-size deptName">${emp.deptName }</td>
 					<td class="align-middle table-font-size">${emp.empInfo.position }</td>
@@ -59,28 +62,61 @@
 	
 	<div class="pagination">
 		<c:if test="${pager.groupNo>1}">
-			<a href="employee?pageNo=${pager.startPageNo-1}"> 
-				<img src="${pageContext.request.contextPath}/resources/image/prev_icon.png" alt="prev" style="width: 110px">
+			<a href="
+				<c:choose>
+		            <c:when test="${isSearch == false}">
+		                employee?pageNo=${pager.startPageNo - 1}
+		            </c:when>
+		            <c:otherwise>
+		                searchDeptEmp?query=${query}&category=${category}&pageNo=${pager.pager.startPageNo - 1}
+		            </c:otherwise>
+	        	</c:choose>">
+	    		<img src="${pageContext.request.contextPath}/resources/image/prev_icon.png" alt="prev" style="width: 15px">
 			</a>
 		</c:if>
 		<c:forEach begin="${pager.startPageNo}" end="${pager.endPageNo}" step="1" var="i">
 			<c:if test="${pager.pageNo==i}">
-				<button class="page-num active"
-					onclick="location.href='${pageContext.request.contextPath}/admin/employee?pageNo=${i}'"
-					style="color: #686868">${i}</button>
+				<c:choose>
+				    <c:when test="${isSearch == false}">
+				        <c:set var="pageUrl" value="employee?pageNo=${i}" />
+				    </c:when>
+				    <c:otherwise>
+				        <c:set var="pageUrl" value="searchDeptEmp?query=${query}&category=${category}&pageNo=${i}" />
+				    </c:otherwise>
+				</c:choose>
+				
+				<button class="page-num" onclick="location.href='${pageUrl}'" style="color: #686868">
+				    ${i}
+				</button>
 			</c:if>
 			<c:if test="${pager.pageNo!=i}">
-				<button class="page-num"
-					onclick="location.href='${pageContext.request.contextPath}/admin/employee?pageNo=${i}'">
-					${i}</button>
+				<c:choose>
+				    <c:when test="${isSearch == false}">
+				        <c:set var="pageUrl" value="employee?pageNo=${i}" />
+				    </c:when>
+				    <c:otherwise>
+				        <c:set var="pageUrl" value="searchDeptEmp?query=${query}&category=${category}&pageNo=${i}" />
+				    </c:otherwise>
+				</c:choose>
+				
+				<button class="page-num" onclick="location.href='${pageUrl}'">
+				    ${i}
+				</button>
 			</c:if>
 		</c:forEach>
 		<c:if test="${pager.groupNo<pager.totalGroupNo}">
-			<a href="employee?pageNo=${pager.endPageNo+1}">
-				<img src="${pageContext.request.contextPath}/resources/image/next_icon.png" alt="next" style="width: 110px">
+			<a href="
+				<c:choose>
+		            <c:when test="${isSearch == false}">
+		                employee?pageNo=${pager.endPageNo + 1}
+		            </c:when>
+		            <c:otherwise>
+		                searchDeptEmp?query=${query}&category=${category}&pageNo=${pager.endPageNo + 1}
+		            </c:otherwise>
+	        	</c:choose>">
+	    		<img src="${pageContext.request.contextPath}/resources/image/next_icon.png" alt="next" style="width: 15px">
 			</a>
 		</c:if>
-
 	</div>
 </section>
 

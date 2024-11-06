@@ -6,7 +6,7 @@
 <div class="content-box">
 	<div class="main-container" >
 		<p class="title-31">${title}</p>
-		<form class="emp-update-form" action="${pageContext.request.contextPath}/emp/updateEmp" method="post">
+		<form class="emp-update-form" action="${pageContext.request.contextPath}/emp/updateEmp" method="post" enctype="multipart/form-data">
 		<div class="emp-subtitle sub-title">
 			<div><a href="#">기본정보</a></div>
 		</div>
@@ -17,10 +17,11 @@
 				<div class="left-container">
 					<div>
 						<p>사진</p>
-						<label for="profileImg">
-							<img src="${pageContext.request.contextPath}/resources/image/profile-img-update.png">
+						<label for="empImage">
+							<img id="empImg" src="${pageContext.request.contextPath}/admin/imageDown?empId=${empInfo.empId}" width="140" height="185" 
+						 	onerror="this.onerror=null; this.src='${pageContext.request.contextPath}/resources/image/profile-img-update.png'; this.width=140; this.height=140;" >
 						</label>
-						<input type="file" id="profileImg" name="profileImg" style="display:none;">
+						<input type="file" accept="image/*" id="empImage" name="empImage" style="display:none;">
 					</div>
 				</div>
 				<div class="middle-container">

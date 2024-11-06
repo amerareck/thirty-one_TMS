@@ -13,9 +13,9 @@ public interface AttendanceDao {
 
 	int selectCheckInToday(String empId);
 
-	int insertCheckIn(String empId);
+	int insertCheckIn(@Param("empId") String empId,@Param("state") String state);
 
-	int updateCheckOut(String empId);
+	int updateCheckOut(@Param("empId") String empId,@Param("state") String state);
 
 	AttendanceDto selectAtdByEmpId(String empId);
 
