@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.LinkedList;
 import java.util.List;
 
 import javax.servlet.ServletContext;
@@ -86,6 +85,27 @@ public class ApprovalController {
 		return "approval/draftForm";
 	}
 	
+	@GetMapping("/redraft")
+	public String getRedraftForm(ApprovalDTO param, Authentication auth, Model model) {
+		log.info("실행");
+		
+		String result = getDraftFormPage(model);
+		param.setEmpId(auth.getName());
+		param = approvalService.getDraftDocumentSingle(param);
+		param.setDocApprovalLine(approvalService.getDraftApprovalLine(param.getDocNumber()));
+		param.getDocApprovalLine().forEach(item -> {
+			item.setApproverInfo(empService.getEmpInfo(item.getDocAprApprover()));
+			item.getApproverInfo().setDeptName(deptService.getDeptName(item.getApproverInfo().getDeptId()));
+		});
+		param.setEmpInfo(empService.getEmpInfo(param.getEmpId()));
+		
+		model.addAttribute("draft", param);
+		model.addAttribute("redraft", true);
+		model.addAttribute("draftCss", approvalService.getDocCssByDocType(param.getDocFormCode()));
+		
+		return result;
+	}
+	
 	@GetMapping("/settings")
 	public String getApprovalSettingPage(Authentication auth, Model model) {
 		log.info("실행");
@@ -155,6 +175,35 @@ public class ApprovalController {
 			model.addAttribute("activePage", "retrieval");
 			model.addAttribute("sectionTitle", "결재 회수 목록");
 			
+			List<ApprovalDTO> recallList = approvalService.getRecallDocumentListById(auth.getName());
+			recallList.forEach(item -> {
+				EmployeesDto empDTO = empService.getEmpInfo(auth.getName());
+				item.setDeptId(empDTO.getDeptId());
+				item.setDeptName(deptService.getDeptName(item.getDeptId()));
+				item.setEmpPosition(empDTO.getPosition());
+				item.setEmpName(empDTO.getEmpName());
+				item.setApproveState(item.getDocAprStatus());
+				item.setDocApprovalLine(approvalService.getDraftApprovalLine(item.getDocNumber()));
+				//회수 문서에는 참조자가 전부 삭제되어 있음. 참조자는 회수 문서를 조회하면 안되니까.
+				//item.setDocReferenceList(approvalService.getDraftReferenceList(item.getDocNumber()));
+				item.getDocApprovalLine().forEach(elem -> {
+					elem.setApproverInfo(empService.getEmpInfo(elem.getDocAprApprover()));
+					elem.getApproverInfo().setDeptName(deptService.getDeptName(elem.getApproverInfo().getDeptId()));
+				});
+				item.setLastApprover(item.getDocApprovalLine().get(item.getDocApprovalLine().size()-1).getApproverInfo());
+			});
+			
+			// 여기서 페이징 처리...
+			Pager pager = new Pager(7, 5, recallList.size(), param.getPageNo());
+			List<ApprovalDTO> result = new ArrayList<>();
+			for(int i=pager.getStartRowNo()-1; i<pager.getEndRowNo(); i++) {
+				if(recallList.size()<=i) break;
+				result.add(recallList.get(i));
+			}
+			
+			model.addAttribute("recalledList", result);
+			model.addAttribute("pager", pager);
+			
 		} else { //default page, type="submitted"
 			model.addAttribute("activePage", "submitted");
 			model.addAttribute("sectionTitle", "결재 상신 목록");
@@ -174,11 +223,13 @@ public class ApprovalController {
 				});
 				
 				EmployeesDto approver = empService.getReviewingApprover(item.getDocNumber());
-				item.setReviewingApprover(approver.getEmpName());
-				item.setReviewingApproverPosition(approver.getPosition());
-				item.setReviewingApproverDeptId(approver.getDeptId());
-				item.setApproveState(approver.getDocAprState());
-				item.setLastApprover(item.getDocApprovalLine().get(item.getDocApprovalLine().size()-1).getApproverInfo());
+				if(approver != null) {
+					item.setReviewingApprover(approver.getEmpName());
+					item.setReviewingApproverPosition(approver.getPosition());
+					item.setReviewingApproverDeptId(approver.getDeptId());
+					item.setApproveState(item.getDocAprStatus());
+					item.setLastApprover(item.getDocApprovalLine().get(item.getDocApprovalLine().size()-1).getApproverInfo());
+				}
 			});
 			
 			// 여기서 페이징 처리...
@@ -377,7 +428,10 @@ public class ApprovalController {
             
             return "approval/draftForm";
 		}
-		
+		// 재기안의 경우 문서 비활성화
+		if(form.isRedraft()) {
+			approvalService.deactivatedDocumentStatus(form.getPrevDocNumber());
+		}
 		ApprovalDTO dto = new ApprovalDTO();
 		dto.setDocFormCode(approvalService.getDocType(form.getDraftType()));
 		switch(dto.getDocFormCode()) {
@@ -536,4 +590,70 @@ public class ApprovalController {
 		}
 	}
 	
+	@GetMapping("getDocumentContext")
+	public void getDocumentContext(ApprovalDTO aprDTO, Authentication auth, HttpServletResponse res) {
+		log.info("실행");
+		aprDTO.setEmpId(auth.getName());
+		ApprovalDTO docDTO = approvalService.getDocumentContext(aprDTO);
+		String docData = docDTO.getDocDocumentData();
+		String docCss = approvalService.getDocCssByDocType(docDTO.getDocFormCode());
+		JSONObject json = new JSONObject();
+		json.put("html", docData);
+		json.put("css", docCss);
+		
+		res.setContentType("application/json; charset=UTF-8");
+		res.setCharacterEncoding("UTF-8");
+		try(PrintWriter pw = res.getWriter()) {
+			pw.println(json.toString());
+			pw.flush();
+		} catch(IOException ioex) {
+			ioex.printStackTrace();
+		}
+	}
+	
+	@PostMapping("updateDocAprStatus")
+	public void updateDocumentApprovalStatus(@RequestBody ApprovalDTO dto, Authentication auth, HttpServletResponse res) {
+		log.info("실행");
+		
+		dto.setEmpId(auth.getName());
+		JSONObject json = new JSONObject();
+		if(!approvalService.updateDocAprStatus(dto)) {
+			json.put("status", "impossible");
+			json.put("message", "결재가 이미 진행 중이거나, 문서가 존재하지 않습니다.");
+		} else {
+			json.put("status", "ok");
+		}
+		
+		res.setContentType("application/json; charset=UTF-8");
+		res.setCharacterEncoding("UTF-8");
+		try(PrintWriter pw = res.getWriter()) {
+			pw.println(json.toString());
+			pw.flush();
+		} catch(IOException ioex) {
+			ioex.printStackTrace();
+		}
+	}
+	
+	@PostMapping("deleteDoc")
+	public void deactiveDocument(@RequestBody ApprovalDTO dto, Authentication auth, HttpServletResponse res) {
+		log.info("실행");
+		
+		dto.setEmpId(auth.getName());
+		JSONObject json = new JSONObject();
+		if(!approvalService.deactivatedDocumentStatus(dto.getDocNumber())) {
+			json.put("status", "impossible");
+			json.put("message", "결재가 이미 진행 중이거나, 문서가 존재하지 않습니다.");
+		} else {
+			json.put("status", "ok");
+		}
+		
+		res.setContentType("application/json; charset=UTF-8");
+		res.setCharacterEncoding("UTF-8");
+		try(PrintWriter pw = res.getWriter()) {
+			pw.println(json.toString());
+			pw.flush();
+		} catch(IOException ioex) {
+			ioex.printStackTrace();
+		}
+	}
 }

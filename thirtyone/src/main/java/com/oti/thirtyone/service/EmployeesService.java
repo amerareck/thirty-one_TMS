@@ -204,6 +204,8 @@ public class EmployeesService {
 
 	public EmployeesDto getReviewingApprover(String docNumber) {
 		DocumentApprovalLineDTO empId = docAprLineDAO.selectReviewingApproverEmpId(docNumber);
+		if(empId == null) return null;
+		
 		EmployeesDto result = getEmpInfo(empId.getDocAprApprover());
 		result.setDocAprState(empId.getDocAprState());
 		return result;

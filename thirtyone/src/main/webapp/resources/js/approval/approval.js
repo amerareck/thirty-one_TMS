@@ -63,7 +63,8 @@ $(function() {
 	var path = window.location.pathname;
     console.log("페이지 경로:", path);
     
-    if(path === '/thirtyone/approval/draft' || path === '/thirtyone/approval/draftSubmit' || path=== '/thirtyone/approval/settings') {
+    if(path === '/thirtyone/approval/draft' || path === '/thirtyone/approval/draftSubmit' 
+    	|| path=== '/thirtyone/approval/settings' || '/thirtyone/approval/redraft') {
     	let orgChart;
     	$.ajax({
     		url: "getOrgChart",
@@ -101,7 +102,11 @@ $(function() {
     			aprLineBookMark.append(context);
     			aprLineModalSelect.append(context);
     		}
-    		aprLineBookMark.prop('disabled', true);
+    		const redraft = aprLineBookMark.attr('data-redraft');
+    		console.log(redraft);
+    		if (!redraft) {
+    			aprLineBookMark.prop('disabled', true);
+    		}
     	},
 		error: function (xhr, status, error) {
             console.log('Error: ' + error);

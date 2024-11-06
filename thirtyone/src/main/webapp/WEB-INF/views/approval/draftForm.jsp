@@ -6,6 +6,17 @@
         <div class="d-flex align-items-top" style="width: 60%;">
         	<label for="documentForm" class="fw-bold mt-2 ${not empty draftType ? 'mb-2' : ''}" style="width: 25%;">결재 양식</label>
         	<div style="width: 75%;">
+        		<c:if test="${redraft}">
+	            <select class="form-select w-100" id="documentForm" name="draftType" style="height: 37.78px;" aria-describedby="documentFormValidation">
+	                <option value="default" disabled>결재 양식 선택</option>
+	                <option value="holidayDocument" ${draft.docFormCode=='HLD' ? 'selected': ''} >근태 신청서(휴가)</option>
+	                <option value="businessTripDocument" ${draft.docFormCode=='BTD' ? 'selected': ''} >출장 신청서</option>
+	                <option value="businessTripReport" ${draft.docFormCode=='BTR' ? 'selected': ''} >출장 복명서</option>
+	                <option value="holidayWork" ${draft.docFormCode=='HLW' ? 'selected': ''} >휴일근무 신청서</option>
+	                <option value="workOvertime" ${draft.docFormCode=='WOT' ? 'selected': ''} >연장근무 신청서</option>
+	           	</select>
+        		</c:if>
+        		<c:if test="${!redraft}">
 	            <select class="form-select w-100" id="documentForm" name="draftType" style="height: 37.78px;" aria-describedby="documentFormValidation">
 	                <option value="default" ${form.draftType=='default' ? 'selected': ''} selected disabled>결재 양식 선택</option>
 	                <option value="holidayDocument" ${form.draftType=='holidayDocument' ? 'selected': ''} >근태 신청서(휴가)</option>
@@ -14,11 +25,12 @@
 	                <option value="holidayWork" ${form.draftType=='holidayWork' ? 'selected': ''} >휴일근무 신청서</option>
 	                <option value="workOvertime" ${form.draftType=='workOvertime' ? 'selected': ''} >연장근무 신청서</option>
 	           	</select>
+        		</c:if>
 	           	<div id="documentFormValidation" class="form-text">${draftType}</div>
         	</div>
         </div>
         <div class="d-flex flex-column align-items-top" id="draftDetailForm" style="width: 40%;">
-        	<div class="d-flex align-items-center w-100 mb-3 hol-doc hidden">
+        	<div class="d-flex align-items-center w-100 mb-3 hol-doc ${draft.docFormCode=='HLD' ? '': 'hidden'}">
 				<label for="dateOfHoliday" class="fw-bold ${not empty holidayStartDate ? 'mb-4' : 'mb-2'}" style="width: 25%; margin-left: 20px">신청 기간</label>
 				<div style="width: 75%;">
 					<div id="dateOfHoliday" class="d-flex align-items-center w-100" aria-describedby="dateOfHolidayValidation" >
@@ -29,7 +41,7 @@
 					<div id="dateOfHolidayValidation" class="form-text">${holidayStartDate}</div>
 				</div>
           	</div>
-          	<div class="d-flex align-items-center w-100 mb-3 hol-doc hidden">
+          	<div class="d-flex align-items-center w-100 mb-3 hol-doc ${draft.docFormCode=='HLD' ? '': 'hidden'}">
           		<label for="holidayType" class="fw-bold ${not empty holidayType ? 'mb-4' : 'mb-2'}" style="width: 25%; margin-left: 20px">휴가 유형</label>
           		<div style="width: 75%;">
 	        		<select id="holidayType" class="form-select w-100" name="holidayType" style="font-size: 0.9rem" aria-describedby="holidayTypeValidation" >
@@ -41,7 +53,7 @@
 	        		<div id="holidayTypeValidation" class="form-text">${holidayType}</div>
           		</div>
         	</div>
-        	<div class="d-flex align-items-center w-100 mb-3 biz-trip hidden">
+        	<div class="d-flex align-items-center w-100 mb-3 biz-trip ${draft.docFormCode=='BTD' || draft.docFormCode=='BTR' ? '': 'hidden'}">
           		<label for="dateOfBizTrip" class="fw-bold ${not empty bizTripStartDate ? 'mb-4' : 'mb-2'}" style="width: 25%; margin-left: 20px">신청 기간</label>
           		<div style="width: 75%;">
 	        		<div id="dateOfBizTrip" class="d-flex align-items-center w-100"  aria-describedby="dateOfBizTripValidation" >
@@ -52,21 +64,21 @@
 					<div id="dateOfBizTripValidation" class="form-text">${bizTripStartDate}</div>
           		</div>
         	</div>
-        	<div class="d-flex align-items-center w-100 mb-3 biz-trip hidden" >
+        	<div class="d-flex align-items-center w-100 mb-3 biz-trip ${draft.docFormCode=='BTD' || draft.docFormCode=='BTR' ? '': 'hidden'}" >
           		<label for="purposeOfBizTrip" class="fw-bold ${not empty bizTripPurposeForm ? 'mb-4' : 'mb-2'}" style="width: 25%; margin-left: 20px">출장 목적</label>
         		<div id="purposeOfBizTrip" class="d-flex flex-column align-items-start" style="width: 75%;">
 					<textarea class="form-control w-100" id="bizTripPurposeForm" name="bizTripPurposeForm" cols="2" placeholder="간략하게 목적만 작성하시오." style="font-size: 0.9rem;" aria-describedby="bizTripPurposeValidation"></textarea>
 					<div id="bizTripPurposeValidation" class="form-text">${bizTripPurposeForm}</div>
 				</div>
         	</div>
-        	<div class="d-flex align-items-center justify-content-between w-100 hol-work hidden" >
+        	<div class="d-flex align-items-center justify-content-between w-100 hol-work ${draft.docFormCode=='HLW' ? '': 'hidden'}" >
 				<label for="datetimeOfholidayWork" class="fw-bold ${not empty holidayWorkStartDate ? 'mb-4' : 'mb-2'}" style="width: 25%; margin-left: 20px; margin-right: 10px;">근무 신청</label>
 				<div class="w-75">
 					<input type="text" id="holidayWorkStartDatetime" name="holidayWorkStartDate" class="form-control p-2" style="height: 35px; font-size: 0.8rem;" placeholder="휴가근무 신청일" aria-describedby="datetimeOfholidayWorkValidation" readonly >
 					<div id="datetimeOfholidayWorkValidation" class="form-text">${holidayWorkStartDate}</div>
           		</div>
           	</div>
-          	<div class="d-flex align-items-center w-100 work-over hidden" >
+          	<div class="d-flex align-items-center w-100 work-over ${draft.docFormCode=='WOT' ? '': 'hidden'}" >
 				<label for="datetimeOfWorkOvertime" class="fw-bold ${not empty workOvertimeEndDate ? 'mb-4' : 'mb-2'}" style="width: 25%; margin-left: 20px; margin-right: 10px;">근무 종료</label>
 				<div class="w-75">
 					<input type="text" id="workOvertimeStartDatetime" name="workOvertimeEndDate" class="form-control p-2" style="height: 35px; font-size: 0.8rem;" placeholder="추가근무 종료시각" aria-describedby="datetimeOfWorkOvertimeValidation" readonly >
@@ -79,7 +91,12 @@
         <div class="d-flex align-items-center" id="draftTitleContainer" style="width: 60%;">
             <label for="draftTitle" class="fw-bold ${not empty draftTitle ? 'mb-4' : 'mb-2'}" style="width: 30%; margin-right:2px;">제목</label>
             <div style="width: 90%;">
-	            <input type="text" class="form-control w-100" id="draftTitle" name="draftTitle" aria-describedby="draftTitleValidation" value="${form.draftTitle}" />
+            	<c:if test="${redraft}" >
+		            <input type="text" class="form-control w-100" id="draftTitle" name="draftTitle" aria-describedby="draftTitleValidation" value="${draft.docTitle}" />
+            	</c:if>
+            	<c:if test="${!redraft}" >
+		            <input type="text" class="form-control w-100" id="draftTitle" name="draftTitle" aria-describedby="draftTitleValidation" value="${form.draftTitle}" />
+            	</c:if>
 	            <div id="draftTitleValidation" class="form-text">${draftTitle}</div>
             </div>
         </div>
@@ -130,7 +147,7 @@
         <div class="d-flex align-items-center" id="pickApprovalLineContainer" style="width: 100%;" >
             <label for="approvalLineSelect" class="fw-bold ${not empty draftApprovalLine ? 'mb-4' : 'mb-2'}" style="width: 15%;">결재 라인</label>
             <div style="width: 45%;">
-	            <select class="form-select w-100" id="approvalLineSelect" aria-describedby="draftApprovalLineValidation">
+	            <select class="form-select w-100" id="approvalLineSelect" data-redraft="${redraft}" aria-describedby="draftApprovalLineValidation">
 	                <option selected value="selected-apprval-1">기본 결재선</option>
 	                <option value="selected-apprval-2">기본 결재선2</option>
 	                <option value="selected-apprval-3">기본 결재선3</option>
@@ -141,10 +158,33 @@
         </div>
     </div>
     <div class="d-none" id="approvalLineInfo">
-    	<select name="draftApprovalLine" multiple></select>
+    	<select name="draftApprovalLine" multiple>
+    		<c:if test="${redraft}">
+    			<c:forEach items="${draft.docApprovalLine}" var="aprLine" >
+	    			<option selected value="${aprLine.docAprSeq}-${aprLine.docAprApprover}"></option>
+    			</c:forEach>
+    		</c:if>
+    	</select>
     	<input type="hidden" id="docNumber" name="docNumber" value="" />
+    	<c:if test="${redraft}">
+    		<input type="hidden" name="prevDocNumber" value="${draft.docNumber}" />
+    		<input type="hidden" name="redraft" value="${redraft}" />
+    	</c:if>
     </div>
     <div class="d-flex align-items-center justify-content-center mb-4" id="approvalLineDiagram">
+    	<c:if test="${redraft}">
+    	<c:forEach items="${draft.docApprovalLine}" var="aprLine" varStatus="i">
+    		<div class="custom-card text-end">
+	            <div class="name-text mt-1">${aprLine.approverInfo.empName}&nbsp;<span class="role-text">${aprLine.approverInfo.position}</span></div>
+	            <div class="dept-text mt-2">${aprLine.approverInfo.deptName}</div>
+	        </div>
+	        <c:if test="${draft.docApprovalLine.size() != i.count}">
+	        	<div class="mx-3">
+		            <img src="${pageContext.request.contextPath}/resources/image/approval-arrow.png" width="20px" />
+		        </div>
+	        </c:if>
+    	</c:forEach>
+    	</c:if>
     	<%-- 
         <div class="custom-card text-end">
             <div class="name-text mt-1">정준하 <span class="role-text">과장</span></div>

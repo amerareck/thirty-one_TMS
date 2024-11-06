@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.oti.thirtyone.dto.ApprovalDTO;
 import com.oti.thirtyone.dto.DocumentApprovalLineDTO;
 import com.oti.thirtyone.dto.PageParam;
 
@@ -17,5 +18,7 @@ public interface DocumentApprovalLineDAO {
 	List<DocumentApprovalLineDTO> selectDraftApprovalLineByDocNumber(String docNumber);
 
 	DocumentApprovalLineDTO selectReviewingApproverEmpId(String docNumber);
+
+	int updateDocAprStatus(ApprovalDTO dto);
 
 }

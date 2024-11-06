@@ -31,4 +31,7 @@ public class DraftForm {
 	private List<String> draftApprovalLine; // 결재선
 	private MultipartFile draftAttachFile; // 첨부파일
 	private String documentData; // 기안서
+	
+	private String prevDocNumber; // 재기안 문서번호
+	private boolean redraft; // 재기안 확인
 }

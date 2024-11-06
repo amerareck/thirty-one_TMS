@@ -62,4 +62,12 @@
 			FETCH FIRST 1 ROWS ONLY
 		]]>
 	</select>
+	
+	<update id="updateDocAprStatus" parameterType="Approval">
+		<![CDATA[
+			UPDATE DOCUMENT_APPROVAL_LINE
+			SET DOC_APR_STATE = '취소'
+			WHERE doc_number = #{docNumber}
+		]]>
+	</update>
 </mapper>

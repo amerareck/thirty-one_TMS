@@ -126,11 +126,105 @@
 				doc_biztrip_purpose,
 				doc_holiday_work_start_date,
 				doc_work_overtime_end_date,
-				doc_form_name
+				doc_form_name,
+				doc_apr_status
 			FROM DOCUMENT_FOLDER
 				LEFT OUTER JOIN DOCUMENT_FORM USING(doc_form_code)
-			WHERE emp_id = #{empId}
+			WHERE 
+				emp_id = #{empId}
+			AND doc_apr_status = '대기'
 			ORDER BY doc_draft_date DESC
 		]]>
 	</select>
+	
+	<select id="selectDocumentContext" parameterType="Approval" resultType="Approval">
+		<![CDATA[
+			SELECT 
+				doc_form_code,
+				doc_document_data
+			FROM DOCUMENT_FOLDER
+			WHERE
+				doc_number = #{docNumber}
+			AND emp_id = #{empId}
+		]]>
+	</select>
+	
+	<update id="updateDocAprStatus" parameterType="Approval">
+		<![CDATA[
+			UPDATE DOCUMENT_FOLDER
+			SET DOC_APR_STATUS = '회수'
+			WHERE
+				doc_number = #{docNumber}
+			AND emp_id = #{empId}
+			AND doc_apr_status = '대기'
+		]]>
+	</update>
+	
+	<select id="selectRecalledDocument" parameterType="Approval" resultType="Approval">
+		<![CDATA[
+			SELECT
+				DOC_NUMBER,
+				DOC_DRAFT_DATE,
+				DOC_RETENTION_PERIOD,
+				DOC_TITLE,
+				DOC_DOCUMENT_DATA,
+				EMP_ID,
+				DOC_FORM_CODE,
+				DOC_HOLIDAY_TYPE,
+				DOC_HOLIDAY_DAY,
+				DOC_HOLIDAY_START_DATE,
+				DOC_HOLIDAY_END_DATE,
+				DOC_BIZTRIP_DAY,
+				DOC_BIZTRIP_START_DATE,
+				DOC_BIZTRIP_END_DATE,
+				DOC_BIZTRIP_PURPOSE,
+				DOC_HOLIDAY_WORK_START_DATE,
+				DOC_WORK_OVERTIME_END_DATE,
+				DOC_APR_STATUS
+			FROM DOCUMENT_FOLDER
+			WHERE
+				doc_number = #{docNumber}
+			AND emp_id = #{empId}
+			AND doc_apr_status = '회수'
+		]]>
+	</select>
+	
+	<select id="selectRecalledDocumentsById" parameterType="Approval" resultType="Approval">
+		<![CDATA[
+			SELECT
+				DOC_NUMBER,
+				DOC_DRAFT_DATE,
+				DOC_RETENTION_PERIOD,
+				DOC_TITLE,
+				DOC_DOCUMENT_DATA,
+				EMP_ID,
+				DOC_FORM_CODE,
+				DOC_HOLIDAY_TYPE,
+				DOC_HOLIDAY_DAY,
+				DOC_HOLIDAY_START_DATE,
+				DOC_HOLIDAY_END_DATE,
+				DOC_BIZTRIP_DAY,
+				DOC_BIZTRIP_START_DATE,
+				DOC_BIZTRIP_END_DATE,
+				DOC_BIZTRIP_PURPOSE,
+				DOC_HOLIDAY_WORK_START_DATE,
+				DOC_WORK_OVERTIME_END_DATE,
+				DOC_APR_STATUS,
+				doc_form_name
+			FROM DOCUMENT_FOLDER
+				LEFT OUTER JOIN DOCUMENT_FORM USING(doc_form_code)
+			WHERE
+				emp_id = #{empId}
+			AND doc_apr_status = '회수'
+			ORDER BY doc_draft_date DESC
+		]]>
+	</select>
+	
+	<update id="updateDeactivateDocument" parameterType="String">
+		<![CDATA[
+			UPDATE DOCUMENT_FOLDER
+			SET doc_apr_status = '폐기'
+			WHERE doc_number = #{docNumber}
+		]]>
+	</update>
 </mapper>

@@ -31,6 +31,8 @@ public class ApprovalService {
 	DocumentApprovalLineDAO docApprovalLineDAO;
 	@Autowired
 	DocumentReferenceDAO docReferDAO;
+	@Autowired
+	EmployeesService empService;
 	
 	public boolean setDraftForm(ApprovalDTO dto) {
 		switch(dto.getDocFormCode()) {
@@ -112,11 +114,61 @@ public class ApprovalService {
 	}
 
 	public List<DocumentApprovalLineDTO> getDraftApprovalLine(String docNumber) {
-		return docApprovalLineDAO.selectDraftApprovalLineByDocNumber(docNumber);
+		List<DocumentApprovalLineDTO> dal = docApprovalLineDAO.selectDraftApprovalLineByDocNumber(docNumber);
+		dal.forEach(item -> {
+		    if (item.getDocAprProxy() != null) {
+		        item.setApproverInfo(empService.getEmpInfo(item.getDocAprProxy()));
+		    }
+		});
+		
+		return dal;
 	}
 
 	public List<DocumentReferenceDTO> getDraftReferenceList(String docNumber) {
 		return docReferDAO.selectDraftReferenceList(docNumber);
+	}
+
+	public ApprovalDTO getDocumentContext(ApprovalDTO aprDTO) {
+		return documentFolderDAO.selectDocumentContext(aprDTO);
+	}
+
+	public String getDocCssByDocType(String docFormCode) {
+		switch (docFormCode) {
+			case "HLD" :
+				return "holidayDocument.css";
+			case "BTD" :
+				return "businessTripDocument.css";
+			case "BTR" :
+				return "businessTripReport.css";
+			case "HLW" :
+				return "holidayWork.css";
+			case "WOT" :
+				return "workOvertime.css";
+		}
+		return null;
+	}
+
+	public boolean updateDocAprStatus(ApprovalDTO dto) {
+		boolean result = documentFolderDAO.updateDocAprStatus(dto) == 1;
+		
+		if(result) {
+			ApprovalDTO recall = documentFolderDAO.selectRecalledDocument(dto);
+			docApprovalLineDAO.updateDocAprStatus(recall);
+			docReferDAO.deleteDocumentReferences(recall);
+		}
+		return result;
+	}
+
+	public List<ApprovalDTO> getRecallDocumentListById(String empId) {
+		return documentFolderDAO.selectRecalledDocumentsById(empId);
+	}
+
+	public ApprovalDTO getDraftDocumentSingle(ApprovalDTO param) {
+		return documentFolderDAO.selectRecalledDocument(param);
+	}
+
+	public boolean deactivatedDocumentStatus(String prevDocNumber) {
+		return documentFolderDAO.updateDeactivateDocument(prevDocNumber) == 1;
 	}
 
 }

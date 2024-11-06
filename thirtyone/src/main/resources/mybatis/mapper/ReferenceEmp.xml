@@ -30,4 +30,11 @@
 			ORDER BY p.position_class
 		]]>
 	</select>
+	
+	<delete id="deleteDocumentReferences" parameterType="Approval">
+		<![CDATA[
+			DELETE FROM REFERENCE_EMP
+			WHERE doc_number = #{docNumber}
+		]]>
+	</delete>
 </mapper>

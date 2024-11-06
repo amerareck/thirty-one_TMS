@@ -1,8 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<c:forEach items="${draftList}" var="draft" varStatus="i" >
-<div class="modal" id="approvalView-${i.index}">
+<c:if test="${not empty draftList}"><c:set var="list" value="${draftList}" /></c:if>
+<c:if test="${not empty recalledList}"><c:set var="list" value="${recalledList}" /></c:if>
+<c:forEach items="${list}" var="draft" varStatus="i" >
+<c:set var="index" value="${i.index}" />
+<div class="modal approvalViews" id="approvalView-${index}">
 	<div class="modal-dialog modal-dialog-centered">
 	    <div class="modal-content">
 	        <div class="modal-header">
@@ -39,6 +42,9 @@
 		                    <c:if test="${draft.docApprovalLine[lastIndex].docAprState == '승인' || draft.docApprovalLine[lastIndex].docAprState == '반려' || draft.docApprovalLine[lastIndex].docAprState == '위임'}">
 		                    	<span id="approvalCompleteDate" style="width: auto;"><fmt:formatDate value="${draft.docApprovalLine[lastIndex].docAprDate}" pattern="yyyy-MM-dd" /></span>
 		                    </c:if>
+		                    <c:if test="${draft.docApprovalLine[lastIndex].docAprState == '회수'}">
+		                    	<span id="approvalCompleteDate" style="width: auto;">N/A</span>
+		                    </c:if>
 		                </div>
 		                <div class="d-flex align-items-center justify-content-start" style="width: 35%">
 		                    <label for="finalApprover" class="form-label fw-bold m-0" style="width: 30%">최종결재자</label>
@@ -56,17 +62,32 @@
 		                    	<c:forEach items="${draft.docApprovalLine}" var="aprLine">
 			                    	<c:if test="${aprLine.docAprState == '승인' || aprLine.docAprState == '반려'}" >
 				                    	<div class="w-100 mb-1">
-				                    		<span class="fw-bold w-25">${aprLine.approverInfo.empName}&nbsp;${aprLine.approverInfo.position}</span>
+				                    		<c:if test="${empty aprLine.docAprProxy}">
+				                    			<span class="fw-bold w-25">${aprLine.approverInfo.empName}&nbsp;${aprLine.approverInfo.position}</span>
+			                    			</c:if>
+			                    			<c:if test="${aprLine.docAprProxy}">
+				                    			<span class="fw-bold w-25">${aprLine.approverProxyInfo.empName}&nbsp;${aprLine.approverProxyInfo.position}</span>
+			                    			</c:if>
 				                    		<span class="w-75">- ${aprLine.docAprComment}</span>
 										</div>
 			                    	</c:if>
 			                    	<c:if test="${aprLine.docAprState == '대기' || aprLine.docAprState == '진행' || aprLine.docAprState == '보류'}" >
 			                    		<div class="w-100 mb-1">
-				                    		<span class="fw-bold w-25">${aprLine.approverInfo.empName}&nbsp;${aprLine.approverInfo.position}</span>
+			                    			<c:if test="${empty aprLine.docAprProxy}">
+				                    			<span class="fw-bold w-25">${aprLine.approverInfo.empName}&nbsp;${aprLine.approverInfo.position}</span>
+			                    			</c:if>
+			                    			<c:if test="${aprLine.docAprProxy}">
+				                    			<span class="fw-bold w-25">${aprLine.approverProxyInfo.empName}&nbsp;${aprLine.approverProxyInfo.position}</span>
+			                    			</c:if>
 				                    		<span class="w-75">- 결재 전</span>
 										</div>
 			                    	</c:if>
 		                    	</c:forEach>
+		                    	<c:if test="${draft.docApprovalLine[0].docAprState == '취소'}" >
+		                    		<div class="w-100">
+			                    		<span class="w-75 h-100">결재 취소된 문서입니다.</span>
+									</div>
+		                    	</c:if>
 		                    </div>
 		                </div>
 		            </div>
@@ -75,10 +96,32 @@
 	            <hr style="margin: 20px 0" />
 	
 	            <div class="d-flex document-container w-100 p-2 justify-content-center align-items-center">
-	                <div class="mt-2 w-75 h-auto">
-		                <textarea id="documentContext" class="w-auto h-auto"></textarea>
+	                <div class="mt-2 w-100 h-auto">
+		                <textarea id="documentContext-${index}" class="w-auto h-auto" data-docNumber="${draft.docNumber}"></textarea>
 	                </div>
 	                <div class="approvalLineList my-auto" style="width:20%">
+	                	<c:forEach items="${draft.docApprovalLine}" var="docApr" varStatus="i" >
+	                		<div class="d-flex flex-column approval-line-cube border border-dark p-2 mt-2" style="margin: 0 auto;">
+		                        <p class="approval-line-cube-info">${docApr.approverInfo.deptName}</p>
+		                        <p class="approval-line-cube-info">&nbsp;</p>
+		                        <span class="text-center fs-6 mt-auto" style="font-size: 11pt;"><b>${docApr.approverInfo.empName}</b>&nbsp;${docApr.approverInfo.position}</span>
+		                        <p class="approval-line-cube-info">&nbsp;</p>
+		                        <c:if test="${not empty docApr.approverProxyInfo}">
+			                        <p class="approval-line-cube-info text-center">[대결]</p>
+			                        <p class="approval-line-cube-info text-center">(<fmt:formatDate value="${docApr.docAprDate}" pattern="yy-MM-dd" />)</p>
+			                        <span class="text-center fs-6 mt-auto" style="font-size: 11pt;"><b>${docApr.approverProxyInfo.empName}</b>&nbsp;${docApr.approverProxyInfo.position}</span>
+			                        <p class="approval-line-cube-info">&nbsp;</p>
+		                        </c:if>
+		                        <div class="fw-bold fs-5 text-center mt-auto">${docApr.docAprState}</div>
+		                        <p class="approval-line-cube-info">&nbsp;</p>
+	                    	</div>
+	                    	<c:if test="${i.count != draft.docApprovalLine.size()}">
+		                    	<div class="text-center my-3">
+		                        	<i class="fa-solid fa-chevron-down"></i>
+		                    	</div>
+	                    	</c:if>
+	                	</c:forEach>
+	                	<%-- 
 	                    <div class="d-flex flex-column approval-line-cube border border-dark p-2 mt-2" style="margin: 0 auto;">
 	                        <p class="approval-line-cube-info">공공사업1Div</p>
 	                        <p class="approval-line-cube-info">&nbsp;</p>
@@ -113,6 +156,7 @@
 	                        <p class="approval-line-cube-info">&nbsp;</p>
 	                        <div class="fw-bold fs-5 text-center mt-auto">위임</div>
 	                    </div>
+	                	--%>
 	                </div>
 	            </div>
 	        </div>

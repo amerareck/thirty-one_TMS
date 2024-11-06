@@ -14,5 +14,10 @@ public interface DocumentFolderDAO {
 	int insertDraftByHLW(ApprovalDTO dto);
 	int insertDraftByWOL(ApprovalDTO dto);
 	List<ApprovalDTO> selectDraftDocumentById(String name);
+	ApprovalDTO selectDocumentContext(ApprovalDTO aprDTO);
+	int updateDocAprStatus(ApprovalDTO dto);
+	ApprovalDTO selectRecalledDocument(ApprovalDTO dto);
+	List<ApprovalDTO> selectRecalledDocumentsById(String empId);
+	int updateDeactivateDocument(String prevDocNumber);
 	
 }

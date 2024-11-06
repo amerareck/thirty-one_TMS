@@ -10,25 +10,55 @@
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <script src="${pageContext.request.contextPath}/resources/js/approval/approval.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/approval/documents.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/approval/approvalTable.js"></script>
 
 <c:if test="${empty form.documentData}">
+	<c:if test="${redraft}">
 	<script>
+		const documentHtmlData = `<![CDATA[<c:out value="${draft.docDocumentData}" escapeXml="false" />]]>`;
 		tinymce.init({
-			language: 'ko_KR',
+		    language: 'ko_KR',
 		    selector: '#draftDocument',
 		    height: '600px',
-		    content_css: "/thirtyone/resources/css/document-form/businessTripReport.css",
+		    content_css: "/thirtyone/resources/css/document-form/${draftCss}",
 		    plugins: [
 		        'anchor', 'autolink', 'charmap', 'codesample', 'emoticons', 'image', 'link', 'lists', 'media', 'searchreplace', 'table', 'visualblocks', 'wordcount'
 		    ],
 		    toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table | align lineheight | numlist bullist indent outdent | emoticons charmap | removeformat',
 		    setup: function (editor) {
-		    	editor.on('init', function() {
-		            editor.setContent('');
-		        })
-		    },
+		        editor.on('init', function() {
+		            editor.setContent(documentHtmlData);
+		            
+		            const contentDocument = editor.getDoc();
+		            const myElement = contentDocument.getElementById('draftDocumentReferrer');
+		            if (myElement) {
+		                $(myElement).empty();
+		            }
+		        });
+		    }
 		});
 	</script>
+	</c:if>
+	<c:if test="${!redraft}">
+		<script>
+			tinymce.init({
+				language: 'ko_KR',
+			    selector: '#draftDocument',
+			    height: '600px',
+			    content_css: "/thirtyone/resources/css/document-form/businessTripReport.css",
+			    plugins: [
+			        'anchor', 'autolink', 'charmap', 'codesample', 'emoticons', 'image', 'link', 'lists', 'media', 'searchreplace', 'table', 'visualblocks', 'wordcount'
+			    ],
+			    toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table | align lineheight | numlist bullist indent outdent | emoticons charmap | removeformat',
+			    setup: function (editor) {
+			    	editor.on('init', function() {
+			            editor.setContent('');
+			        })
+			    },
+			});
+		</script>
+	</c:if>
+
 </c:if>
 <c:if test="${not empty form.documentData}">
 	<script>
