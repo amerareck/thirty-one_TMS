@@ -117,6 +117,8 @@ public class NoticeController {
 				}
 			}
 		}
+		
+		String deptNamestr = String.join(", ", deptName); // deptName 리스트를 쉼표로 구분된 문자열로 변환
 
 		notice.setPrevNum(prevNext.getPrevNum());
 		notice.setPrevTitle(prevNext.getPrevTitle());
@@ -129,6 +131,7 @@ public class NoticeController {
 		model.addAttribute("noticeFile", noticeFile);
 		model.addAttribute("noticeDeptList", noticeDeptList);
 		model.addAttribute("deptName", deptName);
+		model.addAttribute("deptNamestr", deptNamestr);
 
 		log.info(prevNext.getPrevNum() + "");
 		log.info("Notice ID:" + notice.getNoticeId());
@@ -276,10 +279,7 @@ public class NoticeController {
 	// 공지사항 삭제
 	@GetMapping("/deleteNotice")
 	public String deleteNotice(int noticeId, HttpSession session) {
-		/*
-		 * noticeService.deleteNoticeFile(noticeId);
-		 * noticeService.deleteNotice(noticeId);
-		 */
+		
 		noticeService.deactivateNoticeById(noticeId);
 
 		Pager pager = (Pager) session.getAttribute("pager");

@@ -34,4 +34,18 @@
 		from holiday_request
 		where HDR_EMP_ID = #{enpId}
 	</select>
+	
+	
+	<insert id="insertHdrRequest" parameterType="HolidayRequest">
+		<selectKey keyProperty="hdrId" resultType="int" order="BEFORE">
+			SELECT HDR_REQ_SEQ.NEXTVAL FROM DUAL
+		</selectKey>
+			INSERT INTO HOLIDAY (
+			HD_ID, HDR_SUBMITTED_DATE, HDR_START_DATE, HDR_END_DATE, HDR_CONTENT, HDR_STATUS,
+			HDR_COMPLETED_DATE, HD_CATEGORY, HDR_EMP_ID, HDR_APPROVER, HDR_USED_DAY)
+			VALUES (
+			#{hdId}, #{hdrSubmittedDate}, #{hdrStartDate}, #{hdrEndDate}, #{hdrContent}, #{hdrStatus},
+			#{hdrCompletedDate}, #{hd_category}, #{hdrEmpId}, #{hdrApprover}, #{hdrUsedDay})	
+	</insert>
+	
 </mapper>

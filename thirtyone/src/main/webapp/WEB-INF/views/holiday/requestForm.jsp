@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/common/header.jsp"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/holiday/request.css" />
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 <div class="content-box">
@@ -8,25 +10,28 @@
 		<p class="title-31">${title}</p>
 		<div class="holiday-subtitle sub-title">
 			<div><a href="${pageContext.request.contextPath}/holiday/" >휴가 현황</a></div>
-			<div  class="selected-sub-title"><a href="${pageContext.request.contextPath}/holiday/request">휴가 신청</a></div>
+			<div  class="selected-sub-title"><a href="${pageContext.request.contextPath}/holiday/requestForm">휴가 신청</a></div>
 			<div><a href="${pageContext.request.contextPath}/holiday/process">휴가 처리</a></div>
 		</div>
 		<div class="main-line"></div>
 		<div class="holiday-request-box card">
 			<p class="mini-title">휴가 신청</p>
 			<div class="mini-line"></div>
-			<form method="post" class="holiday-request">
+			
+			<form method="post" action="request" class="holiday-request" id="contentForm">
 				<div class="holiday-select1">
 					<label for="holiday-type">휴가유형</label>
-					<select class="form-select" id="holiday-type" name="holiday-type">
-						<option selected>휴가 유형을 선택해 주세요.</option>
+					<select class="form-select" id="hdCategory" name="hdCategory">
+						<option value="0">휴가 유형을 선택해 주세요.</option>
 						<option value="1">연차(5일)</option>
 						<option value="2">대체휴가(2일)</option>
 						<option value="3">기타</option>
 					</select>
 				</div>
+					
 				<div class="holiday-select2">
-					<div></div>
+					<!-- <input type="hidden" id="hdCount" name="hdCount"> -->
+					<!-- <div></div> -->
 					<select class="form-select" id="holiday-duration" name="holiday-type">
 						<option selected>선택</option>
 						<option value="1">종일</option>
@@ -55,16 +60,19 @@
 				<div class="mini-line"></div>
 				<div class="holiday-select3">
 					<p>휴가 일자 선택</p>
-					<div id="choiceDay"></div>
+					<div id="choiceDay">
+					<input type="hidden" name="hdrStartDate">
+					<input type="hidden" name="hdrEndDate">
+					</div>
 				</div>
 				<div class="mini-line"></div>
 				<div class="holiday-select4">
 					<p >사유</p>
-					<textarea rows="6"></textarea>
+					<textarea rows="6" id="hdrContent" name="hdrContent"></textarea>
 				</div>
 				<div class="holiday-button">
 					<button class="button-large reject">반려</button>
-					<button class="button-large accept">승인</button>
+					<input type="submit" class="button-large accept" value="승인">
 				</div>
 			</form>
 		</div>

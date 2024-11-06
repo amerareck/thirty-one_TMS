@@ -18,5 +18,6 @@ public interface HolidayRequestDao {
 
 	List<HolidayRequestDto> selectHdrByEmpId(String empId);
 
-
+	int insertHdrRequest(HolidayRequestDto holidayRequest);
+	
 }

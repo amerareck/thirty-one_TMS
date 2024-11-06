@@ -9,15 +9,18 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.oti.thirtyone.dto.CalendarDto;
+import com.oti.thirtyone.dto.EmployeesDto;
 import com.oti.thirtyone.dto.HolidayDto;
 import com.oti.thirtyone.dto.HolidayRequestDto;
 import com.oti.thirtyone.dto.Pager;
 import com.oti.thirtyone.enums.HolidayType;
+import com.oti.thirtyone.security.EmployeeDetails;
 import com.oti.thirtyone.service.HolidayService;
 
 import lombok.extern.log4j.Log4j2;
@@ -69,15 +72,29 @@ public class HolidayController {
 		return holiday;
 	}
 	
-	@GetMapping("/request")
-	public String holidayRequest(Model model) {		
+	@GetMapping("/requestForm")
+	public String holidayRequestForm(Model model) {		
 		model.addAttribute("title", "정원석님의 휴가 관리");
 		model.addAttribute("selectedTitle", "hr");
 		model.addAttribute("selectedSub", "holiday");
-		return "holiday/request";	
+		return "holiday/requestForm";	
 	}
+	
+	@PostMapping("/request")
+	public String holidayRequest(Model model, Authentication authentication , HolidayRequestDto holidayRequest) {
+	
+		EmployeeDetails employeeDetails = (EmployeeDetails) authentication.getPrincipal();
+		EmployeesDto employees = employeeDetails.getEmployee();
+		
+		hdService.insertHdrRequest(holidayRequest);
+		
+		model.addAttribute("employees", employees);
+		return "redirect:/holiday/request";
+	}
+	
 	@GetMapping("/process")
-	public String holidayProcess(Model model) {		
+	public String holidayProcess(Model model, @RequestParam(defaultValue = "1") int pageNo) {		
+		
 		model.addAttribute("title", "정원석님의 휴가 관리");
 		model.addAttribute("selectedTitle", "hr");
 		model.addAttribute("selectedSub", "holiday");

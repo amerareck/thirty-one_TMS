@@ -82,5 +82,9 @@ public class HolidayService {
 	public HolidayDto getSubstituteHoliday(String empId) {
 		return holidayDao.selectSubstituteHoliday(empId);
 	}
+	
+	public void insertHdrRequest(HolidayRequestDto holidayRequest) {
+		hdrReqDao.insertHdrRequest(holidayRequest);
+	}
 
 }
