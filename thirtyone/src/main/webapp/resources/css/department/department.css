@@ -36,6 +36,9 @@
 
 /* ######################## 부서원 근무 상태 ############################### */
 
+.dept-attendance{
+	min-height: 975px;
+}
 .dept-attendance > div:nth-child(1) {
 	display: flex;
 	justify-content: space-between;
@@ -237,11 +240,16 @@
 }
 
 /* ########################부서원 휴가 일정###################### */
-
+.dept-holiday-box{
+	min-height: 555px;
+	margin-bottom : 20px;
+	position: relative;
+} 
 .dept-holiday-box > div:nth-child(1) {
 	display: flex;
 	justify-content: space-between;
 	margin-right: 40px;
+	
 }
 
 
@@ -304,11 +312,10 @@
 
 
 .pagination {
-	display: flex;
-	justify-content: center;
-	margin-top: 50px;
-    align-items: center;
-    margin-bottom : 30px;
+	position: absolute; 
+    bottom: 30px;
+    left: 50%; 
+    transform: translateX(-50%);
 }
 
 .page-num {

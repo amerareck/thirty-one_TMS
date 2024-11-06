@@ -77,4 +77,16 @@
 			where rnum >= #{pager.startRowNo}
 		]]>
 	</select>
+	
+	<select id="selectDeptHdrCalendar" resultType="HolidayRequest">
+		select HDR_ID, HDR_SUBMITTED_DATE, HDR_START_DATE, HDR_END_DATE, HDR_CONTENT,
+			HDR_STATUS, HDR_COMPLETED_DATE, HD_CATEGORY, HDR_EMP_ID, HDR_APPROVER, HDR_USED_DAY
+		from holiday_request join employees
+		on hdr_emp_id = emp_id
+		where dept_id = #{deptId} and 
+			hdr_start_date BETWEEN
+		        ADD_MONTHS(TO_DATE(#{month}, 'yyyy/MM/DD'), -1) AND
+		        ADD_MONTHS(TO_DATE(#{month}, 'yyyy/MM/DD'), 1)
+			and hdr_status='승인'
+	</select>
 </mapper>

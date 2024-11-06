@@ -16,12 +16,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.oti.thirtyone.dao.HolidayRequestDao;
+import com.oti.thirtyone.dto.CalendarDto;
 import com.oti.thirtyone.dto.Departments;
 import com.oti.thirtyone.dto.EmployeesDto;
 import com.oti.thirtyone.dto.HolidayRequestDto;
 import com.oti.thirtyone.dto.Pager;
+import com.oti.thirtyone.enums.HolidayType;
 import com.oti.thirtyone.security.EmployeeDetails;
 import com.oti.thirtyone.service.AttendanceService;
 import com.oti.thirtyone.service.DepartmentService;
@@ -78,6 +80,7 @@ public class DepartmentController {
 			Map<String, Object> tempMap = new HashMap<>();
 			EmployeesDto emp = empService.getEmpInfo(hdr.getHdrEmpId());
 			tempMap.put("emp", emp);
+			hdr.setHdName(HolidayType.getCategoryByCode(hdr.getHdCategory()));
 			tempMap.put("dept", deptService.getDeptName(deptId));
 			tempMap.put("hdr", hdr);
 			deptHdList.add(tempMap);
@@ -98,6 +101,16 @@ public class DepartmentController {
 		model.addAttribute("selectedSub", "deptAtd");
 		model.addAttribute("selectedTitle", "hr");
 		return "department/deptHoliday";
+	}
+	
+	@GetMapping("/deptHoliday")
+	@ResponseBody
+	public List<CalendarDto> deptHoliday(String year, String month, Authentication authentication) {
+		EmployeeDetails empDetail = (EmployeeDetails) authentication.getPrincipal();
+		EmployeesDto empDto = (EmployeesDto) empDetail.getEmployee();
+		
+		List<CalendarDto> hdrCalendarList = holidayService.getDeptHdrCalendar(empDto.getDeptId(), year, month);
+		return hdrCalendarList;
 	}
 	
 	@PostMapping("addDept")

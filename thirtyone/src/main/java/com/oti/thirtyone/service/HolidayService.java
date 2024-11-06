@@ -7,6 +7,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.oti.thirtyone.dao.EmployeesDao;
 import com.oti.thirtyone.dao.HolidayDao;
 import com.oti.thirtyone.dao.HolidayRequestDao;
 import com.oti.thirtyone.dto.CalendarDto;
@@ -25,6 +26,9 @@ public class HolidayService {
 	
 	@Autowired
 	HolidayDao holidayDao;
+	
+	@Autowired
+	EmployeesDao empDao;
 	
 	public List<HolidayRequestDto> getHdrReqAllbyEmpId(String empId, Pager pager) {
 		return hdrDao.selectHdrAllByEmpId(empId, pager);
@@ -93,6 +97,16 @@ public class HolidayService {
 
 	public List<HolidayRequestDto> getHdrByDept(int deptId, Pager pager) {
 		return hdrDao.selectHdrByDept(deptId, pager);
+	}
+
+	public List<CalendarDto> getDeptHdrCalendar(int deptId, String year, String month) {
+		List<HolidayRequestDto> hdrList = hdrDao.selectDeptHdrCalendar(deptId, year+"/"+month+"/15");
+		List<CalendarDto> hdrCalList = new LinkedList<CalendarDto>();
+		for(HolidayRequestDto hdrReq : hdrList) {
+			String empName = empDao.selectByEmpId(hdrReq.getHdrEmpId()).getEmpName();
+			hdrCalList.add(formatInputCalendar(empName + "휴가", hdrReq.getHdrStartDate(), hdrReq.getHdrEndDate(), "#B5CAFF", "#B5CAFF", "white"));
+		}
+		return hdrCalList;
 	}
 
 }

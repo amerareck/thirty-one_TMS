@@ -150,8 +150,6 @@
 					<div>
 						<p class="mini-title">부서원 근무 상태</p>
 						<div class="search">
-							<div class="main-search-drop">검색창</div>
-							<div class="main-search-box">이름 검색</div>
 						</div>
 					</div>
 					<div class="dept-holiday">
@@ -177,7 +175,7 @@
 								    	    </div>
 								        </td>
 								        <td><fmt:formatDate value='${deptHd.hdr.hdrStartDate}' pattern='yyyy-MM-dd'/> ~ <fmt:formatDate value='${deptHd.hdr.hdrEndDate}' pattern='yyyy-MM-dd'/></td>
-								        <td>${deptHd.hdr.hdCategory}</td>
+								        <td>${deptHd.hdr.hdName}</td>
 								        <td>${deptHd.hdr.hdrUsedDay}일</td>
 								    </tr>
 							    </c:forEach>
