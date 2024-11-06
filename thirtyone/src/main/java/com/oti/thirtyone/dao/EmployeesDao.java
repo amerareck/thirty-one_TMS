@@ -52,4 +52,6 @@ public interface EmployeesDao {
 
 	List<EmployeesDto> selectEmployeesByDeptId(int deptId);
 
+	int selectLatestEmpNumber();
+
 }

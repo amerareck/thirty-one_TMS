@@ -1,7 +1,10 @@
 package com.oti.thirtyone.controller;
 
+import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -83,4 +86,22 @@ public class HomeController {
 		
 	}
 	
+	@GetMapping("/imageDown")
+	public void imageDown(Authentication authentication,
+					HttpServletResponse response) throws Exception{
+		EmployeeDetails empDetail = (EmployeeDetails) authentication.getPrincipal();
+		EmployeesDto empDto = empDetail.getEmployee();
+		
+		
+		if(empDto.getEmpImageName() != null) {
+			
+			String contentType = empDto.getEmpImageType();
+			response.setContentType(contentType);		
+			
+			OutputStream out = response.getOutputStream();
+			out.write(empDto.getEmpImageData());
+			out.flush();
+			out.close();
+		}
+	}
 }

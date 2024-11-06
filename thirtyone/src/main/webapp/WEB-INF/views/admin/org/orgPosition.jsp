@@ -68,7 +68,7 @@
 					</div>
 					<div class="modal-box-in">
 						<label class="modal-label">변경후 직책명</label>
-						<input class="aftermove after-pos-name" placeholder="부서장을 입력해주세요.">	
+						<input class="aftermove after-pos-name" placeholder="직책명을 입력해주세요.">	
 					</div>
 				</div>
 				<div class='button-list'>

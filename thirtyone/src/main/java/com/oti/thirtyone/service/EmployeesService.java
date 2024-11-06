@@ -212,4 +212,9 @@ public class EmployeesService {
 	public EmployeesDto getLastApprover(String lastApprover) {
 		return getEmpInfo(lastApprover);
 	}
+
+	public int getNewEmpNumber() {
+		int empNumber = empDao.selectLatestEmpNumber();
+		return empNumber + 1;
+	}
 }
