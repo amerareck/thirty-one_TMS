@@ -97,6 +97,7 @@ public class AttendanceController {
 	
 	@GetMapping("checkOut")
 	public ResponseEntity<String> checkOut(double latitude, double longitude, Authentication authentication){
+		log.info("ASD");
 		String empId= authentication.getName();
 		int deptId = empService.getDeptId(empId);
 		String regionalOffice = deptService.getRegionalOffice(deptId);

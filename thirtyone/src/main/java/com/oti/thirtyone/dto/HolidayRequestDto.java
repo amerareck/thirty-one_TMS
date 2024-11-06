@@ -15,7 +15,7 @@ public class HolidayRequestDto {
 	private int hdrUsedDay; //휴가 사용일
 	private Date hdrCompletedDate; //휴가 결재 처리 날짜
 	private int hdCategory; //휴가 유형
-	private String hdEmpId; // 기안자(휴가 신청자)
+	private String hdrEmpId; // 기안자(휴가 신청자)
 	private String hdrApprover; // 결재자
 	
 	private String hdName; // 휴가 유형 String화

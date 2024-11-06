@@ -13,4 +13,5 @@
 		from holiday
 		where emp_id=#{empId} and hd_category=2
 	</select>
+
 </mapper>

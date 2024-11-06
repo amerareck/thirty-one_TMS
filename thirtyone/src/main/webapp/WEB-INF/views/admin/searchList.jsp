@@ -48,62 +48,62 @@
 				</tbody>
 			</table>
 				<div class="pagination">
-				<c:if test="${pager.groupNo>1}">
-					<a href="
-						<c:choose>
-				            <c:when test="${isSearch == false}">
-				                searchList?pageNo=${pager.startPageNo - 1}
-				            </c:when>
-				            <c:otherwise>
-				                searchEmp?query=${query}&category=${category}&pageNo=${pager.pager.startPageNo - 1}
-				            </c:otherwise>
-			        	</c:choose>">
-			    		<img src="${pageContext.request.contextPath}/resources/image/prev_icon.png" alt="prev" style="width: 15px">
-					</a>
-				</c:if>
-				<c:forEach begin="${pager.startPageNo}" end="${pager.endPageNo}" step="1" var="i">
-					<c:if test="${pager.pageNo==i}">
-						<c:choose>
-						    <c:when test="${isSearch == false}">
-						        <c:set var="pageUrl" value="searchList?pageNo=${i}" />
-						    </c:when>
-						    <c:otherwise>
-						        <c:set var="pageUrl" value="searchEmp?query=${query}&category=${category}&pageNo=${i}" />
-						    </c:otherwise>
-						</c:choose>
-						
-						<button class="page-num" onclick="location.href='${pageUrl}'" style="color: #686868">
-						    ${i}
-						</button>
+					<c:if test="${pager.groupNo>1}">
+						<a href="
+							<c:choose>
+					            <c:when test="${isSearch == false}">
+					                searchList?pageNo=${pager.startPageNo - 1}
+					            </c:when>
+					            <c:otherwise>
+					                searchEmp?query=${query}&category=${category}&pageNo=${pager.pager.startPageNo - 1}
+					            </c:otherwise>
+				        	</c:choose>">
+				    		<img src="${pageContext.request.contextPath}/resources/image/prev_icon.png" alt="prev" style="width: 15px">
+						</a>
 					</c:if>
-					<c:if test="${pager.pageNo!=i}">
-						<c:choose>
-						    <c:when test="${isSearch == false}">
-						        <c:set var="pageUrl" value="searchList?pageNo=${i}" />
-						    </c:when>
-						    <c:otherwise>
-						        <c:set var="pageUrl" value="searchEmp?query=${query}&category=${category}&pageNo=${i}" />
-						    </c:otherwise>
-						</c:choose>
-						
-						<button class="page-num" onclick="location.href='${pageUrl}'">
-						    ${i}
-						</button>
+					<c:forEach begin="${pager.startPageNo}" end="${pager.endPageNo}" step="1" var="i">
+						<c:if test="${pager.pageNo==i}">
+							<c:choose>
+							    <c:when test="${isSearch == false}">
+							        <c:set var="pageUrl" value="searchList?pageNo=${i}" />
+							    </c:when>
+							    <c:otherwise>
+							        <c:set var="pageUrl" value="searchEmp?query=${query}&category=${category}&pageNo=${i}" />
+							    </c:otherwise>
+							</c:choose>
+							
+							<button class="page-num" onclick="location.href='${pageUrl}'" style="color: #686868">
+							    ${i}
+							</button>
+						</c:if>
+						<c:if test="${pager.pageNo!=i}">
+							<c:choose>
+							    <c:when test="${isSearch == false}">
+							        <c:set var="pageUrl" value="searchList?pageNo=${i}" />
+							    </c:when>
+							    <c:otherwise>
+							        <c:set var="pageUrl" value="searchEmp?query=${query}&category=${category}&pageNo=${i}" />
+							    </c:otherwise>
+							</c:choose>
+							
+							<button class="page-num" onclick="location.href='${pageUrl}'">
+							    ${i}
+							</button>
+						</c:if>
+					</c:forEach>
+					<c:if test="${pager.groupNo<pager.totalGroupNo}">
+						<a href="
+							<c:choose>
+					            <c:when test="${isSearch == false}">
+					                searchList?pageNo=${pager.endPageNo + 1}
+					            </c:when>
+					            <c:otherwise>
+					                searchEmp?query=${query}&category=${category}&pageNo=${pager.endPageNo + 1}
+					            </c:otherwise>
+				        	</c:choose>">
+				    		<img src="${pageContext.request.contextPath}/resources/image/next_icon.png" alt="next" style="width: 15px">
+						</a>
 					</c:if>
-				</c:forEach>
-				<c:if test="${pager.groupNo<pager.totalGroupNo}">
-					<a href="
-						<c:choose>
-				            <c:when test="${isSearch == false}">
-				                searchList?pageNo=${pager.endPageNo + 1}
-				            </c:when>
-				            <c:otherwise>
-				                searchEmp?query=${query}&category=${category}&pageNo=${pager.endPageNo + 1}
-				            </c:otherwise>
-			        	</c:choose>">
-			    		<img src="${pageContext.request.contextPath}/resources/image/next_icon.png" alt="next" style="width: 15px">
-					</a>
-				</c:if>
 				</div>
 			</div>
 	

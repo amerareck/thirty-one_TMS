@@ -212,7 +212,22 @@
 	<select id="selectLatestEmpNumber" resultType="int">
 		select max(emp_number)
 		from employees
-		
+	</select>
+	
+	<select id="selectEmpAllByDeptId" parameterType="Employee">
+		<![CDATA[
+			select emp_id, emp_name, dept_id
+				from(
+					select rownum as rnum, emp_id, emp_name, dept_id
+					from (
+						select emp_id, emp_name, dept_id
+						from employees
+						where dept_id = #{emp.deptId} and emp_id != #{emp.empId}
+					)
+				where rownum <=#{pager.endRowNo}
+				)
+			where rnum >= #{pager.startRowNo}
+		]]>
 	</select>
 	
 </mapper>

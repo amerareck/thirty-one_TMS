@@ -19,5 +19,9 @@ public interface HolidayRequestDao {
 	List<HolidayRequestDto> selectHdrByEmpId(String empId);
 
 	int insertHdrRequest(HolidayRequestDto holidayRequest);
+
+	int countRowByDeptHoliday(int deptId);
+
+	List<HolidayRequestDto> selectHdrByDept(@Param("deptId") int deptId, @Param("pager") Pager pager);
 	
 }

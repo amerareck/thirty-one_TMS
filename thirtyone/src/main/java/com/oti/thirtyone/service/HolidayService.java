@@ -21,17 +21,17 @@ import lombok.extern.log4j.Log4j2;
 public class HolidayService {
 	
 	@Autowired
-	HolidayRequestDao hdrReqDao;
+	HolidayRequestDao hdrDao;
 	
 	@Autowired
 	HolidayDao holidayDao;
 	
 	public List<HolidayRequestDto> getHdrReqAllbyEmpId(String empId, Pager pager) {
-		return hdrReqDao.selectHdrAllByEmpId(empId, pager);
+		return hdrDao.selectHdrAllByEmpId(empId, pager);
 	}
 
 	public int countRowsByEmpId(String empId) {
-		return hdrReqDao.countRowsByEmpId(empId);
+		return hdrDao.countRowsByEmpId(empId);
 	}
 	
 	public CalendarDto formatInputCalendar(String title, Date startdate, Date enddate, String background, String border, String text) {
@@ -57,7 +57,7 @@ public class HolidayService {
 	}
 	
 	public List<CalendarDto> getHdrCalendar(String empId, String year, String month) {
-		List<HolidayRequestDto> hdrList = hdrReqDao.selectHdrByEmpId(empId);
+		List<HolidayRequestDto> hdrList = hdrDao.selectHdrByEmpId(empId);
 		List<CalendarDto> hdrCalList = new LinkedList<CalendarDto>();
 		
 		for(HolidayRequestDto hdrReq : hdrList) {
@@ -84,7 +84,15 @@ public class HolidayService {
 	}
 	
 	public void insertHdrRequest(HolidayRequestDto holidayRequest) {
-		hdrReqDao.insertHdrRequest(holidayRequest);
+		hdrDao.insertHdrRequest(holidayRequest);
+	}
+
+	public int countRowsByDeptHoliday(int deptId) {
+		return hdrDao.countRowByDeptHoliday(deptId);
+	}
+
+	public List<HolidayRequestDto> getHdrByDept(int deptId, Pager pager) {
+		return hdrDao.selectHdrByDept(deptId, pager);
 	}
 
 }
