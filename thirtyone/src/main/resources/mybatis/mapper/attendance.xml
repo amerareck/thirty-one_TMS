@@ -8,16 +8,15 @@
 		where TO_CHAR(atd_date, 'YY/MM/DD') = TO_CHAR(sysdate, 'YY/MM/DD') and emp_id = #{empId}
 	</select>
 	
-	<insert id="insertCheckIn" parameterType="String">
+	<insert id="insertCheckIn">
 		insert into attendances
 			(atd_date, emp_id, check_in, atd_state, atd_standard_time)
 		values
-			(sysdate, #{empId}, sysdate, '정상출근', 8)
-			
+			(sysdate, #{empId}, sysdate, #{state}, 8)			
 	</insert>
 	
-	<update id="updateCheckOut" parameterType="String">
-		update attendances set check_out = sysdate
+	<update id="updateCheckOut">
+		update attendances set check_out = sysdate, atd_state=#{state}
 		where TO_CHAR(atd_date, 'YY/MM/DD') = TO_CHAR(sysdate, 'YY/MM/DD') and emp_id = #{empId}
 	</update>
 	

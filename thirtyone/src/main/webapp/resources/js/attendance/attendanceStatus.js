@@ -176,3 +176,44 @@ document.addEventListener('DOMContentLoaded', function () {
 })
 
 
+var options = {
+	enableHighAccuracy: true,
+	timeout: 5000,
+	maximumAge: 0,
+};
+
+function success(pos, atd) {
+	var crd = pos.coords;
+	
+	$.ajax({
+		method: 'Get',
+		url: '/thirtyone/atd/' + atd,
+		data: {
+			"latitude" : crd.latitude,
+			"longitude" : crd.longitude
+		},
+		success : function (data){
+			if(!data)
+				alert("지역이 다릅니다.");
+			location.reload();
+		},
+		error : function (request, status, error){
+					  
+		}
+	})
+
+}
+
+function error(err) {
+  console.warn(`ERROR(${err.code}): ${err.message}`);
+}	
+		
+
+$(".start-time-btn").on("click", function(){ 
+	navigator.geolocation.getCurrentPosition((pos) => success(pos, "checkIn"), error, options);
+});
+
+$(".end-time-btn").on("click", function(){ 
+	console.log("asd");
+	navigator.geolocation.getCurrentPosition((pos) => success(pos, "checkOut"), error, options);
+});

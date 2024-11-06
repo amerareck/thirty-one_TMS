@@ -30,15 +30,15 @@ function updateToday(role){
     }
 }
 
-function formatDateToTime(timestamp) {
-	let date = new Date(timestamp);
+function formatTime(date){
 
-	let hours = String(date.getHours()).padStart(2, '0');
-	let minutes = String(date.getMinutes()).padStart(2, '0');
+	const dateTime = new Date(date);
 
-	return `${hours}:${minutes}`; 
+	const hours = dateTime.getHours();
+	const minutes = dateTime.getMinutes();
+
+	return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
 }
-        
 $(document).ready(function() {
 
 	$.ajax({
@@ -48,19 +48,22 @@ $(document).ready(function() {
 			$(".emp-name").text(data.empName + " " + data.position);
 			$(".dept-name").text(data.deptName);
 			let role = data.empRole;
-			console.log(data);
 
 			if(data.atd !== null){
-				if(data.atd.checkIn === null || data.atd.checkIn == undefined){
+				if(data.atd.checkIn === null || data.atd.checkIn === undefined){
 					$('.sidebar-start-time span:nth-child(2)').html('--:--');
 				}else{
-					$('.sidebar-start-time span:nth-child(2)').html(formatDateToTime(data.atd.checkIn));
+					$('.sidebar-start-time span:nth-child(2)').html(formatTime(data.atd.checkIn));
 				}
+				
 				if(data.atd.checkOut === null || data.atd.checkOut == undefined){
-					$('.sidebar-start-time span:nth-child(2)').html('--:--');
+					$('.sidebar-end-time span:nth-child(2)').html('--:--');
 				}else{
-					$('.sidebar-end-time span:nth-child(2)').html(formatDateToTime(data.atd.checkOut));
+					$('.sidebar-end-time span:nth-child(2)').html(formatTime(data.atd.checkOut));
 				}
+			}else{
+				$('.sidebar-start-time span:nth-child(2)').html('--:--');
+				$('.sidebar-end-time span:nth-child(2)').html('--:--');
 			}
 			
 			
@@ -172,7 +175,9 @@ $(document).ready(function() {
 				"longitude" : crd.longitude
 			},
 			success : function (data){
-					  
+				if(!data)
+					alert("지역이 다릅니다.");
+				location.reload();
 			},
 			error : function (request, status, error){
 						  
@@ -185,11 +190,11 @@ $(document).ready(function() {
 	  console.warn(`ERROR(${err.code}): ${err.message}`);
 	}	
 	
-	$(".sidebar-start, .start-time-btn").on("click", function(){ 
+	$(".sidebar-start").on("click", function(){ 
 		navigator.geolocation.getCurrentPosition((pos) => success(pos, "checkIn"), error, options);
 	});
 	
-	$(".sidebar-end, .end-time-btn").on("click", function(){ 
+	$(".sidebar-end").on("click", function(){ 
 		navigator.geolocation.getCurrentPosition((pos) => success(pos, "checkOut"), error, options);
 	});
 	

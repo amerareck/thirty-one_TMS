@@ -79,18 +79,20 @@ public class AttendanceController {
 	}
 	
 	@GetMapping("checkIn")
-	public ResponseEntity<String> checkIn(double latitude, double longitude, Authentication authentication){
+	public ResponseEntity<Boolean> checkIn(double latitude, double longitude, Authentication authentication){
 		String empId= authentication.getName();
 		int deptId = empService.getDeptId(empId);
 		String regionalOffice = deptService.getRegionalOffice(deptId);
 		
 		double distance = atdService.distanceCalculation(latitude, longitude, regionalOffice);
-		boolean result = false;
+
 		if(distance < 1000) {
-			result = atdService.checkIn(empId);
+			atdService.checkIn(empId);
+			return ResponseEntity.ok(true);
+		}else {
+			return ResponseEntity.ok(false);
 		}
 		
-		return ResponseEntity.ok("출근");
 	}
 	
 	@GetMapping("checkOut")

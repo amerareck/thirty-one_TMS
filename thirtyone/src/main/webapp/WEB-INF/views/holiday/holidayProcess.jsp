@@ -7,7 +7,7 @@
 		<p class="title-31">${title}</p>
 		<div class="holiday-subtitle sub-title">
 			<div><a href="${pageContext.request.contextPath}/holiday/">휴가 현황</a></div>
-			<div><a href="${pageContext.request.contextPath}/holiday/request">휴가 신청</a></div>
+			<div><a href="${pageContext.request.contextPath}/holiday/requestForm">휴가 신청</a></div>
 			<div  class="selected-sub-title"><a href="${pageContext.request.contextPath}/holiday/process">휴가 처리</a></div>
 		</div>
 		<div class="main-line"></div>
