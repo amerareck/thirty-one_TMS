@@ -33,4 +33,6 @@ public interface ReasonDao {
 
 	int updateReason(ReasonDto reasonDto);
 
+	List<ReasonDto> selectLatestReason(int num);
+
 }

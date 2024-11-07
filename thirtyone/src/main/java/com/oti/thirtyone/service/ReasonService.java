@@ -96,4 +96,8 @@ public class ReasonService {
 		
 	}
 
+	public List<ReasonDto> getLatestReason() {
+		return reasonDao.selectLatestReason(6);
+	}
+
 }

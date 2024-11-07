@@ -9,8 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.oti.thirtyone.dao.ApprovalLineDAO;
+import com.oti.thirtyone.dao.AttendanceDao;
 import com.oti.thirtyone.dao.DocumentApprovalLineDAO;
 import com.oti.thirtyone.dao.EmployeesDao;
+import com.oti.thirtyone.dto.AttendanceDto;
 import com.oti.thirtyone.dto.DocumentApprovalLineDTO;
 import com.oti.thirtyone.dto.EmpApprovalLineDTO;
 import com.oti.thirtyone.dto.EmployeesDto;
@@ -28,6 +30,8 @@ public class EmployeesService {
 	ApprovalLineDAO empApprovalLineDAO;
 	@Autowired
 	DocumentApprovalLineDAO docAprLineDAO;
+	@Autowired
+	AttendanceDao atdDao;
 
 	public void joinEmp(EmployeesDto empDto) {
 		log.info(empDto.toString());
@@ -223,5 +227,45 @@ public class EmployeesService {
 	public List<EmployeesDto> getEmpAllByDeptId(EmployeesDto empDto, Pager pager) {
 		List<EmployeesDto> empList = empDao.selectEmpAllByDeptId(empDto, pager);
 		return empList;
+	}
+
+	public Map<String, int[]> getEmpAtdStatus() {
+		int[] empAtdStatus = new int[8]; //[출근, 퇴근, 출근전, 지각, 조퇴, 휴가, 출장, 결근]
+		Map<String, int[]> empAtdMap = new HashMap<>();
+		
+		List<EmployeesDto> empList = empDao.selectEmpAll();
+		for (EmployeesDto empDto : empList) {
+			AttendanceDto atd = atdDao.selectAtdByEmpId(empDto.getEmpId());
+			if(atd == null) {
+				empAtdStatus[2]++;
+			}else {
+				if(atd.getAtdState().equals("정상출근") && atd.getCheckOut() != null ) {
+					empAtdStatus[1]++;
+				}else if(atd.getAtdState().equals("정상출근")) {
+					empAtdStatus[0]++;
+				}else if(atd.getAtdState().equals("지각")) {
+					empAtdStatus[3]++;
+				}else if(atd.getAtdState().equals("조퇴")) {
+					empAtdStatus[4]++;
+				}else if(atd.getAtdState().equals("휴가")) {
+					empAtdStatus[5]++;
+				}else if(atd.getAtdState().equals("출장")) {
+					empAtdStatus[6]++;
+				}else if(atd.getAtdState().equals("결근")) {
+					empAtdStatus[7]++;
+				}
+			}
+		}
+		int[] empAtdCur = new int[2];
+		empAtdCur[1] = empAtdStatus[7] + empAtdStatus[2] + empAtdStatus[5] + empAtdStatus[6];
+		empAtdCur[0] = empList.size() - empAtdCur[1];
+		
+		empAtdMap.put("deptAtdStatus", empAtdStatus);
+		empAtdMap.put("deptAtdCur", empAtdCur);
+		return empAtdMap;
+	}
+
+	public List<EmployeesDto> getEmpInfoHead() {
+		return empDao.selectEmpInfoHead();
 	}
 }

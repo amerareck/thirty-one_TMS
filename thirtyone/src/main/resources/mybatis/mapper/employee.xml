@@ -235,5 +235,14 @@
 		from employees
 		where dept_id = ${deptId}
 	</select>
+	<select id="selectEmpAll" resultType="Employee">
+		select emp_id, emp_name, dept_id
+		from employees
+	</select>
 	
+	<select id="selectEmpInfoHead" resultType="Employee">
+		select rownum, emp_id, emp_name, dept_id, position
+		from employees
+		where rownum &lt;= 6 and position='부장' and dept_id != 999
+	</select>
 </mapper>

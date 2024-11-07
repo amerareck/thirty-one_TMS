@@ -104,4 +104,14 @@
 		set reason_content = #{reasonContent}
 		where reason_id = #{reasonId}
 	</update>
+	
+	<select id="selectLatestReason" parameterType="int">
+		select reason_id, reason_type, reason_content, reason_status, atd_date, emp_id, reason_improver
+		from (
+			select reason_id, reason_type, reason_content, reason_status, atd_date, emp_id, reason_improver
+			from reason
+			order by reason_id DESC
+		)
+		where rownum &lt;= #{num}
+	</select>
 </mapper>
