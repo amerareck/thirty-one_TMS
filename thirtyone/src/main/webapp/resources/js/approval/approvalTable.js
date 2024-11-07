@@ -48,3 +48,54 @@ $('.deactivation').on('click', function(){
         },
 	});
 })
+
+$('.approveSubmit').on('click', function(e){
+	e.stopPropagation();
+	const index = $(this).closest('.approveModal').find('.approve-modal-index').text();
+	const reviewerInfo = $(this).closest('.approveModal').find('div.reviewer-info');
+	const reviewerSeq = parseInt(reviewerInfo.attr('data-seq'))+1;
+	const approvalData = {};
+	approvalData.docNumber = $('#documentContext-'+index).attr('data-docnumber');
+	approvalData.approvalResult = $(this).closest('.approveModal').find('select.approval-result').val();
+	approvalData.approvalType = $(this).closest('.approveModal').find('select.approval-type').val();
+	approvalData.approvalComment = $(this).closest('.approveModal').find('textarea.approval-comment').val();
+	approvalData.approvalSeq = reviewerSeq-1;
+	
+	const editor = tinymce.get('documentContext-'+index);
+    const contentDocument = editor.getDoc();
+    const date = new Date();
+    const year = String(date.getFullYear()).slice(-2);
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    const formattedDate = `${year}-${month}-${day}`;
+    
+    const empPosition = $(contentDocument.getElementById('approvalLine-position-'+reviewerSeq));	
+	const empName = $(contentDocument.getElementById('approvalLine-name-'+reviewerSeq));
+	empPosition.text(reviewerInfo.attr('data-postion'));
+	empName.text(reviewerInfo.attr('data-name'));
+	$(contentDocument.getElementById('approval-result-'+reviewerSeq)).text(approvalData.approvalResult);
+	$(contentDocument.getElementById('approval-result-date-'+reviewerSeq)).text('('+formattedDate+')');
+	
+	approvalData.docData = editor.getContent();
+	
+	console.log(approvalData);
+	
+	$.ajax({
+		url: "submitApproval",
+		method: "post",
+		data: JSON.stringify(approvalData),
+		contentType: "application/json",
+		success: function(data) {
+			if(data.status == 'ok') {
+				location.href = 'approveList?type=ready&pageNo=1';
+			}
+		},
+		error: function (xhr, status, error) {
+            console.log('Error: ' + error);
+		},
+	});
+});
+
+
+
+

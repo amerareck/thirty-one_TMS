@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import com.oti.thirtyone.dto.ApprovalDTO;
 import com.oti.thirtyone.dto.AttendanceDto;
 
 @Mapper
@@ -30,6 +31,13 @@ public interface AttendanceDao {
 	AttendanceDto selectAtdOneDayByDate(@Param("empId")String empId,@Param("day") Date atdDate);
 
 	int updateStatus(@Param("reasonId")int reasonId,@Param("empId") String empId, @Param("atdDate") String atdDate);
+
+	AttendanceDto selectAtdForApproval(ApprovalDTO apr);
+
+	int updateAtdStateByApproval(AttendanceDto item);
+
+	int updateAtdOvertime(ApprovalDTO apr);
+
 
 
 

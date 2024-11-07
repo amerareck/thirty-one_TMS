@@ -70,4 +70,72 @@
 			WHERE doc_number = #{docNumber}
 		]]>
 	</update>
+	
+	<select id="selectDocNumberIncludeOneself" parameterType="String" resultType="String">
+		<![CDATA[
+			SELECT 
+				doc_number,
+				doc_apr_approver
+			FROM 
+				DOCUMENT_APPROVAL_LINE
+				LEFT OUTER JOIN DOCUMENT_FOLDER USING(doc_number)
+			WHERE doc_apr_approver = #{empId}
+		]]>
+	</select>
+	
+	<select id="selectApprovalLineOneself" parameterType="Approval" resultType="DocApprovalLine" >
+		<![CDATA[
+			SELECT
+				doc_number,
+				doc_apr_approver,
+				doc_apr_comment,
+				doc_apr_state,
+				doc_apr_type,
+				doc_apr_date,
+				doc_apr_seq,
+				doc_apr_proxy
+			FROM DOCUMENT_APPROVAL_LINE
+			WHERE doc_number = #{docNumber}
+			ORDER BY doc_apr_seq
+		]]>
+	</select>
+	
+	<select id="selctApproveReadyDocNumberByEmpId" parameterType="String" resultType="String">
+		<![CDATA[
+			SELECT DISTINCT
+			    A.doc_number
+			FROM (SELECT * 
+			      FROM (SELECT *
+			            FROM 
+			                DOCUMENT_APPROVAL_LINE
+			                LEFT OUTER JOIN DOCUMENT_FOLDER USING(doc_number)
+			            WHERE doc_apr_approver = #{empId})
+			      WHERE doc_apr_state = '대기') A
+			      LEFT OUTER JOIN document_approval_line B
+			      ON (a.doc_number = b.doc_number AND a.doc_apr_seq < b.doc_apr_seq)
+			ORDER BY a.doc_number
+		]]>
+	</select>
+	
+	<select id="selectDocAprSeq" parameterType="DocApprovalLine" resultType="int" >
+		<![CDATA[
+			SELECT DISTINCT
+				doc_apr_seq
+			FROM DOCUMENT_APPROVAL_LINE
+			WHERE doc_number = #{docNumber}
+			ORDER BY doc_apr_seq DESC
+			FETCH FIRST 1 ROW ONLY
+		]]>
+	</select>
+	
+	<update id="updateDraftApprovalLine" parameterType="DocApprovalLine">
+		<![CDATA[
+			UPDATE DOCUMENT_APPROVAL_LINE
+			SET doc_apr_comment = #{docAprComment}
+				doc_apr_state = #{docAprState}
+				doc_apr_type = #{docAprType}
+				doc_apr_date = #{docAprDate}
+			WHERE doc_number = #{docNumber}
+		]]>
+	</update>
 </mapper>

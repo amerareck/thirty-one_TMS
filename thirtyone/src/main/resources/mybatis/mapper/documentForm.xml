@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.oti.thirtyone.dao.DocumentFormDAO">
+	<select id="selectDocFormName" parameterType="String" resultType="String" >
+		<![CDATA[
+			SELECT doc_form_name
+			FROM DOCUMENT_FORM
+			WHERE doc_form_code = #{docFormCode}
+		]]>
+	</select>
+</mapper>

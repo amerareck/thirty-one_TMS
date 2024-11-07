@@ -19,5 +19,8 @@ public interface DocumentFolderDAO {
 	ApprovalDTO selectRecalledDocument(ApprovalDTO dto);
 	List<ApprovalDTO> selectRecalledDocumentsById(String empId);
 	int updateDeactivateDocument(String prevDocNumber);
+	List<ApprovalDTO> selectDraftWaitForApproval(String empId);
+	ApprovalDTO selectDraftSingleByDocNumber(String docNumber);
+	int updateDraftDocumentFromApprove(ApprovalDTO dto);
 	
 }

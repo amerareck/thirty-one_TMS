@@ -33,6 +33,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.oti.thirtyone.dto.ApprovalDTO;
+import com.oti.thirtyone.dto.ApprovalData;
 import com.oti.thirtyone.dto.DocumentApprovalLineDTO;
 import com.oti.thirtyone.dto.DocumentReferenceDTO;
 import com.oti.thirtyone.dto.Departments;
@@ -239,7 +240,6 @@ public class ApprovalController {
 				if(approvalList.size()<=i) break;
 				result.add(approvalList.get(i));
 			}
-			log.info(result.get(0).getDocReferenceList().toString());
 			
 			model.addAttribute("draftList", result);
 			model.addAttribute("pager", pager);
@@ -262,14 +262,10 @@ public class ApprovalController {
 	@GetMapping("/approveList")
 	public String getApproveReadyPage(PageParam param, Authentication auth, Model model) {
 		log.info("실행");
+		param.setPageNo(param.getPageNo() == 0 ? 1 : param.getPageNo());
 		
 		model.addAttribute("selectedSub", "approveList");
 		model.addAttribute("title", "결재 하기");
-		/*
-		param.setEmpId(auth.getName());
-		param.setApprovalList(approvalService.getApproveDraftList(param));
-		if(param.getPageNo() == 0) param.setPageNo(1);
-		*/
 		
 		if (param.getType()!=null && param.getType().equals("all")) {
 			model.addAttribute("activePage", "all");
@@ -278,6 +274,47 @@ public class ApprovalController {
 		} else { //defualt page, type="ready"
 			model.addAttribute("activePage", "ready");
 			model.addAttribute("sectionTitle", "결재 대기");
+			
+			/*
+			ApprovalDTO apr = new ApprovalDTO();
+			apr.setEmpId(auth.getName());
+			List<ApprovalDTO> aprList = approvalService.getDraftWaitForApproval(apr);
+			aprList.forEach(item -> item.setDocDocumentData(null));
+			log.info("######## 결재하기 목록: "+aprList);
+			*/
+			
+			List<String> docNumbers = approvalService.getApproveReadyDocNumberByEmpId(auth.getName());
+			List<ApprovalDTO> list = new ArrayList<>();
+			for(String docNumber : docNumbers) {
+				ApprovalDTO ele = approvalService.getDraftSingleByDocNumber(docNumber);
+				ele.setDocApprovalLine(approvalService.getDraftApprovalLine(docNumber));
+				ele.setDocReferenceList(approvalService.getDraftReferenceList(docNumber));
+				ele.setNowApprover(empService.getEmpInfo(auth.getName()));
+				ele.setEmpInfo(empService.getEmpInfo(ele.getEmpId()));
+				ele.setDeptName(deptService.getDeptName(ele.getEmpInfo().getDeptId()));
+				ele.setReviewingApprover(ele.getNowApprover().getEmpId());
+				ele.setReviewingApproverDeptId(ele.getNowApprover().getDeptId());
+				ele.setReviewingApproverDeptName(deptService.getDeptName(ele.getReviewingApproverDeptId()));
+				ele.setReviewingApproverPosition(ele.getNowApprover().getPosition());
+				ele.setDocFormName(approvalService.getDocFormName(ele.getDocFormCode()));
+				ele.setDocDocumentData("");
+				for(DocumentApprovalLineDTO item : ele.getDocApprovalLine()) {
+					if (item.getDocAprApprover().equals(auth.getName()))
+						ele.setReviewingApproverSeq(item.getDocAprSeq());
+				}
+				list.add(ele);
+			}
+			log.info("######## 결재하기 목록: "+list);
+			
+			// 여기서 페이징 처리...
+			Pager pager = new Pager(7, 5, list.size(), param.getPageNo());
+			List<ApprovalDTO> result = new ArrayList<>();
+			for(int i=pager.getStartRowNo()-1; i<pager.getEndRowNo(); i++) {
+				if(list.size()<=i) break;
+				result.add(list.get(i));
+			}
+			model.addAttribute("aprList", result);
+			model.addAttribute("pager", pager);
 		}
 		
 		return "approval/approvalReadyList";
@@ -655,5 +692,29 @@ public class ApprovalController {
 		} catch(IOException ioex) {
 			ioex.printStackTrace();
 		}
+	}
+	
+	@PostMapping("submitApproval")
+	public void submitApproval(@RequestBody ApprovalData data, Authentication auth, HttpServletResponse res) {
+		log.info("실행");
+		data.setApprovalDate(new Date());
+		data.setApprover(auth.getName());
+		log.info(data.toString());
+		
+		ApprovalDTO dto = new ApprovalDTO();
+		dto.setNowApprover(empService.getEmpInfo(data.getApprover()));
+		dto.setDocNumber(data.getDocNumber());
+		dto.setDocDocumentData(data.getDocData());
+		dto.setApproveInfo(new DocumentApprovalLineDTO());
+		dto.getApproveInfo().setDocNumber(data.getDocNumber());
+		dto.getApproveInfo().setDocAprApprover(data.getApprover());
+		dto.getApproveInfo().setDocAprComment(data.getApprovalComment());
+		dto.getApproveInfo().setDocAprDate(data.getApprovalDate());
+		dto.getApproveInfo().setDocAprState(data.getApprovalResult());
+		dto.getApproveInfo().setDocAprType(data.getApprovalType());
+		dto.getApproveInfo().setDocAprSeq(data.getApprovalSeq());
+		dto.setDocAprStatus(approvalService.checkDocAprStatus(dto));
+		
+		approvalService.approveDraft(dto);
 	}
 }

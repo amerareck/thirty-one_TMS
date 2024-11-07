@@ -47,6 +47,57 @@ $('.approvalViews').on('shown.bs.modal', function () {
     });
 });
 
+$('.approveModal').on('shown.bs.modal', function () {
+    const index = $(this).attr('id').split('-')[1];
+    const docNumber = $('#documentContext-'+index).attr('data-docnumber');
+    console.log(docNumber);
+    $.ajax({
+    	url: 'getDocumentContext',
+    	method: 'get',
+    	data: {docNumber},
+    	success: function(data){
+    		const cssName = data.css;
+    		tinymce.init({
+    		    language: 'ko_KR',
+    		    selector: '#documentContext-'+index,
+    		    readonly: true,
+    		    menubar: false,
+    		    toolbar: false,
+    		    plugins: 'autoresize',
+    		    autoresize_min_height: 500,
+    		    autoresize_max_height: 800,
+    		    width: '100%',
+    		    height: '100%',
+    		    content_css: "/thirtyone/resources/css/document-form/"+cssName,
+    		    setup: function (editor) {
+    		        editor.on('dragstart', function (e) {
+    		            e.preventDefault();
+    		        });
+    		        editor.on('mousedown', function (e) {
+    		            e.preventDefault();
+    		        });
+    		        editor.on('keydown', function (e) {
+    		            e.preventDefault();
+    		        });
+    		        editor.on('keyup', function (e) {
+    		            e.preventDefault();
+    		        });
+    		        editor.on('init', function () {
+    		            htmlContent = data.html;
+    		        	
+	    		        editor.setContent(htmlContent);
+	    		        editor.iframeElement.style.width = '100%';
+	    		        editor.iframeElement.style.height = '100%';
+    		        })
+    		    },
+    		});
+    	},
+    	error: function (xhr, status, error) {
+            console.log('Error: ' + error);
+        },
+    });
+});
+
 //기안서 양식 선택 시.
 $('#documentForm').on('change', function() {
     const selectedValue = $(this).val();

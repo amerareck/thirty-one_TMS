@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.oti.thirtyone.dao.EmployeesDao;
 import com.oti.thirtyone.dao.HolidayDao;
 import com.oti.thirtyone.dao.HolidayRequestDao;
+import com.oti.thirtyone.dto.ApprovalDTO;
 import com.oti.thirtyone.dto.CalendarDto;
 import com.oti.thirtyone.dto.HolidayDto;
 import com.oti.thirtyone.dto.HolidayRequestDto;
@@ -107,6 +108,13 @@ public class HolidayService {
 			hdrCalList.add(formatInputCalendar(empName, "휴가", hdrReq.getHdrStartDate(), hdrReq.getHdrEndDate(), "#B5CAFF", "#B5CAFF", "white"));
 		}
 		return hdrCalList;
+	}
+	
+	public boolean setAlternateHoliday(ApprovalDTO apr) {
+		Integer result = holidayDao.selectAltHolidayCount(apr);
+		int cnt = (result != null) ? result : 0;
+		apr.setHdCount(++cnt);
+		return holidayDao.insertAlternateHoliday(apr) == 1;
 	}
 
 }

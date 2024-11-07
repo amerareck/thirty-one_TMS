@@ -21,4 +21,14 @@ public interface DocumentApprovalLineDAO {
 
 	int updateDocAprStatus(ApprovalDTO dto);
 
+	List<DocumentApprovalLineDTO> selectApprovalLineOneself(ApprovalDTO empId);
+
+	List<String> selectDocNumberIncludeOneself(ApprovalDTO dto);
+	
+	List<String> selctApproveReadyDocNumberByEmpId(String empId);
+
+	int selectDocAprSeq(DocumentApprovalLineDTO documentApprovalLineDTO);
+
+	int updateDraftApprovalLine(DocumentApprovalLineDTO dal);
+
 }

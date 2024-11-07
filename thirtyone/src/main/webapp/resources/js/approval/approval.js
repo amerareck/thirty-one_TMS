@@ -39,7 +39,7 @@ flatpickr("#holidayWorkStartDatetime", {
 	allowInput: true,
 	minDate: new Date(),
 });
-
+/*
 wotMinDate = new Date();
 wotMinDate.setHours(18, 0, 0);
 wotMaxDate = new Date();
@@ -56,6 +56,67 @@ flatpickr("#workOvertimeStartDatetime", {
 	minDate: wotMinDate,
 	maxDate: wotMaxDate
 });
+*/
+/*
+//Flatpickr 설정
+flatpickr("#workOvertimeStartDatetime", {
+    enableTime: true,
+    dateFormat: "Y-m-d H:i:S",
+    time_24hr: true,
+    locale: {
+        firstDayOfWeek: 1 // 주의 첫 날 설정 (1 = 월요일)
+    },
+    allowInput: true,
+    onChange: function(selectedDates, dateStr, instance) {
+        if (selectedDates.length > 0) {
+            const selectedDate = selectedDates[0];
+
+            // 최소일자: 선택된 날짜의 18시
+            const minDate = new Date(selectedDate);
+            minDate.setHours(18, 0, 0);
+
+            // 최대일자: 선택된 날짜의 익일 04시
+            const maxDate = new Date(selectedDate);
+            maxDate.setDate(maxDate.getDate() + 1);
+            maxDate.setHours(4, 0, 0);
+
+            instance.set('minDate', minDate);
+            instance.set('maxDate', maxDate);
+        }
+    },
+    onOpen: function(selectedDates, dateStr, instance) {
+        instance.clear();
+        instance.set('minDate', null);
+        instance.set('maxDate', null);
+    }
+});
+*/
+flatpickr("#workOvertimeStartDatetime", {
+    enableTime: true,
+    dateFormat: "Y-m-d H:i",
+    time_24hr: true,
+    locale: {
+        firstDayOfWeek: 1 // 주의 첫 날 설정 (1 = 월요일)
+    },
+    allowInput: true,
+    defaultHour: 0,
+    defaultMinute: 0,
+    onReady: enforceTimeRestrictions,
+    onValueUpdate: enforceTimeRestrictions
+});
+
+function enforceTimeRestrictions(selectedDates, dateStr, instance) {
+    const date = selectedDates[0];
+    if (!date) return;
+
+    const hours = date.getHours();
+    if (hours > 4 && hours < 18) {
+        date.setHours(18, 0, 0, 0);
+        instance.setDate(date, true);
+    }
+}
+
+
 
 var aprLineData;
 $(function() {

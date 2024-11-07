@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.oti.thirtyone.dao.AttendanceDao;
+import com.oti.thirtyone.dto.ApprovalDTO;
 import com.oti.thirtyone.dto.AttendanceDto;
 import com.oti.thirtyone.dto.CalendarDto;
 
@@ -309,6 +310,45 @@ public class AttendanceService {
 		return atdDao.selectAtdOneDayByDate(empId, atdDate);
 	}
 	
-	
+	public boolean updateAtdStateByApproval(ApprovalDTO apr) {
+		boolean result = true;
+		List<AttendanceDto> list = new ArrayList<>();
+		switch (apr.getDocFormCode()) {
+			case "HLD" :
+				for(int i=0; i<apr.getDocHolidayDay(); i++) {
+					apr.setAtdDate(apr.getDocHolidayStartDate());
+					apr.getAtdDate().setDate(apr.getAtdDate().getDate()+i);
+					list.add(atdDao.selectAtdForApproval(apr));
+				}
+				break;
+				
+			case "BTD" :
+				for(int i=0; i<apr.getDocBiztripDay(); i++) {
+					apr.setAtdDate(apr.getDocBiztripStartDate());
+					apr.getAtdDate().setDate(apr.getAtdDate().getDate()+i);
+					list.add(atdDao.selectAtdForApproval(apr));
+				}
+				break;
+				
+			case "WOT" :
+				Date tempDate = apr.getDocWorkOvertimeEndDate();
+				if(tempDate.getHours() < 5) tempDate.setDate(tempDate.getDate()-1);
+				tempDate.setHours(18);
+				long ms = apr.getDocWorkOvertimeEndDate().getTime() - tempDate.getTime();
+				int minutes = (int)(ms/(1000*60));
+				apr.setAtdOverTime(minutes);
+				tempDate.setHours(0);
+				apr.setAtdDate(tempDate);
+				return atdDao.updateAtdOvertime(apr) == 1;
+			default :
+				return false;
+		}
+		
+		for(AttendanceDto item : list) {
+			item.setAtdState(apr.getAtdState());
+			if(atdDao.updateAtdStateByApproval(item) != 1) result = false;
+		}
+		return result;
+	}
 	
 }

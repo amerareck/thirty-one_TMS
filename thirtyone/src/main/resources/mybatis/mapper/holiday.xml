@@ -13,5 +13,29 @@
 		from holiday
 		where emp_id=#{empId} and hd_category=2
 	</select>
+	
+	<insert id="insertAlternateHoliday" parameterType="Approval">
+		<![CDATA[
+			INSERT INTO HOLIDAY(
+				hd_category,
+				emp_id,
+				hd_count
+			) VALUES (
+				2,
+				#{emp_id},
+				#{hdCound}
+			)
+		]]>
+	</insert>
+	
+	<select id="selectAltHolidayCount" parameterType="Approval" resultType="int">
+		<![CDATA[
+			SELECT hd_count
+			FROM HOLIDAY
+			WHERE 
+				emp_id = #{empId}
+			AND hd_category = 2
+		]]>
+	</select>
 
 </mapper>

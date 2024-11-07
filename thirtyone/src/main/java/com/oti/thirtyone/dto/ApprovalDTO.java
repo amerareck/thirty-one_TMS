@@ -42,10 +42,19 @@ public class ApprovalDTO {
 	private String reviewingApproverPosition; // 검토자 직급
 	private int reviewingApproverDeptId; // 검토자 직급부서 번호
 	private String reviewingApproverDeptName; // 검토자 직급부서 이름
+	private int reviewingApproverSeq; // 검토자 결재순번
 	private String approveState; // 결재 진행 상황 -> 결재선을 통해서 가져온다.
 	private String docFormName; // 기안유형한글
+	private EmployeesDto nowApprover;
 	private EmployeesDto lastApprover; // 최종검토자
 	
+	private DocumentApprovalLineDTO approveInfo; // 결재 업데이트 데이터.
+	
 	private String draftType; // 기안유형
+	
+	private Date atdDate; // 출근일자
+	private String atdState; // 출근 상태
+	private int atdOverTime;
+	private int hdCount; // 대체휴무 부여일수
 	
 }

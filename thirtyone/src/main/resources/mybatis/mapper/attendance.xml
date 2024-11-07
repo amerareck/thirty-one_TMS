@@ -77,4 +77,37 @@
 		where e.dept_id = #{deptId} and to_char(atd_date, 'yyyy-mm-dd') = to_char(#{day}, 'yyyy-mm-dd')
 	</select> -->
 	
+	
+	<select id="selectAtdForApproval" parameterType="Approval" resultType="Attendance">
+		<![CDATA[
+			SELECT
+				atd_date,
+				emp_id,
+				atd_state
+			FROM ATTENDANCES
+			WHERE 
+				atd_date = #{atdDate}
+			AND emp_id = #{empId}
+		]]>
+	</select>
+	
+	<update id="updateAtdStateByApproval" parameterType="Attendance">
+		<![CDATA[
+			UPDATE ATTENDANCES
+			SET atd_state = #{atdState}
+			WHERE 
+				atd_date = #{atdDate}
+			AND emp_id = #{empId}
+		]]>
+	</update>
+	
+	<update id="updateAtdOvertime" parameterType="Approval">
+		<![CDATA[
+			UPDATE ATTENDANCES
+			SET atd_over_time = #{atdOverTime}
+			WHERE 
+				atd_date = #{atdDate}
+			AND emp_id = #{empId}
+		]]>
+	</update>
 </mapper>

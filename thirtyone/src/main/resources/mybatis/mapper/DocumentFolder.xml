@@ -145,7 +145,6 @@
 			FROM DOCUMENT_FOLDER
 			WHERE
 				doc_number = #{docNumber}
-			AND emp_id = #{empId}
 		]]>
 	</select>
 	
@@ -224,6 +223,41 @@
 		<![CDATA[
 			UPDATE DOCUMENT_FOLDER
 			SET doc_apr_status = '폐기'
+			WHERE doc_number = #{docNumber}
+		]]>
+	</update>
+	
+	<select id="selectDraftSingleByDocNumber" parameterType="String" resultType="Approval">
+		<![CDATA[
+			SELECT
+				DOC_NUMBER,
+				DOC_DRAFT_DATE,
+				DOC_RETENTION_PERIOD,
+				DOC_TITLE,
+				DOC_DOCUMENT_DATA,
+				EMP_ID,
+				DOC_FORM_CODE,
+				DOC_HOLIDAY_TYPE,
+				DOC_HOLIDAY_DAY,
+				DOC_HOLIDAY_START_DATE,
+				DOC_HOLIDAY_END_DATE,
+				DOC_BIZTRIP_DAY,
+				DOC_BIZTRIP_START_DATE,
+				DOC_BIZTRIP_END_DATE,
+				DOC_BIZTRIP_PURPOSE,
+				DOC_HOLIDAY_WORK_START_DATE,
+				DOC_WORK_OVERTIME_END_DATE,
+				DOC_APR_STATUS
+			FROM DOCUMENT_FOLDER
+			WHERE doc_number = #{docNumber}
+		]]>
+	</select>
+	
+	<update id="updateDraftDocumentFromApprove" parameterType="Approval">
+		<![CDATA[
+			UPDATE DOCUMENT_FOLDER
+			SET doc_apr_status = #{docAprStatus}
+				doc_document_data = #{docDocumentData}
 			WHERE doc_number = #{docNumber}
 		]]>
 	</update>

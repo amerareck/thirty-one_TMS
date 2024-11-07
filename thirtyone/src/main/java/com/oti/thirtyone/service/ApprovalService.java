@@ -1,5 +1,8 @@
 package com.oti.thirtyone.service;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.oti.thirtyone.dao.DocFilesDAO;
 import com.oti.thirtyone.dao.DocumentApprovalLineDAO;
 import com.oti.thirtyone.dao.DocumentFolderDAO;
+import com.oti.thirtyone.dao.DocumentFormDAO;
 import com.oti.thirtyone.dao.DocumentManagementSeqDAO;
 import com.oti.thirtyone.dao.DocumentReferenceDAO;
 import com.oti.thirtyone.dto.ApprovalDTO;
@@ -32,7 +36,15 @@ public class ApprovalService {
 	@Autowired
 	DocumentReferenceDAO docReferDAO;
 	@Autowired
+	DocumentFormDAO docFormDAO;
+	@Autowired
+	AttendanceService atdService;
+	@Autowired
 	EmployeesService empService;
+	@Autowired
+	DepartmentService deptService;
+	@Autowired
+	HolidayService hdService;
 	
 	public boolean setDraftForm(ApprovalDTO dto) {
 		switch(dto.getDocFormCode()) {
@@ -100,15 +112,6 @@ public class ApprovalService {
 		return result;
 	}
 
-	public List<ApprovalDTO> getApproveDraftList(PageParam param) {
-		// 결재 선상에 올려진 리스트들을 모두 조회.
-		List<DocumentApprovalLineDTO> dalList = docApprovalLineDAO.selectPenddingApprovalListById(param);
-		
-		// 결재 순번에 올려진 데이터
-		
-		return null;
-	}
-
 	public List<ApprovalDTO> getDraftDocumentById(String name) {
 		return documentFolderDAO.selectDraftDocumentById(name);
 	}
@@ -119,6 +122,8 @@ public class ApprovalService {
 		    if (item.getDocAprProxy() != null) {
 		        item.setApproverInfo(empService.getEmpInfo(item.getDocAprProxy()));
 		    }
+		    item.setApproverInfo(empService.getEmpInfo(item.getDocAprApprover()));
+		    item.getApproverInfo().setDeptName(deptService.getDeptName(item.getApproverInfo().getDeptId()));
 		});
 		
 		return dal;
@@ -169,6 +174,122 @@ public class ApprovalService {
 
 	public boolean deactivatedDocumentStatus(String prevDocNumber) {
 		return documentFolderDAO.updateDeactivateDocument(prevDocNumber) == 1;
+	}
+
+	public List<ApprovalDTO> getDraftWaitForApproval(ApprovalDTO apr) {
+		List<List<DocumentApprovalLineDTO>> dict = new ArrayList<>();
+		
+		// 자신이 결재자로 등록된 문서 번호 획득.
+		List<String> docNumberList = docApprovalLineDAO.selectDocNumberIncludeOneself(apr);
+		// 문서 번호를 기준으로 결재자 라인 획득. (문서1 == 결재라인1)
+		for(String docNumber : docNumberList) {
+			apr.setDocNumber(docNumber);
+			dict.add(docApprovalLineDAO.selectApprovalLineOneself(apr));
+		}
+		
+		// 결재라인 묶음 중에서 자신의 결재 순번이 아니면 제거.
+		// 자신의 결재 순번이 0이 아니면서, 자신의 앞 순번이 "대기"면 제거.
+		Iterator<List<DocumentApprovalLineDTO>> iterator = dict.iterator();
+		while (iterator.hasNext()) {
+		    List<DocumentApprovalLineDTO> ele = iterator.next();
+		    
+		    for (int i=0; i<ele.size(); i++) {
+		        if (ele.get(i).getDocAprApprover().equals(apr.getEmpId())) {
+		            if (i==0 || !ele.get(i-1).getDocAprState().equals("대기")) break;  
+		            iterator.remove();
+		            break;
+		        }
+		    }
+		}
+		
+		// 정리된 문서 번호를 기준으로 ApprovalDTO를 받아오고 리턴.
+		List<ApprovalDTO> result = new ArrayList<>();
+		for(int i=0; i<dict.size(); i++) {
+			ApprovalDTO element = documentFolderDAO.selectDraftSingleByDocNumber(dict.get(i).get(0).getDocNumber());
+			element.setDocApprovalLine(dict.get(i));
+			element.setDocReferenceList(docReferDAO.selectDraftReferenceList(dict.get(i).get(0).getDocNumber()));
+			element.setNowApprover(empService.getEmpInfo(apr.getEmpId()));
+			element.setReviewingApprover(element.getNowApprover().getEmpId());
+			element.setReviewingApproverDeptId(element.getNowApprover().getDeptId());
+			element.setReviewingApproverDeptName(deptService.getDeptName(element.getReviewingApproverDeptId()));
+			element.setReviewingApproverPosition(element.getNowApprover().getPosition());
+			element.setDocFormName(docFormDAO.selectDocFormName(element.getDocFormCode()));
+			result.add(element);
+		}
+		return result;
+	}
+	
+	public List<String> getApproveReadyDocNumberByEmpId(String empId) {
+		return docApprovalLineDAO.selctApproveReadyDocNumberByEmpId(empId);
+	}
+	
+	public ApprovalDTO getDraftSingleByDocNumber(String docNumber) {
+		return documentFolderDAO.selectDraftSingleByDocNumber(docNumber);
+	}
+
+	public String getDocFormName(String docFormCode) {
+		return docFormDAO.selectDocFormName(docFormCode);
+	}
+
+	public String checkDocAprStatus(ApprovalDTO dto) {
+		String type = dto.getDocAprStatus();
+		switch (type) {
+			case "보류":
+				return "진행";
+			case "승인":
+				if(dto.getApproveInfo().getDocAprSeq() == docApprovalLineDAO.selectDocAprSeq(dto.getApproveInfo())) {
+					return "승인";
+				} else if(dto.getApproveInfo().getDocAprType().equals("전결") || dto.getApproveInfo().getDocAprType().equals("선결")) {
+					return "승인";
+				}
+				return "진행";
+			case "반려":
+				return "반려";
+		}
+		return "취소";
+	}
+
+	public void approveDraft(ApprovalDTO dto) {
+		DocumentApprovalLineDTO dal = dto.getApproveInfo();
+		// 공통 수행
+		// 기안문서 업로드, 상태 변경, 결재선 결과 반영
+		documentFolderDAO.updateDraftDocumentFromApprove(dto);
+		docApprovalLineDAO.updateDraftApprovalLine(dal);
+		switch (dal.getDocAprType()) {
+			case "일반" :
+				// 완결
+				if(dto.getApproveInfo().getDocAprSeq() == docApprovalLineDAO.selectDocAprSeq(dto.getApproveInfo())) {
+					afterApprove(dto);
+				}
+				break;
+				// 선결시에도 결재가 종료되어야 한다.
+				// 선결과 전결은 무조건 "승인 및 종결"이다.
+			case "선결" :
+			case "전결" :
+				afterApprove(dto);
+				break;
+			case "대결" :
+		}
+	}
+	
+	public void afterApprove(ApprovalDTO dto) {
+		ApprovalDTO apr = documentFolderDAO.selectDraftSingleByDocNumber(dto.getDocNumber());
+		switch (getDocumentContext(dto).getDocFormCode()) {
+			case "HLD":
+				apr.setAtdState("휴가");
+				atdService.updateAtdStateByApproval(apr);
+				break;
+			case "BTD":
+				apr.setAtdState("출장");
+				atdService.updateAtdStateByApproval(apr);
+				break;
+			case "HLW":
+				hdService.setAlternateHoliday(apr);
+				break;
+			case "WOT":
+				atdService.updateAtdStateByApproval(apr);
+				break;
+		}
 	}
 
 }
