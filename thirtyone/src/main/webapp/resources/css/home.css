@@ -12,7 +12,7 @@
 .my-holiday{
     margin-left: 20px;
     height: 700px;
-    width: 640px;
+    width: 655px;
 }
 
 .dept-attendance{
@@ -226,7 +226,7 @@
 
 .apr-list-box {
 	background-color: var(--blue);
-	margin:30px 40px 0px 50px;
+	margin:20px 40px 0px 50px;
 	padding: 0px 50px; 	
 	height: 60px;
 	border-radius: 12px;
@@ -353,7 +353,7 @@
 /* #################### 캘린더 ################## */
 
 #calendar{
-	height: 575px;	
+	height: 565px;	
 }
 
 .main-calendar{
