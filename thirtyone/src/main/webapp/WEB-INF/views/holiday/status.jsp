@@ -15,7 +15,21 @@
 		</div>
 		<div class="main-line"></div>
 		<div class="full-container">
-			<div class="left-container">
+			<div class="right-container">
+				<div class="holiday-status-box card">
+					<p class="mini-title">휴가 현황</p>
+					<div class="holiday-status">
+						<div class="holiday-status-detail">
+							<div><span>연차 부여일수</span><span>${annual.hdCount} 일</span></div>
+							<div><span>대체휴가</span><span>${substitute != null || substitute.hdCount == 0 ? substitute.hdCount : "- "}일</span></div>
+							<div><span>연차 사용일수</span><span>${annual.hdUsed} 일</span></div>
+							<div><span>연차 잔여일수</span><span>${annual.hdCount - annual.hdUsed} 일</span></div>
+						</div>
+						<div>
+							<canvas id="doughnut-chart" style="width: 150px;"></canvas>	
+						</div>
+					</div>
+				</div>
 				<div class="holiday-list-box card">
 					<div class="holiday-title-box">
 						<p class="mini-title">휴가 내역</p>
@@ -74,13 +88,13 @@
 					</div>
 				</div>
 			</div>
-			<div class="right-container">
+			<div class="left-container">
 				<div class="holiday-schedule-box card">
 					<p class="mini-title">나의 휴가일정</p>
 					<div class="mini-line"></div>
 					<div id="calendar" class="main-calendar"></div>
 				</div>
-				<div class="holiday-status-box card">
+				<%-- <div class="holiday-status-box card">
 					<p class="mini-title">휴가 현황</p>
 					<div class="holiday-status">
 						<div class="holiday-status-detail">
@@ -93,7 +107,7 @@
 							<canvas id="doughnut-chart" style="width: 150px;"></canvas>	
 						</div>
 					</div>
-				</div>
+				</div> --%>
 			</div>
 		
 		</div>

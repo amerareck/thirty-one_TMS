@@ -48,7 +48,7 @@ public class HolidayService {
 
 		String endyear = "20" + (enddate.getYear()+"").split("1")[1];
 		String endmonth = String.valueOf(enddate.getMonth()+1);
-		String endday = String.valueOf(enddate.getDate()).length() > 1 ? String.valueOf(enddate.getDate()) : "0"+enddate.getDate() ;
+		String endday = String.valueOf(enddate.getDate()).length() > 1 ? String.valueOf(enddate.getDate()+1) : "0"+(enddate.getDate()+1) ;
 		
 		atdCalendarDto.setTitle(empName + "휴가");
 		atdCalendarDto.setStart(startyear+"-"+startmonth+"-"+startday);

@@ -113,28 +113,33 @@
 }
 
 /* ############### 신청 모달 ###################### */
-.reason-report {
+.reason-report, .update-reason-report {
 	margin: 0px 40px;
 }
 
-.reason-report div:not(.button-box):not(.file-list){
+.reason-report div:not(.button-box):not(.file-list):not(.update-file-list),
+.update-reason-report div:not(.button-box):not(.file-list):not(.update-file-list){
 	margin: 15px 0px;
 	display: flex;
 	justify-content: flex-start;
 	align-items: center;
 }
-.reason-report div input{
+.reason-report div input,
+.update-reason-report div input
+{
 	background-color: white !important;
 	border : none !important;
 }
 
-.reason-report div:nth-child(4) input{
+.reason-report div:nth-child(4) input,
+.update-reason-report div:nth-child(4) input{
 	border: 0.5px solid var(--lightgray);
 }
 /* .reason-report div:nth-child(5){ */
 /* 	align-items: flex-start;  */
 /* } */
-.reason-report div:nth-child(6){
+.reason-report div:nth-child(6),
+.update-reason-report div:nth-child(6){
 	margin-top: -10px;
 	margin-left : 103px;
 	min-height: 43px;
@@ -144,12 +149,14 @@
 	padding-left: 10px;
 		
 }
-.reason-report div:nth-child(7){
+.reason-report div:nth-child(7),
+.update-reason-report div:nth-child(7){
 	margin-top: 30px;
 	justify-content: center;
 }
 
-.reason-report div:nth-child(7) textarea{
+.reason-report div:nth-child(7) textarea,
+.update-reason-report div:nth-child(7) textarea{
 	border: 0.5px solid var(--lightgray);
 }
 .button-large{
@@ -171,7 +178,8 @@
 	font-size: 20px;
 }
 
-.reason-report div label{
+.reason-report div label,
+.update-reason-report div label{
 	color: var(--darkgray);
 	font-weight: bold;
 	font-size: 20px; 
@@ -184,6 +192,12 @@
 	align-items: center;
 }
 
+.bi-x-circle, .bi-download{
+	color: var(--lightgray);
+	margin-left : 10px;
+	cursor: pointer;
+}
 
-
- 
+.file-list, .update-file-list{
+	padding: 5px 0px;
+}

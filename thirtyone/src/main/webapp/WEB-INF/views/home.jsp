@@ -69,7 +69,7 @@
 						<p>승인<span>0</span></p>
 						<p>반려<span>1</span></p>
 					</div>
-					<div>
+					<%-- <div>
 						<table class="table approval-list-table">
 							<thead>
 								<tr>
@@ -105,8 +105,8 @@
 		                    <a class="page-link text-dark" href="#"><img class="arrow-right" src="${pageContext.request.contextPath}/resources/image/arrow/page-right-arrow.svg"></a>
 		                  </li>
 		                </ul>
-		            </nav>
-				</div>
+		            </nav>--%>
+				</div> 
 				
 			</div>
 			
@@ -116,8 +116,11 @@
 					<div class="mini-line"></div>
 					<div id="calendar" class="main-calendar"></div>
 				</div>
-				
-				<div class="dept-attendance card">
+			</div>
+		</div>
+	</div>
+</div>		
+				<%-- <div class="dept-attendance card">
 					<div>
 						<p class="mini-title">부서 근무 현황</p>
 						<div class="search">
@@ -164,13 +167,13 @@
 		                </ul>
 		            </nav>
 					</div>
-				</div>
-				
+				</div>  --%>
+				<%-- 
 			</div>
 		</div>
 	</div>
 </div>
-
+ --%>
 
 
 <script src="${pageContext.request.contextPath}/resources/js/home.js"></script>

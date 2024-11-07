@@ -1,10 +1,14 @@
 package com.oti.thirtyone.controller;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.expression.ParseException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -19,6 +23,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.oti.thirtyone.dto.CalendarDto;
 import com.oti.thirtyone.dto.EmployeesDto;
 import com.oti.thirtyone.dto.HolidayDto;
+import com.oti.thirtyone.dto.HolidayFormDto;
 import com.oti.thirtyone.dto.HolidayRequestDto;
 import com.oti.thirtyone.dto.Pager;
 import com.oti.thirtyone.enums.HolidayType;
@@ -83,12 +88,65 @@ public class HolidayController {
 	}
 	
 	@PostMapping("/request")
-	public ResponseEntity<String> holidayRequest(Model model, Authentication authentication , @ModelAttribute HolidayRequestDto holidayRequest) {
+	public ResponseEntity<String> holidayRequest(Model model, Authentication authentication , 
+			@ModelAttribute HolidayFormDto hdrForm) throws Exception {
 	
 		EmployeeDetails employeeDetails = (EmployeeDetails) authentication.getPrincipal();
 		EmployeesDto employees = employeeDetails.getEmployee();
 		
-		hdService.insertHdrRequest(holidayRequest);
+		HolidayRequestDto hdrReq = new HolidayRequestDto();
+		
+		//String 형식의 날짜를 Date 형식으로 변환
+		try {
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			
+			/*Date submittedDate = sdf.parse(hdrForm.getHdrSubmittedDate());*/
+			Date hdrStartDate = sdf.parse(hdrForm.getHdrStartDate()); //String을 Date로 변환
+			Date hdrEndDate = sdf.parse(hdrForm.getHdrEndDate());
+			/*Date usedDay = sdf.parse(hdrForm.getHdrUsedDay());*/
+			
+			/*hdrReq.setHdrSubmittedDate(submittedDate);*/ //Date 객체를 설정
+			hdrReq.setHdrStartDate(hdrStartDate);
+			hdrReq.setHdrEndDate(hdrEndDate);
+			
+			//휴가 일수를 계산하여 설정(휴가 시작일과 종료일 차이)
+			//신청일수
+			
+			
+
+			/*hdrReq.setHdrSubmittedDate(submittedDate); insert에서 sysdate로 하기*/ 
+			hdrReq.setHdrStartDate(hdrStartDate);
+			hdrReq.setHdrEndDate(hdrEndDate);
+			/*hdrReq.setHdrCompletedDate(hdrForm.getHdrCompletedDate());*/
+			
+			log.info(sdf);
+			log.info(hdrReq.getHdrStartDate() + "1111111111111");
+			log.info(hdrReq.getHdrEndDate() + "1111111111111");
+	
+		} catch (ParseException e) {
+			//날짜 형식이 맞지 않으면 예외
+			e.printStackTrace();
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid date format");
+		}
+		
+
+		hdrReq.setHdrUsedDay(hdrForm.getHdrUsedDay());
+		hdrReq.setHdrContent(hdrForm.getHdrContent());
+		hdrReq.setHdrStatus(hdrForm.getHdrStatus());
+		/*hdrReq.setHdrUsedDay(hdrForm.getHdrUsedDay());*/
+		hdrReq.setHdCategory(hdrForm.getHdCategory());
+		hdrReq.setHdrEmpId(employees.getEmpId());
+		hdrReq.setHdrApprover(hdrForm.getHdrApprover());
+		/*hdrReq.setHdName(hdrForm.getHdName());*/
+		hdrReq.setHolidayType(hdrForm.getHolidayType());
+		hdrReq.setHolidayPeriod(hdrForm.getHolidayPeriod());
+		hdrReq.setHolidayTime(hdrForm.getHolidayTime());
+		
+		log.info(hdrReq.getHdrStartDate() + "2222222222");
+		log.info(hdrReq.getHdrEndDate() + "2222222222");
+
+		
+		hdService.insertHdrRequest(hdrReq);
 		
 		model.addAttribute("employees", employees);
 		return ResponseEntity.ok("OK");

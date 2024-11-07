@@ -58,4 +58,8 @@ public interface EmployeesDao {
 
 	List<EmployeesDto> selectDeptEmpAll(int deptId);
 
+	List<EmployeesDto> selectEmpAll();
+
+	List<EmployeesDto> selectEmpInfoHead();
+
 }

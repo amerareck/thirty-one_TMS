@@ -20,13 +20,28 @@ $(document).on("click", ".accept", function() {
 	let reasonId = $(".accept").data("reasonid");
 	let empId = $(".accept").data("empid");
 	let atdDate = formatDate(new Date($(this).data("atddate")));
-	console.log($(".accept").data("atddate"));
+	
 	$.ajax({
 		method: "post",
-		url: contextPath + "/atd/requsetAccept",
-		data: {"reasonId": reasonId ,"empId" : empId, "atdDate": atdDate},
+		url: contextPath + "/atd/requsetStatus",
+		data: {"reasonId": reasonId ,"empId" : empId, "atdDate": atdDate, "status": '승인'},
 		success: function(data){
 			alert("승인되었습니다.");
+			location.reload();
+		}
+	})
+})
+$(document).on("click", ".reject", function() {
+	let reasonId = $(".reject").data("reasonid");
+	let empId = $(".reject").data("empid");
+	let atdDate = formatDate(new Date($(this).data("atddate")));
+	
+	$.ajax({
+		method: "post",
+		url: contextPath + "/atd/requsetStatus",
+		data: {"reasonId": reasonId ,"empId" : empId, "atdDate": atdDate, "status": '반려'},
+		success: function(data){
+			alert("반려되었습니다.");
 			location.reload();
 		}
 	})
@@ -41,8 +56,6 @@ $(document).on("click", ".process-tr", function() {
 		url : contextPath + "/atd/getRequestReason",
 		data: {"empId" : empId, "reasonId": reasonId},
 		success:function (data){
-			console.log(data);
-			console.log(data.reason.atdDate);
 			let checkIn = formatDate(new Date(data.atd.checkIn)) + " " +formatTime(data.atd.checkIn);
 			let checkOut = formatDate(new Date(data.atd.checkOut)) + " " +formatTime(data.atd.checkOut);
 			
@@ -82,7 +95,7 @@ $(document).on("click", ".process-tr", function() {
 					  <textarea class="form-control" id="reason" rows="6" disabled>${data.reason.reasonContent}</textarea>
 					</div>
 					<div class="button-box">
-						<button class="button-large reject">반려</button>
+						<button class="button-large reject" data-reasonid="${data.reason.reasonId}" data-empid="${data.reason.empId}" data-atddate="${data.reason.atdDate}">반려</button>
 						<button class="button-large accept" data-reasonid="${data.reason.reasonId}" data-empid="${data.reason.empId}" data-atddate="${data.reason.atdDate}">승인</button>
 					</div>
 				</div>`

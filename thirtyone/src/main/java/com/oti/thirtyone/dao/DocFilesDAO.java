@@ -17,4 +17,6 @@ public interface DocFilesDAO {
 
 	List<DocFilesDTO> selectReasonFileList(int reasonId);
 
+	int deleteReasonFile(int fileId);
+
 }

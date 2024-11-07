@@ -40,4 +40,8 @@
     	from doc_files
     	where reason_id = #{reasonId}
     </select>
+    
+    <delete id="deleteReasonFile" parameterType="int">
+    	delete from doc_files where doc_file_id = #{fileId}
+    </delete>
 </mapper>

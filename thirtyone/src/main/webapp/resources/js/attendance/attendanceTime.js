@@ -51,15 +51,35 @@ function getAtdforWeek(week){
 			drawGraph(data);
 			
 			$(".worktime-info").empty();
-			
+			console.log(data.reasonList);
+			data.reasonList.forEach(function (reason){
+				reason.atdDate = formatMonthDay(reason.atdDate);
+			})
+		
 			data.atdList.forEach(function(atd) {
 				let formattedMonthDay = formatMonthDay(atd.atdDate);
+				
+				let button = `<td><img class="atd-request-form" src="${contextPath}/resources/image/icon/doc.svg" data-bs-toggle="modal" data-bs-target="#atdRequestModal"></td>`
+				if(atd.atdState === '정상출근' || atd.atdState === '휴가' || atd.atdState === '출장')
+					button = `<td><img class="atd-request-form" src="${contextPath}/resources/image/icon/doc.svg" style="cursor: default"></td>`
+				data.reasonList.forEach(function (reason) {
+					if(formattedMonthDay === reason.atdDate){
+						const status = reason.reasonStatus;
+						if(status === '대기'){
+							button = `<td><img class="atd-request-form update-req-form" src="${contextPath}/resources/image/icon/doc-selected.svg" data-reasonid='${reason.reasonId}'></td>`
+						}else if(status === '승인'){
+							button = `<td><img class="atd-request-form" src="${contextPath}/resources/image/icon/doc-accept.svg" style="cursor: default;"></td>`
+						}else if(status === '반려'){
+							button = `<td><img class="atd-request-form update-req-form" src="${contextPath}/resources/image/icon/doc-reject.svg" data-reasonid='${reason.reasonId}'></td>`							
+						}
+					}
+				})
 				let formattedCheckIn = atd.checkIn !== null ? formatTime(atd.checkIn) : "--:--";
 				let formattedCheckOut = atd.checkOut !== null ? formatTime(atd.checkOut) : "--:--";
 				let formattedOverTime = atd.atdOverTime;
 				let formattedStandardTime = atd.atdStandardTime !== null ? `${atd.atdStandardTime}시간 00분` : "0시간00분";
 				let atdState = atd.atdState !== null ? atd.atdState : "-";
-				let atdHtml =`				
+				let atdHtml =`
 					<tr>
 					  <th scope="row">${formattedMonthDay}</th>
 					  <td class="atd-state" data-state="${atdState}">${atdState}</td>
@@ -67,11 +87,9 @@ function getAtdforWeek(week){
 					  <td class="request-checkout" data-checkout="${atd.checkOut}">${formattedCheckOut}</td>
 					  <td>${formattedOverTime}</td>
 					  <td>${formattedStandardTime}</td>
-					  <td><img src="${contextPath}/resources/image/icon/clock.svg"></td>
-					  <td><img class="atd-request-form" src="${contextPath}/resources/image/icon/doc.svg" data-bs-toggle="modal" data-bs-target="#atdRequestModal"></td>
-					</tr>
-			    `
-					
+					  <td><img src="${contextPath}/resources/image/icon/clock.svg"></td>`
+					  + button+ "</tr>";
+			    
 			    $(".worktime-info").append(atdHtml); 
 			})
 			
@@ -90,12 +108,15 @@ $(document).on('click', ".atd-request-form", function(){
 	let formatedCheckIn = checkIn !== null ? formatDate(checkInDate) + " " + formatTime(checkIn) : "--:--" ;
 	let formatedCheckOut = checkOut !== null ? formatDate(checkOutDate) + " " + formatTime(checkOut) : "--:--";
 	
+	$(".file-list").empty();
 	$("#checkIn").val(formatedCheckIn);
 	$("#checkOut").val(formatedCheckOut);
+	$("#update-checkIn").val(formatedCheckIn);
+	$("#update-checkOut").val(formatedCheckOut);
 	$(".accept").data('state', state);
+	$(".update-accept").data('state', state);
 
 })
-
 
 document.addEventListener('DOMContentLoaded', function () {
 	
@@ -121,6 +142,39 @@ document.addEventListener('DOMContentLoaded', function () {
 	});
 	
 });
+
+$(document).on("click", ".update-req-form", function (){
+	deleteFileList = [];
+	const reasonid = $(this).data('reasonid');
+	$.ajax({
+		method: "get",
+		url: contextPath+"/atd/reasonReqInfo",
+		data : {"reasonId":reasonid},
+		success: function (data) {
+			
+			let fileListHtml = "";
+	        data.fileList.forEach((file, index) => {
+	            fileListHtml += `<div id="file${file.docFileId}">
+	            					<p>${file.docFileName}</p>
+	            					<a href="attachDownload?fileId=${file.docFileId}">
+		            					<i class="bi bi-download"></i>
+	            					</a>
+	            					<a class="delete" onclick="deleteFilebyDown(${file.docFileId});">
+	            					 	<i class="bi bi-x-circle"></i>
+	        					 	</a>
+        					 	</div>`;
+	        });
+	        $('.update-file-list').empty();
+	        $('.update-file-list').append(fileListHtml);
+			$('#update-reason').val(data.reason.reasonContent);
+			$('.update-accept').text("수정");
+			$('.update-accept').data('reasonid', reasonid);
+			$('#atdUpdateModal').modal('show');
+		}
+		
+			
+	})
+})
 
 function parseTimeToDecimal(time) {
     const [hours, minutes] = time.split(':').map(Number);
@@ -305,9 +359,10 @@ function addFile(obj){
             let htmlData = '';
             htmlData += '<div id="file' + fileNo + '" class="filebox">';
             htmlData += '   <p class="name">' + file.name + '</p>';
-            htmlData += '   <a class="delete" onclick="deleteFile(' + fileNo + ');"><i class="far fa-minus-square"></i></a>';
+            htmlData += '   <a class="delete" onclick="deleteFile(' + fileNo + ');"><i class="bi bi-x-circle"></i></a>';
             htmlData += '</div>';
             $('.file-list').append(htmlData);
+            $('.update-file-list').append(htmlData); 
             fileNo++;
         } else {
             continue;
@@ -381,8 +436,64 @@ function submitForm(e) {
         data: newFormData,
         success: function (data) {
         	if(data)
-        		alert("성공");
+        		location.reload();
         	else 
+        		alert("이미 제출한 사유서 입니다.");
+        	
+        },
+        error: function (xhr, desc, err) {
+            alert('에러가 발생 하였습니다.');
+            return;
+        }
+    })
+}
+
+let deleteFileList = [];
+function deleteFilebyDown(fileId){
+	deleteFileList.push(fileId);
+	$("#file"+fileId).remove();
+}
+
+function updateForm(event){
+	event.preventDefault();
+	let state = $('.update-accept').data('state');
+	let reasonid = $('.update-accept').data('reasonid');
+	console.log("check", state);
+	console.log("checkReasonId", reasonid);
+    // 폼데이터 담기
+    let form = document.querySelector(".update-reason-report");
+    let formData = new FormData(form);
+    let newFormData = new FormData();
+    
+    newFormData.append("state", state);
+    newFormData.append('reasonId', reasonid);
+    for (var i = 0; i < filesArr.length; i++) {
+        // 삭제되지 않은 파일만 폼데이터에 담기
+        if (!filesArr[i].is_delete) {
+            newFormData.append("attachFiles", filesArr[i]);
+        }
+    }
+    newFormData.append("deleteFileList", deleteFileList);
+    for( let[key, value] of formData.entries()){
+    	if(key !== "formFile")
+    		newFormData.append(key, value);
+    }
+    
+    for (let [key, value] of newFormData.entries()) {
+        console.log(key, value); // 각 키와 값이 출력됩니다.
+    }
+    
+    $.ajax({
+        method: 'POST',
+        url: contextPath + '/atd/reasonUpdate',
+        dataType: 'json', 
+        processData: false,
+        contentType: false,
+        data: newFormData,
+        success: function (data) {
+        	if(data){
+        		location.reload();
+        	}else 
         		alert("이미 제출한 사유서 입니다.");
         	
         },

@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.oti.thirtyone.dto.AttendanceDto;
@@ -65,6 +66,29 @@ public class AdminController {
 	
 	@GetMapping("")
 	public String adminMain(Model model) {
+		List<Map<String, Object>> empInfoList = new LinkedList<>();
+		List<EmployeesDto> empList = empService.getEmpInfoHead();
+		
+		for(EmployeesDto emp : empList) {
+			Map<String, Object> empInfo = new HashMap<>();
+			empInfo.put("emp", emp);
+			empInfo.put("deptName", deptService.getDeptName(emp.getDeptId()));
+			empInfoList.add(empInfo);
+		}
+		List<ReasonDto> reasonList = reasonService.getLatestReason();
+		List<Map<String, Object>> reasonInfoList = new LinkedList<>();
+		for(ReasonDto reason : reasonList) {
+			Map<String, Object> reasonInfo = new HashMap<>();
+			EmployeesDto emp = empService.getEmpInfo(reason.getEmpId());
+			String deptName = deptService.getDeptName(emp.getDeptId());
+			reasonInfo.put("reason", reason);
+			reasonInfo.put("emp", emp);
+			reasonInfo.put("deptName", deptName);
+			reasonInfoList.add(reasonInfo);
+		}
+		
+		model.addAttribute("reasonInfoList", reasonInfoList);
+		model.addAttribute("empInfoList", empInfoList);
 		model.addAttribute("selectedTitle", "home");
 		return "admin/admin";	
 	}
@@ -381,5 +405,11 @@ public class AdminController {
 			out.flush();
 			out.close();
 		}
+	}
+	
+	@GetMapping("/empAtdStatus")
+	@ResponseBody
+	public Map<String, int[]> empAtdStatus() {
+		return empService.getEmpAtdStatus();
 	}
 }

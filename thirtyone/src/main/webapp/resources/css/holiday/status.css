@@ -14,6 +14,8 @@
 
 .holiday-schedule-box{
 	margin-bottom: 20px;
+/* 	============ */
+	min-height: 700px;
 }
 
 .holiday-list-box{	
@@ -21,7 +23,8 @@
 	flex-direction: column;
 	position: relative;
 	margin-bottom: 5px;	
-	min-height: 883px;
+	min-height: 463px;
+/* 	min-height: 883px; */
 }
 
 .mini-title{
@@ -126,8 +129,9 @@
 
 /* ##################################나의 휴가일정 ##################################### */
 #calendar{
-	height: 520px;	
-	margin: 20px 40px;
+	height: 540px;	
+/* 	margin: 20px 40px; */
+	margin: 40px 40px 20px 40px;
 }
 
 .fc-button{
@@ -147,9 +151,12 @@
 }
 .holiday-status{
 	display:flex;
-	justify-content: space-between;
+/* 	justify-content: space-between; */
+	justify-content: center;
 	align-items: center;
 	margin:0px 40px 20px 40px;
+/* 	================== */
+	gap: 100px;
 }
 
 .arrow-right, .arrow-left{
@@ -157,7 +164,8 @@
 }
 
 .holiday-status-box {
-	margin-bottom: 40px;
+/* 	margin-bottom: 40px; */
+	margin-bottom: 20px;
 }
 
 .holiday-status-detail div{
@@ -215,12 +223,6 @@
 	font-size:20px !important;
 }
 
-.holiday-status{
-	display:flex;
-	justify-content: space-between;
-	align-items: center;
-	margin:0px 40px 20px 40px;
-}
 
 .arrow-right, .arrow-left{
 	width: 10px;

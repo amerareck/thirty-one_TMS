@@ -111,8 +111,12 @@
 	align-items: center;
 }
 
-.admin-profile-img{
+/* .admin-profile-img{
 	width: 29px;
+} */
+.admin-profile-img{
+	border-radius: 50%;
+    object-fit: cover;
 }
 
 .admin-profile-info{
@@ -120,6 +124,7 @@
 	margin-left:5px;
 	display:flex;
 	flex-direction: column;
+	gap:4px;
 }
 
 .admin-profile-info h4{
@@ -176,4 +181,18 @@
 	border-radius: 30px;
 	background: #4CB864;
 	color:white;
+}
+
+
+.pagination {
+	position: absolute; 
+    bottom: 30px;
+    left: 50%; 
+    transform: translateX(-50%);
+}
+
+.page-num {
+	background-color: transparent;
+	border: solid transparent;
+    color: #c7c7c7;
 }

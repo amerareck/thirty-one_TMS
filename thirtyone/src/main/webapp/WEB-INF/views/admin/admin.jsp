@@ -9,30 +9,15 @@
 			<div class="attendance-stauts card">
 				<div class="atd-status-top">
 					<p class="mini-title">일일 근로 현황</p>
-					<p>2024년 10월 10일</p>
+					<p><fmt:formatDate value='${today}' pattern='yyyy년 MM월 dd일'/></p>
 				</div>			
 				<div class="mini-line"></div>
 				<div class="atd-status-box">
 					<div class="dounut-box">
 						<div class="work-status">
-							<h3>근무 현황</h3>
-							<div><span>총원</span><span>20</span></div>
-							<div><span>출근전</span><span>03</span></div>
-							<div><span>출근</span><span>13</span></div>
-							<div><span>휴가</span><span>02</span></div>
-							<div><span>휴직</span><span>01</span></div>
-							<div><span>결근</span><span>01</span></div>
 						</div>
 						<div>
 							<canvas id="attendance-rate" style="width:250px;  height: 250px;"></canvas>
-						</div>
-						<div class="attendance-emp">
-							<h3>출근자 현황</h3>
-							<div><span>근무중</span><span>11</span></div>
-							<div><span>출근</span><span>01</span></div>
-							<div><span>외근</span><span>00</span></div>
-							<div><span>외출</span><span>01</span></div>
-							<div><span>기타</span><span>00</span></div>
 						</div>
 						<div>
 							<canvas id="emp-rate" style="width:250px; height: 250px;"></canvas>
@@ -45,28 +30,26 @@
 								<td>총원</td>
 								<td>출근전</td>
 								<td>출근</td>
+								<td>퇴근</td>
+								<td>지각</td>
+								<td>조퇴</td>
 								<td>휴가</td>
-								<td>결근</td>
-								<td>근무중</td>
 								<td>출장</td>
-								<td>외근</td>
-								<td>외출</td>
-								<td>기타</td>
+								<td>결근</td>
 							</tr>
 						</thead>
 						<tbody>
 							<tr>
-								<td>74%</td>
-								<td>20</td>
-								<td>03</td>
-								<td>13</td>
-								<td>02</td>
-								<td>01</td>
-								<td>11</td>
-								<td>01</td>
-								<td>00</td>
-								<td>01</td>
-								<td>00</td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
 							</tr>
 						</tbody>
 					</table>
@@ -75,34 +58,44 @@
 			<div class="emp-status card">
 				<div class="emp-status-top">
 					<p class="mini-title">근로자 현황</p>
-					<a href="#">더보기</a>
+					<a href="${pageContext.request.contextPath}/admin/searchList">더보기</a>
 				</div>			
 				<div class="emp-status-box">
-					<c:forEach begin="1" end="6">
+					<c:forEach items="${empInfoList}" var="empInfo">
 					<div class="admin-profile-box">
-						<img class="admin-profile-img" src="${pageContext.request.contextPath}/resources/image/profileDefault.png">
-				    	<div class="admin-profile-info">
-				    		<h4>오티아이 부장</h4>
-				    		<p>공공사업1div</p>
+						<img class="admin-profile-img" src="${pageContext.request.contextPath}/admin/imageDown?empId=${empInfo.emp.empId}" width="29" height="38" 
+							onerror="this.onerror=null; this.src='${pageContext.request.contextPath}/resources/image/sky-profile-img.png'; this.width=29; this.height=29;">
+				    	<div class="admin-profile-info" onclick="location.href='${pageContext.request.contextPath}/admin/empDetail?empId=${empInfo.emp.empId}'" style="cursor: pointer;">
+				    		<h4>${empInfo.emp.empName } ${empInfo.emp.position }</h4>
+				    		<p>${empInfo.deptName}</p>
 				    	</div>
 			    		<img class="next-profile" src="${pageContext.request.contextPath}/resources/image/arrow/page-right-arrow.svg">
 			    	</div>
 			    	</c:forEach>
-			    	<nav class="mt-3 mb-3">
-		                <ul class="pagination justify-content-center">
-		                  <li class="page-item disabled">
-		                    <a class="page-link text-dark" href="#" tabindex="-1" aria-disabled="true"><img class="arrow-left" src="${pageContext.request.contextPath}/resources/image/arrow/page-left-arrow.svg" width="7px"></a>
-		                  </li>
-		                  <li class="page-item"><a class="page-link text-dark page-border-none ms-1" href="#">1</a></li>
-		                  <li class="page-item"><a class="page-link text-dark page-border-none " href="#">2</a></li>
-		                  <li class="page-item"><a class="page-link text-dark page-border-none " href="#">3</a></li>
-		                  <li class="page-item"><a class="page-link text-dark page-border-none " href="#">4</a></li>
-		                  <li class="page-item"><a class="page-link text-dark page-border-none me-1" href="#">5</a></li>
-		                  <li class="page-item">
-		                    <a class="page-link text-dark" href="#"><img class="arrow-right" src="${pageContext.request.contextPath}/resources/image/arrow/page-right-arrow.svg" width="7px"></a>
-		                  </li>
-		                </ul>
-		            </nav>
+			    	<%-- <div class="pagination">
+						<c:if test="${hdpager.groupNo>1}">
+							<a href="?pageNo=${hdpager.startPageNo - 1}">
+					    		<img src="${pageContext.request.contextPath}/resources/image/prev_icon.png" alt="prev" style="width: 15px">
+							</a>
+						</c:if>
+						<c:forEach begin="${hdpager.startPageNo}" end="${hdpager.endPageNo}" step="1" var="i">
+							<c:if test="${hdpager.pageNo==i}">									
+								<button class="page-num" onclick="location.href='?pageNo=${i}'" style="color: #686868">
+								    ${i}
+								</button>
+							</c:if>
+							<c:if test="${hdpager.pageNo!=i}">									
+								<button class="page-num" onclick="location.href='?pageNo=${i}'">
+								    ${i}
+								</button>
+							</c:if>
+						</c:forEach>
+						<c:if test="${hdpager.groupNo<pager.totalGroupNo}">
+							<a href="?pageNo=${hdpager.endPageNo + 1}">
+					    		<img src="${pageContext.request.contextPath}/resources/image/next_icon.png" alt="next" style="width: 15px">
+							</a>
+						</c:if>
+					</div> --%>
 				</div>
 			</div>
 		</div>
@@ -110,15 +103,15 @@
 			<div class="new-atd-request-box card">
 				<div class="emp-status-top">
 					<p class="mini-title">신규 근태신청 현황</p>
-					<a href="#">더보기</a>
-				</div>	
+					<a href="${pageContext.request.contextPath}/admin/atdList">더보기</a>
+				</div>
 				<div class="mini-line"></div>
 				<div class="new-request-box">
-					<c:forEach begin="1" end="6">
+					<c:forEach items="${reasonInfoList }" var="reason">
 						<div class="new-request">
-							<div class="status-btn">승인</div>
-					    	<p>공공사업1DIV팀 / 정원석</p>
-					    	<p>2024/10/09 13:35:37</p>
+							<div class="status-btn">${reason.reason.reasonStatus}</div>
+					    	<p>${reason.deptName} / ${reason.emp.empName }</p>
+					    	<p><fmt:formatDate value='${reason.reason.atdDate}' pattern='yyyy-MM-dd HH:mm'/></p>
 				    	</div>
 			    	</c:forEach>
 		    	</div>

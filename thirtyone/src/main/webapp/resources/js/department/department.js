@@ -107,7 +107,6 @@ document.addEventListener('DOMContentLoaded', function () {
 		method: "get",
 		url: contextPath + "/dept/deptAtdStatus",
 		success: function(result){
-			console.log(result);
 			barChart.data.datasets[0].data = result.deptAtdStatus;
 			doughnutChart.data.datasets[0].data = result.deptAtdCur;
 			barChart.update();
