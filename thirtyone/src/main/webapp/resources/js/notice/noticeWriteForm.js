@@ -72,13 +72,21 @@ document.addEventListener("DOMContentLoaded", function() {
         const formData = new FormData(contentForm);				
 
         if (contentValidChk()) {
-			submitForm();
+			submitForm(formData);
 		}
 	});
+	
+	
+	/*function formatData(formData) {
+	    // 데이터를 포맷하는 로직
+	    // formData에 포함된 데이터를 가공하여 서버로 보낼 데이터로 변환
+	    return formData;  // 예시로 그냥 그대로 반환
+	}*/
+	
 
 	
 	//공지 작성 폼 제출
-	function submitForm() {
+	function submitForm(formData) {
 		console.log("Form Data:", [...formData]);
 		
 		filesArray.forEach(file => formData.append('attachFile', file));
