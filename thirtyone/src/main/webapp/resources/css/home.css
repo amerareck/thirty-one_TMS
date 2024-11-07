@@ -12,6 +12,7 @@
 .my-holiday{
 	margin-left: 20px;
 	height: 660px;
+	width: 540px;
 }
 
 .dept-attendance{
@@ -104,7 +105,7 @@
 	display:flex;
 	flex-direction:column;
 	gap:10px;
-	margin: 20px 100px 0px 90px;
+	margin: 20px 100px 40px 90px;
 }
 
 .atd-box-bottom div:nth-child(3){
@@ -117,37 +118,6 @@
 	background-color: var(--blue);
 	height: 12px;
 	border-radius: 12px;
-}
-/* #################### 캘린더 ################## */
-
-#calendar{
-	height: 520px;	
-}
-
-.fc-event{
-	height: 15px;
-	lien-height: 15px;
-	font-size: 10px;
-}
-
-.fc-button{
-	background-color: white !important;
-	border:none !important;
-	color: var(--darkgray) !important;
-	width: 22px !important;
-}
-
-.fc-header-toolbar{
-	margin-bottom:10px !important;
-	margin-right:20px !important;
-}
-
-.fc-toolbar-title{
-	font-size:14px !important;
-}
-
-.main-calendar{
-	margin: 20px 40px 0px 40px ;
 }
 
 /* #################### 부서 근무 현황 ################## */
@@ -257,7 +227,7 @@
 
 .apr-list-box {
 	background-color: var(--blue);
-	margin:20px 40px 0px 40px;
+	margin:30px 40px 0px 50px;
 	padding: 0px 50px; 	
 	height: 60px;
 	border-radius: 12px;
@@ -266,6 +236,7 @@
 	justify-content: space-between;
 	align-items: center;
 	text-align: center;
+/* 	width: 610px; */
 }
 .apr-list-box p{
 	display:flex;
@@ -379,4 +350,85 @@
 
 .null-atd span:nth-child(2){
 	font-size: 24px;
+}
+
+/* #################### 캘린더 ################## */
+
+#calendar{
+	height: 520px;	
+}
+
+/*
+.fc-event{
+	height: 15px;
+	lien-height: 15px;
+	font-size: 10px;
+}
+
+.fc-button{
+	background-color: white !important;
+	border:none !important;
+	color: var(--darkgray) !important;
+	width: 22px !important;
+}
+
+.fc-header-toolbar{
+	margin-bottom:10px !important;
+	margin-right:20px !important;
+}
+
+.fc-toolbar-title{
+	font-size:14px !important;
+} */
+
+.main-calendar{
+	margin: 20px 40px 0px 40px ;
+}
+
+.fc-button{
+	background-color: white !important;
+	border:none !important;
+	color: var(--darkgray) !important;
+	width: 22px !important;
+}
+
+.fc-header-toolbar{
+	margin-bottom:10px !important;
+	margin-right:20px !important;
+}
+
+.fc-toolbar-title{
+	font-size:20px !important;
+}
+
+
+.arrow-right, .arrow-left{
+	width: 10px;
+}
+
+.fc-daygrid-event-harness{
+	margin-left: 3px;
+	margin-right: 3px;	
+}
+.fc-event-title-container{
+	display: flex;
+	align-items: center;
+}
+.fc-event-title{
+	align-items: center !important;
+	display: flex !important;
+	height: 16px;
+	padding-left: 5px !important;
+	padding-bottom: 2px !important;
+	font-size: 10px;
+}
+
+.fc-col-header-cell-cushion, .fc-daygrid-day-number{
+	color: var(--darkgray);
+}
+
+.fc-button{
+    outline: none !important;
+    box-shadow: none !important;
+    border: none !important;
 }
