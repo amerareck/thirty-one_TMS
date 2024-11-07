@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	      {
 	        title: 'Long Event',
 	        start: '2024-10-07',
-	        end: '2024-10-10'
+	        end: '2024-10-8'
 	      },
 	      {
 	        groupId: '999',

@@ -239,7 +239,7 @@ public class ApprovalController {
 				if(approvalList.size()<=i) break;
 				result.add(approvalList.get(i));
 			}
-			log.info(result.get(0).getDocReferenceList().toString());
+//			log.info(result.get(0).getDocReferenceList().toString());
 			
 			model.addAttribute("draftList", result);
 			model.addAttribute("pager", pager);

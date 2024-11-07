@@ -80,15 +80,28 @@
 		where reason_id = #{reasonId}	
 	</select>
 	
-	<update id="updateReasonStatus" parameterType="int">
+	<update id="updateReasonStatus">
 		update reason 
-		set reason_status = '승인'
+		set reason_status = #{status}
 		where reason_id = #{reasonId} 
 	</update>
 	
 	<update id="updateReasonCompletedDate" parameterType="int">
 		update reason
 		set reason_completed_date = sysdate
+		where reason_id = #{reasonId}
+	</update>
+	
+	<select id="selectReasonWeekly" resultType="Reason">
+		select reason_id, reason_type, reason_content, reason_status,
+			atd_date, emp_id, reason_improver
+		from reason
+		where atd_date between TO_DATE(#{monday}, 'yyyy/MM/DD') and TO_DATE(#{sunday}, 'yyyy/MM/DD') and emp_id=#{empId}
+	</select>
+	
+	<update id="updateReason" parameterType="Reason">
+		update reason
+		set reason_content = #{reasonContent}
 		where reason_id = #{reasonId}
 	</update>
 </mapper>

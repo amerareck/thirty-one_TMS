@@ -143,47 +143,27 @@ public class AttendanceController {
 		return "attendance/attendanceTime";
 	}
 	
-	@PostMapping("reasonRequest")
-	public ResponseEntity<Boolean> reasonRequest(@ModelAttribute ReasonFormDto reasonForm, Authentication authentication) throws IOException {
-		EmployeeDetails empDetail = (EmployeeDetails) authentication.getPrincipal();
-		EmployeesDto empDto = empDetail.getEmployee();
-		
-		ReasonDto reasonDto = new ReasonDto();
-		Departments deptDto = deptService.getDeptInfo(empDto.getDeptId());
-		String empId = empDto.getEmpId();
-		reasonDto.setEmpId(empId);
-		reasonDto.setReasonContent(reasonForm.getReason());
-		reasonDto.setReasonType(reasonForm.getState());
-		reasonDto.setReasonImprover(deptDto.getEmpId());
-		boolean hasReason = reasonService.hasReasonOfDay(empId, reasonForm.getCheckIn().split(" ")[0]);
-		if(!hasReason) {
-			return ResponseEntity.ok(false);
-		}
-		reasonService.insertReason(reasonDto, reasonForm.getCheckIn().split(" ")[0]);
-		
-		int reasonId = reasonDto.getReasonId();
-		log.info(reasonId);
-		MultipartFile[] files = reasonForm.getAttachFiles();
-		if(files != null && files.length > 0) {
-			for(MultipartFile file : files) {
-				DocFilesDTO fileDto = new DocFilesDTO();
-				fileDto.setDocFileName(file.getOriginalFilename());
-				fileDto.setDocFileType(file.getContentType());
-				fileDto.setDocFileData(file.getBytes());
-				fileDto.setReasonId(reasonId);
-				reasonService.insertReasonFile(fileDto);
-			}
-		}
-		
-		return ResponseEntity.ok(true);
-	}
-	
 	@PostMapping("getAtdForWeek")
 	@ResponseBody
 	public Map<String, Object> getAtdForWeek(@RequestParam List<String> week, Authentication authentication) throws ParseException{
 		String empId = authentication.getName();
-		Map<String, Object> atdList = atdService.getAtdInfoWeekly(week.get(0), week.get(1), empId);		
+		Map<String, Object> atdList = atdService.getAtdInfoWeekly(week.get(0), week.get(1), empId);
 		return atdList;
+	}
+	
+	@GetMapping("reasonReqInfo")
+	@ResponseBody
+	public Map<String, Object> reasonReqInfo(int reasonId) {
+		Map<String, Object> reasonInfo = new HashMap<>();
+		
+		List<DocFilesDTO> fileList = reasonService.getReasonFileList(reasonId);
+		ReasonDto reasonDto = reasonService.getReasoninfo(reasonId);
+		
+		reasonInfo.put("fileList", fileList);
+		reasonInfo.put("reason", reasonDto);
+		
+		return reasonInfo;
+		
 	}
 
 	@GetMapping("/process")
@@ -252,10 +232,77 @@ public class AttendanceController {
 		out.close();
 	}
 	
-	@PostMapping("/requsetAccept")
-	public ResponseEntity<String> requestAccept(int reasonId, String empId, String atdDate) {
-		reasonService.updateReasonStatus(reasonId, empId, atdDate);
+	@PostMapping("/requsetStatus")
+	public ResponseEntity<String> requestAccept(int reasonId, String empId, String atdDate, String status) {
+		reasonService.updateReasonStatus(reasonId, empId, atdDate, status);
 		return ResponseEntity.ok("OK");
+	}
+	
+	@PostMapping("reasonRequest")
+	public ResponseEntity<Boolean> reasonRequest(@ModelAttribute ReasonFormDto reasonForm, Authentication authentication) throws IOException {
+		EmployeeDetails empDetail = (EmployeeDetails) authentication.getPrincipal();
+		EmployeesDto empDto = empDetail.getEmployee();
+		
+		ReasonDto reasonDto = new ReasonDto();
+		Departments deptDto = deptService.getDeptInfo(empDto.getDeptId());
+		String empId = empDto.getEmpId();
+		reasonDto.setEmpId(empId);
+		reasonDto.setReasonContent(reasonForm.getReason());
+		reasonDto.setReasonType(reasonForm.getState());
+		reasonDto.setReasonImprover(deptDto.getEmpId());
+		boolean hasReason = reasonService.hasReasonOfDay(empId, reasonForm.getCheckIn().split(" ")[0]);
+		if(!hasReason) {
+			return ResponseEntity.ok(false);
+		}
+		reasonService.insertReason(reasonDto, reasonForm.getCheckIn().split(" ")[0]);
+		
+		int reasonId = reasonDto.getReasonId();
+		log.info(reasonId);
+		MultipartFile[] files = reasonForm.getAttachFiles();
+		if(files != null && files.length > 0) {
+			for(MultipartFile file : files) {
+				DocFilesDTO fileDto = new DocFilesDTO();
+				fileDto.setDocFileName(file.getOriginalFilename());
+				fileDto.setDocFileType(file.getContentType());
+				fileDto.setDocFileData(file.getBytes());
+				fileDto.setReasonId(reasonId);
+				reasonService.insertReasonFile(fileDto);
+			}
+		}
+		
+		return ResponseEntity.ok(true);
+	}
+	
+	@PostMapping("reasonUpdate")
+	public ResponseEntity<Boolean> reasonUpdate(@ModelAttribute ReasonFormDto reasonForm, Authentication authentication) throws IOException{
+		
+		ReasonDto reasonDto = new ReasonDto();
+		int reasonId = reasonForm.getReasonId();
+		reasonDto.setReasonId(reasonId);
+		reasonDto.setReasonContent(reasonForm.getReason());
+		
+		reasonService.updateReason(reasonDto);
+		int[] deleteList = reasonForm.getDeleteFileList();
+		if(deleteList.length > 0) {
+			for(int fileId : deleteList) {
+				reasonService.deleteFile(fileId);
+			}
+		}
+
+		MultipartFile[] files = reasonForm.getAttachFiles();
+		if(files != null && files.length > 0) {
+			for(MultipartFile file : files) {
+				DocFilesDTO fileDto = new DocFilesDTO();
+				log.info(file.getOriginalFilename());
+				fileDto.setDocFileName(file.getOriginalFilename());
+				fileDto.setDocFileType(file.getContentType());
+				fileDto.setDocFileData(file.getBytes());
+				fileDto.setReasonId(reasonId);
+				reasonService.insertReasonFile(fileDto);
+			}
+		}
+		
+		return ResponseEntity.ok(true);
 	}
 }
 

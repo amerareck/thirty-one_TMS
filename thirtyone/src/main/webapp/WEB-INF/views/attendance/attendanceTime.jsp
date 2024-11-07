@@ -75,8 +75,50 @@
 					  <textarea class="form-control" id="reason" name="reason" rows="6" placeholder="여기에 내용을 입력하세요"></textarea>
 					</div>
 					<div class="button-box">
-						<button class="button-large reject" data-bs-dismiss="modal" aria-label="Close">취소</button>
+						<button type="button" class="button-large reject" data-bs-dismiss="modal" aria-label="Close">취소</button>
 						<button class="button-large accept" onclick="submitForm(event)">제출</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="atdUpdateModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+  			<div class="dept-move card">
+				<p class="mini-title">사유서</p>
+				<div class="mini-line"></div>
+				<form class="update-reason-report">
+					<div>
+						<label for="empName">이름</label>
+						<input type="text" class="form-control" id="empName" value="${emp.empName}" disabled>
+					</div>
+					<div>
+						<label for="empDept">부서</label>
+						<input type="text" class="form-control" id="empDept" value="${deptName }" disabled>
+					</div>
+					<div>
+						<label for="checkIn">출근 시간</label>
+						<input type="datetime" class="form-control" name="checkIn" id="update-checkIn" readonly>
+					</div>
+					<div>
+						<label for="checkOut">퇴근 시간</label>
+						<input type="datetime" class="form-control" name="checkOut" id="update-checkOut" disabled>
+					</div>
+					<div>
+					  <label for="formFile" class="form-label">첨부 파일</label>
+					  <input class="form-control" onchange="addFile(this);" type="file" id="formFile" name="formFile" multiple>
+					</div>
+					<div class="update-file-list"></div>
+					<div>
+					  <label for="reason" class="form-label reason">사유</label>
+					  <textarea class="form-control" id="update-reason" name="reason" rows="6" placeholder="여기에 내용을 입력하세요"></textarea>
+					</div>
+					<div class="button-box">
+						<button type="button" class="button-large reject" data-bs-dismiss="modal" aria-label="Close">취소</button>
+						<button type="button"  class="button-large update-accept" onclick="updateForm(event)">제출</button>
 					</div>
 				</form>
 			</div>

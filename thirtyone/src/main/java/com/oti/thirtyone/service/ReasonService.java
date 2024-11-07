@@ -70,9 +70,11 @@ public class ReasonService {
 	}
 
 	@Transactional
-	public void updateReasonStatus(int reasonId, String empId, String atdDate) {
-		reasonDao.updateReasonStatus(reasonId);
-		adtDao.updateStatus(reasonId, empId, atdDate);
+	public void updateReasonStatus(int reasonId, String empId, String atdDate, String status) {
+		reasonDao.updateReasonStatus(reasonId, status);
+		if(status.equals("승인")) {
+			adtDao.updateStatus(reasonId, empId, atdDate);
+		}
 		reasonDao.updateReasonCompletedDate(reasonId);
 	}
 
@@ -82,6 +84,16 @@ public class ReasonService {
 
 	public int countRows() {
 		return reasonDao.countRows();
+	}
+
+	public void updateReason(ReasonDto reasonDto) {
+		reasonDao.updateReason(reasonDto);
+		
+	}
+
+	public void deleteFile(int fileId) {
+		fileDao.deleteReasonFile(fileId);
+		
 	}
 
 }

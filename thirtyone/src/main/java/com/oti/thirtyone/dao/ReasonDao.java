@@ -21,12 +21,16 @@ public interface ReasonDao {
 
 	ReasonDto selectReason(int reasonId);
 
-	int updateReasonStatus(int reasonId);
+	int updateReasonStatus(@Param("reasonId") int reasonId, @Param("status") String status);
 
 	int updateReasonCompletedDate(int reasonId);
 
 	int countRows();
 
 	List<ReasonDto> selectReasonList(Pager pager);
+
+	List<ReasonDto> selectReasonWeekly(@Param("monday") String monday, @Param("sunday") String sunday, @Param("empId") String empId);
+
+	int updateReason(ReasonDto reasonDto);
 
 }

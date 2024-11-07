@@ -90,10 +90,10 @@
 								
 							</div>
 							<div>
-								<canvas id="attendance-rate" style="width:170px;  height: 170px;"></canvas>
+								<canvas id="attendance-rate" style="width:220px;  height: 220px;"></canvas>
 							</div>
 							<div>
-								<canvas id="emp-rate" width=170 height=200></canvas>
+								<canvas id="emp-rate" width=220 height=220></canvas>
 							</div>
 						</div>
 						<div>

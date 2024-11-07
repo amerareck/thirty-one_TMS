@@ -15,8 +15,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.oti.thirtyone.dao.AttendanceDao;
+import com.oti.thirtyone.dao.ReasonDao;
 import com.oti.thirtyone.dto.AttendanceDto;
 import com.oti.thirtyone.dto.CalendarDto;
+import com.oti.thirtyone.dto.ReasonDto;
 
 import lombok.extern.log4j.Log4j2;
 
@@ -26,6 +28,8 @@ public class AttendanceService {
 	
 	@Autowired
 	AttendanceDao atdDao;
+	@Autowired
+	ReasonDao reasonDao;
 
 	public double distanceCalculation(double lat, double lng, String regionalOffice) {
 		double[] seoul = {37.583729, 126.999942};
@@ -236,8 +240,9 @@ public class AttendanceService {
 	}
 	
 	public Map<String, Object> getAtdInfoWeekly(String monday, String sunday, String empId) throws ParseException {
-		log.info(monday +" " + sunday);
+
 		List<AttendanceDto> atdWeekly = atdDao.selectAtdWeekly(monday, sunday, empId);
+		List<ReasonDto> reasonWeekly = reasonDao.selectReasonWeekly(monday, sunday,empId);
 		
 		List<AttendanceDto> atdList = new LinkedList<>();
 		List<Date> weeklyDate = getWeeklyDate(monday, sunday);
@@ -246,6 +251,7 @@ public class AttendanceService {
 		List<Integer> workTime = new LinkedList<>();
 		List<Integer> overTime = new LinkedList<>();
 		List<String> lateTime = new LinkedList<>();
+		List<ReasonDto> reasonList = new LinkedList<>();
 		Map<String, Object> dataList = new HashMap<>();
 
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -254,12 +260,13 @@ public class AttendanceService {
 			for(AttendanceDto atd : atdWeekly) {
 				
 				if(dateFormat.format(thisDay).equals(dateFormat.format(atd.getAtdDate()))) {
-					log.info("thisDay : " +  dateFormat.format(thisDay));
 					check = true;
 					Date checkInDate = atd.getCheckIn();
 					Date checkOutDate = atd.getCheckOut();
 					if(checkInDate != null) {
 						checkIn.add(formatHours(checkInDate) +":"+ formatMinutes(checkInDate));
+					}else {
+						checkIn.add("00:00"); checkOut.add("00:00"); workTime.add(0); overTime.add(0); lateTime.add("00:00");
 					}
 					if(checkOutDate != null) {
 						checkOut.add(formatHours(checkOutDate) +":"+ formatMinutes(checkOutDate));
@@ -281,12 +288,18 @@ public class AttendanceService {
 				}
 			}
 			if(!check){
-				log.info("thisDay : " +  dateFormat.format(thisDay));
 				checkIn.add("00:00"); checkOut.add("00:00"); workTime.add(0); overTime.add(0); lateTime.add("00:00");
 				AttendanceDto tempAtd = new AttendanceDto();
 				tempAtd.setAtdDate(thisDay);
 				atdList.add(tempAtd);
 			}
+			
+			for(ReasonDto reason : reasonWeekly) {
+				if(dateFormat.format(thisDay).equals(dateFormat.format(reason.getAtdDate()))) {
+					reasonList.add(reason);
+				}
+			}
+			
 		}
 		
 		dataList.put("atdList", atdList);
@@ -296,7 +309,7 @@ public class AttendanceService {
 		dataList.put("overTime", overTime);
 		dataList.put("lateTime", lateTime);
 		dataList.put("weeklyData", weeklyDate);
-		
+		dataList.put("reasonList", reasonList);
 		return dataList;
 	}
 
