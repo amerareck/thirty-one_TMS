@@ -5,14 +5,14 @@
 }
 .today-attendance{
 	margin-left : 40px;
-	width:800px;
+	width:700px;
 	padding-bottom: 20px;
 }
 
 .my-holiday{
-	margin-left: 20px;
-	height: 660px;
-	width: 540px;
+    margin-left: 20px;
+    height: 700px;
+    width: 640px;
 }
 
 .dept-attendance{
@@ -22,7 +22,7 @@
 
 .approval-list{
 	margin-left : 40px;
-	width: 800px;
+	width: 700px;
 	height: 100%;
 }
 
@@ -55,7 +55,7 @@
 }
 
 .atd-box-top, .atd-box-middle {
-	margin-left: 60px;
+	margin-left: 40px;
 	display: flex;
 	justify-content: space-between;
 	align-items:center;
@@ -63,8 +63,8 @@
 
 
 .atd-time{
-	margin-left: 40px;
-	margin-top: 20px;
+/* 	margin-left: 40px; */
+	margin-top: 40px;
 }
 
 .mini-today{
@@ -80,7 +80,7 @@
 }
 
 .atd-state{
-	margin-right: 110px;
+	margin-right: 40px;
 	margin-top: 20px;
 	width: 240px;
 	height: 50px;
@@ -94,7 +94,6 @@
 }
 
 .atd-box-middle{
-	margin-left: 50px;
 	margin-top: 30px;		
 }
 
@@ -105,7 +104,7 @@
 	display:flex;
 	flex-direction:column;
 	gap:10px;
-	margin: 20px 100px 40px 90px;
+    margin: 50px 40px 40px 40px;
 }
 
 .atd-box-bottom div:nth-child(3){
@@ -115,9 +114,9 @@
 
 
 .work-time-bar{
-	background-color: var(--blue);
-	height: 12px;
-	border-radius: 12px;
+    background-color: var(--blue);
+    height: 18px;
+    border-radius: 12px;
 }
 
 /* #################### 부서 근무 현황 ################## */
@@ -333,12 +332,11 @@
 	margin-bottom: 5px;
 }
 .start-time-btn{
-	margin-left: 40px;
-		background-color: var(--blue);
-	}
+	background-color: var(--blue);
+}
 
 .end-time-btn{
-	margin-right: 108px;
+	margin-right: 40px;
 	background-color: var(--darkgray); 
 }
 
@@ -355,31 +353,8 @@
 /* #################### 캘린더 ################## */
 
 #calendar{
-	height: 520px;	
+	height: 575px;	
 }
-
-/*
-.fc-event{
-	height: 15px;
-	lien-height: 15px;
-	font-size: 10px;
-}
-
-.fc-button{
-	background-color: white !important;
-	border:none !important;
-	color: var(--darkgray) !important;
-	width: 22px !important;
-}
-
-.fc-header-toolbar{
-	margin-bottom:10px !important;
-	margin-right:20px !important;
-}
-
-.fc-toolbar-title{
-	font-size:14px !important;
-} */
 
 .main-calendar{
 	margin: 20px 40px 0px 40px ;
