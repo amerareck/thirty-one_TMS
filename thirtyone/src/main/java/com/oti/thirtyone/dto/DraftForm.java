@@ -24,7 +24,7 @@ public class DraftForm {
 	private String bizTripPurposeForm; // 출장 목표
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date holidayWorkStartDate; // 휴일 근무 종료일
-	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
 	private Date workOvertimeEndDate; // 연장 근무 종료 시간
 	private String draftTitle; // 기안 제목
 	private List<String> draftReference; // 참조자 리스트

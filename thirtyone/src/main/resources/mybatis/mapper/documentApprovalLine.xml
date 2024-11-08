@@ -100,7 +100,7 @@
 		]]>
 	</select>
 	
-	<select id="selctApproveReadyDocNumberByEmpId" parameterType="String" resultType="String">
+	<select id="selectApproveReadyDocNumberByEmpId" parameterType="String" resultType="String">
 		<![CDATA[
 			SELECT DISTINCT
 			    A.doc_number
@@ -114,6 +114,30 @@
 			      LEFT OUTER JOIN document_approval_line B
 			      ON (a.doc_number = b.doc_number AND a.doc_apr_seq < b.doc_apr_seq)
 			ORDER BY a.doc_number
+		]]>
+	</select>
+	
+	<select id="selectApprovalWaitListDocNumberByEmpId" parameterType="String" resultType="String">
+		<![CDATA[
+			SELECT DISTINCT
+			    A.doc_number
+			FROM 
+			    (SELECT * 
+			     FROM 
+			         (SELECT *
+			          FROM DOCUMENT_APPROVAL_LINE
+			          LEFT OUTER JOIN DOCUMENT_FOLDER USING(doc_number)
+			          WHERE doc_apr_approver = #{empId})
+			     WHERE doc_apr_state = '대기') A
+			LEFT OUTER JOIN document_approval_line B
+			    ON (A.doc_number = B.doc_number AND A.doc_apr_seq < B.doc_apr_seq)
+			WHERE NOT EXISTS 
+			    (SELECT 1
+			     FROM DOCUMENT_APPROVAL_LINE C
+			     WHERE A.doc_number = C.doc_number 
+			       AND C.doc_apr_seq = A.doc_apr_seq - 1
+			       AND C.doc_apr_state IN ('대기', '위임', '보류'))
+			ORDER BY A.doc_number
 		]]>
 	</select>
 	
@@ -131,11 +155,61 @@
 	<update id="updateDraftApprovalLine" parameterType="DocApprovalLine">
 		<![CDATA[
 			UPDATE DOCUMENT_APPROVAL_LINE
-			SET doc_apr_comment = #{docAprComment}
-				doc_apr_state = #{docAprState}
-				doc_apr_type = #{docAprType}
-				doc_apr_date = #{docAprDate}
-			WHERE doc_number = #{docNumber}
+			SET doc_apr_comment = #{docAprComment},
+				doc_apr_state = #{docAprState},
+				doc_apr_type = #{docAprType},
+				doc_apr_date = #{docAprDate},
+				doc_apr_proxy = #{docAprProxy}
+				
+			WHERE 
+				doc_number = #{docNumber}
+			AND doc_apr_approver = #{docAprApprover}
 		]]>
 	</update>
+	
+	<select id="selectAprLineOneByDocNumAndSeq" parameterType="DocApprovalLine" resultType="DocApprovalLine">
+		<![CDATA[
+			SELECT
+				doc_number,
+				doc_apr_approver,
+				doc_apr_comment,
+				doc_apr_state,
+				doc_apr_type,
+				doc_apr_date,
+				doc_apr_seq,
+				doc_apr_proxy
+			FROM DOCUMENT_APPROVAL_LINE
+			WHERE
+				doc_number = #{docNumber}
+			AND doc_apr_seq = #{docAprSeq}
+		]]>
+	</select>
+	
+	<select id="selectDocNumbersIncludeUser" parameterType="String" resultType="String">
+		<![CDATA[
+            SELECT DISTINCT
+			    doc_number
+			FROM 
+			    (SELECT * 
+                 FROM DOCUMENT_APPROVAL_LINE 
+                 LEFT OUTER JOIN DOCUMENT_FOLDER c USING (doc_number)
+                 ORDER BY doc_draft_date) a
+			    LEFT OUTER JOIN DOCUMENT_APPROVAL_LINE b USING (doc_number)
+			WHERE 
+				a.doc_apr_approver = #{empId}
+			AND a.doc_apr_status not in('폐기', '회수')
+		]]>
+	</select>
+	
+	<select id="selectApprovalLineWaitSeqByDocNum" parameterType="String" resultType="int">
+		<![CDATA[
+			SELECT doc_apr_seq
+			FROM DOCUMENT_APPROVAL_LINE
+			WHERE 
+				doc_number = #{docNumber}
+			AND doc_apr_state IN('대기', '보류')
+			ORDER BY doc_apr_seq
+			FETCH FIRST 1 ROW ONLY
+		]]>
+	</select>
 </mapper>

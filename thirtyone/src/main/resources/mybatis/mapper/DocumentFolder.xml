@@ -256,7 +256,7 @@
 	<update id="updateDraftDocumentFromApprove" parameterType="Approval">
 		<![CDATA[
 			UPDATE DOCUMENT_FOLDER
-			SET doc_apr_status = #{docAprStatus}
+			SET doc_apr_status = #{docAprStatus},
 				doc_document_data = #{docDocumentData}
 			WHERE doc_number = #{docNumber}
 		]]>

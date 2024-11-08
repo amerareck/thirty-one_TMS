@@ -24,11 +24,19 @@ public interface DocumentApprovalLineDAO {
 	List<DocumentApprovalLineDTO> selectApprovalLineOneself(ApprovalDTO empId);
 
 	List<String> selectDocNumberIncludeOneself(ApprovalDTO dto);
-	
-	List<String> selctApproveReadyDocNumberByEmpId(String empId);
 
 	int selectDocAprSeq(DocumentApprovalLineDTO documentApprovalLineDTO);
 
 	int updateDraftApprovalLine(DocumentApprovalLineDTO dal);
+
+	DocumentApprovalLineDTO selectAprLineOneByDocNumAndSeq(DocumentApprovalLineDTO documentApprovalLineDTO);
+
+	List<String> selectDocNumbersIncludeUser(String name);
+
+	List<String> selectApprovalWaitListDocNumberByEmpId(String empId);
+
+	List<String> selectApproveReadyDocNumberByEmpId(String empId);
+
+	int selectApprovalLineWaitSeqByDocNum(String docNumber);
 
 }

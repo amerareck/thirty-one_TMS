@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.oti.thirtyone.dao.AlternateApproverDAO">
+	<select id="selectAltApproverOne" parameterType="AltApprover" resultType="AltApprover">
+		<![CDATA[
+			SELECT
+				alt_apr_id,
+				alt_apr_start_date,
+				alt_apr_end_date,
+				alt_apr_content,
+				alt_apr_state,
+				emp_id,
+				alt_apr_emp
+			FROM ALTERNATE_APPROVER
+			WHERE
+				emp_id = #{empId}
+			AND alt_apr_emp = #{altAprEmp}
+			AND alt_apr_state = 1
+		]]>
+	</select>
+	
+	<update id="updateAltApproverState" parameterType="AltApprover">
+		<![CDATA[
+			UPDATE ALTERNATE_APPROVER
+			SET alt_apr_state = 0
+			WHERE
+				emp_id = #{empId}
+			AND alt_apr_emp = #{altAprEmp}
+			AND alt_apr_start_date < sysdate
+			AND alt_apr_end_date > sysdate
+		]]>
+	</update>
+</mapper>

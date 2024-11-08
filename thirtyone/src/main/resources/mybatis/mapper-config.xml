@@ -24,6 +24,7 @@
 		<typeAlias type="com.oti.thirtyone.dto.PageParam" alias="PageParam"/>
 		<typeAlias type="com.oti.thirtyone.dto.HolidayDto" alias="Holiday"/>
 		<typeAlias type="com.oti.thirtyone.dto.HolidayRequestDto" alias="HolidayRequest"/>
+		<typeAlias type="com.oti.thirtyone.dto.AlternateApproverDTO" alias="AltApprover"/>
 
 		<typeAlias type="com.oti.thirtyone.dto.Pager" alias="Pager"/>	
 		

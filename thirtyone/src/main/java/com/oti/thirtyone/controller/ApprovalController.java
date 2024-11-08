@@ -249,12 +249,51 @@ public class ApprovalController {
 	}
 	
 	@GetMapping("/before")
-	public String getBeforePage(PageParam param, Model model) {
+	public String getBeforePage(PageParam param, Authentication auth, Model model) {
 		log.info("실행");
+		param.setPageNo(param.getPageNo() == 0 ? 1 : param.getPageNo());
 		
 		model.addAttribute("selectedSub", "before");
 		model.addAttribute("title", "결재 전단계");
 		model.addAttribute("sectionTitle", "결재 전단계 문서");
+		
+		List<String> docNumbers = approvalService.getApprovalRecentStepListDocNumberByEmpId(auth.getName());
+		List<ApprovalDTO> list = new ArrayList<>();
+		for(String docNumber : docNumbers) {
+			ApprovalDTO ele = approvalService.getDraftSingleByDocNumber(docNumber);
+			ele.setDocApprovalLine(approvalService.getDraftApprovalLine(docNumber));
+			ele.setDocReferenceList(approvalService.getDraftReferenceList(docNumber));
+			for(DocumentApprovalLineDTO item : ele.getDocApprovalLine()) {
+				if(item.getDocAprState().equals("대기")) {
+					ele.setNowApprover(empService.getEmpInfo(item.getDocAprApprover()));
+					break;
+				}
+			}
+			ele.setEmpInfo(empService.getEmpInfo(ele.getEmpId()));
+			ele.setDeptName(deptService.getDeptName(ele.getEmpInfo().getDeptId()));
+			ele.setReviewingApprover(ele.getNowApprover().getEmpId());
+			ele.setReviewingApproverDeptId(ele.getNowApprover().getDeptId());
+			ele.setReviewingApproverDeptName(deptService.getDeptName(ele.getReviewingApproverDeptId()));
+			ele.setReviewingApproverPosition(ele.getNowApprover().getPosition());
+			ele.setDocFormName(approvalService.getDocFormName(ele.getDocFormCode()));
+			ele.setDocDocumentData("");
+			for(DocumentApprovalLineDTO item : ele.getDocApprovalLine()) {
+				if(item.getDocAprApprover().equals(auth.getName())) ele.setReviewingApproverSeq(item.getDocAprSeq());
+			}
+			list.add(ele);
+		}
+		log.info("### list size: "+list.size());
+		
+		// 여기서 페이징 처리...
+		Pager pager = new Pager(7, 5, list.size(), param.getPageNo());
+		List<ApprovalDTO> result = new ArrayList<>();
+		for(int i=pager.getStartRowNo()-1; i<pager.getEndRowNo(); i++) {
+			if(list.size()<=i) break;
+			result.add(list.get(i));
+		}
+		log.info("### result size: "+result.size());
+		model.addAttribute("aprList", result);
+		model.addAttribute("pager", pager);
 		
 		return "approval/approvalBeforeStep";
 	}
@@ -267,55 +306,50 @@ public class ApprovalController {
 		model.addAttribute("selectedSub", "approveList");
 		model.addAttribute("title", "결재 하기");
 		
+		List<String> docNumbers;
 		if (param.getType()!=null && param.getType().equals("all")) {
 			model.addAttribute("activePage", "all");
 			model.addAttribute("sectionTitle", "전체 결재 목록");
 			
+			docNumbers = approvalService.getDocNumberToAprLineIncludeUser(auth.getName());
 		} else { //defualt page, type="ready"
 			model.addAttribute("activePage", "ready");
 			model.addAttribute("sectionTitle", "결재 대기");
 			
-			/*
-			ApprovalDTO apr = new ApprovalDTO();
-			apr.setEmpId(auth.getName());
-			List<ApprovalDTO> aprList = approvalService.getDraftWaitForApproval(apr);
-			aprList.forEach(item -> item.setDocDocumentData(null));
-			log.info("######## 결재하기 목록: "+aprList);
-			*/
-			
-			List<String> docNumbers = approvalService.getApproveReadyDocNumberByEmpId(auth.getName());
-			List<ApprovalDTO> list = new ArrayList<>();
-			for(String docNumber : docNumbers) {
-				ApprovalDTO ele = approvalService.getDraftSingleByDocNumber(docNumber);
-				ele.setDocApprovalLine(approvalService.getDraftApprovalLine(docNumber));
-				ele.setDocReferenceList(approvalService.getDraftReferenceList(docNumber));
-				ele.setNowApprover(empService.getEmpInfo(auth.getName()));
-				ele.setEmpInfo(empService.getEmpInfo(ele.getEmpId()));
-				ele.setDeptName(deptService.getDeptName(ele.getEmpInfo().getDeptId()));
-				ele.setReviewingApprover(ele.getNowApprover().getEmpId());
-				ele.setReviewingApproverDeptId(ele.getNowApprover().getDeptId());
-				ele.setReviewingApproverDeptName(deptService.getDeptName(ele.getReviewingApproverDeptId()));
-				ele.setReviewingApproverPosition(ele.getNowApprover().getPosition());
-				ele.setDocFormName(approvalService.getDocFormName(ele.getDocFormCode()));
-				ele.setDocDocumentData("");
-				for(DocumentApprovalLineDTO item : ele.getDocApprovalLine()) {
-					if (item.getDocAprApprover().equals(auth.getName()))
-						ele.setReviewingApproverSeq(item.getDocAprSeq());
-				}
-				list.add(ele);
-			}
-			log.info("######## 결재하기 목록: "+list);
-			
-			// 여기서 페이징 처리...
-			Pager pager = new Pager(7, 5, list.size(), param.getPageNo());
-			List<ApprovalDTO> result = new ArrayList<>();
-			for(int i=pager.getStartRowNo()-1; i<pager.getEndRowNo(); i++) {
-				if(list.size()<=i) break;
-				result.add(list.get(i));
-			}
-			model.addAttribute("aprList", result);
-			model.addAttribute("pager", pager);
+			docNumbers = approvalService.getApproveReadyDocNumberByEmpId(auth.getName());
 		}
+		List<ApprovalDTO> list = new ArrayList<>();
+		for(String docNumber : docNumbers) {
+			ApprovalDTO ele = approvalService.getDraftSingleByDocNumber(docNumber);
+			ele.setDocApprovalLine(approvalService.getDraftApprovalLine(docNumber));
+			ele.setDocReferenceList(approvalService.getDraftReferenceList(docNumber));
+			ele.setNowApprover(empService.getEmpInfo(auth.getName()));
+			ele.setEmpInfo(empService.getEmpInfo(ele.getEmpId()));
+			ele.setDeptName(deptService.getDeptName(ele.getEmpInfo().getDeptId()));
+			ele.setReviewingApprover(ele.getNowApprover().getEmpId());
+			ele.setReviewingApproverDeptId(ele.getNowApprover().getDeptId());
+			ele.setReviewingApproverDeptName(deptService.getDeptName(ele.getReviewingApproverDeptId()));
+			ele.setReviewingApproverPosition(ele.getNowApprover().getPosition());
+			ele.setDocFormName(approvalService.getDocFormName(ele.getDocFormCode()));
+			ele.setDocDocumentData("");
+			for(DocumentApprovalLineDTO item : ele.getDocApprovalLine()) {
+				if(item.getDocAprApprover().equals(auth.getName())) ele.setReviewingApproverSeq(item.getDocAprSeq());
+			}
+			list.add(ele);
+		}
+		//log.info("######## 결재하기 목록: "+list);
+		log.info("### list size: "+list.size());
+		
+		// 여기서 페이징 처리...
+		Pager pager = new Pager(7, 5, list.size(), param.getPageNo());
+		List<ApprovalDTO> result = new ArrayList<>();
+		for(int i=pager.getStartRowNo()-1; i<pager.getEndRowNo(); i++) {
+			if(list.size()<=i) break;
+			result.add(list.get(i));
+		}
+		log.info("### result size: "+result.size());
+		model.addAttribute("aprList", result);
+		model.addAttribute("pager", pager);
 		
 		return "approval/approvalReadyList";
 	}
@@ -700,6 +734,7 @@ public class ApprovalController {
 		data.setApprovalDate(new Date());
 		data.setApprover(auth.getName());
 		log.info(data.toString());
+		JSONObject json = new JSONObject();
 		
 		ApprovalDTO dto = new ApprovalDTO();
 		dto.setNowApprover(empService.getEmpInfo(data.getApprover()));
@@ -713,8 +748,61 @@ public class ApprovalController {
 		dto.getApproveInfo().setDocAprState(data.getApprovalResult());
 		dto.getApproveInfo().setDocAprType(data.getApprovalType());
 		dto.getApproveInfo().setDocAprSeq(data.getApprovalSeq());
-		dto.setDocAprStatus(approvalService.checkDocAprStatus(dto));
+		//dto.setDocAprStatus(approvalService.checkDocAprStatus(dto));
+		//approvalService.approveDraft(dto);
 		
-		approvalService.approveDraft(dto);
+		//결재 유형에 달리 로직을 수행.
+		switch (dto.getApproveInfo().getDocAprType()) {
+			case "대결":
+				if(!approvalService.checkProxyForDraftApproval(dto)) {
+					json.put("status", "no-authority");
+					json.put("message", "결재 권한이 존재하지 않습니다. 대리자 설정을 확인해 주세요.");
+					
+					res.setContentType("application/json; charset=UTF-8");
+					res.setCharacterEncoding("UTF-8");
+					try(PrintWriter pw = res.getWriter()) {
+						pw.println(json.toString());
+						pw.flush();
+					} catch(IOException ioex) {
+						ioex.printStackTrace();
+					}
+					return;
+				}
+				dto.getApproveInfo().setDocAprProxy(auth.getName());
+				dto.getApproveInfo().setApproverProxyInfo(empService.getEmpInfo(auth.getName()));
+				dto.getApproveInfo().setDocAprApprover(approvalService.getDraftApprovalLine(data.getDocNumber()).get(data.getApprovalSeq()).getDocAprApprover());
+			case "일반":
+			case "전결":
+				for(DocumentApprovalLineDTO item : approvalService.getDraftApprovalLine(dto.getApproveInfo().getDocNumber())) {
+					if(item.getDocAprSeq() == data.getApprovalSeq()) break;
+					if(!item.getDocAprState().equals("승인")) {
+						json.put("status", "no-approval-seq");
+						json.put("message", "아직 선순위 결재자가 결재하지 않았습니다.\n선결을 통해 결재를 진행해 주세요.");
+						
+						res.setContentType("application/json; charset=UTF-8");
+						res.setCharacterEncoding("UTF-8");
+						try(PrintWriter pw = res.getWriter()) {
+							pw.println(json.toString());
+							pw.flush();
+						} catch(IOException ioex) {
+							ioex.printStackTrace();
+						}
+						return;
+					}
+				}
+			case "선결":
+				approvalService.approveDraft(dto);
+		}
+		
+		json.put("status", "ok");
+		
+		res.setContentType("application/json; charset=UTF-8");
+		res.setCharacterEncoding("UTF-8");
+		try(PrintWriter pw = res.getWriter()) {
+			pw.println(json.toString());
+			pw.flush();
+		} catch(IOException ioex) {
+			ioex.printStackTrace();
+		}
 	}
 }

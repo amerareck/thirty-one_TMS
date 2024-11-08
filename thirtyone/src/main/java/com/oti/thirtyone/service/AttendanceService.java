@@ -328,18 +328,20 @@ public class AttendanceService {
 		List<AttendanceDto> list = new ArrayList<>();
 		switch (apr.getDocFormCode()) {
 			case "HLD" :
+				apr.setAtdState("휴가");
+				apr.setAtdDate(apr.getDocHolidayStartDate());
 				for(int i=0; i<apr.getDocHolidayDay(); i++) {
-					apr.setAtdDate(apr.getDocHolidayStartDate());
-					apr.getAtdDate().setDate(apr.getAtdDate().getDate()+i);
 					list.add(atdDao.selectAtdForApproval(apr));
+					apr.getAtdDate().setDate(apr.getAtdDate().getDate()+1);
 				}
 				break;
 				
 			case "BTD" :
+				apr.setAtdState("출장");
+				apr.setAtdDate(apr.getDocBiztripStartDate());
 				for(int i=0; i<apr.getDocBiztripDay(); i++) {
-					apr.setAtdDate(apr.getDocBiztripStartDate());
-					apr.getAtdDate().setDate(apr.getAtdDate().getDate()+i);
 					list.add(atdDao.selectAtdForApproval(apr));
+					apr.getAtdDate().setDate(apr.getAtdDate().getDate()+1);
 				}
 				break;
 				

@@ -86,7 +86,11 @@ $('.approveSubmit').on('click', function(e){
 		data: JSON.stringify(approvalData),
 		contentType: "application/json",
 		success: function(data) {
-			if(data.status == 'ok') {
+			if(data.status == 'no-authority') {
+				alert(data.message);
+			} else if(data.status == 'no-approval-seq') {
+				alert(data.message);
+			} else if(data.status == 'ok') {
 				location.href = 'approveList?type=ready&pageNo=1';
 			}
 		},
@@ -94,6 +98,26 @@ $('.approveSubmit').on('click', function(e){
             console.log('Error: ' + error);
 		},
 	});
+});
+
+$('.approval-type').on('change', function(){
+	const target = $(this).val();
+	const targetDiv = $(this).closest('.d-flex.justify-content-between.w-100.p-2.my-2').find('.approval-result');
+	if(target !== '전결') {
+		targetDiv.prop('disabled', false);
+	} else {
+		targetDiv.find('option:selected').prop('selected', false);
+		targetDiv.find('option[value="승인"]').prop('selected', true);
+		targetDiv.prop('disabled', true);
+	}
+	
+	if(target !== '선결') {
+		targetDiv.prop('disalbed', false);
+	} else {
+		targetDiv.find('option:selected').prop('selected', false);
+		targetDiv.find('option[value="승인"]').prop('selected', true);
+		targetDiv.prop('disabled', true);
+	}
 });
 
 
