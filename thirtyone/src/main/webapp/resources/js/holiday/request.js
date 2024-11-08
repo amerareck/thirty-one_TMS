@@ -1,111 +1,168 @@
-	document.addEventListener('DOMContentLoaded', function () {
-	    const contentForm = document.getElementById("contentForm");
-	    
-	    flatpickr("#choiceDay", {
-	        mode: "range",  // 범위 선택 모드
-	        dateFormat: "Y-m-d",
-	        inline: true,
-	        onChange: function(selectedDates, dateStr, instance) {
-	            console.log("선택된 날짜", selectedDates);
-	            
-	            // 날짜가 1개만 선택된 경우 (하루짜리 휴가)
-	            if (selectedDates.length == 1) {
-	                let startDate = selectedDates[0];  // 선택된 시작 날짜
-	                let endDate = selectedDates[0];    // 동일한 종료일
-	                console.log("하루휴가", startDate, endDate);
-	                
-	                // 날짜 범위가 두 개일 때만 setDate 호출 / 하루휴가의 경우 setDate 호출하지 않음
-	                if (selectedDates.length > 1) {
-	                instance.setDate([startDate, endDate], true);
-	                }
-	            }
-	        }
-	    });
-	    
-	    //휴가 유형에 따라 필드 숨기거나 보이게 하는 로직
-	    document.getElementById('holiday-duration').addEventListener('change', function() {
-	    	let holidayType = this.value;
-	    	document.getElementById('holiday-period').style.display = holidayType === "2" ? 'inline' : 'none'; // 반차일 경우 AM/PM 표시
-	    	document.getElementById('holiday-time').style.display = holidayType === "3" ? 'inline' : 'none'; //반반차일 경우 시간 표시
-	    });
-	    
-	    function formatDate(date) {
-	        let year = date.getFullYear();
-	        let month = ('0' + (date.getMonth() + 1)).slice(-2);
-	        let day = ('0' + date.getDate()).slice(-2);
-	        
-	        return `${year}-${month}-${day}`;
-	    }
-	    
-	    contentForm.addEventListener("submit", function(event) {
-	        event.preventDefault();
-	        
-	        const selectedDates = flatpickr("#choiceDay").selectedDates; // 선택된 날짜 범위 값 가져오기
-	        let startDate, endDate;
-	        
-	        // 날짜 범위가 2개일 경우 (여러 일자 선택)
-	        if (selectedDates.length == 2) {
-	            startDate = selectedDates[0]; // 시작일
-	            endDate = selectedDates[1];   // 종료일
-	            console.log("선택된 날짜2", selectedDates);
-	        
-	        // 날짜 범위가 1개일 경우 (하루짜리 휴가)
-	        } else if (selectedDates.length == 1) { // 시작일과 종료일이 같을 때 = 하루
-	            startDate = selectedDates[0]; // 시작일
-	            endDate = selectedDates[0];   // 종료일
-	            console.log("하루휴가", selectedDates);
-	        } else {
-	            // 날짜 선택이 없는 경우
-	            console.error("날짜가 선택되지 않았습니다.");
-	            return;
-	        }
-	        
-	        // 시작일과 종료일을 ISO 형식으로 변환하여 hidden input에 설정 > Date를 String으로 바꿔주기 위해
-	        const formattedStartDate = formatDate(startDate);
-	        const formattedEndDate = formatDate(endDate);
-	
-	        document.querySelector('[name="hdrStartDate"]').value = formattedStartDate;
-	        document.querySelector('[name="hdrEndDate"]').value = formattedEndDate;
-	        
-	        // 새로운 FormData 객체를 폼 데이터 동적으로 가져오기 전에 생성
-	        let formData = new FormData(contentForm);  // 폼 데이터 동적으로 가져오기
-	        // 폼 데이터가 올바르게 설정되었는지 확인
-	        console.log("Updated Form Data:", formData);
-	        
-	       
-	        /*formData.append("hdrStartDate", formattedStartDate);
-	        formData.append("hdrEndDate", formattedEndDate);*/
-	
-	        console.log("FormData before AJAX:", formData);
-	        for (let [key, value] of formData.entries()) {
-	        	console.log(key, value); // Check form data content
-	        }
-	
-	        console.log("Form Data object:", formData);
-	
-	        // AJAX로 폼 제출
-	        submitForm(formData);                
-	    });
-	    
-	    function submitForm(formData) {
-	    	console.log("Form Data:", [...formData]);
-	    	
-	        $.ajax({
-	            method: 'POST',
-	            url: contextPath + '/holiday/request',
-	            data: formData,
-	            processData: false,
-	            contentType: false,
-	            success: function(response) {
-	                console.log("AJAX 성공", response);
-	                alert("휴가 신청이 완료되었습니다.");
-	                window.location.href = '/thirtyone/holiday';
-	            },
-	            error: function(xhr) {
-	                console.error('Error', xhr.status);
-	                console.log(xhr.responseText);
-	                alert("휴가 신청 실패: " + xhr.responseText);
-	            }
-	        });
-	    }    
+document.addEventListener('DOMContentLoaded', function () {
+    const contentForm = document.getElementById("contentForm");
+
+    // 휴가 날짜 선택 (Flatpickr)
+    flatpickr("#choiceDay", {
+        mode: "range",
+        dateFormat: "Y-m-d",
+        inline: true,
+        onChange: function(selectedDates, dateStr, instance) {
+            let startDate, endDate;
+
+            if (selectedDates.length === 1) {
+                startDate = selectedDates[0];
+                endDate = selectedDates[0]; 
+            } else if (selectedDates.length === 2) {
+                startDate = selectedDates[0];
+                endDate = selectedDates[1];
+            } else {
+                console.error("날짜가 선택되지 않았습니다.");
+                return;
+            }
+
+            let daysDifference = (selectedDates.length > 1)
+                ? Math.ceil((endDate - startDate) / (1000 * 3600 * 24)) + 1
+                : 1;
+
+            // `hdrUsedDay` 값 업데이트
+            const usedDayInput = document.querySelector('[name="hdrUsedDay"]');
+            if (usedDayInput) {
+                usedDayInput.value = daysDifference;
+            }
+
+            // 시작일, 종료일 설정
+            document.querySelector('[name="hdrStartDate"]').value = formatDate(startDate);
+            document.querySelector('[name="hdrEndDate"]').value = formatDate(endDate);
+
+            /*loadEmpByPosition();*/
+        }
+    });
+    
+    function formatDate(date) {
+        let year = date.getFullYear();
+        let month = ('0' + (date.getMonth() + 1)).slice(-2);
+        let day = ('0' + date.getDate()).slice(-2);
+        return `${year}-${month}-${day}`;
+    }
+
+    // 휴가 유형에 따라 필드 숨기기/보이기
+    const holidayDurationSelect = document.getElementById('holiday-duration');
+    const holidayPeriodSelect = document.getElementById('holiday-period');
+    const holidayTimeSelect = document.getElementById('holiday-time');
+    
+    holidayDurationSelect.addEventListener('change', function() {
+        const holidayType = this.value;
+        holidayPeriodSelect.disabled = holidayType !== "2";
+        holidayTimeSelect.disabled = holidayType !== "3";
+    });
+
+    // 페이지 로드 시 초기 상태
+    holidayPeriodSelect.disabled = holidayDurationSelect.value !== "2";
+    holidayTimeSelect.disabled = holidayDurationSelect.value !== "3";
+    
+    //반차 반반차값 계산
+    const holidayTypeSelect = document.getElementById("holiday-duration");
+    const usedDayInput = document.getElementById("hdrUsedDay");
+    
+   holidayTypeSelect.addEventListener('change', () => {
+	   let usedDay = 0;
+	   
+	   switch (holidayTypeSelect.value) {
+	   	case '1':
+	   		usedDay = 1;
+	   		break;
+	   	case '2':
+	   		usedDay = 0.5;
+	   		break;
+	   	case '3':	
+	   		usedDay = 0.25;
+	   		break;
+	   	default:
+	   		usedDay = 0;
+	   		break;
+	   }
+	   //휴가 사용일수를 입력 필드에 반영
+	   usedDayInput.value = usedDay;
+	   
+   });
+
+    
+
+    // 직급별로 사원 목록 로드
+    const position = document.getElementById('position');
+    
+    position.addEventListener('change', function() {
+        const positionClass = document.getElementById("position").value;
+
+        if (!positionClass) {
+        	console.error('직급을 선택해주세요.');
+        	return;
+        }
+        console.log(positionClass);
+
+     // AJAX 요청
+        fetch('getEmployeesByPosition?positionClass='+positionClass)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('네트워크 응답이 정상적이지 않습니다: ' + response.statusText);
+                }
+                return response.json(); // 응답이 정상적일 때만 JSON 파싱
+            })
+            .then(data => {
+                // 사원 데이터 처리
+                var approverSelect = document.getElementById("hdrApprover");
+                approverSelect.innerHTML = '<option selected>이름을 선택해 주세요.</option>';
+                
+                // 새로운 옵션을 dropdown에 추가
+                data.forEach(employees => {
+                    var option = document.createElement("option");
+                    option.value = employees.empId;
+                    option.textContent = employees.empName;
+                    approverSelect.appendChild(option);
+                });
+            })
+            .catch(error => {
+                console.error("사원 데이터를 가져오는 중 오류 발생:", error);
+                alert('직급에 맞는 사원을 불러오는 데 실패했습니다. 잠시 후 다시 시도해 주세요.');
+            });
+    })
+
+    // 직급 필터링
+    const positionSelect = document.getElementById('position');
+    const allowedPositions = ['과장', '차장', '부장'];
+
+    Array.from(positionSelect.options).forEach(option => {
+        if (!allowedPositions.includes(option.textContent)) {
+            option.hidden = true;
+        }
+    });
+    
+    contentForm.addEventListener("submit", function(event) {
+		event.preventDefault();
+        event.stopPropagation();
+        const formData = new FormData(contentForm);				
+        console.log(formData);
+		submitForm(formData);
+		
 	});
+    
+
+    // AJAX로 폼 제출
+    function submitForm(formData) {
+        $.ajax({
+            method: 'POST',
+            url: contextPath + '/holiday/request',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(response) {
+                alert("휴가 신청이 완료되었습니다.");
+                window.location.href = contextPath + '/holiday/';
+            },
+            error: function(xhr) {
+                console.error('Error', xhr.status);
+                alert("휴가 신청 실패: " + xhr.responseText);
+            }
+        });
+    }
+});

@@ -58,6 +58,10 @@
 				src="${pageContext.request.contextPath}/resources/image/logo.png" onclick="location.href = '${pageContext.request.contextPath}/home'">
 		</sec:authorize>
 		<div class="profile-img-box">
+			<div class="alert-icon" onclick="location.href='${pageContext.request.contextPath}/alert/'">
+				<i class="bi bi-bell"></i>
+				<div class="alert-num">0</div>
+			</div>
 			<img class="profile-img" src="${pageContext.request.contextPath}/imageDown" width="50" height="50" 
 				onerror="this.onerror=null; this.src='${pageContext.request.contextPath}/resources/image/profileDefault.png'; this.width=50; this.height=50;">
 			<div class="emp-name-box">

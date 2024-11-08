@@ -61,7 +61,9 @@ public class NoticeController {
 			session.setAttribute("pager", pager);
 
 			List<NoticeDto> notice = noticeService.selectListPager(pager);
-
+			
+			
+			model.addAttribute("selectedTitle", "notice");
 			model.addAttribute("title", "공지사항");
 			model.addAttribute("notice", notice);
 			model.addAttribute("noticeDto", noticeDto);
@@ -126,6 +128,7 @@ public class NoticeController {
 		notice.setNextTitle(prevNext.getNextTitle());
 		notice.setDeptId(notice.getDeptId());
 
+		model.addAttribute("selectedTitle", "notice");
 		model.addAttribute("title", "공지사항");
 		model.addAttribute("notice", notice);
 		model.addAttribute("noticeFile", noticeFile);
@@ -163,6 +166,8 @@ public class NoticeController {
 
 	@GetMapping("/noticeWriteForm")
 	public String noticeWriteForm(Model model) {
+
+		model.addAttribute("selectedTitle", "notice");
 		model.addAttribute("title", "공지사항 작성");
 		return "notice/noticeWriteForm";
 	}
@@ -242,7 +247,7 @@ public class NoticeController {
 
 	// 공지사항 수정
 	@PostMapping("/updateNotice")
-	public String updateNotice(NoticeFormDto notice) throws Exception {
+	public String updateNotice(Model model, NoticeFormDto notice) throws Exception {
 		NoticeDto dbNotice = new NoticeDto();
 		dbNotice.setNoticeId(notice.getNoticeId());
 		dbNotice.setNoticeTitle(notice.getNoticeTitle());
@@ -273,6 +278,8 @@ public class NoticeController {
 		}
 		log.info(notice.toString());
 		log.info("마바사");
+
+		model.addAttribute("selectedTitle", "notice");
 		return "redirect:/notice/noticeDetail?noticeId=" + notice.getNoticeId();
 	}
 
@@ -329,7 +336,8 @@ public class NoticeController {
 				session.setAttribute("pager", pager);
 
 				List<NoticeDto> notice = noticeService.selectListPager(pager);
-
+				
+				model.addAttribute("selectedTitle", "notice");
 				model.addAttribute("title", "공지사항");
 				model.addAttribute("notice", notice);
 				model.addAttribute("noticeDto", noticeDto);
@@ -358,6 +366,7 @@ public class NoticeController {
 				model.addAttribute("title", "공지사항 - 검색 결과 없음");
 				model.addAttribute("notice", new ArrayList<>());
 			}
+			model.addAttribute("selectedTitle", "notice");
 			model.addAttribute("noticeTitle", noticeTitle);
 			log.info("Search Title: " + noticeTitle);
 			return "notice/empNoticeList";
@@ -395,6 +404,7 @@ public class NoticeController {
 			notice.setNextTitle(prevNext.getNextTitle());
 			notice.setDeptId(notice.getDeptId());
 
+			model.addAttribute("selectedTitle", "notice");
 			model.addAttribute("title", "공지사항");
 			model.addAttribute("notice", notice);
 			model.addAttribute("noticeFile", noticeFile);

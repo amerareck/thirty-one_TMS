@@ -271,9 +271,9 @@ public class AttendanceService {
 					}
 					if(checkOutDate != null) {
 						checkOut.add(formatHours(checkOutDate) +":"+ formatMinutes(checkOutDate));
-						workTime.add(atd.getAtdStandardTime());
+						workTime.add(atd.getAtdStandardTime()/60);
 						if(atd.getAtdOverTime() != 0) {
-							overTime.add(atd.getAtdOverTime() + atd.getAtdStandardTime());
+							overTime.add((atd.getAtdOverTime() + atd.getAtdStandardTime())/60);
 						}else {
 							overTime.add(0);							
 						}

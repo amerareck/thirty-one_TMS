@@ -245,4 +245,23 @@
 		from employees
 		where rownum &lt;= 6 and position='부장' and dept_id != 999
 	</select>
+	
+	<select id="getEmployeesByPosition" parameterType="String" resultType="Employee">
+        SELECT * FROM EMPLOYEES WHERE POSITION = #{position}
+    </select>
+    
+    <select id="selectAllEmployees" resultType="Employee">
+    	SELECT * FROM EMPLOYEES
+    </select>
+    
+    <select id="getEmployeesIfAbsence" resultType="String">
+    	select emp_id 
+		from employees
+		WHERE emp_id NOT IN (
+		    SELECT a.emp_id 
+		    FROM attendances a
+		    WHERE TO_CHAR(a.atd_date, 'yyyy-mm-dd') = TO_CHAR(SYSDATE, 'yyyy-mm-dd')
+		)
+
+    </select>
 </mapper>

@@ -38,6 +38,8 @@ public interface AttendanceDao {
 
 	int updateAtdOvertime(ApprovalDTO apr);
 
+	int insertAtdIfAbsence(String empId);
+
 
 
 
