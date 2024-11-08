@@ -46,7 +46,11 @@
 			VALUES (
 			#{hdrId}, sysdate, #{hdrStartDate}, #{hdrEndDate}, #{hdrContent}, '대기',
 			#{hdrCompletedDate}, #{hdCategory}, #{hdrEmpId}, #{hdrApprover}, 
-			CAST(#{hdrEndDate} AS DATE) - CAST(#{hdrStartDate} AS DATE)
+			
+			CASE
+				WHEN CAST(#{hdrEndDate} AS DATE) - CAST(#{hdrStartDate} AS DATE) + 1 &lt;1 THEN 1
+				ELSE CAST(#{hdrEndDate} AS DATE) - CAST(#{hdrStartDate} AS DATE) + 1
+			END	
 			)	
 	</insert>
 	

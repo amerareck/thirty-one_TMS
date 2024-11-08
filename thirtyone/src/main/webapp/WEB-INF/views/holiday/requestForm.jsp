@@ -18,7 +18,7 @@
 			<!-- <p class="mini-title">휴가 신청</p>
 			<div class="mini-line"></div> -->
 			
-			<form method="post" action="request" class="holiday-request" id="contentForm">
+			<form method="post" action="requestForm" class="holiday-request" id="contentForm">
 				<div class="holiday-select1">
 					<label for="holiday-type">휴가유형</label>
 					<select class="form-select" id="hdCategory" name="hdCategory">
@@ -60,12 +60,19 @@
 				
 				<div class="holiday-select3">
 					<label for="holiday-type">승인권자</label>
-					<select class="form-select" id="hdrApprover" name="hdrApprover">
-						<option value="0">승인권자를 선택해 주세요.</option>
-						<option value="1">부장</option>
-						<option value="2">차장</option>
-						<option value="3">과장</option>
-						<option value="4">대리</option>
+						<input value="${deptName}" id="deptId" name="deptId" disabled> 
+					
+					<select class="form-select" id="position" name="position" required>
+						<option selected>직급을 선택해 주세요.</option>
+						<c:forEach items="${position}" var="position">
+							<option value="${position.position}">${position.position}</option>
+						</c:forEach>	
+					</select>
+					<select class="form-select" id="hdrApprover" name="hdrApprover" required>
+						<option value="0" selected>승인권자를 선택해 주세요.</option>
+						<c:forEach items="${employees}" var="employees">
+							<option value="${employees.empId}">${employees.empName}</option>
+						</c:forEach>					
 					</select>
 				</div>
 				
@@ -76,6 +83,7 @@
 					<div id="choiceDay">
 					<input type="hidden" name="hdrStartDate" id="hdrStartDate">
 					<input type="hidden" name="hdrEndDate" id="hdrEndDate">
+					<input type="hidden" name="hdrUsedDay" id="hdrUsedDay">
 					</div>
 				</div>
 				<div class="mini-line"></div>

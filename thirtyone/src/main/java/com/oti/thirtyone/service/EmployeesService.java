@@ -268,4 +268,14 @@ public class EmployeesService {
 	public List<EmployeesDto> getEmpInfoHead() {
 		return empDao.selectEmpInfoHead();
 	}
+	
+	//직원조회
+	public List<EmployeesDto> getEmployeesByPosition(String positionClass) {
+		return empDao.getEmployeesByPosition(positionClass);
+	}
+
+	//모든 직원 목록
+	public List<EmployeesDto> getAllEmployees() {
+		return empDao.selectAllEmployees();
+	}
 }

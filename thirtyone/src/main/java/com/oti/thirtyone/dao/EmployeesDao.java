@@ -61,5 +61,9 @@ public interface EmployeesDao {
 	List<EmployeesDto> selectEmpAll();
 
 	List<EmployeesDto> selectEmpInfoHead();
+	
+	List<EmployeesDto> getEmployeesByPosition(String positionClass);
+
+	List<EmployeesDto> selectAllEmployees();
 
 }
