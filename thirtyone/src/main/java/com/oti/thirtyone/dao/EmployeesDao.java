@@ -66,4 +66,6 @@ public interface EmployeesDao {
 
 	List<EmployeesDto> selectAllEmployees();
 
+	List<String> getEmployeesIfAbsence();
+
 }

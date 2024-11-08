@@ -5,6 +5,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -277,5 +279,15 @@ public class EmployeesService {
 	//모든 직원 목록
 	public List<EmployeesDto> getAllEmployees() {
 		return empDao.selectAllEmployees();
+	}
+
+//	@Transactional
+	public void absenceProccess() {
+		List<String> empList = empDao.getEmployeesIfAbsence();
+		for(String empId : empList) {
+			log.info(empId);
+			atdDao.insertAtdIfAbsence(empId);	
+		}
+		
 	}
 }

@@ -132,7 +132,7 @@
 				</div>
 				<div class="dept-holiday-box card">
 					<div>
-						<p class="mini-title">부서원 근무 상태</p>
+						<p class="mini-title">부서원 휴가 내역(한달)</p>
 						<div class="search">
 						</div>
 					</div>

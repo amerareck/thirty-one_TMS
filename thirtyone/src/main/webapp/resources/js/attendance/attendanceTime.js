@@ -74,10 +74,11 @@ function getAtdforWeek(week){
 						}
 					}
 				})
+				let sumStandardTime = (atd.atdStandardTime + atd.atdOverTime)/60;
 				let formattedCheckIn = atd.checkIn !== null ? formatTime(atd.checkIn) : "--:--";
 				let formattedCheckOut = atd.checkOut !== null ? formatTime(atd.checkOut) : "--:--";
-				let formattedOverTime = atd.atdOverTime;
-				let formattedStandardTime = atd.atdStandardTime !== null ? `${atd.atdStandardTime}시간 00분` : "0시간00분";
+				let formattedOverTime = atd.atdOverTime/60;
+				let formattedStandardTime = atd.atdStandardTime !== null ? `${sumStandardTime}시간 00분` : "0시간00분";
 				let atdState = atd.atdState !== null ? atd.atdState : "-";
 				let atdHtml =`
 					<tr>
