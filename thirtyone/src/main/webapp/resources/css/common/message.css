@@ -1,0 +1,60 @@
+.toast-container{
+	display: flex;
+	justify-content: center;
+	padding: 0px;
+}
+
+.toast{
+	width: 320px !important;
+}
+.toast-header{
+	height: 60px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	border : none;
+	padding-top: 0px;
+	padding-bottom: 0px; 
+}
+
+.alert-top-text{
+	width: 255px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	font-size: 14px;
+	color: black;
+}
+
+.alert-top-text img{
+	width: 20px;
+	margin-right: 10px;
+	
+}
+
+.alert-line{
+	width:255px;
+	height: 1px;
+	background-color: var(--lightgray);
+	margin: auto;
+}
+.toast-body{
+	height: 100%;
+	display: flex;
+	justify-content: center;
+}
+
+#alert-content{
+	margin: 15px 0px;
+	width: 255px;	
+	text-align: center;
+}
+#alert-content p{
+	line-height: 22px !important;
+	font-size: 12px !important;
+}
+
+#alert-content span{
+	font-weight: bold;
+}

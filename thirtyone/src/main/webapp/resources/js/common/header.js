@@ -40,7 +40,15 @@ function formatTime(date){
 	return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
 }
 $(document).ready(function() {
-
+	$.ajax({
+		method:"get",
+		url: contextPath+'/getNumberNotReaded',
+		success: function (data){
+			$(".alert-num").empty();
+			$(".alert-num").html(data);
+			console.log(data);
+		}
+	})
 	$.ajax({
 		method: "get",
 		url: contextPath+'/getInfo',

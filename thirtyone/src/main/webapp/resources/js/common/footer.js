@@ -1,6 +1,9 @@
 //const sendAlertButtons = document.querySelectorAll('.send-alert-btn');
-const alertDiv = document.getElementById('alert-div-div-div');
+const alertDiv = document.getElementById('alert-content');
 let eventSource = null;
+let retryInterval = 3000; // 초기 재연결 간격 (3초)
+const maxRetryInterval = 60000; // 최대 재연결 간격 (60초)
+let retryTimer = null;
 
 //페이지 로드 시 자동으로 SSE 스트림에 연결
 window.addEventListener('load', () => {
@@ -43,8 +46,8 @@ window.addEventListener('load', () => {
 //            console.error('Error sending alert:', error);
 //            alert('Failed to send alert.');
 //        });
-//    });
-//});
+	//    });
+	//});
 
 // SSE 스트림에 연결하는 함수
 function subscribeToSSE(empId) {
@@ -76,28 +79,52 @@ function subscribeToSSE(empId) {
         const alert = JSON.parse(event.data);
         displayAlert(alert);
     });
+    
+    eventSource.onopen = function() {
+        console.log('SSE connection opened.');
+        // 연결이 성공하면 재연결 간격을 초기화
+        retryInterval = 3000;
+    };
 
     // 에러 핸들러
     eventSource.onerror = function(err) {
         console.error("EventSource failed:", err);
         eventSource.close();
-        // 5초 후에 재연결 시도
-        setTimeout(() => {
-            subscribeToSSE(empId);
-        }, 5000);
+
+        // 재연결 시도 전에 기존 타이머가 있으면 제거
+        if (retryTimer) {
+            clearTimeout(retryTimer);
+        }
+
+        // 재연결 간격을 점진적으로 늘려감
+        retryInterval = Math.min(retryInterval * 2, maxRetryInterval);
+        console.log(`Attempting to reconnect in ${retryInterval / 1000} seconds...`);
+
+        retryTimer = setTimeout(() => {
+            subscribeToSSE();
+        }, retryInterval);
     };
 }
 
 // 알림을 화면에 표시하는 함수
 function displayAlert(alert) {
-		console.log("Notification received:", alert);
+	$.ajax({
+		method:"get",
+		url: contextPath+'/getNumberNotReaded',
+		success: function (data){
+			$(".alert-num").empty();
+			$(".alert-num").html(data);
+			console.log(data);
+		}
+	})
+	
 	const alertTime = new Date(alert.alertTime);
     const toastEl = document.getElementById('liveToast');
     const toast = new bootstrap.Toast(toastEl, {
         autohide: true,
         delay: 5000
     });
-    
+    alertDiv.empty();
     const p = document.createElement('p');
     p.textContent = `[${alert.alertType}]\n${alert.alertContent}`;
     alertDiv.appendChild(p);
@@ -105,3 +132,13 @@ function displayAlert(alert) {
     
     toast.show();
 }
+
+$(".logout").on("click", function() {
+    if (eventSource) {
+        eventSource.close();
+        console.log('SSE connection closed.');
+    }
+    if (retryTimer) {
+        clearTimeout(retryTimer);
+    }
+});

@@ -239,6 +239,15 @@ public class AttendanceController {
 	@PostMapping("/requsetStatus")
 	public ResponseEntity<String> requestAccept(int reasonId, String empId, String atdDate, String status) {
 		reasonService.updateReasonStatus(reasonId, empId, atdDate, status);
+		EmployeesDto empDto = empService.getEmpInfo(empId);
+		String alertContent = "";
+		if(status.equals("반려")) {
+			alertContent=empDto.getEmpName() + "님이 근태 사유서를 반려하였습니다.";
+			alertService.sendAlert(empId, alertContent, "휴가");
+		}else {
+			alertContent=empDto.getEmpName() + "님이 근태 사유서를 승인하였습니다.";
+			alertService.sendAlert(empId, alertContent, "휴가");			
+		}
 		return ResponseEntity.ok("OK");
 	}
 	

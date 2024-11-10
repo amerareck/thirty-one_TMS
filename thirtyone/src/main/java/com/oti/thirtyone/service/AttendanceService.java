@@ -379,4 +379,9 @@ public class AttendanceService {
 		return result;
 	}
 	
+//	public List<HolidayDto> insertHdrPeriod(String empId) {
+//		List<HolidayDto> holiday = atdDao.insertHdrPeriod(empId);
+//		return holiday;
+//	}
+//	
 }

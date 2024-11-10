@@ -1,16 +1,24 @@
 package com.oti.thirtyone.controller;
 
+import java.util.List;
+
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
+import com.oti.thirtyone.dto.AlertDto;
+import com.oti.thirtyone.dto.Pager;
 import com.oti.thirtyone.service.AlertService;
 
 import lombok.extern.log4j.Log4j2;
@@ -24,24 +32,40 @@ public class AlertController {
 	@Autowired
 	AlertService alertService;
     
-	@GetMapping("")
-	public String alert(Model model) {
+	@GetMapping("/list")
+	public String alert(Model model, Authentication authentication, @RequestParam(defaultValue = "1") int pageNo, HttpSession session ) {
+		String empId = authentication.getName();
 		
+		int totalRows = alertService.countRowsByEmpId(empId);
+		Pager pager = new Pager(5, 5, totalRows, pageNo);
+		session.setAttribute("pager", pager);
+		List<AlertDto> alertList = alertService.getAlertListByEmpId(pager, empId);
 		
-		model.addAttribute("title", "알람");
-		return "alert/alert";
-	}
-
-	@GetMapping("list")
-	public String alertList(Model model) {
-		
+		model.addAttribute("alertList", alertList);
 		model.addAttribute("title", "알람");
 		return "alert/alertList";
 	}
 	
+	@GetMapping("")
+	public String notReadedAlert(Model model, Authentication authentication, @RequestParam(defaultValue = "1") int pageNo, HttpSession session ) {
+		String empId = authentication.getName();
+		
+		
+		int totalRows = alertService.countRowsNotReaded(empId);
+		Pager pager = new Pager(5, 5, totalRows, pageNo);
+		session.setAttribute("pager", pager);
+		List<AlertDto> alertList = alertService.getAlertListNotReaded(pager, empId);
+		
+		alertService.updateAlertStatus(alertList);
+		
+		model.addAttribute("alertList", alertList);
+		model.addAttribute("title", "알람");
+		return "alert/alert";
+	}
+
     @GetMapping("/stream")
     public SseEmitter stream(String empId) {
-    	log.info("연결을 시작합니다.", empId);
+    	log.info("연결을 시작합니다." + empId);
     	return alertService.subscribe(empId);
     }
     

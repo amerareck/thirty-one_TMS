@@ -10,4 +10,55 @@
 		values
 			(#{alertId}, #{alertContent}, #{alertType}, sysdate, #{empId}, 0)
 	</insert>
+	
+	<select id="selectAlertListByEmpId" resultType="Alert">
+		select alert_id, alert_content, alert_type, alert_time, emp_id, alert_read_status
+		from (
+			select rownum rnum, alert_id, alert_content, alert_type, alert_time, emp_id, alert_read_status
+			from (
+				select alert_id, alert_content, alert_type, alert_time, emp_id, alert_read_status
+				from alert
+				where emp_id = #{empId}
+				order by alert_time	
+			)
+			where rownum &lt;= #{pager.endRowNo}			
+		)
+		where rnum >= #{pager.startRowNo}		
+	</select>
+
+	<select id="selectAlertListNotReaded" resultType="Alert">
+		select alert_id, alert_content, alert_type, alert_time, emp_id, alert_read_status
+		from (
+			select rownum rnum, alert_id, alert_content, alert_type, alert_time, emp_id, alert_read_status
+			from (
+				select alert_id, alert_content, alert_type, alert_time, emp_id, alert_read_status
+				from alert
+				where emp_id = #{empId} and alert_read_status = 0
+				order by alert_time	
+			)
+			where rownum &lt;= #{pager.endRowNo}			
+		)
+		where rnum >= #{pager.startRowNo}		
+	</select>
+	
+	<update id="updateStatusToRead" parameterType="int">
+		update alert set
+			alert_read_status = 1
+		where alert_id=#{alertId}	
+	</update>
+	
+	
+	<select id="countRowsByEmpId" parameterType="String">
+		select count(alert_id)
+		from alert
+		where emp_id = #{empId}
+	</select>
+	
+	<select id="countRowsNotReaded" parameterType="String">
+		select count(alert_id)
+		from alert
+		where emp_id = #{empId} and alert_read_status = 0
+	</select>
+	
+	
 </mapper>

@@ -116,4 +116,14 @@
 			(atd_date, emp_id, atd_state)
 		values (TRUNC(TO_DATE('2024/11/05', 'yyyy/MM/dd')), #{empId}, '결근')		
 	</insert>
+	
+	<insert id="insertHdrPeriod" parameterType="HolidayRequest">
+		<![CDATA[
+			INSERT INTO ATTENDANCES (ATD_DATE, EMP_ID, ATD_STATE)
+			SELECT TRUNC(#{hdrStartDate}) + (LEVEL - 1),
+					#{hdrEmpId}, '휴가'
+			FROM dual
+			CONNECT BY LEVEL <= TRUNC(#{hdrEndDate}) - TRUNC(#{hdrStartDate}) + 1 
+		]]>	
+	</insert>
 </mapper>

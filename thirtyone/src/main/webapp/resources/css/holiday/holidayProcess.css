@@ -65,7 +65,6 @@
 .process-profile-info h4{
 	font-size: 16px;
 	font-weight: bold;
-	margin-bottom:5px;
 }
 
 .process-profile-info p{
@@ -199,33 +198,36 @@
 }
 
 
-.holiday-profile-img{
+.holiday-profile-img {
 	width: 29px;
+	margin-left: 15px;
 }
 
-.holiday-profile-info{
+.holiday-profile-info {
 	width: 80px;
-	margin-left:5px;
+	margin-left:10px;
 	display:flex;
 	flex-direction: column;
+	align-items: flex-start;
 }
 
-.holiday-profile-info h4{
-	font-size: 10px;
-	font-weight: bold;
+.holiday-profile-info h4 {
+	font-size: 12px;
+	font-weight: 500;
 }
 
 .holiday-profile-info p {
 	font-size: 8px;
+	margin-top: 5px;
 }
 
 
-.page-item{
+.page-item {
 	border:none !inportant;
 }
 
 
-.arrow-right, .arrow-left{
+.arrow-right, .arrow-left {
 	width: 10px;
 }
 

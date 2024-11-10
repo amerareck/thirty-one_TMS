@@ -38,7 +38,7 @@
 								    </th>
 								    <td>
 									    <c:choose>
-										    <c:when test="${deptEmp.atd != null }">
+										    <c:when test="${deptEmp.atd == '정상출근' }">
 										    	<div class="button-small dept-atd-state">출근</div>
 										    </c:when>
 										    <c:otherwise>

@@ -50,8 +50,7 @@
 
 					<div class="noticeTarget">
 						<div class="notice-target">공지 대상</div>
-						<button type="button" class="button-small search" id="deptSearch"
-							data-bs-toggle="modal" data-bs-target="#ganadaramabasa">찾기</button>
+						<button type="button" class="button-small search" id="deptSearch">찾기</button>
 
 
 						<div class="targetBox" id="result">미선택 시, 전체직원에게 공지가 노출됩니다.</div>

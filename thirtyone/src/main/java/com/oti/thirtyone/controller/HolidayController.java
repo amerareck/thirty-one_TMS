@@ -2,7 +2,10 @@ package com.oti.thirtyone.controller;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -129,7 +132,8 @@ public class HolidayController {
 		
 		return "holiday/requestForm";
 	}
-
+	
+	//휴가 신청
 	@PostMapping("/request")
 	public ResponseEntity<String> holidayRequest(Model model, Authentication authentication,
 			@ModelAttribute HolidayFormDto hdrForm) throws Exception {
@@ -187,14 +191,50 @@ public class HolidayController {
 		List<EmployeesDto> employees = employeesService.getEmployeesByPosition(positionClass, empDto.getDeptId());
 		return ResponseEntity.ok(employees);
 	}
-
+	
+	//휴가처리
 	@GetMapping("/process")
-	public String holidayProcess(Model model, @RequestParam(defaultValue = "1") int pageNo) {
-
+	public String holidayProcess(Model model, @RequestParam(defaultValue = "1") int pageNo,
+			Authentication authentication, HttpSession session) {
+		
+		EmployeeDetails employeeDetails = (EmployeeDetails) authentication.getPrincipal();
+		EmployeesDto employee = employeeDetails.getEmployee(); //나의 정보
+		
+		String empId = authentication.getName();
+		int totalRows = hdService.countRowsByEmpId(empId);
+		Pager pager = new Pager(4, 5, totalRows, pageNo);
+		session.setAttribute("pager", pager);
+		
+		List<HolidayRequestDto> hdrAprList = hdService.selectHdrListByAprId(empId, pager);
+		List<Map<String, Object>> hdrInfoList = new LinkedList<>();
+		
+		for (HolidayRequestDto  hdrApr : hdrAprList) {
+			Map<String, Object> hdrInfo = new HashMap<>();
+			EmployeesDto empDto = employeesService.getEmpInfo(hdrApr.getHdrEmpId()); //결재 올린사람의 정보
+			String deptName = departmentService.getDeptName(empDto.getDeptId());
+			hdrApr.setHdName(HolidayType.getCategoryByCode(hdrApr.getHdCategory()));
+			hdrInfo.put("emp", empDto);
+			hdrInfo.put("deptName", deptName);
+			hdrInfo.put("hdrApr", hdrApr);
+			
+			hdrInfoList.add(hdrInfo);		
+		}			
+				
 		model.addAttribute("title", "정원석님의 휴가 관리");
 		model.addAttribute("selectedTitle", "hr");
 		model.addAttribute("selectedSub", "holiday");
-		model.addAttribute("selectedSub", "holiday");
+		model.addAttribute("hdrInfoList", hdrInfoList);			
+		model.addAttribute("pager", pager);
 		return "holiday/holidayProcess";
 	}
+	
+	//승인 반려
+	@PostMapping("/hdrAccept")
+	public ResponseEntity<String> selectHdrAccept(int hdrId, String status, int hdCategory, Authentication authentication, String empId) {
+
+		hdService.updateHdrAccept(hdrId, status, empId, hdCategory);
+		return ResponseEntity.ok("ok");
+	}
+	
+
 }
