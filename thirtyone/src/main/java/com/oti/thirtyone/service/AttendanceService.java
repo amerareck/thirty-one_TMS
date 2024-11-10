@@ -15,10 +15,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.oti.thirtyone.dao.AttendanceDao;
-import com.oti.thirtyone.dto.ApprovalDTO;
+import com.oti.thirtyone.dao.HolidayDao;
 import com.oti.thirtyone.dao.ReasonDao;
+import com.oti.thirtyone.dto.ApprovalDTO;
 import com.oti.thirtyone.dto.AttendanceDto;
 import com.oti.thirtyone.dto.CalendarDto;
+import com.oti.thirtyone.dto.HolidayDto;
 import com.oti.thirtyone.dto.ReasonDto;
 
 import lombok.extern.log4j.Log4j2;
@@ -364,6 +366,11 @@ public class AttendanceService {
 			if(atdDao.updateAtdStateByApproval(item) != 1) result = false;
 		}
 		return result;
+	}
+	
+	public List<HolidayDto> insertHdrPeriod(String empId) {
+		List<HolidayDto> holiday = atdDao.insertHdrPeriod(empId);
+		return holiday;
 	}
 	
 }

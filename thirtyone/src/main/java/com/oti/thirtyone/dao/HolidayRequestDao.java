@@ -24,4 +24,9 @@ public interface HolidayRequestDao {
 
 	List<HolidayRequestDto> selectDeptHdrCalendar(@Param("deptId")int deptId, @Param("month") String month);
 	
+	List<HolidayRequestDto> selectHdrListByAprId (@Param("hdrApprover") String hdrApprover, @Param("pager") Pager pager);
+	
+	int updateHdrAccept(@Param("hdrId") int hdrId, @Param("status") String status);
+	
+	int updateHdrUsedDay(String empId);
 }
