@@ -39,4 +39,6 @@ public interface DocumentApprovalLineDAO {
 
 	int selectApprovalLineWaitSeqByDocNum(String docNumber);
 
+	List<DocumentApprovalLineDTO> selectDocAprLinesByDocNumbers(List<ApprovalDTO> approveList);
+
 }

@@ -12,7 +12,9 @@ public interface HolidayDao {
 
 	HolidayDto selectSubstituteHoliday(String empId);
 
-	int insertAlternateHoliday(ApprovalDTO apr);
+	int insertHolidayData(HolidayDto result);
 
-	int selectAltHolidayCount(ApprovalDTO apr);
+	HolidayDto selectAltHolidayDataById(ApprovalDTO apr);
+
+	int updateAlternateHoliday(HolidayDto result);
 }

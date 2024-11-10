@@ -58,7 +58,7 @@
 		            <div class="d-flex justify-content-between w-100 p-2 my-2">
 		                <div class="d-flex align-items-top justify-content-start" style="width: 70%">
 		                    <label for="approveComment" class="form-label fw-bold m-0" style="width: 15%">결재 의견</label>
-		                    <div class="d-flex align-items-top flex-column" id="approveComment" style="width: 80%">
+		                    <div class="d-flex align-items-top flex-column" id="approveComment-${index}" style="width: 80%" data-seq-count="${apr.docApprovalLine.size()}">
 		                    	<c:forEach items="${apr.docApprovalLine}" var="aprLine">
 			                    	<c:if test="${aprLine.docAprState == '승인' || aprLine.docAprState == '반려'}" >
 				                    	<div class="w-100 mb-1">

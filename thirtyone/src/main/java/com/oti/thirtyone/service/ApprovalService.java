@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.oti.thirtyone.dao.AlternateApproverDAO;
 import com.oti.thirtyone.dao.DocFilesDAO;
@@ -20,11 +21,13 @@ import com.oti.thirtyone.dto.ApprovalDTO;
 import com.oti.thirtyone.dto.DocFilesDTO;
 import com.oti.thirtyone.dto.DocumentApprovalLineDTO;
 import com.oti.thirtyone.dto.DocumentReferenceDTO;
+import com.oti.thirtyone.dto.Pager;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service
+@Transactional
 public class ApprovalService {
 	@Autowired
 	DocumentFolderDAO documentFolderDAO;
@@ -233,14 +236,20 @@ public class ApprovalService {
 	public ApprovalDTO getDraftSingleByDocNumber(String docNumber) {
 		return documentFolderDAO.selectDraftSingleByDocNumber(docNumber);
 	}
+	
+	public List<ApprovalDTO> getDraftsByDocNumbers(Pager pager) {
+		return documentFolderDAO.selectDraftsByDocNumbers(pager);
+	}
 
 	public String getDocFormName(String docFormCode) {
 		return docFormDAO.selectDocFormName(docFormCode);
 	}
 
+	@Transactional
 	public void approveDraft(ApprovalDTO dto) {
 		DocumentApprovalLineDTO dal = dto.getApproveInfo();
 		// 결재선 반영
+		if(dal.getDocAprComment().isEmpty()) dal.setDocAprComment("의견 없음");
 		docApprovalLineDAO.updateDraftApprovalLine(dal);
 		
 		switch (dal.getDocAprState()) {
@@ -250,8 +259,12 @@ public class ApprovalService {
 				break;
 			case "반려":
 				dto.setDocAprStatus("반려");
-				documentFolderDAO.updateDraftDocumentFromApprove(dto);
-				updateDocAprStateToDelegation(dto);
+				documentFolderDAO.updateDraftDocumentFromApprove(dto);		
+				try {
+					updateDocAprStateToDelegation(dto);
+				} catch (Exception e) {
+					throw new RuntimeException("결재선 반영 에러", e);
+				}
 				break;
 			case "승인":
 				if(dal.getDocAprType().equals("일반")) {
@@ -259,17 +272,23 @@ public class ApprovalService {
 					if(docApprovalLineDAO.selectAprLineOneByDocNumAndSeq(dal) != null) {
 						dto.setDocAprStatus("진행");
 						documentFolderDAO.updateDraftDocumentFromApprove(dto);
-						break;
 					}
+					break;
 				}
 				dto.setDocAprStatus("승인");
 				documentFolderDAO.updateDraftDocumentFromApprove(dto);
-				updateDocAprStateToDelegation(dto);
-				afterApprove(dto);
+				
+				try {
+					updateDocAprStateToDelegation(dto);
+					afterApprove(dto);
+				} catch (Exception e) {
+					throw new RuntimeException("승인 결재 후 에러", e);
+				}
 				break;
-			}
+		}
 	}
 	
+	@Transactional
 	public void updateDocAprStateToDelegation(ApprovalDTO dto) {
 		List<DocumentApprovalLineDTO> dal = docApprovalLineDAO.selectApprovalLineOneself(dto);
 		for(int i=dto.getApproveInfo().getDocAprSeq()+1; i<dal.size(); i++) {
@@ -298,22 +317,30 @@ public class ApprovalService {
 		}
 	}
 	
+	@Transactional
 	public void afterApprove(ApprovalDTO apr) {
-		switch (getDocumentContext(apr).getDocFormCode()) {
-			case "HLD":
-				apr.setAtdState("휴가");
-				atdService.updateAtdStateByApproval(apr);
-				break;
-			case "BTD":
-				apr.setAtdState("출장");
-				atdService.updateAtdStateByApproval(apr);
-				break;
-			case "HLW":
-				hdService.setAlternateHoliday(apr);
-				break;
-			case "WOT":
-				atdService.updateAtdStateByApproval(apr);
-				break;
+		try {
+			apr = documentFolderDAO.selectDraftSingleByDocNumber(apr.getDocNumber());
+			switch (apr.getDocFormCode()) {
+				case "HLD":
+					apr.setAtdState("휴가");
+					atdService.updateAtdStateByApproval(apr);
+					break;
+				case "BTD":
+					apr.setAtdState("출장");
+					atdService.updateAtdStateByApproval(apr);
+					break;
+				case "HLW":
+					hdService.setAlternateHoliday(apr);
+					break;
+				case "WOT":
+					atdService.updateAtdStateByApproval(apr);
+					break;
+				default:
+					throw new RuntimeException("결재 승인 후 처리 무시됨");
+			}
+		} catch (Exception e) {
+			throw new RuntimeException("승인 이후 추가 처리 로직에서 예외 발생", e);
 		}
 	}
 
@@ -330,6 +357,22 @@ public class ApprovalService {
 
 	public List<String> getDocNumberToAprLineIncludeUser(String name) {
 		return docApprovalLineDAO.selectDocNumbersIncludeUser(name);
+	}
+
+	public List<ApprovalDTO> getApproveDraftForEmpId(String empId) {
+		return documentFolderDAO.selectApproveDraftByEmpId(empId);
+	}
+
+	public List<DocumentApprovalLineDTO> getDocAprLinesByDocNumbers(List<ApprovalDTO> approveList) {
+		return docApprovalLineDAO.selectDocAprLinesByDocNumbers(approveList);
+	}
+
+	public List<DocumentReferenceDTO> getDocRefsByDocNumbers(List<ApprovalDTO> approveList) {
+		return docReferDAO.selectDocRefsByDocNumbers(approveList);
+	}
+
+	public List<ApprovalDTO> getRejectDraftForEmpId(String empId) {
+		return documentFolderDAO.selectRejectDraftByEmpId(empId);
 	}
 
 }

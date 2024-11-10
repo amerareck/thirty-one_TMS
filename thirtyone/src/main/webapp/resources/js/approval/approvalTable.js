@@ -55,11 +55,13 @@ $('.approveSubmit').on('click', function(e){
 	const reviewerInfo = $(this).closest('.approveModal').find('div.reviewer-info');
 	const reviewerSeq = parseInt(reviewerInfo.attr('data-seq'))+1;
 	const approvalData = {};
+	const approvalTotalSeq = $('#approveComment-'+index).attr('data-seq-count');
 	approvalData.docNumber = $('#documentContext-'+index).attr('data-docnumber');
 	approvalData.approvalResult = $(this).closest('.approveModal').find('select.approval-result').val();
 	approvalData.approvalType = $(this).closest('.approveModal').find('select.approval-type').val();
 	approvalData.approvalComment = $(this).closest('.approveModal').find('textarea.approval-comment').val();
 	approvalData.approvalSeq = reviewerSeq-1;
+	const docType = approvalData.docNumber.split('-')[0];
 	
 	const editor = tinymce.get('documentContext-'+index);
     const contentDocument = editor.getDoc();
@@ -71,13 +73,61 @@ $('.approveSubmit').on('click', function(e){
     
     const empPosition = $(contentDocument.getElementById('approvalLine-position-'+reviewerSeq));	
 	const empName = $(contentDocument.getElementById('approvalLine-name-'+reviewerSeq));
-	empPosition.text(reviewerInfo.attr('data-postion'));
-	empName.text(reviewerInfo.attr('data-name'));
+	//empPosition.text(reviewerInfo.attr('data-postion'));
+	//empName.text(reviewerInfo.attr('data-name'));
 	$(contentDocument.getElementById('approval-result-'+reviewerSeq)).text(approvalData.approvalResult);
 	$(contentDocument.getElementById('approval-result-date-'+reviewerSeq)).text('('+formattedDate+')');
+    
+	const cssClass = docType === 'HLD' ? 'c1' : 'BTD' ? 'c0' : 'BTR' ? 'c0' : 'HLW' ? 'c0' : 'c2';
+    if(approvalData.approvalType === '선결') {
+    	for(let i=reviewerSeq-1; i>0; i--) {
+    		const aprResult = $(contentDocument.getElementById('approval-result-'+i)).text().trim();
+    		if(aprResult === '') {
+    			$(contentDocument.getElementById('approval-result-'+i)).text("후열");
+    			$(contentDocument.getElementById('approval-result-date-'+i)).text('('+formattedDate+')');
+    		}
+        }
+    	for(let i=reviewerSeq+1; i<=approvalTotalSeq; i++) {
+    		$(contentDocument.getElementById('approval-result-' + i)).text("위임");
+    		$(contentDocument.getElementById('approval-result-date-' + i)).text('(' + formattedDate + ')');
+    	}
+    	$(contentDocument.getElementById('approval-result-'+reviewerSeq)).before(`
+    		<span id="approval-result-type-${reviewerSeq}" class="${cssClass}" style="font-size: .75rem;">[선결]</span>
+    		<br/>
+    	`);
+    }
+    
+    if(approvalData.approvalType === '전결') {
+    	for(let i=reviewerSeq+1; i<=approvalTotalSeq; i++) {
+    		$(contentDocument.getElementById('approval-result-'+i)).text("위임");
+			$(contentDocument.getElementById('approval-result-date-'+i)).text('('+formattedDate+')');
+    	}
+    	
+    	$(contentDocument.getElementById('approval-result-'+reviewerSeq)).before(`
+    		<span id="approval-result-type-${reviewerSeq}" class="${cssClass}" style="font-size: .75rem;>[전결]</span>
+    		<br/>
+    	`);
+    }
+    
+    if(approvalData.approvalType === '대결') {
+    	$(contentDocument.getElementById('approval-result-'+reviewerSeq)).before(`
+    		<span id="approval-result-type-${reviewerSeq}" class="${cssClass}" style="font-size: .75rem;>[대결]</span>
+        `);
+    	$(contentDocument.getElementById('approval-result-'+reviewerSeq)).before(`
+    		<br/>
+    		<span id="approval-result-empName-${reviewerSeq}" class="${cssClass}">${reviewerInfo.attr('data-name')} ${reviewerInfo.attr('data-postion')}</span>
+    		<br/>
+        `);
+    }
+    
+    if(approvalData.approvalResult === '반려') {
+    	for(let i=reviewerSeq+1; i<=approvalTotalSeq; i++) {
+    		$(contentDocument.getElementById('approval-result-' + i)).text("위임");
+    		$(contentDocument.getElementById('approval-result-date-' + i)).text('(' + formattedDate + ')');
+    	}
+    }
 	
 	approvalData.docData = editor.getContent();
-	
 	console.log(approvalData);
 	
 	$.ajax({

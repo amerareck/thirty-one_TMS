@@ -37,4 +37,25 @@
 			WHERE doc_number = #{docNumber}
 		]]>
 	</delete>
+	
+	<select id="selectDocRefsByDocNumbers" parameterType="java.util.List" resultType="DocRef">
+		<![CDATA[
+			SELECT
+				doc_number,
+				emp_id
+			FROM REFERENCE_EMP
+		]]>
+		<if test="list != null and list.size() > 0">
+			WHERE doc_number IN
+			<foreach collection="list" item="item" open="(" separator="," close=")">
+				#{item.docNumber}
+			</foreach>
+		</if>
+		<if test="list == null or list.size() == 0">
+			WHERE 1 = 0
+		</if>
+		<![CDATA[
+			ORDER BY doc_number
+		]]>
+	</select>
 </mapper>

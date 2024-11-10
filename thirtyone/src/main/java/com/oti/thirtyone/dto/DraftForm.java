@@ -1,5 +1,6 @@
 package com.oti.thirtyone.dto;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -34,4 +35,12 @@ public class DraftForm {
 	
 	private String prevDocNumber; // 재기안 문서번호
 	private boolean redraft; // 재기안 확인
+	
+	public boolean isWeekend(Date date) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+
+        return (dayOfWeek == Calendar.SATURDAY || dayOfWeek == Calendar.SUNDAY);
+    }
 }

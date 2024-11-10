@@ -1,5 +1,6 @@
 package com.oti.thirtyone.dto;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -55,6 +56,16 @@ public class ApprovalDTO {
 	private Date atdDate; // 출근일자
 	private String atdState; // 출근 상태
 	private int atdOverTime;
-	private int hdCount; // 대체휴무 부여일수
+	private double hdCount; // 대체휴무 부여일수
+	
+	private List<Date> dateList; // 데이트 리스트: 일자를 체크할 때, 유효한 일자를 요소로만 담습니다.
+	
+	public boolean isWeekend(Date date) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+
+        return (dayOfWeek == Calendar.SATURDAY || dayOfWeek == Calendar.SUNDAY);
+    }
 	
 }

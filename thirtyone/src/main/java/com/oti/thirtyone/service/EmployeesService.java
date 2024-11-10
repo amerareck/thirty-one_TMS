@@ -1,9 +1,11 @@
 package com.oti.thirtyone.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.transaction.Transactional;
 
@@ -133,13 +135,14 @@ public class EmployeesService {
 	public List<EmployeesDto> getEmpInfoByName(String empName) {
 		return empDao.selectEmpInfoByName(empName);
 	}
-
+	
+	@Transactional
 	public boolean setApprovalLine(List<EmpApprovalLineDTO> aplForm) {
 		if(aplForm == null || aplForm.isEmpty()) return false;
 		
 		for (EmpApprovalLineDTO item : aplForm) {
 	        if (empApprovalLineDAO.insertNewApprovalLine(item) != 1) {
-	            return false;
+	            throw new RuntimeException();
 	        }
 	    }
 	    return true;
@@ -289,5 +292,9 @@ public class EmployeesService {
 			atdDao.insertAtdIfAbsence(empId);	
 		}
 		
+	}
+
+	public List<EmployeesDto> getEmployeeListByEmpId(List<String> list) {
+		return empDao.selectEmployeeListByEmpIds(list);
 	}
 }

@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.oti.thirtyone.dto.ApprovalDTO;
+import com.oti.thirtyone.dto.DocumentApprovalLineDTO;
 import com.oti.thirtyone.dto.DocumentReferenceDTO;
 
 @Mapper
@@ -15,5 +16,7 @@ public interface DocumentReferenceDAO {
 	List<DocumentReferenceDTO> selectDraftReferenceList(String docNumber);
 
 	int deleteDocumentReferences(ApprovalDTO dto);
+
+	List<DocumentReferenceDTO> selectDocRefsByDocNumbers(List<ApprovalDTO> approveList);
 
 }

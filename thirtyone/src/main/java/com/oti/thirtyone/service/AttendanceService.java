@@ -7,9 +7,12 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+
+import org.springframework.transaction.annotation.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -323,26 +326,36 @@ public class AttendanceService {
 		return atdDao.selectAtdOneDayByDate(empId, atdDate);
 	}
 	
+	@Transactional
 	public boolean updateAtdStateByApproval(ApprovalDTO apr) {
 		boolean result = true;
-		List<AttendanceDto> list = new ArrayList<>();
+		int start = 0, end = 0;
+		apr.setDocDocumentData("");
 		switch (apr.getDocFormCode()) {
 			case "HLD" :
 				apr.setAtdState("휴가");
-				apr.setAtdDate(apr.getDocHolidayStartDate());
-				for(int i=0; i<apr.getDocHolidayDay(); i++) {
-					list.add(atdDao.selectAtdForApproval(apr));
-					apr.getAtdDate().setDate(apr.getAtdDate().getDate()+1);
+				apr.setDateList(new ArrayList<Date>());
+				start = apr.getDocHolidayStartDate().getDate();
+				end = apr.getDocHolidayEndDate().getDate();
+				for(int i=start; i<=end; i++) {
+					Date item = (Date) apr.getDocHolidayStartDate().clone();
+					item.setDate(i);
+					apr.getDateList().add(item);
 				}
+				apr.getDateList().removeIf(item -> apr.isWeekend(item));
 				break;
 				
 			case "BTD" :
 				apr.setAtdState("출장");
-				apr.setAtdDate(apr.getDocBiztripStartDate());
+				apr.setDateList(new ArrayList<Date>());
+				start = apr.getDocBiztripStartDate().getDate();
+				end = apr.getDocBiztripEndDate().getDate();
 				for(int i=0; i<apr.getDocBiztripDay(); i++) {
-					list.add(atdDao.selectAtdForApproval(apr));
-					apr.getAtdDate().setDate(apr.getAtdDate().getDate()+1);
+					Date item = (Date) apr.getDocBiztripStartDate().clone();
+					item.setDate(i);
+					apr.getDateList().add(item);
 				}
+				apr.getDateList().removeIf(item -> apr.isWeekend(item));
 				break;
 				
 			case "WOT" :
@@ -354,14 +367,38 @@ public class AttendanceService {
 				apr.setAtdOverTime(minutes);
 				tempDate.setHours(0);
 				apr.setAtdDate(tempDate);
-				return atdDao.updateAtdOvertime(apr) == 1;
+				AttendanceDto item = atdDao.selectAtdForApproval(apr);
+				if(item == null) {
+					if(atdDao.insertAtdDefaultData(apr) == 1) {
+						item = atdDao.selectAtdForApproval(apr);
+					} else {
+						throw new RuntimeException("업데이트 실패");
+					}
+				}
+				if(atdDao.updateAtdOvertime(item) != 1) {
+					throw new RuntimeException("업데이트 실패");
+				}
+				return result;
 			default :
 				return false;
 		}
 		
-		for(AttendanceDto item : list) {
-			item.setAtdState(apr.getAtdState());
-			if(atdDao.updateAtdStateByApproval(item) != 1) result = false;
+		Iterator<Date> iter = apr.getDateList().iterator();
+		while(iter.hasNext()) {
+			apr.setAtdDate(iter.next());
+			AttendanceDto item = atdDao.selectAtdForApproval(apr);
+			if(item == null) {
+				if(atdDao.insertAtdDefaultData(apr) == 1) {
+					item = atdDao.selectAtdForApproval(apr);
+					item.setAtdState(apr.getAtdState());
+				} else {
+					throw new RuntimeException("업데이트 실패");
+				}
+			}
+			
+			if(atdDao.updateAtdStateByApproval(item) != 1) {
+				throw new RuntimeException("업데이트 실패");
+			}
 		}
 		return result;
 	}

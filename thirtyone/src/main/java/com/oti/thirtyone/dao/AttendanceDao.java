@@ -36,9 +36,11 @@ public interface AttendanceDao {
 
 	int updateAtdStateByApproval(AttendanceDto item);
 
-	int updateAtdOvertime(ApprovalDTO apr);
+	int updateAtdOvertime(AttendanceDto apr);
 
 	int insertAtdIfAbsence(String empId);
+
+	int insertAtdDefaultData(ApprovalDTO apr);
 
 
 

@@ -132,7 +132,7 @@
 				LEFT OUTER JOIN DOCUMENT_FORM USING(doc_form_code)
 			WHERE 
 				emp_id = #{empId}
-			AND doc_apr_status = '대기'
+			AND doc_apr_status NOT IN ('폐기', '회수')
 			ORDER BY doc_draft_date DESC
 		]]>
 	</select>
@@ -253,6 +253,49 @@
 		]]>
 	</select>
 	
+	<select id="selectDraftsByDocNumbers" parameterType="Pager" resultType="Approval">
+		<![CDATA[
+			SELECT
+				DOC_NUMBER,
+				DOC_DRAFT_DATE,
+				DOC_RETENTION_PERIOD,
+				DOC_TITLE,
+				DOC_DOCUMENT_DATA,
+				EMP_ID,
+				DOC_FORM_CODE,
+				DOC_HOLIDAY_TYPE,
+				DOC_HOLIDAY_DAY,
+				DOC_HOLIDAY_START_DATE,
+				DOC_HOLIDAY_END_DATE,
+				DOC_BIZTRIP_DAY,
+				DOC_BIZTRIP_START_DATE,
+				DOC_BIZTRIP_END_DATE,
+				DOC_BIZTRIP_PURPOSE,
+				DOC_HOLIDAY_WORK_START_DATE,
+				DOC_WORK_OVERTIME_END_DATE,
+				DOC_APR_STATUS
+			FROM DOCUMENT_FOLDER
+			WHERE doc_number
+		]]>
+		<if test="docNumbers.isEmpty()">
+	        <![CDATA[
+	        = '0'
+	        ]]>
+	    </if>
+	    <if test="!docNumbers.isEmpty()">
+	    	<![CDATA[
+	        IN
+	        ]]>
+	    	<foreach item="docNumber" collection="docNumbers" open="(" separator="," close=")">
+		        #{docNumber}
+		    </foreach>
+		    <![CDATA[
+	    	ORDER BY DOC_DRAFT_DATE DESC
+	    	OFFSET #{startRowOffset} ROWS FETCH NEXT #{rowsPerPage} ROWS ONLY
+	    	]]>
+	    </if>
+	</select>
+	
 	<update id="updateDraftDocumentFromApprove" parameterType="Approval">
 		<![CDATA[
 			UPDATE DOCUMENT_FOLDER
@@ -261,4 +304,65 @@
 			WHERE doc_number = #{docNumber}
 		]]>
 	</update>
+	
+	<select id="selectApproveDraftByEmpId" parameterType="String" resultType="Approval">
+		<![CDATA[
+			SELECT
+				doc_number,
+				doc_draft_date,
+				doc_retention_period,
+				doc_title,
+				doc_document_data,
+				emp_id,
+				doc_form_code,
+				doc_holiday_type,
+				doc_holiday_day,
+				doc_holiday_start_date,
+				doc_holiday_end_date,
+				doc_biztrip_day,
+				doc_biztrip_start_date,
+				doc_biztrip_end_date,
+				doc_biztrip_purpose,
+				doc_holiday_work_start_date,
+				doc_work_overtime_end_date,
+				doc_apr_status,
+				doc_form_name
+			FROM DOCUMENT_FOLDER
+				LEFT OUTER JOIN DOCUMENT_FORM USING(doc_form_code)
+			WHERE 
+				emp_id = #{empId}
+			AND doc_apr_status = '승인'
+			ORDER BY doc_draft_date DESC
+		]]>
+	</select>
+	<select id="selectRejectDraftByEmpId" parameterType="String" resultType="Approval">
+		<![CDATA[
+			SELECT
+				doc_number,
+				doc_draft_date,
+				doc_retention_period,
+				doc_title,
+				doc_document_data,
+				emp_id,
+				doc_form_code,
+				doc_holiday_type,
+				doc_holiday_day,
+				doc_holiday_start_date,
+				doc_holiday_end_date,
+				doc_biztrip_day,
+				doc_biztrip_start_date,
+				doc_biztrip_end_date,
+				doc_biztrip_purpose,
+				doc_holiday_work_start_date,
+				doc_work_overtime_end_date,
+				doc_apr_status,
+				doc_form_name
+			FROM DOCUMENT_FOLDER
+				LEFT OUTER JOIN DOCUMENT_FORM USING(doc_form_code)
+			WHERE 
+				emp_id = #{empId}
+			AND doc_apr_status = '반려'
+			ORDER BY doc_draft_date DESC
+		]]>
+	</select>
 </mapper>

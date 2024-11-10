@@ -37,7 +37,7 @@ flatpickr("#holidayWorkStartDatetime", {
 	    firstDayOfWeek: 1 // 주의 첫 날 설정 (1 = 월요일)
 	},
 	allowInput: true,
-	minDate: new Date(),
+	//minDate: new Date(),
 });
 /*
 wotMinDate = new Date();
@@ -285,12 +285,12 @@ $('#approvalLineEmpSelect').on('click', function(){
     	alert('결재자는 5인을 초과할 수 없습니다.');
     	return;
     }
-    let approvalLines = '';
+    let approvalLines = [];
     for(let i=0; i<selectedValues.length; i++) {
     	let name = selectedTexts[i].split(" ")[0];
     	let position = selectedTexts[i].split(" ")[1];
     	let empid= selectedValues[i];
-    	approvalLines += `
+    	approvalLines[i] = `
     	<div class="approval-line-item" data-deptId="${selectedDept}" data-empId="${empid}" data-seq="${aplLineSeq}" style="width: 85%">
             <div>
                 <i class="fas fa-user pe-2"></i> <b class="apl-emp-name">${name}</b> <b class="apl-emp-position">${position}</b>
@@ -304,7 +304,9 @@ $('#approvalLineEmpSelect').on('click', function(){
     	`;
     	aplLineSeq++;
     }
-    $('#approvalLineBox').append(approvalLines);
+    $.each(approvalLines, function(index, item) {
+        $('#approvalLineBox').prepend(item);
+    });
 });
 
 $('#approvalLineBox').on('click', '.btn-line-up', function(e){

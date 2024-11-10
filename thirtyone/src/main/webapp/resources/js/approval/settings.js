@@ -11,12 +11,12 @@ flatpickr("#proxyEndDate", {
 
 $('#approvalLineSettingSaveBtn').on('click', function(){
 	const aplForm = [];
-	$('.approval-line-item').each(function(){
+	$('.approval-line-item').each(function(index){
 		const element = {};
 		element.aprLineName = $(approvalLineSettingNameForm).val();
 		element.approverDeptId = $(this).attr('data-deptId');
 		element.aprLineApprover = $(this).attr('data-empid');
-		element.aprLineSeq = $(this).attr('data-seq');
+		element.aprLineSeq = index;//$(this).attr('data-seq');
 		
 		element.empName = $(this).find('.apl-emp-name').text();
 		element.position = $(this).find('.apl-emp-position').text();
@@ -68,14 +68,14 @@ $('#approvalLineSettingSaveBtn').on('click', function(){
 
 $('#approvalLineSettingUpdateBtn').on('click', function(){
 	const aplForm = [];
-	$('.approval-line-item').each(function(){
+	$('.approval-line-item').each(function(index){
 		const element = {};
 		element.aprLineName = $(approvalLineSettingNameForm).val();
 		element.approverDeptId = $(this).attr('data-deptId');
 		element.aprLineApprover = $(this).attr('data-empid');
-		element.aprLineSeq = $(this).attr('data-seq');
-		element.aprLineIndex = $(this).attr('data-index');
-		
+		element.aprLineSeq = index;//$(this).attr('data-seq');
+		element.aprLineIndex = index;//$(this).attr('data-index');
+		element.changeName = element.aprLineName;
 		element.empName = $(this).find('.apl-emp-name').text();
 		element.position = $(this).find('.apl-emp-position').text();
 		

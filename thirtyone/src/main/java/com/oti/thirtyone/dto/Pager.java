@@ -1,5 +1,7 @@
 package com.oti.thirtyone.dto;
 
+import java.util.List;
+
 import lombok.Data;
 
 @Data
@@ -20,6 +22,8 @@ public class Pager {
    
    private String empId; // 사용자 id
    private String keyword; // 검색 키워드
+   private List<String> docNumbers;
+   private int startRowOffset;
 
    public Pager(int rowsPerPage, int pagesPerGroup, int totalRows, int pageNo) {
       this.rowsPerPage = rowsPerPage;
@@ -44,5 +48,6 @@ public class Pager {
       startRowIndex = startRowNo - 1;
       endRowNo = pageNo * rowsPerPage;
       endRowIndex = endRowNo - 1; 
+      startRowOffset = startRowNo -1;
    }
 }

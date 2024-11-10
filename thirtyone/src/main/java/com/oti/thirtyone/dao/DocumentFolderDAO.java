@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.oti.thirtyone.dto.ApprovalDTO;
+import com.oti.thirtyone.dto.Pager;
 
 @Mapper
 public interface DocumentFolderDAO {
@@ -22,5 +23,8 @@ public interface DocumentFolderDAO {
 	List<ApprovalDTO> selectDraftWaitForApproval(String empId);
 	ApprovalDTO selectDraftSingleByDocNumber(String docNumber);
 	int updateDraftDocumentFromApprove(ApprovalDTO dto);
+	List<ApprovalDTO> selectDraftsByDocNumbers(Pager pager);
+	List<ApprovalDTO> selectApproveDraftByEmpId(String empId);
+	List<ApprovalDTO> selectRejectDraftByEmpId(String empId);
 	
 }

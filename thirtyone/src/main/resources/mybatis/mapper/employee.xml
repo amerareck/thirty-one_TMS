@@ -264,4 +264,36 @@
 		)
 
     </select>
+    <select id="selectEmployeeListByEmpIds" parameterType="java.util.List" resultType="Employee">
+    	<![CDATA[
+    		SELECT
+    			e.emp_id,
+    			e.emp_number,
+    			e.emp_name,
+    			e.emp_gender,
+    			e.emp_birth,
+    			e.emp_postal,
+    			e.emp_address,
+    			e.emp_detail_address,
+    			e.emp_tel,
+    			e.emp_state,
+    			e.emp_resignation_date,
+    			e.emp_role,
+    			e.emp_memo,
+    			e.dept_id,
+    			e.position,
+    			d.dept_name
+    		FROM EMPLOYEES e
+    			LEFT OUTER JOIN DEPARTMENTS d ON e.dept_id = d.dept_id
+    	]]>
+    	<if test="list != null and list.size() > 0">
+			WHERE e.emp_id IN
+			<foreach collection="list" item="item" open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
+		<if test="list == null or list.size() == 0">
+			WHERE 1 = 0
+		</if>
+    </select>
 </mapper>

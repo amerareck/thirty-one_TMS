@@ -52,11 +52,10 @@
 					<td class="text-center align-middle table-font-size">${draft.empName}&nbsp;${draft.empPosition}</td>
 					<td class="text-center align-middle table-font-size">${draft.reviewingApprover}&nbsp;${draft.reviewingApproverPosition}</td>
 					<td class="text-center align-middle"><button class="btn btn-outline-secondary btn-ssm recalled-document">회수</button></td>
-					<c:if test="${draft.approveState == '대기'}"><td class="text-center align-middle"><img src="${pageContext.request.contextPath}/resources/image/approval-await.png" width="50px" height="20px" /></td></c:if>
-					<c:if test="${draft.approveState == '진행'}"><td class="text-center align-middle"><img src="${pageContext.request.contextPath}/resources/image/approval-doing.png" width="50px" height="20px" /></td></c:if>
-					<c:if test="${draft.approveState == '승인'}"><td class="text-center align-middle"><img src="${pageContext.request.contextPath}/resources/image/approval-approve.png" width="50px" height="20px" /></td></c:if>
-					<c:if test="${draft.approveState == '반려'}"><td class="text-center align-middle"><img src="${pageContext.request.contextPath}/resources/image/approval-rejected.png" width="50px" height="20px" /></td></c:if>
-					
+					<c:if test="${draft.docAprStatus == '대기'}"><td class="text-center align-middle"><img src="${pageContext.request.contextPath}/resources/image/approval-await.png" width="50px" height="20px" /></td></c:if>
+					<c:if test="${draft.docAprStatus == '진행'}"><td class="text-center align-middle"><img src="${pageContext.request.contextPath}/resources/image/approval-doing.png" width="50px" height="20px" /></td></c:if>
+					<c:if test="${draft.docAprStatus == '승인'}"><td class="text-center align-middle"><img src="${pageContext.request.contextPath}/resources/image/approval-approve.png" width="50px" height="20px" /></td></c:if>
+					<c:if test="${draft.docAprStatus == '반려'}"><td class="text-center align-middle"><img src="${pageContext.request.contextPath}/resources/image/approval-rejected.png" width="50px" height="20px" /></td></c:if>
 				</tr>
 			</c:forEach>
 			<c:if test="${empty draftList}">

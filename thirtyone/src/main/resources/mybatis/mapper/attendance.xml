@@ -101,7 +101,7 @@
 		]]>
 	</update>
 	
-	<update id="updateAtdOvertime" parameterType="Approval">
+	<update id="updateAtdOvertime" parameterType="Attendance">
 		<![CDATA[
 			UPDATE ATTENDANCES
 			SET atd_over_time = #{atdOverTime}
@@ -115,5 +115,19 @@
 		insert into attendances
 			(atd_date, emp_id, atd_state)
 		values (trunc(sysdate), #{empId}, '결근')		
+	</insert>
+	
+	<insert id="insertAtdDefaultData" parameterType="Approval">
+		<![CDATA[
+			INSERT INTO attendances (
+				atd_date,
+				emp_id,
+				atd_state
+			) VALUES (
+				#{atdDate},
+				#{empId},
+				'결근'
+			)
+		]]>
 	</insert>
 </mapper>

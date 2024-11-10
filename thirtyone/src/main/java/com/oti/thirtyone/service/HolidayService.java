@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.oti.thirtyone.dao.EmployeesDao;
 import com.oti.thirtyone.dao.HolidayDao;
@@ -110,11 +111,20 @@ public class HolidayService {
 		return hdrCalList;
 	}
 	
+	@Transactional
 	public boolean setAlternateHoliday(ApprovalDTO apr) {
-		Integer result = holidayDao.selectAltHolidayCount(apr);
-		int cnt = (result != null) ? result : 0;
-		apr.setHdCount(++cnt);
-		return holidayDao.insertAlternateHoliday(apr) == 1;
+		HolidayDto result = holidayDao.selectAltHolidayDataById(apr);
+		if(result == null) {
+			result = new HolidayDto();
+			result.setEmpId(apr.getEmpId());
+			result.setHdCategory(2);
+			result.setHdCount(0);
+			result.setHdUsed(0);
+			if(holidayDao.insertHolidayData(result) != 1) throw new RuntimeException("대체휴가 삽입 에러");
+		}
+		result.setHdCount(result.getHdCount()+1);
+		if(holidayDao.updateAlternateHoliday(result) != 1) throw new RuntimeException("대체휴가 업데이트 에러");
+		else return true;
 	}
 
 }

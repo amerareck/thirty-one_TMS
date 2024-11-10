@@ -28,15 +28,20 @@ public class DraftValidator implements Validator {
 				case "holidayDocument":
 					if(draft.getHolidayStartDate() == null || draft.getHolidayEndDate() == null) {
 						errors.rejectValue("holidayStartDate", "errors.dateOfHoliday.required", "휴가 일자는 반드시 선택해야 합니다.");
+					} else if(draft.isWeekend(draft.getHolidayStartDate()) || draft.isWeekend(draft.getHolidayEndDate())) {
+						errors.rejectValue("holidayStartDate", "errors.dateOfHoliday.holiday", "휴가 일자의 시작과 끝은 반드시 평일이어야 합니다.");
 					}
 					if(draft.getHolidayType() == null || draft.getHolidayType().equals("default")) {
 						errors.rejectValue("holidayType", "errors.holidayType.required", "휴가 신청 유형은 반드시 선택해야 합니다.");
 					}
+					
 					break;
 				case "businessTripDocument":
 				case "businessTripReport":
 					if(draft.getBizTripStartDate() == null || draft.getBizTripEndDate() == null) {
 						errors.rejectValue("bizTripStartDate", "errors.dateOfBizTrip.required", "출장 일자는 반드시 선택해야 합니다.");
+					} else if(draft.isWeekend(draft.getBizTripStartDate()) || draft.isWeekend(draft.getBizTripEndDate())) {
+						errors.rejectValue("holidayStartDate", "errors.dateOfBizTrip.holiday", "출장 일자의 시작과 끝은 반드시 평일이어야 합니다.");
 					}
 					if(draft.getBizTripPurposeForm() == null || draft.getBizTripPurposeForm().trim().isEmpty()) {
 						errors.rejectValue("bizTripPurposeForm", "errors.purposeOfBizTrip.required", "출장 목적은 반드시 입력해야 합니다.");
