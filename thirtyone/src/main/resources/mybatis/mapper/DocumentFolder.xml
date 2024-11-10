@@ -365,4 +365,10 @@
 			ORDER BY doc_draft_date DESC
 		]]>
 	</select>
+	
+	<select id="selectOverTimeStatus" resultType="String">
+		select doc_apr_status
+		from document_folder
+		where to_char(#{thisDay}, 'yyyy/MM/dd') = to_char(DOC_WORK_OVERTIME_END_DATE, 'yyyy/MM/dd') and emp_id=#{empId}
+	</select>
 </mapper>

@@ -119,7 +119,8 @@
 			</div>
 		</div>
 	</div>
-</div>		
+
+<%@ include file="/WEB-INF/views/common/message.jsp"%>
 				<%-- <div class="dept-attendance card">
 					<div>
 						<p class="mini-title">부서 근무 현황</p>

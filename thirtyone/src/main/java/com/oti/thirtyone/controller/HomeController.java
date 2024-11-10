@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.oti.thirtyone.dto.AttendanceDto;
 import com.oti.thirtyone.dto.EmployeesDto;
 import com.oti.thirtyone.security.EmployeeDetails;
+import com.oti.thirtyone.service.AlertService;
 import com.oti.thirtyone.service.AttendanceService;
 import com.oti.thirtyone.service.DepartmentService;
 
@@ -30,6 +31,8 @@ public class HomeController {
 	DepartmentService deptService;
 	@Autowired
 	AttendanceService atdService;
+	@Autowired
+	AlertService alertService;
 	
 	@GetMapping("/home")
 	public String home(Model model, Authentication authentication){
@@ -105,4 +108,15 @@ public class HomeController {
 		}
 	}
 	
+	@GetMapping("/getEmpId")
+	@ResponseBody
+	public String getEmpId(Authentication authentication) {
+		return authentication.getName();
+	}
+	
+	@GetMapping("/getNumberNotReaded")
+	@ResponseBody
+	public int getRowsNotReaded(Authentication authentication) {
+		return alertService.countRowsNotReaded(authentication.getName());
+	}
 }

@@ -51,13 +51,38 @@ function getAtdforWeek(week){
 			drawGraph(data);
 			
 			$(".worktime-info").empty();
-			console.log(data.reasonList);
+			console.log(data.overTimeList);
 			data.reasonList.forEach(function (reason){
 				reason.atdDate = formatMonthDay(reason.atdDate);
 			})
-		
+			
 			data.atdList.forEach(function(atd) {
 				let formattedMonthDay = formatMonthDay(atd.atdDate);
+				
+				let overTimeButton = `<td><img src="${contextPath}/resources/image/icon/clock.svg"
+					onclick="location.href='${contextPath}/approval/draft'"></td>`;
+				data.overTimeList.forEach(function (overTime) {
+					formattedOverTimeDay = formatMonthDay(overTime.date);
+					let overTimeStatus= overTime.overTimeStatus;
+					
+					if(overTimeStatus != null && formattedOverTimeDay === formattedMonthDay){
+						console.log(formattedOverTimeDay);
+						
+						if(overTimeStatus === '대기'){
+							overTimeButton = `<td><img src="${contextPath}/resources/image/icon/clock-selected.svg"
+								onclick="location.href='${contextPath}/approval/submitted'"></td>`;
+						}else if(overTimeStatus === '승인'){
+							overTimeButton = `<td><img src="${contextPath}/resources/image/icon/clock-accept.svg"
+								onclick="location.href='${contextPath}/approval/result'"></td>`;
+						}else if(overTimeStatus === '반려'){
+							overTimeButton = `<td><img src="${contextPath}/resources/image/icon/clock-reject.svg"
+							    onclick="location.href='${contextPath}/approval/result'"></td>`;
+						}
+					}
+					
+				})
+				
+				
 				
 				let button = `<td><img class="atd-request-form" src="${contextPath}/resources/image/icon/doc.svg" data-bs-toggle="modal" data-bs-target="#atdRequestModal"></td>`
 				if(atd.atdState === '정상출근' || atd.atdState === '휴가' || atd.atdState === '출장')
@@ -87,8 +112,8 @@ function getAtdforWeek(week){
 					  <td class="request-checkin" data-checkin="${atd.checkIn}">${formattedCheckIn}</td>
 					  <td class="request-checkout" data-checkout="${atd.checkOut}">${formattedCheckOut}</td>
 					  <td>${formattedOverTime}</td>
-					  <td>${formattedStandardTime}</td>
-					  <td><img src="${contextPath}/resources/image/icon/clock.svg"></td>`
+					  <td>${formattedStandardTime}</td>`
+					  + overTimeButton
 					  + button+ "</tr>";
 			    
 			    $(".worktime-info").append(atdHtml); 

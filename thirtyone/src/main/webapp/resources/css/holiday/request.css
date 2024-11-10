@@ -49,13 +49,13 @@
 .holiday-request div label{
 	display: flex;
 	align-items: center;
-	font-size: 16px;
+	font-size: 14px;
 	font-weight: bold;
 	color: var(--darkgray);
 }
 
 .holiday-request div p{
-	font-size: 16px;
+	font-size: 14px;
 	font-weight: bold;
 	color: var(--darkgray);
 }

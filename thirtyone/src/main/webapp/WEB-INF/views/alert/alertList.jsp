@@ -22,14 +22,24 @@
 				</div>
 				<div class="alert-list-box">
 					<div class="alert-list-table">
-					  	<c:forEach begin="1" end="5">
+					  	<c:forEach items="${alertList}" var="alert">
 						   <div class="alert-content">
 						      <div>
-						      	<div class="button-mini apr-state">승인</div>
+						      	<c:choose>
+						      		<c:when test="${alert.alertType == '결재'}">
+						      			<div class="button-mini apr-state">${alert.alertType}</div>
+						      		</c:when>
+						      		<c:when test="${alert.alertType == '근태'}">
+						      			<div class="button-mini attendance-state">${alert.alertType}</div>
+						      		</c:when>
+						      		<c:otherwise>
+						      			<div class="button-mini holiday-state">${alert.alertType}</div>						      		
+						      		</c:otherwise>
+						      	</c:choose>
 						      </div>
 						      <div >
-						      	  <p><span>[근태]10월 27일 근태확인 </span>- 출근 확인 체크를 하지 않으셨습니다. 확인 후 출근 체크를 해주시기 바랍니다.</p>
-						      	  <p>2024.10.27</p>
+						      	  <p><span>[${alert.alertType}]</span>- ${alert.alertContent }</p>
+						      	  <p><fmt:formatDate value="${alert.alertTime}" pattern="yyyy-MM-dd HH:mm" /></p>
 					      	  </div>
 						  </div>
 				    	</c:forEach>
@@ -61,6 +71,5 @@
 				</div>
 			</div>
 		</div>
-
 <script src="${pageContext.request.contextPath}/resources/js/alert/alert.js"></script>
-<%@ include file="/WEB-INF/views/common/footer.jsp" %>
+<%-- <%@ include file="/WEB-INF/views/common/footer.jsp" %> --%>

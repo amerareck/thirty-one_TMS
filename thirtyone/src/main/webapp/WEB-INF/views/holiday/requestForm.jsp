@@ -19,13 +19,25 @@
 			<div class="mini-line"></div> -->
 			
 			<form method="post" action="requestForm" class="holiday-request" id="contentForm">
+				<div class="holiday-select3">
+					<p>휴가 일자 선택</p>
+					<div id="choiceDay">
+					<input type="hidden" name="hdrStartDate" id="hdrStartDate">
+					<input type="hidden" name="hdrEndDate" id="hdrEndDate">
+					<input type="hidden" name="hdrUsedDay" id="hdrUsedDay">
+					</div>
+				</div>
+			
+			
+			
+			
 				<div class="holiday-select1">
 					<label for="holiday-type">휴가유형</label>
 					<select class="form-select" id="hdCategory" name="hdCategory">
 						<option value="0">휴가 유형을 선택해 주세요.</option>
-						<option value="1">연차(5일)</option>
-						<option value="2">대체휴가(2일)</option>
-						<option value="3">기타</option>
+						<c:forEach var="holiday" items="${holiday}" >
+							<option value="${holiday.hdCategory}">${holiday.hdName}(${holiday.hdCount - holiday.hdUsed}일)</option>
+						</c:forEach>
 					</select>
 				</div>
 					
@@ -46,14 +58,10 @@
 					<label for='half-holiday'>반반차</label>
 					<select class="form-select" id="holiday-time" name="holidayTime">
 						<option value="0">선택</option>
-						<option value="1">09</option>
-						<option value="2">10</option>
-						<option value="3">11</option>
-						<option value="4">12</option>
-						<option value="5">13</option>
-						<option value="6">14</option>
-						<option value="7">15</option>
-						<option value="8">16</option>
+						<option value="1">09:00 - 11:00</option>
+					    <option value="2">11:00 - 13:00</option>
+					    <option value="3">13:00 - 15:00</option>
+					    <option value="4">15:00 - 17:00</option>
 					</select>
 				</div>
 				<div class="mini-line"></div>
@@ -78,14 +86,7 @@
 				
 				<div class="mini-line"></div>
 				
-				<div class="holiday-select3">
-					<p>휴가 일자 선택</p>
-					<div id="choiceDay">
-					<input type="hidden" name="hdrStartDate" id="hdrStartDate">
-					<input type="hidden" name="hdrEndDate" id="hdrEndDate">
-					<input type="hidden" name="hdrUsedDay" id="hdrUsedDay">
-					</div>
-				</div>
+				
 				<div class="mini-line"></div>
 				<div class="holiday-select4">
 					<p >사유</p>

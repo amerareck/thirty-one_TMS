@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
-	var calendarEl = document.getElementById('calendar');
+/*	var calendarEl = document.getElementById('calendar');
 
 	var calendar = new FullCalendar.Calendar(calendarEl, {
 	    initialView: 'dayGridMonth',
@@ -25,6 +25,36 @@ document.addEventListener('DOMContentLoaded', function () {
 	    ]
 	});
 	
-	calendar.render();
+	calendar.render();*/
+	
+	$(document).on("click", ".requestAccept", function() {
+		let hdrId = $(this).data("hdrid");
+		let hdCategory = $(this).data("hdcategory");
+		let empId = $(this).data("empid");
+		console.log(empId);
+		$.ajax({
+			method: "POST",
+			url: contextPath + "/holiday/hdrAccept",
+			data: {"hdrId" : hdrId, "status" : '승인', "hdCategory" : hdCategory, "empId" : empId},
+			success: function(data) {
+				alert("승인되었습니다.");
+				location.reload();
+			}
+		})
+	})
+	
+	$(document).on("click", ".requestReject", function() {
+		let hdrId = $(this).data("hdrid");
+		console.log("hdrId: ", hdrId);
+		$.ajax({
+			method: "POST",
+			url: contextPath + "/holiday/hdrAccept",
+			data: {"hdrId" : hdrId, "status" : '반려'},
+			success: function(data) {
+				alert("반려되었습니다.");
+				location.reload();
+			}
+		})
+	})
 	
 });

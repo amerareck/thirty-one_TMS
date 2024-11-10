@@ -286,7 +286,7 @@
 	position:absolute;
 	width:19px;
 	height:19px;
-	background-color:blue;
+	background-color:var(--blue);
 	border-radius: 50%;
     top: 1px; 
     right: -4px; 

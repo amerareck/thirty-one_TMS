@@ -15,7 +15,7 @@ public class Scheduler {
 	@Autowired
 	EmployeesService empService;
 	
-//	@Scheduled(cron = "0 07 13 * * MON-FRI")
+//	@Scheduled(cron = "0 00 14 * * MON-FRI")
 //	public void absenceProccess() {
 //		log.info("스케줄러 실행됨");
 //		empService.absenceProccess();

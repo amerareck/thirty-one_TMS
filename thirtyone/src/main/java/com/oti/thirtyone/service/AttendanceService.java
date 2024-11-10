@@ -18,10 +18,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.oti.thirtyone.dao.AttendanceDao;
+import com.oti.thirtyone.dao.DocumentFolderDAO;
 import com.oti.thirtyone.dto.ApprovalDTO;
+import com.oti.thirtyone.dao.HolidayDao;
 import com.oti.thirtyone.dao.ReasonDao;
+import com.oti.thirtyone.dto.ApprovalDTO;
 import com.oti.thirtyone.dto.AttendanceDto;
 import com.oti.thirtyone.dto.CalendarDto;
+import com.oti.thirtyone.dto.HolidayDto;
 import com.oti.thirtyone.dto.ReasonDto;
 
 import lombok.extern.log4j.Log4j2;
@@ -34,7 +38,9 @@ public class AttendanceService {
 	AttendanceDao atdDao;
 	@Autowired
 	ReasonDao reasonDao;
-
+	@Autowired
+	DocumentFolderDAO docFolderDao;
+	
 	public double distanceCalculation(double lat, double lng, String regionalOffice) {
 		double[] seoul = {37.583729, 126.999942};
 		double[] sejong = {36.496289, 127.262671};
@@ -256,10 +262,16 @@ public class AttendanceService {
 		List<Integer> overTime = new LinkedList<>();
 		List<String> lateTime = new LinkedList<>();
 		List<ReasonDto> reasonList = new LinkedList<>();
+		List<Map<String, Object>> overTimeList = new LinkedList<>();
 		Map<String, Object> dataList = new HashMap<>();
 
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		for(Date thisDay : weeklyDate) {
+			Map<String, Object> overTimeMap = new HashMap<>();
+			String overTimeStatus = docFolderDao.selectOverTimeStatus(thisDay, empId);
+			overTimeMap.put("date", thisDay);
+			overTimeMap.put("overTimeStatus", overTimeStatus);
+			overTimeList.add(overTimeMap);
 			boolean check = false;
 			for(AttendanceDto atd : atdWeekly) {
 				
@@ -306,6 +318,7 @@ public class AttendanceService {
 			
 		}
 		
+		dataList.put("overTimeList", overTimeList);
 		dataList.put("atdList", atdList);
 		dataList.put("checkIn", checkIn);
 		dataList.put("checkOut", checkOut);
@@ -403,4 +416,9 @@ public class AttendanceService {
 		return result;
 	}
 	
+//	public List<HolidayDto> insertHdrPeriod(String empId) {
+//		List<HolidayDto> holiday = atdDao.insertHdrPeriod(empId);
+//		return holiday;
+//	}
+//	
 }

@@ -10,7 +10,7 @@ public class HolidayFormDto {
 	private String hdrEndDate; //휴가 종료일
 	private String hdrContent; //휴가 사유
 	private String hdrStatus; //휴가 결재 상태
-	private int hdrUsedDay; //휴가 사용일
+	private double hdrUsedDay; //휴가 사용일
 	private String hdrCompletedDate; //휴가 결재 처리 날짜
 	private int hdCategory; //휴가 유형
 //	private String hdrEmpId; // 기안자(휴가 신청자)
@@ -22,4 +22,11 @@ public class HolidayFormDto {
 	private int holidayPeriod; //오전 오후
 	private int holidayTime; // 반반차 시간
 	
+	public void setUsedDay(double hdrUsedDay) {
+		if (hdrUsedDay !=1 && hdrUsedDay !=0.5 && hdrUsedDay !=0.25) {
+			this.hdrUsedDay = 1;
+		} else {
+			this.hdrUsedDay = hdrUsedDay;
+		}
+	}
 }

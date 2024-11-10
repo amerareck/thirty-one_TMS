@@ -1,8 +1,10 @@
 package com.oti.thirtyone.dao;
 
+import java.util.Date;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import com.oti.thirtyone.dto.ApprovalDTO;
 import com.oti.thirtyone.dto.Pager;
@@ -26,5 +28,7 @@ public interface DocumentFolderDAO {
 	List<ApprovalDTO> selectDraftsByDocNumbers(Pager pager);
 	List<ApprovalDTO> selectApproveDraftByEmpId(String empId);
 	List<ApprovalDTO> selectRejectDraftByEmpId(String empId);
+
+	String selectOverTimeStatus(@Param("thisDay") Date thisDay, @Param("empId") String empId);
 	
 }

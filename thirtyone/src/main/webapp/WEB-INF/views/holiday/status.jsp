@@ -64,24 +64,24 @@
 				    </table>
 				    <div class="pagination">
 						<c:if test="${pager.groupNo>1}">
-							<a href="process?pageNo=${pager.startPageNo-1}"> 
+							<a href="?pageNo=${pager.startPageNo-1}"> 
 								<img src="${pageContext.request.contextPath}/resources/image/prev_icon.png" alt="prev" style="width: 110px">
 							</a>
 						</c:if>
 						<c:forEach begin="${pager.startPageNo}" end="${pager.endPageNo}" step="1" var="i">
 							<c:if test="${pager.pageNo==i}">
 								<button class="page-num active"
-									onclick="location.href='${pageContext.request.contextPath}/atd/process?pageNo=${i}'"
+									onclick="location.href='${pageContext.request.contextPath}/holiday?pageNo=${i}'"
 									style="color: #686868">${i}</button>
 							</c:if>
 							<c:if test="${pager.pageNo!=i}">
 								<button class="page-num"
-									onclick="location.href='${pageContext.request.contextPath}/atd/process?pageNo=${i}'">
+									onclick="location.href='${pageContext.request.contextPath}/holiday?pageNo=${i}'">
 									${i}</button>
 							</c:if>
 						</c:forEach>
 						<c:if test="${pager.groupNo<pager.totalGroupNo}">
-							<a href="process?pageNo=${pager.endPageNo+1}">
+							<a href="?pageNo=${pager.endPageNo+1}">
 								<img src="${pageContext.request.contextPath}/resources/image/next_icon.png" alt="next" style="width: 110px">
 							</a>
 						</c:if>

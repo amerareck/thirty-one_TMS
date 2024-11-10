@@ -54,4 +54,26 @@
 		]]>
 	</update>
 
+	<select id="selectHolidayByEmpId" parameterType="String" resultType="Holiday">
+		SELECT * FROM HOLIDAY
+		WHERE EMP_ID = #{empId}
+		AND HD_CATEGORY IN (1,2) 
+	</select>		
+	
+	<!-- 휴가 사용시 -->
+	<update id="updateHdrCount" parameterType="Holiday">
+		UPDATE HOLIDAY SET
+		HD_USED = HD_USED + #{hdUsed}
+		<if test='hdCategory == 2'>
+		HD_COUNT = HD_COUNT - #{hdUsed}
+		</if>
+		WHERE EMP_ID = #{empId}
+	</update>
+	
+	<select id="selectHdInfo">
+		select hd_category, emp_id, hd_count, hd_used
+		from holiday
+		where emp_id=#{empId} and hd_category=#{hdCategory}
+	</select>
+	
 </mapper>

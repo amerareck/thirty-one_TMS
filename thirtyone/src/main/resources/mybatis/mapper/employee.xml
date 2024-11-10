@@ -246,8 +246,9 @@
 		where rownum &lt;= 6 and position='부장' and dept_id != 999
 	</select>
 	
-	<select id="getEmployeesByPosition" parameterType="String" resultType="Employee">
+	<select id="getEmployeesByPosition" parameterType="map" resultType="Employee">
         SELECT * FROM EMPLOYEES WHERE POSITION = #{position}
+        AND DEPT_ID = #{deptId}
     </select>
     
     <select id="selectAllEmployees" resultType="Employee">

@@ -22,6 +22,8 @@
 	href="${pageContext.request.contextPath}/resources/css/style.css" />
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/css/common/header.css" />
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/common/message.css" />
+	
 <link rel="stylesheet"
 	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
@@ -60,7 +62,7 @@
 		<div class="profile-img-box">
 			<div class="alert-icon" onclick="location.href='${pageContext.request.contextPath}/alert/'">
 				<i class="bi bi-bell"></i>
-				<div class="alert-num">0</div>
+				<div class="alert-num"></div>
 			</div>
 			<img class="profile-img" src="${pageContext.request.contextPath}/imageDown" width="50" height="50" 
 				onerror="this.onerror=null; this.src='${pageContext.request.contextPath}/resources/image/profileDefault.png'; this.width=50; this.height=50;">
@@ -78,7 +80,7 @@
 					<li><a class="dropdown-item" href="${pageContext.request.contextPath}/emp/empDetail">개인정보 수정</a></li>
 					<li><a class="dropdown-item" href="${pageContext.request.contextPath}/emp/empPwUpdate">비밀번호 변경</a></li>
 				</sec:authorize>
-				<li><a class="dropdown-item" href="${pageContext.request.contextPath}/logout">로그아웃</a></li>
+				<li><a class="dropdown-item logout" href="${pageContext.request.contextPath}/logout">로그아웃</a></li>
 			</ul>
 		</div>
 	</div>
