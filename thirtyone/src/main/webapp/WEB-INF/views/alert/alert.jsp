@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/common/header.jsp"%>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/alert/alert.css" />
+    
 <div class="content-box">
 	<div class="main-container" >
 		<p class="title-31">${title}</p>
@@ -9,8 +10,6 @@
 			<div class="selected-sub-title"><a href="#">읽지않은 알람</a></div>
 			<div><a href="#">알람 내역</a></div>  
 		</div>
-		<button id="alert-check"> 체크 </button>
-		<button id="connect"> connect </button>
 		<div></div>
 		<div class="main-line"></div>
 			<div class="full-container">
@@ -64,6 +63,7 @@
 				</div>
 			</div>
 		</div>
+
 
 <%@ include file="/WEB-INF/views/common/footer.jsp" %>
 <script src="${pageContext.request.contextPath}/resources/js/alert/alert.js"></script>

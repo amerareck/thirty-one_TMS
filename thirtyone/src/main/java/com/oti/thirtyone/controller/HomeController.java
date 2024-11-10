@@ -105,4 +105,9 @@ public class HomeController {
 		}
 	}
 	
+	@GetMapping("/getEmpId")
+	@ResponseBody
+	public String getEmpId(Authentication authentication) {
+		return authentication.getName();
+	}
 }

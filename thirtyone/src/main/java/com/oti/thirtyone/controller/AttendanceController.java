@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -33,6 +34,7 @@ import com.oti.thirtyone.dto.Pager;
 import com.oti.thirtyone.dto.ReasonDto;
 import com.oti.thirtyone.dto.ReasonFormDto;
 import com.oti.thirtyone.security.EmployeeDetails;
+import com.oti.thirtyone.service.AlertService;
 import com.oti.thirtyone.service.AttendanceService;
 import com.oti.thirtyone.service.DepartmentService;
 import com.oti.thirtyone.service.EmployeesService;
@@ -53,6 +55,8 @@ public class AttendanceController {
 	EmployeesService empService;
 	@Autowired
 	ReasonService reasonService;
+	@Autowired
+	AlertService alertService;
 	
 	
 	@GetMapping("")
@@ -238,6 +242,7 @@ public class AttendanceController {
 		return ResponseEntity.ok("OK");
 	}
 	
+	@Transactional
 	@PostMapping("reasonRequest")
 	public ResponseEntity<Boolean> reasonRequest(@ModelAttribute ReasonFormDto reasonForm, Authentication authentication) throws IOException {
 		EmployeeDetails empDetail = (EmployeeDetails) authentication.getPrincipal();
@@ -246,10 +251,11 @@ public class AttendanceController {
 		ReasonDto reasonDto = new ReasonDto();
 		Departments deptDto = deptService.getDeptInfo(empDto.getDeptId());
 		String empId = empDto.getEmpId();
+		String improverId = deptDto.getEmpId();
 		reasonDto.setEmpId(empId);
 		reasonDto.setReasonContent(reasonForm.getReason());
 		reasonDto.setReasonType(reasonForm.getState());
-		reasonDto.setReasonImprover(deptDto.getEmpId());
+		reasonDto.setReasonImprover(improverId);
 		boolean hasReason = reasonService.hasReasonOfDay(empId, reasonForm.getCheckIn().split(" ")[0]);
 		if(!hasReason) {
 			return ResponseEntity.ok(false);
@@ -269,6 +275,8 @@ public class AttendanceController {
 				reasonService.insertReasonFile(fileDto);
 			}
 		}
+		String alertContent=empDto.getEmpName() + "님이 근태 수정 요청을 신청 하였습니다.";
+		alertService.sendAlert(improverId, alertContent, "근태");
 		
 		return ResponseEntity.ok(true);
 	}

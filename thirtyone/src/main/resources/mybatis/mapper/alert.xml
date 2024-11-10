@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.oti.thirtyone.dao.AlertDao">
+	<insert id="insertAlert" parameterType="Alert">
+        <selectKey keyProperty="alertId" resultType="int" order="BEFORE">
+            SELECT alert_seq.nextval FROM dual
+        </selectKey>
+		insert into alert
+			(alert_id, alert_content, alert_type, alert_time, emp_id, alert_read_status)
+		values
+			(#{alertId}, #{alertContent}, #{alertType}, sysdate, #{empId}, 0)
+	</insert>
+</mapper>
