@@ -8,4 +8,5 @@ public class HolidayDto {
 	private String empId; // 휴가를 가진 사원
 	private double hdCount; // 휴가일수(유형 전체)
 	private double hdUsed; //	사용일수(누적)
+	private String hdName;
 }

@@ -1,5 +1,7 @@
 package com.oti.thirtyone.dao;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 
 import com.oti.thirtyone.dto.ApprovalDTO;
@@ -15,4 +17,6 @@ public interface HolidayDao {
 	int insertAlternateHoliday(ApprovalDTO apr);
 
 	int selectAltHolidayCount(ApprovalDTO apr);
+
+	List<HolidayDto> selectHolidayByEmpId(String empId);
 }

@@ -117,4 +117,9 @@ public class HolidayService {
 		return holidayDao.insertAlternateHoliday(apr) == 1;
 	}
 
+	public List<HolidayDto> getHolidayByEmpId(String empId) {
+		List<HolidayDto> holiday = holidayDao.selectHolidayByEmpId(empId);
+		return holiday;
+	}
+
 }

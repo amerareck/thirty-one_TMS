@@ -272,8 +272,11 @@ public class EmployeesService {
 	}
 	
 	//직원조회
-	public List<EmployeesDto> getEmployeesByPosition(String positionClass) {
-		return empDao.getEmployeesByPosition(positionClass);
+	public List<EmployeesDto> getEmployeesByPosition(String positionClass, int deptId) {
+		Map<String, Object> emp = new HashMap<>();
+		emp.put("position", positionClass);
+		emp.put("deptId", deptId);
+		return empDao.getEmployeesByPosition(emp);
 	}
 
 	//모든 직원 목록

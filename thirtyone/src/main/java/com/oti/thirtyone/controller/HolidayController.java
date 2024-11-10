@@ -54,12 +54,12 @@ public class HolidayController {
 	@Autowired
 	EmployeesService employeesService;
 
-	@GetMapping("/")
+	@GetMapping("")
 	public String holidayMain(Model model, Authentication authentication, @RequestParam(defaultValue = "1") int pageNo,
 			HttpSession session) {
 		String empId = authentication.getName();
 		int totalRows = hdService.countRowsByEmpId(empId);
-		Pager pager = new Pager(9, 5, totalRows, pageNo);
+		Pager pager = new Pager(4, 5, totalRows, pageNo);
 		session.setAttribute("pager", pager);
 		List<HolidayRequestDto> hdrReqList = hdService.getHdrReqAllbyEmpId(empId, pager);
 		for (HolidayRequestDto hdrReq : hdrReqList) {
@@ -104,12 +104,17 @@ public class HolidayController {
 		
 		List<EmployeesDto> employees = employeesService.getAllEmployees();	
 		List<PositionsDto> position = positionService.getPosList();
-		List<Departments> dept = departmentService.getDepartmentList();
+		List<Departments> dept = departmentService.getDepartmentList();		
+		List<HolidayDto> holiday = hdService.getHolidayByEmpId(employee.getEmpId());
+		for (HolidayDto hdDto : holiday) {
+			hdDto.setHdName(HolidayType.getCategoryByCode(hdDto.getHdCategory()));
+		}
 		
 		model.addAttribute("title", "정원석님의 휴가 관리");
 		model.addAttribute("selectedTitle", "hr");
 		model.addAttribute("selectedSub", "holiday");
 		
+		model.addAttribute("holiday", holiday);
 		model.addAttribute("deptName", deptName);
 		model.addAttribute("employees", employees);
 		model.addAttribute("employee", employee);
@@ -128,15 +133,20 @@ public class HolidayController {
 	@PostMapping("/request")
 	public ResponseEntity<String> holidayRequest(Model model, Authentication authentication,
 			@ModelAttribute HolidayFormDto hdrForm) throws Exception {
-
+		log.info(hdrForm.toString());
 		EmployeeDetails employeeDetails = (EmployeeDetails) authentication.getPrincipal();
 		EmployeesDto employee = employeeDetails.getEmployee();
 		
 		HolidayRequestDto hdrReq = new HolidayRequestDto();
+		
+		double hdrUsedDay = hdrForm.getHdrUsedDay();
+		
 
 		// String 형식의 날짜를 Date 형식으로 변환
 		try {
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			/*double usedDay = 1.0;
+			String formattedUsedDay = String.format("%.1f", usedDay).replaceAll("||.0$", "");*/
 
 			Date hdrStartDate = sdf.parse(hdrForm.getHdrStartDate()); // String을 Date로 변환
 			Date hdrEndDate = sdf.parse(hdrForm.getHdrEndDate());
@@ -164,13 +174,17 @@ public class HolidayController {
 		hdrReq.setHdrApprover(hdrApprover);
 
 		hdService.insertHdrRequest(hdrReq);
-		return ResponseEntity.ok("OK");
+		model.addAttribute("hdrUsedDay", hdrUsedDay);
+		return ResponseEntity.ok("OK" + hdrUsedDay);
 	}
 
 	@GetMapping("/getEmployeesByPosition")
-	public ResponseEntity<List<EmployeesDto>> getEmployeesByPosition(@RequestParam String positionClass) {
+	public ResponseEntity<List<EmployeesDto>> getEmployeesByPosition(@RequestParam String positionClass, Authentication authentication) {
+		EmployeeDetails empDetails = (EmployeeDetails) authentication.getPrincipal();
+		EmployeesDto empDto = empDetails.getEmployee();
+		
 		// 직급에 맞는 사원 목록을 반환하는 로직
-		List<EmployeesDto> employees = employeesService.getEmployeesByPosition(positionClass);
+		List<EmployeesDto> employees = employeesService.getEmployeesByPosition(positionClass, empDto.getDeptId());
 		return ResponseEntity.ok(employees);
 	}
 

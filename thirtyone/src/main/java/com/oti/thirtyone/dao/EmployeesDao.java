@@ -62,7 +62,7 @@ public interface EmployeesDao {
 
 	List<EmployeesDto> selectEmpInfoHead();
 	
-	List<EmployeesDto> getEmployeesByPosition(String positionClass);
+	List<EmployeesDto> getEmployeesByPosition(Map<String, Object> emp);
 
 	List<EmployeesDto> selectAllEmployees();
 

@@ -1,7 +1,7 @@
 package com.oti.thirtyone.enums;
 
 public enum HolidayType {
-    ANNUAL_HDR(1, "연가"),
+    ANNUAL_HDR(1, "연차"),
     SUBSTITUTE_HDR(2, "대체휴무"),
     SICK_HDR(3, "병가");
 
