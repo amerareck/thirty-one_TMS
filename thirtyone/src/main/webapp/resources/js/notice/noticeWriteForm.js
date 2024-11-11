@@ -89,7 +89,7 @@ document.addEventListener("DOMContentLoaded", function() {
 	function submitForm(formData) {
 		console.log("Form Data:", [...formData]);
 		
-		filesArray.forEach(file => formData.append('attachFile', file));
+		filesArray.forEach(file => formData.append('attachFile[]', file));
 		
 		const checkedDeptIds = getCheckedDeptIds().map(id => parseInt(id));
 		checkedDeptIds.forEach(deptId => formData.append('deptId[]', deptId)); // 배열처럼 사용
@@ -104,6 +104,7 @@ document.addEventListener("DOMContentLoaded", function() {
 			contentType: false,
 			success: function(response) {
 				const noticeId = response.noticeId;
+				alert("공지사항이 작성이 성공적으로 되었습니다!");
 				console.log("작성 AJAX 성공", response);
 				location.href = contextPath + '/notice/noticeList';
 			},
@@ -160,7 +161,7 @@ document.addEventListener("DOMContentLoaded", function() {
 	    // 새로운 파일 입력 요소 생성
 	    const newFileInput = document.createElement("input");
 	    newFileInput.type = "file";
-	    newFileInput.name = "attachFile"; // 'files' 배열로 서버에 전달되도록 동일한 name 사용
+	    newFileInput.name = "attachFile[]"; // 'files' 배열로 서버에 전달되도록 동일한 name 사용
 	    newFileInput.multiple = true; // 여러 파일 선택 허용
 
 	    // 새 파일 입력 요소를 폼에 추가

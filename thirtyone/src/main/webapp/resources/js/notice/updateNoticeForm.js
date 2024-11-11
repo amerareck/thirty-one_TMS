@@ -6,8 +6,10 @@ document.addEventListener("DOMContentLoaded", function() {
     let filesArray = []; // 새로 선택한 파일 목록
     let existingFiles = []; // 기존 파일 목록
     
+    
     var noticeId = document.getElementById("noticeId").value;
     console.log("Notice ID:", noticeId);
+    loadExistingFiles();
     getExistingFiles();
     
     // 부서 검색 및 체크박스 처리
@@ -16,7 +18,7 @@ document.addEventListener("DOMContentLoaded", function() {
     $('#summernote').summernote();
 
     // 기존 파일 로드
-    function loadExistingFiles(existingFileData) {
+    function loadz(existingFileData) {
         if (Array.isArray(existingFileData)) {
             existingFiles = existingFileData; // 기존 파일 정보 배열에 저장
         } else {
