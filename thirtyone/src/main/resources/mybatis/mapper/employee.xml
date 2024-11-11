@@ -77,7 +77,7 @@
 	
 	<select id="selectEmpListByName" parameterType="map" resultType="Employee">
 		<![CDATA[	
-			select emp_id, emp_name, position, emp_hiredate, dept_id
+			select emp_id, emp_name, position, emp_hiredate, dept_id, emp_email, emp_tel
 			from(
 				select rownum as rnum, emp_id, emp_name, position, emp_hiredate, dept_id
 				from(
@@ -94,14 +94,14 @@
 	
 	<select id="selectEmpListByDept" parameterType="map" resultType="Employee">
 		<![CDATA[	
-			select emp_id, emp_name, position, emp_hiredate, dept_id
+			select emp_id, emp_name, position, emp_hiredate, dept_id, emp_email, emp_tel
 			from(
 				select rownum as rnum, emp_id, emp_name, position, emp_hiredate, dept_id
 				from(
 					select e.emp_id, e.emp_name, e.position, e.emp_hiredate, e.dept_id
 					from employees e join departments d 
 					on e.dept_id = d.dept_id
-					where e.emp_role='ROLE_USER' and d.dept_name like '%'||#{query}||'%' and dept_id != 999
+					where e.emp_role='ROLE_USER' and d.dept_name like '%'||#{query}||'%' and d.dept_id != 999
 					order by e.emp_number
 					)
 				where rownum <= #{pager.endRowNo}
@@ -112,7 +112,7 @@
 	
 	<select id="selectEmpListByPos" parameterType="map" resultType="Employee">
 		<![CDATA[	
-			select emp_id, emp_name, position, emp_hiredate, dept_id
+			select emp_id, emp_name, position, emp_hiredate, dept_id, emp_email, emp_tel
 			from(
 				select rownum as rnum, emp_id, emp_name, position, emp_hiredate, dept_id
 				from(

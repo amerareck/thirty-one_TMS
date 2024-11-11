@@ -63,7 +63,7 @@
 				<div class="emp-status-box">
 					<c:forEach items="${empInfoList}" var="empInfo">
 					<div class="admin-profile-box">
-						<img class="admin-profile-img" src="${pageContext.request.contextPath}/admin/imageDown?empId=${empInfo.emp.empId}" width="29" height="38" 
+						<img class="admin-profile-img" src="${pageContext.request.contextPath}/admin/imageDown?empId=${empInfo.emp.empId}" width="29" height="29" 
 							onerror="this.onerror=null; this.src='${pageContext.request.contextPath}/resources/image/sky-profile-img.png'; this.width=29; this.height=29;">
 				    	<div class="admin-profile-info" onclick="location.href='${pageContext.request.contextPath}/admin/empDetail?empId=${empInfo.emp.empId}'" style="cursor: pointer;">
 				    		<h4>${empInfo.emp.empName } ${empInfo.emp.position }</h4>

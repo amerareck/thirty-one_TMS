@@ -12,7 +12,7 @@
 		insert into attendances
 			(atd_date, emp_id, check_in, atd_state, atd_standard_time)
 		values
-			(TRUNC(SYSDATE), #{empId}, sysdate, #{state}, 8)			
+			(TRUNC(SYSDATE), #{empId}, sysdate, #{state}, 480)			
 	</insert>
 	
 	<update id="updateCheckOut">
@@ -114,7 +114,7 @@
 	<insert id="insertAtdIfAbsence" parameterType="String">
 		insert into attendances
 			(atd_date, emp_id, atd_state)
-		values (TRUNC(TO_DATE('2024/11/05', 'yyyy/MM/dd')), #{empId}, '결근')		
+		values (TRUNC(sysdate), #{empId}, '결근')		
 	</insert>
 	
 	<insert id="insertHdrPeriod" parameterType="HolidayRequest">

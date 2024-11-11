@@ -47,7 +47,7 @@
 				<tr class="table-group-divider"	>
 					<td class="justify-start align-middle ps-4 table-font-size"><input class="check-box" type="checkbox" data-empid="${emp.empInfo.empId}"/></td>
 					<td class="text-center align-middle table-font-size">
-						<img class="profile-img" src="${pageContext.request.contextPath}/admin/imageDown?empId=${emp.empInfo.empId}" width="40" height="53" 
+						<img class="profile-img" src="${pageContext.request.contextPath}/admin/imageDown?empId=${emp.empInfo.empId}" width="40" height="40" 
 							onerror="this.onerror=null; this.src='${pageContext.request.contextPath}/resources/image/employeePicture.png'; this.width=40; this.height=40;">
 					</td>
 					<td class="align-middle table-font-size">${emp.empInfo.empName}</td>

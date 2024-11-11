@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.oti.thirtyone.dao.AttendanceDao;
+import com.oti.thirtyone.dao.DocumentFolderDAO;
 import com.oti.thirtyone.dao.EmployeesDao;
 import com.oti.thirtyone.dao.HolidayDao;
 import com.oti.thirtyone.dao.HolidayRequestDao;
@@ -35,6 +36,9 @@ public class HolidayService {
 	
 	@Autowired
 	AttendanceDao atdDao;
+	
+	@Autowired
+	DocumentFolderDAO docFolderDao;
 
 	public List<HolidayRequestDto> getHdrReqAllbyEmpId(String empId, Pager pager) {
 		return hdrDao.selectHdrAllByEmpId(empId, pager);
@@ -73,10 +77,16 @@ public class HolidayService {
 		List<CalendarDto> hdrCalList = new LinkedList<CalendarDto>();
 
 		for (HolidayRequestDto hdrReq : hdrList) {
-			hdrCalList.add(formatInputCalendar("", "휴가", hdrReq.getHdrStartDate(), hdrReq.getHdrEndDate(), "#B5CAFF",
-					"#B5CAFF", "white"));
+			hdrCalList.add(formatInputCalendar("", "휴가", hdrReq.getHdrStartDate(), hdrReq.getHdrEndDate(), "rgba(31, 95, 255)", "rgba(31, 95, 255)", "white"));
 		}
-
+		List<ApprovalDTO> eventHdrList = docFolderDao.selectHdrByEmpId(empId);
+		for(ApprovalDTO eventHdr : eventHdrList) {
+			if(eventHdr.getDocHolidayType().equals("familyEvent")){
+				hdrCalList.add(formatInputCalendar("", "경조사", eventHdr.getDocHolidayStartDate(), eventHdr.getDocHolidayEndDate(), "#F5F5F5", "#F5F5F5)", "black"));
+			}else if(eventHdr.getDocHolidayType().equals("sickLeave")) {
+				hdrCalList.add(formatInputCalendar("", "병가", eventHdr.getDocHolidayStartDate(), eventHdr.getDocHolidayEndDate(),  "#F5F5F5", "#F5F5F5)", "black"));
+			}
+		}
 		return hdrCalList;
 	}
 
@@ -114,7 +124,7 @@ public class HolidayService {
 		for (HolidayRequestDto hdrReq : hdrList) {
 			String empName = empDao.selectByEmpId(hdrReq.getHdrEmpId()).getEmpName();
 			hdrCalList.add(formatInputCalendar(empName, "휴가", hdrReq.getHdrStartDate(), hdrReq.getHdrEndDate(),
-					"#B5CAFF", "#B5CAFF", "white"));
+					"rgba(31, 95, 255)", "rgba(31, 95, 255)", "white"));
 		}
 		return hdrCalList;
 	}

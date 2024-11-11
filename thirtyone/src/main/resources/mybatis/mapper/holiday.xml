@@ -65,7 +65,7 @@
 		UPDATE HOLIDAY SET
 		HD_USED = HD_USED + #{hdUsed}
 		<if test='hdCategory == 2'>
-		HD_COUNT = HD_COUNT - #{hdUsed}
+		, HD_COUNT = HD_COUNT - #{hdUsed}
 		</if>
 		WHERE EMP_ID = #{empId}
 	</update>

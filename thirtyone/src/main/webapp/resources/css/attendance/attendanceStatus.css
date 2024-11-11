@@ -194,6 +194,10 @@
 	display: flex;
 	align-items: center;
 }
+.fc-event{
+	margin-bottom: 3px;
+}
+
 .fc-event-title{
 	align-items: center !important;
 	display: flex !important;

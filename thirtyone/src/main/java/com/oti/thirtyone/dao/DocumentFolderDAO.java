@@ -30,5 +30,6 @@ public interface DocumentFolderDAO {
 	List<ApprovalDTO> selectRejectDraftByEmpId(String empId);
 
 	String selectOverTimeStatus(@Param("thisDay") Date thisDay, @Param("empId") String empId);
+	List<ApprovalDTO> selectHdrByEmpId(String empId);
 	
 }

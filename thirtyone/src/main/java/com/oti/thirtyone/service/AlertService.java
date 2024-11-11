@@ -53,11 +53,11 @@ public class AlertService {
         log.info("이번에 들어온 empId : " + empId);
         log.info("emitter를 한번 보겠습니다.1" + emitters.toString());
         // 기존에 같은 empId로 등록된 Emitter가 있으면 제거
-        if (emitters.containsKey(empId)) {
-        	log.info("emitter를 한번 보겠습니다.2" + emitters.toString());
-            emitters.get(empId).complete();
-            emitters.remove(empId);
-        }
+//        if (emitters.containsKey(empId)) {
+//        	log.info("emitter를 한번 보겠습니다.2" + emitters.toString());
+//            emitters.get(empId).complete();
+//            emitters.remove(empId);
+//        }
         log.info("emitter를 한번 보겠습니다.3" + emitters.toString());
         
         emitters.put(empId, emitter);

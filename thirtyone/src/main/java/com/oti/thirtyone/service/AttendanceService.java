@@ -12,20 +12,18 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.transaction.annotation.Transactional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.oti.thirtyone.dao.AttendanceDao;
 import com.oti.thirtyone.dao.DocumentFolderDAO;
-import com.oti.thirtyone.dto.ApprovalDTO;
-import com.oti.thirtyone.dao.HolidayDao;
+import com.oti.thirtyone.dao.HolidayRequestDao;
 import com.oti.thirtyone.dao.ReasonDao;
 import com.oti.thirtyone.dto.ApprovalDTO;
 import com.oti.thirtyone.dto.AttendanceDto;
 import com.oti.thirtyone.dto.CalendarDto;
-import com.oti.thirtyone.dto.HolidayDto;
+import com.oti.thirtyone.dto.HolidayRequestDto;
 import com.oti.thirtyone.dto.ReasonDto;
 
 import lombok.extern.log4j.Log4j2;
@@ -40,6 +38,8 @@ public class AttendanceService {
 	ReasonDao reasonDao;
 	@Autowired
 	DocumentFolderDAO docFolderDao;
+	@Autowired
+	HolidayRequestDao hdrDao;
 	
 	public double distanceCalculation(double lat, double lng, String regionalOffice) {
 		double[] seoul = {37.583729, 126.999942};
@@ -137,6 +137,7 @@ public class AttendanceService {
         
 		return timeDifference;
 	}
+	
 	public CalendarDto formatInputCalendar(String title, Date date, String background, String border, String text) {
 		CalendarDto atdCalendarDto = new CalendarDto();
 		
@@ -145,7 +146,7 @@ public class AttendanceService {
 		String day = String.valueOf(date.getDate()).length() > 1 ? String.valueOf(date.getDate()) : "0"+date.getDate() ;
 		String hour = String.valueOf(date.getHours()).length() > 1 ? String.valueOf(date.getHours()) : "0" + date.getHours(); 
 		String minute = String.valueOf(date.getMinutes()).length() > 1 ? String.valueOf(date.getMinutes()) : "0" + date.getMinutes();
-		if(title.equals("연장근무"))
+		if(title.equals("연장근무") || title.equals("출장") || title.equals("휴가"))
 			atdCalendarDto.setTitle(title);
 		else
 			atdCalendarDto.setTitle(title+" " + hour+":"+minute);
@@ -158,6 +159,30 @@ public class AttendanceService {
 		return atdCalendarDto;
 	}
 	
+	public CalendarDto formatInputCalendar(String empName, String title, Date startdate, Date enddate,
+			String background, String border, String text) {
+		CalendarDto atdCalendarDto = new CalendarDto();
+
+		String startyear = "20" + (startdate.getYear() + "").split("1")[1];
+		String startmonth = String.valueOf(startdate.getMonth() + 1);
+		String startday = String.valueOf(startdate.getDate()).length() > 1 ? String.valueOf(startdate.getDate())
+				: "0" + startdate.getDate();
+
+		String endyear = "20" + (enddate.getYear() + "").split("1")[1];
+		String endmonth = String.valueOf(enddate.getMonth() + 1);
+		String endday = String.valueOf(enddate.getDate()).length() > 1 ? String.valueOf(enddate.getDate() + 1)
+				: "0" + (enddate.getDate() + 1);
+
+		atdCalendarDto.setTitle(empName + "휴가");
+		atdCalendarDto.setStart(startyear + "-" + startmonth + "-" + startday);
+		atdCalendarDto.setEnd(endyear + "-" + endmonth + "-" + endday);
+		atdCalendarDto.setBackgroundColor(background);
+		atdCalendarDto.setBorderColor(border);
+		atdCalendarDto.setTextColor(text);
+
+		return atdCalendarDto;
+	}
+	
 	public List<CalendarDto> getAtdInfoList(String empId, String year, String month) {
 		
 		if(month.length() == 1) {
@@ -165,7 +190,23 @@ public class AttendanceService {
 		}
 		log.info(year + " " + month);		
 		List<AttendanceDto> atdCalendarList = atdDao.selectAtdForMonths(empId, year+"/"+month+"/15");
+		List<HolidayRequestDto> hdrList = hdrDao.selectHdrByEmpId(empId);
+		List<ApprovalDTO> eventHdrList = docFolderDao.selectHdrByEmpId(empId);
+		
 		List<CalendarDto> calendarList = new LinkedList<CalendarDto>();
+		
+		for (HolidayRequestDto hdrReq : hdrList) {
+			calendarList.add(formatInputCalendar("", "휴가", hdrReq.getHdrStartDate(), hdrReq.getHdrEndDate(), "rgba(31, 95, 255)", "rgba(31, 95, 255)", "white"));
+		}
+		
+		for(ApprovalDTO eventHdr : eventHdrList) {
+			if(eventHdr.getDocHolidayType().equals("familyEvent")){
+				calendarList.add(formatInputCalendar("", "경조사", eventHdr.getDocHolidayStartDate(), eventHdr.getDocHolidayEndDate(), "#F5F5F5", "#F5F5F5)", "black"));
+			}else if(eventHdr.getDocHolidayType().equals("sickLeave")) {
+				calendarList.add(formatInputCalendar("", "병가", eventHdr.getDocHolidayStartDate(), eventHdr.getDocHolidayEndDate(),  "#F5F5F5", "#F5F5F5)", "black"));
+			}
+		}
+		
 		for (AttendanceDto atd : atdCalendarList) {
 			String title = atd.getAtdState();
 			
@@ -184,12 +225,12 @@ public class AttendanceService {
 					calendarList.add(formatInputCalendar("출근", atd.getCheckIn(), "#B5CAFF", "#B5CAFF", "white"));
 				if(atd.getCheckOut() != null) 
 					calendarList.add(formatInputCalendar("조퇴", atd.getCheckOut(), "white", "#C3C3C3", "#C3C3C3"));
+			}else if(title.equals("출장")) {
+				calendarList.add(formatInputCalendar("출장", atd.getAtdDate(), "white", "#000000", "#000000"));
 			}
 			if(atd.getAtdOverTime() != 0) {
 				calendarList.add(formatInputCalendar("연장근무", atd.getAtdDate(), "white", "#1F5FFF", "#1F5FFF"));
 			}
-			
-			
 		}
 		return calendarList;
 	}

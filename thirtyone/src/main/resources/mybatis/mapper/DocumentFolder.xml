@@ -371,4 +371,10 @@
 		from document_folder
 		where to_char(#{thisDay}, 'yyyy/MM/dd') = to_char(DOC_WORK_OVERTIME_END_DATE, 'yyyy/MM/dd') and emp_id=#{empId}
 	</select>
+	
+	<select id="selectHdrByEmpId" parameterType="String">
+		select doc_holiday_type, doc_holiday_start_date, doc_holiday_end_date, emp_id
+		from document_folder
+		where emp_id = #{empId} and doc_apr_status = '승인'
+	</select>
 </mapper>

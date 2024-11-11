@@ -124,7 +124,7 @@ function displayAlert(alert) {
         autohide: true,
         delay: 5000
     });
-    alertDiv.empty();
+    alertDiv.innerHTML = '';;
     const p = document.createElement('p');
     p.textContent = `[${alert.alertType}]\n${alert.alertContent}`;
     alertDiv.appendChild(p);

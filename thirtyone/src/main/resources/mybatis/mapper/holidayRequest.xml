@@ -14,7 +14,7 @@
 						HDR_STATUS, HDR_COMPLETED_DATE, HD_CATEGORY, HDR_EMP_ID, HDR_APPROVER, HDR_USED_DAY
 					from holiday_request 
 					where HDR_EMP_ID = #{empId}
-					order by hdr_start_date desc
+					order by hdr_status, hdr_start_date desc
 				)
 				where rownum <= #{pager.endRowNo}
 			)
@@ -26,7 +26,7 @@
 		select HDR_ID, HDR_SUBMITTED_DATE, HDR_START_DATE, HDR_END_DATE, HDR_CONTENT,
 			HDR_STATUS, HDR_COMPLETED_DATE, HD_CATEGORY, HDR_EMP_ID, HDR_APPROVER, HDR_USED_DAY
 		from holiday_request 
-		where HDR_EMP_ID = #{empId}
+		where HDR_EMP_ID = #{empId} and HDR_STATUS = '승인'
 	</select>
 	
 	<select id="countRowsByEmpId" parameterType="String" resultType="int">
