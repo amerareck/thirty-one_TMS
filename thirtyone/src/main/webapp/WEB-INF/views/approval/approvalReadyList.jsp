@@ -49,7 +49,8 @@
 						<td class="text-center align-middle table-font-size">${apr.deptName}</td>
 						<td class="text-center align-middle table-font-size">${apr.empInfo.position}</td>
 						<td class="text-center align-middle table-font-size">${apr.empInfo.empName}</td>
-						<td class="text-center align-middle"><button class="btn btn-outline-secondary btn-ssm" data-bs-toggle="modal" data-bs-target="#approvalContext-${i.index}">결재</button></td>
+						<c:if test="${activePage == 'ready'}"><td class="text-center align-middle"><button class="btn btn-outline-secondary btn-ssm" data-bs-toggle="modal" data-bs-target="#approvalContext-${i.index}">결재</button></td></c:if>
+						<c:if test="${activePage == 'all'}"><td class="text-center align-middle"><button class="btn btn-outline-secondary btn-ssm" data-bs-toggle="modal" data-bs-target="#approvalView-${i.index}">열기</button></td></c:if>
 						<c:if test="${apr.docAprStatus == '대기'}"><td class="text-center align-middle"><img src="${pageContext.request.contextPath}/resources/image/approval-await.png" width="50px" height="20px" /></td></c:if>
 						<c:if test="${apr.docAprStatus == '진행'}"><td class="text-center align-middle"><img src="${pageContext.request.contextPath}/resources/image/approval-doing.png" width="50px" height="20px" /></td></c:if>
 						<c:if test="${apr.docAprStatus == '승인'}"><td class="text-center align-middle"><img src="${pageContext.request.contextPath}/resources/image/approval-approve.png" width="50px" height="20px" /></td></c:if>
@@ -80,5 +81,10 @@
 	</c:if>
 </section>
 
+<c:if test="${activePage == 'ready'}">
 <%@ include file="/WEB-INF/views/approval/approvalContext.jsp" %>
+</c:if>
+<c:if test="${activePage == 'all'}">
+<%@ include file="/WEB-INF/views/approval/approvalViewSubmitted.jsp" %>
+</c:if>
 <%@ include file="/WEB-INF/views/approval/approvalContainerFooter.jsp" %>

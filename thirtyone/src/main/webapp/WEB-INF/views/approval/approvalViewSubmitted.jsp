@@ -2,6 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:if test="${not empty draftList}"><c:set var="list" value="${draftList}" /></c:if>
+<c:if test="${not empty aprList}"><c:set var="list" value="${aprList}" /></c:if>
 <c:if test="${not empty recalledList}"><c:set var="list" value="${recalledList}" /></c:if>
 <c:forEach items="${list}" var="draft" varStatus="i" >
 <c:set var="index" value="${i.index}" />

@@ -307,3 +307,78 @@ $('#settingApprovalLineList').on('click', '.page-move', function(e){
         }
 	});
 });
+
+$(document).ready(function() {
+    $('#selectAltApproverModal').on('shown.bs.modal', function() {
+        console.log('모달 오픈');
+        $.ajax({
+    		url: "getOrgChart",
+    		method: "get",
+    		success: function(data) {
+    			 if (data['status'] === 'ok' && data['org-chart']) {
+                     $('#deptEmpListForProxyModal').jstree(data['org-chart']); 
+                 } else {
+                     console.error('Invalid org-chart structure:', data);
+                 }
+    		},
+    		error: function (xhr, status, error) {
+                console.log('Error: ' + error);
+            }
+    	});
+    });
+});
+
+$('#deptEmpListForProxyModal').on('dblclick', '.jstree-node', function(e) {
+	e.stopPropagation();
+    var nodeId = $(this).attr('id');
+    var deptName = $(this).find('a.jstree-anchor').text();
+    if(nodeId === 'j1_1') return;
+    console.log("더블클릭된 노드 ID:", nodeId);
+    
+    $.ajax({
+		url: "getOrgEmp?deptId="+nodeId,
+		method: "get",
+		success: function(data) {
+			console.log(data);
+			const empList = data['empInfo'];
+			let options = '';
+			for(let ele of empList) {
+				options += '<option value="'+ele['empId']+`" class="selected-proxy" data-deptId="${nodeId}" data-deptName="${deptName}">`+ele['name']+' '+ele['empPosition']+'</option>\n';
+			}
+			
+			$('#selectedEmployeeForProxyModal').empty();
+			$('#selectedEmployeeForProxyModal').html(options);
+		},
+		error: function (xhr, status, error) {
+            console.log('Error: ' + error);
+        }
+	});
+});
+
+$('#selectedEmployeeForProxyModal').on('dblclick', '.selected-proxy', function(e){
+	e.stopPropagation();
+	const param = {};
+	param.empId = $(this).val();
+	param.empName = $(this).text().split(' ')[0];
+	param.position = $(this).text().split(' ')[1];
+	param.deptId = $(this).attr('data-deptId');
+	param.deptName = $(this).attr('data-deptName');
+	
+	console.log(param);
+	const target = $('.fw-boldtext-body-tertiary');
+	target.text('');
+	target.text('['+param.deptName+'] '+param.empName+' '+param.position);
+	
+	const input = $('div.proxy-info');
+	input.append(`<input type="hidden" value="${param.empId}" class="proxy-info-values" name="empId" />`);
+	input.append(`<input type="hidden" value="${param.empName}" class="proxy-info-values" name="empName" />`);
+	input.append(`<input type="hidden" value="${param.position}" class="proxy-info-values" name="position" />`);
+	input.append(`<input type="hidden" value="${param.deptId}" class="proxy-info-values" name="deptId" />`);
+	input.append(`<input type="hidden" value="${param.deptName}" class="proxy-info-values" name="deptName" />`);
+	
+	$('#selectAltApproverModal').modal('hide');
+});
+
+$('#btnSubmitApprovalProxy').on('click', function(){
+	
+});

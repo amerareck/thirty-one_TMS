@@ -7,8 +7,9 @@
     <h5 class="fw-bold m-0 p-0 pt-1" style="width: 40%; height: 22px;">결재 대리자</h5>
 	<div class="d-flex justify-content-end" style="width: 60%">
 		<span class="fw-boldtext-body-tertiary" style="font-size: 0.85rem; font-weight: 500; padding-top: 6px;">대리자 없음</span>
-		<button type="button" class="btn btn-tertiary btn-sm d-flex align-items-center" style="height: 22px; margin-top: 3px;"><i class="fa-solid fa-magnifying-glass"></i></button>
+		<button type="button" class="btn btn-tertiary btn-sm d-flex align-items-center" style="height: 22px; margin-top: 3px;" data-bs-toggle="modal" data-bs-target="#selectAltApproverModal"><i class="fa-solid fa-magnifying-glass"></i></button>
 	</div>
+	<div class="d-none proxy-info"></div>
 </div>
 <hr class="my-1 mx-auto" style="width: 97%"/>
 <div class="d-flex align-items-center justify-content-between mt-3 w-100 px-2 pt-2">
@@ -26,6 +27,8 @@
 </div>
 <hr class="mt-1 mb-2 mx-auto" style="width: 98%"/>
 <div class="d-flex justify-content-center mt-4">
-    <button class="btn btn-custom-cancel btn-custom-sm me-3">취소</button>
-    <button class="btn btn-custom-confirm btn-custom-sm">확인</button>
+    <button type="button" class="btn btn-custom-cancel btn-custom-sm me-3" id="btnResetApprovalProxy">취소</button>
+    <button type="button" class="btn btn-custom-confirm btn-custom-sm" id="btnSubmitApprovalProxy">확인</button>
 </div>
+
+<%@ include file="/WEB-INF/views/approval/approvalSettingSelectEmp.jsp" %>
