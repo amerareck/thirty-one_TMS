@@ -20,5 +20,6 @@ public class NoticeFormDto {
 	
 	private MultipartFile[] attachFile;
 	private int[] deptId;
+	private int[] deleteFileId;
 
 }

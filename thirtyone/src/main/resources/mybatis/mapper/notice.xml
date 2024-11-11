@@ -187,4 +187,9 @@
 		SET NOTICE_ALL_TARGET = 1
 		WHERE NOTICE_ID = #{noticeId}
 	</update>
+	
+	<select id="hasNoticeFileId" parameterType="int" resultType="int">
+		SELECT COUNT(NOTICE_FILE_ID) FROM NOTICE_FILES
+		WHERE NOTICE_FILE_ID = #{noticeFileId}
+	</select>
 </mapper>

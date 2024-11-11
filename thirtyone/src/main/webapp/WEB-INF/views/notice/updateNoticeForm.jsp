@@ -86,21 +86,41 @@
 						<div class="plus-file">첨부파일</div>
 
 						<div class="fileContent" href="javascript:" id="dropZone">
-							<div class="fileBox">
-								<c:forEach var="file" items="${noticeFiles}">
-									<input type="hidden" name="noticeFileName"
-										value="${file.noticeFileName}">
-								</c:forEach>
-								<p>
-									<img
-										src="${pageContext.request.contextPath}/resources/image/plusFile_icon.png"
-										alt="plusFile" style="width: 44px" id="preview" /> 마우스로 파일을
-									끌어놓으세요.
-								</p>
+							<div class="fileBox" id="fileBox">
+								<c:choose>
+									<c:when test="${not empty noticeFiles}">
+										<c:forEach var="noticeFiles" items="${noticeFiles}">
+											<c:choose>
+												<c:when
+													test="${noticeFiles.noticeFileName.endsWith('.jpg') ||
+														noticeFiles.noticeFileName.endsWith('.jpeg') ||
+														noticeFiles.noticeFileName.endsWith('.png') ||
+														noticeFiles.noticeFileName.endsWith('.gif')}">
+													<img
+														src="attachDownload?noticeFileId=${noticeFile.noticeFileId}"
+														width="80">
+												</c:when>
+												<c:otherwise>
+											${noticeFiles.noticeFileName}
+											</c:otherwise>
+											</c:choose>
+										</c:forEach>
+									</c:when>
+									<c:otherwise>
+										<p>
+											<img
+												src="${pageContext.request.contextPath}/resources/image/plusFile_icon.png"
+												alt="plusFile" style="width: 44px" id="preview" /> 마우스로 파일을
+											끌어놓으세요.
+										</p>
+									</c:otherwise>
+								</c:choose>
 							</div>
 							<div class="line file"></div>
 							<input type="file" id="uploadFile" class="button-small upload"
-								value="내 PC" name="attachFile" multiple>
+								value="내 PC" name="attachFile123" multiple>
+
+
 
 						</div>
 					</div>
@@ -116,8 +136,9 @@
 						<input type="submit" class="button-medium" id="save" name="action"
 							value="수정"></input>
 					</div>
-					<input type="hidden" name="noticeId" value="${notice.noticeId}" id="noticeId">
-					<input type="hidden" name="empId" value="${employees.empId}">
+					<input type="hidden" name="noticeId" value="${notice.noticeId}"
+						id="noticeId"> <input type="hidden" name="empId"
+						value="${employees.empId}">
 
 					<!-- Modal -->
 					<div class="modal fade" id="exampleModal" tabindex="-1"

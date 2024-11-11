@@ -86,7 +86,7 @@
 
 							<div class="line file"></div>
 							<input type="file" id="uploadFile" class="button-small upload"
-								value="내 PC" name="attachFile" multiple>
+								value="내 PC" name="attachFile123" multiple>
 							<%-- <img
                   src="${pageContext.request.contextPath}/resources/image/upload_icon.png"
                   alt="upload" style="width: 18px;" /> --%>

@@ -43,12 +43,15 @@ public interface NoticeDao {
 	 /*public int deleteNoticeFile(int noticeId);*/
 	 /*public int deleteNotice(int noticeId);*/
 	 public int deactivateNoticeById(int noticeId);
-	 public int deleteFileFromDb(NoticeFileDto noticeFile);
+	 public int deleteFileFromDb(int fileId);
 
 	 //부서
 	 public int insertNoticeTarget(NoticeDto notice);
 	 public int updateNoticeTarget(NoticeDto notice);
 	 public List<NoticeTargetDto> selectDeptId(int noticeId);
+
+	 //파일 수정
+	 public int hasNoticeFileId(int noticeFileId);
 	
 
 }

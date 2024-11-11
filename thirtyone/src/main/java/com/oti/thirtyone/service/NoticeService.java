@@ -99,8 +99,8 @@ public class NoticeService {
 		noticeDao.deactivateNoticeById(noticeId);
 	}
 	
-	public void deleteFileFromDb(NoticeFileDto noticeFile) {
-		noticeDao.deleteFileFromDb(noticeFile);
+	public void deleteFileFromDb(int fileId) {
+		noticeDao.deleteFileFromDb(fileId);
 	}
 	
 	//부서
@@ -115,6 +115,15 @@ public class NoticeService {
 	public List<NoticeTargetDto> selectDeptId(int noticeId) {
 		List<NoticeTargetDto> notice = noticeDao.selectDeptId(noticeId);
 		return notice;
+	}
+
+	public boolean hasNoticeFileId(int noticeFileId) {		
+		int hasFile = noticeDao.hasNoticeFileId(noticeFileId);
+		if (hasFile == 0) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 }

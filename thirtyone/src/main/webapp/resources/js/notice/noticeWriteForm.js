@@ -70,7 +70,7 @@ document.addEventListener("DOMContentLoaded", function() {
 		event.preventDefault();
         event.stopPropagation();
         const formData = new FormData(contentForm);				
-
+        
         if (contentValidChk()) {
 			submitForm(formData);
 		}
@@ -89,7 +89,12 @@ document.addEventListener("DOMContentLoaded", function() {
 	function submitForm(formData) {
 		console.log("Form Data:", [...formData]);
 		
-		filesArray.forEach(file => formData.append('attachFile[]', file));
+		filesArray.forEach(file => formData.append('attachFile', file));
+		
+		for (let [key, value] of formData.entries()) {
+            console.log(key, value); // 각 키와 값이 출력됩니다.
+        }
+		console.log("filesArray: ", filesArray);
 		
 		const checkedDeptIds = getCheckedDeptIds().map(id => parseInt(id));
 		checkedDeptIds.forEach(deptId => formData.append('deptId[]', deptId)); // 배열처럼 사용
@@ -104,7 +109,7 @@ document.addEventListener("DOMContentLoaded", function() {
 			contentType: false,
 			success: function(response) {
 				const noticeId = response.noticeId;
-				alert("공지사항이 작성이 성공적으로 되었습니다!");
+				alert("공지사항 작성이 성공적으로 되었습니다!");
 				console.log("작성 AJAX 성공", response);
 				location.href = contextPath + '/notice/noticeList';
 			},
@@ -140,14 +145,6 @@ document.addEventListener("DOMContentLoaded", function() {
 	dropZone.addEventListener('dragover', (e) => e.preventDefault());
 	dropZone.addEventListener('drop', handleDrop);
 	
-	/*uploadFile.addEventListener("change", (event) => {
-		filesArray = Array.from(event.target.files);
-		let tempList = Array.from(event.target.files); // FileList를 배열로 변환
-		   tempList.forEach(function (file, index)  {
-		      filesArray.push(file);
-		});
-		displayFileList();
-	});*/
 	
 	uploadFile.addEventListener("change", () => {
 		// filesArray = Array.from(event.target.files); => 파일이 1개씩 들어오면 filesArray의 길이는

@@ -71,7 +71,7 @@
 						<input value="${deptName}" id="deptId" name="deptId" disabled> 
 					
 					<select class="form-select" id="position" name="position" required>
-						<option selected>직급을 선택해 주세요.</option>
+						<option value="0" selected>직급을 선택해 주세요.</option>
 						<c:forEach items="${position}" var="position">
 							<option value="${position.position}">${position.position}</option>
 						</c:forEach>	

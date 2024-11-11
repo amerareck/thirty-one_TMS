@@ -65,9 +65,10 @@
 		UPDATE HOLIDAY SET
 		HD_USED = HD_USED + #{hdUsed}
 		<if test='hdCategory == 2'>
-		, HD_COUNT = HD_COUNT - #{hdUsed}
+		,HD_COUNT = HD_COUNT - #{hdUsed}
 		</if>
-		WHERE EMP_ID = #{empId}
+		WHERE EMP_ID = #{empId} 
+		AND HD_CATEGORY = #{hdCategory}
 	</update>
 	
 	<select id="selectHdInfo">

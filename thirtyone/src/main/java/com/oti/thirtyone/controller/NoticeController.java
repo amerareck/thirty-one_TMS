@@ -233,6 +233,7 @@ public class NoticeController {
 		model.addAttribute("notice", notice);
 		model.addAttribute("noticeFile", noticeFile);
 		model.addAttribute("noticeFiles", noticeFiles);
+		log.info("noticeFiles:  무슨소리" + noticeFiles);
 
 		return "notice/updateNoticeForm";
 	}
@@ -241,6 +242,10 @@ public class NoticeController {
 	@GetMapping("/updateNoticeByDb")
 	public List<NoticeFileDto> updateNoticeByDb(int noticeId, Model model) {
 		List<NoticeFileDto> noticeFiles = noticeService.selectAttachFiles(noticeId);
+		for (NoticeFileDto noticeFileDto : noticeFiles) {
+			log.info(noticeFileDto.getNoticeFileName());
+			log.info(noticeFileDto.getNoticeId() + "");
+		}
 		model.addAttribute("noticeFiles", noticeFiles);
 		return noticeFiles;
 	}
@@ -248,6 +253,7 @@ public class NoticeController {
 	// 공지사항 수정
 	@PostMapping("/updateNotice")
 	public String updateNotice(Model model, NoticeFormDto notice) throws Exception {
+
 		NoticeDto dbNotice = new NoticeDto();
 		dbNotice.setNoticeId(notice.getNoticeId());
 		dbNotice.setNoticeTitle(notice.getNoticeTitle());
@@ -256,27 +262,31 @@ public class NoticeController {
 		dbNotice.setNoticeImportant(notice.getNoticeImportant());
 		dbNotice.setNoticeAllTarget(notice.getNoticeAllTarget());
 
-		log.info(notice.toString());
-		log.info(dbNotice.toString());
+/*		log.info(notice.toString());
+*/		log.info(dbNotice.toString());
 
 		noticeService.updateNotice(dbNotice);
 
 		MultipartFile[] files = notice.getAttachFile();
 
-		for (MultipartFile mf : files) {
-			if (!mf.isEmpty()) {
+		for(int fileId : notice.getDeleteFileId()) {
+			log.info(" fileId = " + fileId);
+			noticeService.deleteFileFromDb(fileId);
+		}
+		
+		if (files != null) {
+			for (MultipartFile mf : files) {
 				NoticeFileDto dbFile = new NoticeFileDto();
+//				if (!noticeService.hasNoticeFileId(dbFile.getNoticeFileId())) continue; //noticeFileId 가 없으면 밑에 구문을 실행시키지 않고 다음 index로 넘어간다.
 				dbFile.setNoticeFileName(mf.getOriginalFilename());
 				dbFile.setNoticeFileData(mf.getBytes());
 				dbFile.setNoticeFileType(mf.getContentType());
 				dbFile.getNoticeFileId();
 				dbFile.setNoticeId(dbNotice.getNoticeId());
-				log.info(dbFile.toString());
-				/* noticeService.updateNoticeFile(dbFile); */
-				noticeService.insertNoticeFile(dbFile);
+				noticeService.insertNoticeFile(dbFile); //db에 없으면 insert 있으면 노 insert
 			}
 		}
-		log.info(notice.toString());
+//		log.info(notice.toString());
 		log.info("마바사");
 
 		model.addAttribute("selectedTitle", "notice");
@@ -296,12 +306,12 @@ public class NoticeController {
 	}
 
 	// 공지사항 수정에서 파일 삭제
-	@PostMapping("/deleteFileFromDb")
-	public ResponseEntity<NoticeFileDto> deleteFileFromDb(@RequestBody NoticeFileDto noticeFile) {
-		noticeService.deleteFileFromDb(noticeFile);
-		log.info(noticeFile + " ");
-		return ResponseEntity.ok(noticeFile);
-	}
+//	@PostMapping("/deleteFileFromDb")
+//	public ResponseEntity<NoticeFileDto> deleteFileFromDb(@RequestBody NoticeFileDto noticeFile) {
+//		noticeService.deleteFileFromDb(noticeFile);
+//		log.info(noticeFile + " ");
+//		return ResponseEntity.ok(noticeFile);
+//	}
 
 	// 부서 모달
 	@GetMapping("/deptList")

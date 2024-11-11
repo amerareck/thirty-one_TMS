@@ -1,8 +1,30 @@
 document.addEventListener('DOMContentLoaded', function () {
     const contentForm = document.getElementById("contentForm");
     const holidayTypeSelect = document.getElementById("holiday-duration");
+    const holidayPeriodSelect = document.getElementById('holiday-period');
+    const holidayTimeSelect = document.getElementById('holiday-time');
+    const hdCategorySelect = document.getElementById('hdCategory');
     const usedDay = document.getElementById("hdrUsedDay");
+    const positionSelect = document.getElementById("position");
+    const approverSelect = document.getElementById("hdrApprover");
 
+    //초기 상태로 승인자 목록 비활성화
+    approverSelect.disabled = true;
+    
+    //직급 선택 시 승인자 목록 활성화/비활성화 처리
+    /*positionSelect.addEventListener('change', function() {
+    	const positionValue = this.value;
+    	if (positionValue == "0") {
+    		positionSelect.disabled = true;
+    		positionSelect.value = "0"; //승인자 값 초기화
+    	} else {
+    		positionSelect.disabled = false;
+    	}
+    });*/
+    
+    //페이지 로드 시, 직급에 맞게 승인자 목록 처리
+    positionSelect.dispatchEvent(new Event('change'));
+    
     // 휴가 날짜 선택 (Flatpickr)
     const calendar = flatpickr("#choiceDay", {
         mode: "range",
@@ -100,16 +122,11 @@ document.addEventListener('DOMContentLoaded', function () {
         return `${year}-${month}-${day}`;
     }
 
-    // 휴가 유형에 따라 필드 숨기기/보이기
-    const holidayDurationSelect = document.getElementById('holiday-duration');
-    const holidayPeriodSelect = document.getElementById('holiday-period');
-    const holidayTimeSelect = document.getElementById('holiday-time');
-    
-    holidayDurationSelect.addEventListener('change', function() {
-        const holidayType = this.value;
-        
+    // 휴가 유형에 따라 필드 숨기기/보이기  
+    holidayTypeSelect.addEventListener('change', function() {
+        const holidayType = this.value;        
         console.log("holidayType " + holidayType);
-        
+       
 	    //반차 반반차 비활성화 처리    
 		if (holidayType == "2") {
 			holidayPeriodSelect.disabled = false;
@@ -128,16 +145,50 @@ document.addEventListener('DOMContentLoaded', function () {
 	        inline: true
 		});
     });
-
+    
+    
+    //대체휴무 선택시 반차 반반차 비활성화    
+    hdCategorySelect.addEventListener('change', function() {
+    	const holidayCategory = this.value;
+	    	
+	    if (holidayCategory == '2') {
+	    	disableholidayTypeSelect(); //대체휴무인 경우 반차와 반반차 비활성화
+	    } else {
+	    	enableholidayTypeSelect(); //대체휴무가 아닌 경우 활성화
+	    }	
+    });
+    
+    //대체휴무일 경우, 반차/반반차를 비활성화
+    function disableholidayTypeSelect() {
+    	const options = holidayTypeSelect.querySelectorAll('option');
+    	options.forEach(option => {
+    		if (option.value === '2' || option.value === '3') {
+    			option.disabled = true;
+    			option.style.color = '#afafaf';  			
+    		}
+    	});
+    	holidayTypeSelect.value = '1';
+    }
+    
+    //대체휴무가 아닌 경우 반차/반반차 활성화
+    function enableholidayTypeSelect() {
+    	const options = holidayTypeSelect.querySelectorAll('option');
+    	options.forEach (option => {
+    		option.disabled = false;
+    		option.style.color = '';
+    	});
+    }
+    
+    //페이지 로드 시, 대체휴무 상태에 맞춰 필드 초기화
+    hdCategorySelect.dispatchEvent(new Event('change'));
+	/*});*/
+    	
     // 페이지 로드 시 초기 상태
-    holidayPeriodSelect.disabled = holidayDurationSelect.value !== "2";
-    holidayTimeSelect.disabled = holidayDurationSelect.value !== "3";
+    holidayPeriodSelect.disabled = holidayTypeSelect.value !== "2";
+    holidayTimeSelect.disabled = holidayTypeSelect.value !== "3";
     
 
-    // 직급별로 사원 목록 로드
-    const positionSelect = document.getElementById('position');
-    const approverSelect = document.getElementById('hdrApprover');
-    
+    // 직급별로 사원 목록 로드  
     const allowedPositions = ['과장', '차장', '부장'];
     
     //직급 필터링 함수
@@ -152,7 +203,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
     
     filterPositions();
-    
+  
     positionSelect.addEventListener('change', function() {
         const positionClass = $(this).val();
         /*const positionClass = document.getElementById("position").value;*/
@@ -185,7 +236,7 @@ document.addEventListener('DOMContentLoaded', function () {
             .then(data => {
                 // 사원 데이터 처리
                 var approverSelect = document.getElementById("hdrApprover");
-                approverSelect.innerHTML = '<option selected>이름을 선택해 주세요.</option>';
+                approverSelect.innerHTML = '<option value="0" selected>이름을 선택해 주세요.</option>';
                 
                 // 새로운 옵션을 dropdown에 추가
                 data.forEach(employees => {
@@ -202,15 +253,18 @@ document.addEventListener('DOMContentLoaded', function () {
             });
     })
 
-    // 직급 필터링
-    /*const positionSelect = document.getElementById('position');
-    const allowedPositions = ['과장', '차장', '부장'];
-
-    Array.from(positionSelect.options).forEach(option => {
-        if (!allowedPositions.includes(option.textContent)) {
-            option.hidden = true;
-        }
-    });*/
+    //직책 선택시 승인권자 활성화/비활성화
+    document.getElementById('position').addEventListener('change', function() {
+    	const positionValue = this.value;
+    	const approverSelect = document.getElementById('hdrApprover');
+    	
+    	if (positionValue === "0") {
+    		approverSelect.disabled = true;
+    		approverSelect.value = "0";
+    	} else {
+    		approverSelect.disabled = false;
+    	}
+    });
     
     contentForm.addEventListener("submit", function(event) {
 		event.preventDefault();
@@ -224,7 +278,11 @@ document.addEventListener('DOMContentLoaded', function () {
         for (let [key, value] of formData.entries()) {
             console.log(key, value); // 각 키와 값이 출력됩니다.
         }
-		submitForm(formData);
+        
+        if (contentValidChk()) {
+			submitForm(formData);
+			console.log("contentValidChk:	", contentValidChk);
+		}
 		
 	});
     
@@ -247,4 +305,61 @@ document.addEventListener('DOMContentLoaded', function () {
 	            }
 	        });
 	    }
+	    
+	    //유효성 검사
+	    function contentValidChk() {
+	    	const choiceDay = document.getElementById("choiceDay").value;
+	    	const positionValue = positionSelect.value;
+	        const approverValue = approverSelect.value;
+	        const hdrContent = document.getElementById('hdrContent').value;
+	        console.log("positionValue: ", positionValue);
+	        const holidayTypeValue = holidayTypeSelect.value;
+	        const holidayPeriodValue = holidayPeriodSelect.value;
+	        const holidayTimeValue = holidayTimeSelect.value;
+	        const hdCategoryValue = hdCategorySelect.value;
+	        
+	        console.log("approverValue: ", approverValue);
+	        
+	        if (!choiceDay) {
+	        	alert("날짜를 선택해 주세요.");
+	        	return false;
+	        }
+	        
+	        if (hdCategoryValue === "0") {
+	        	alert("휴가 유형을 선택해주세요.");
+	        	return false;
+	        }
+	        
+	        if (holidayTypeValue === "0") {
+	        	alert("종일 / 반차 / 반반차를 선택해주세요.");
+	        	return false;
+	        }
+	        
+	        if (holidayTypeValue === "2" && holidayPeriodValue === "0") {
+	        	alert("반차 시간대를 선택해주세요.");
+	        	return false;
+	        }
+	        
+	        if (holidayTypeValue === "3" && holidayTimeValue === "0") {
+	        	alert("반반차 시간대를 선택해주세요.");
+	        	return false;
+	        }
+	        
+	        if (positionValue === "0") {
+	        	alert("승인권자의 직급을 선택해주세요.");
+	        	return false;	        	
+	        }
+	        
+	        if (approverValue === "0" || approverValue === "") {
+	        	alert("승인권자를 선택해주세요.");
+	        	return false;	        	
+	        }
+	        
+	        if (!hdrContent) {
+	        	alert("사유를 작성해주세요.");
+	        	return false;
+	        }
+	        return true;
+	    }
+	    
 	});

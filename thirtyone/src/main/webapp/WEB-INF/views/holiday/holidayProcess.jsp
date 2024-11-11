@@ -79,7 +79,7 @@
 													<fmt:formatDate value="${hdrApr.hdrApr.hdrEndDate}"
 														pattern="yyyy-MM-dd" />
 												</p>
-												<div class="holiday-time">3일</div>
+												<div class="holiday-time">${hdrApr.hdrApr.hdrUsedDay}</div>
 												<p class="accept-label">사유</p>
 												<div class="holiday-reason">${hdrApr.hdrApr.hdrContent}</div>
 												<div class="holiday-file">
