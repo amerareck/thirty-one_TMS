@@ -273,8 +273,10 @@
 				DOC_BIZTRIP_PURPOSE,
 				DOC_HOLIDAY_WORK_START_DATE,
 				DOC_WORK_OVERTIME_END_DATE,
-				DOC_APR_STATUS
+				DOC_APR_STATUS,
+				DOC_FORM_NAME
 			FROM DOCUMENT_FOLDER
+				LEFT OUTER JOIN DOCUMENT_FORM USING(DOC_FORM_CODE)
 			WHERE doc_number
 		]]>
 		<if test="docNumbers.isEmpty()">
@@ -370,5 +372,75 @@
 		select doc_apr_status
 		from document_folder
 		where to_char(#{thisDay}, 'yyyy/MM/dd') = to_char(DOC_WORK_OVERTIME_END_DATE, 'yyyy/MM/dd') and emp_id=#{empId}
+	</select>
+	
+	<select id="selectDepartmentsDrafts" parameterType="int" resultType="Approval">
+		<![CDATA[
+			WITH empDept AS (
+			    SELECT 
+			        A.emp_id,
+			        A.dept_id,
+			        A.emp_name,
+			        B.dept_name
+			    FROM EMPLOYEES A
+			        LEFT OUTER JOIN DEPARTMENTS B ON A.dept_id = b.dept_id
+			    WHERE A.dept_Id = #{deptId}
+			)
+			SELECT
+			    emp_id, dept_id, emp_name, dept_name, doc_number, doc_draft_date, doc_retention_period,
+			    doc_title, doc_document_data, B.doc_form_code, doc_holiday_type, doc_holiday_day, doc_holiday_start_date, doc_holiday_end_date,
+			    doc_biztrip_day, doc_biztrip_start_date, doc_biztrip_end_date, doc_biztrip_purpose, doc_holiday_work_start_date,
+			    doc_work_overtime_end_date, doc_apr_status, doc_form_name
+			FROM empDept A
+			    LEFT OUTER JOIN DOCUMENT_FOLDER B USING(emp_id)
+			    LEFT OUTER JOIN DOCUMENT_FORM C ON B.doc_form_code = C.doc_form_code
+			WHERE 
+			    doc_number IS NOT NULL
+			AND doc_apr_status NOT IN('폐기', '회수')
+			ORDER BY DOC_DRAFT_DATE DESC
+		]]>
+	</select>
+	
+		<select id="selectDepartmentsCompleteDrafts" parameterType="int" resultType="Approval">
+		<![CDATA[
+			WITH empDept AS (
+			    SELECT 
+			        A.emp_id,
+			        A.dept_id,
+			        A.emp_name,
+			        B.dept_name
+			    FROM EMPLOYEES A
+			        LEFT OUTER JOIN DEPARTMENTS B ON A.dept_id = b.dept_id
+			    WHERE A.dept_Id = #{deptId}
+			)
+			SELECT
+			    emp_id, dept_id, emp_name, dept_name, doc_number, doc_draft_date, doc_retention_period,
+			    doc_title, doc_document_data, B.doc_form_code, doc_holiday_type, doc_holiday_day, doc_holiday_start_date, doc_holiday_end_date,
+			    doc_biztrip_day, doc_biztrip_start_date, doc_biztrip_end_date, doc_biztrip_purpose, doc_holiday_work_start_date,
+			    doc_work_overtime_end_date, doc_apr_status, doc_form_name
+			FROM empDept A
+			    LEFT OUTER JOIN DOCUMENT_FOLDER B USING(emp_id)
+			    LEFT OUTER JOIN DOCUMENT_FORM C ON B.doc_form_code = C.doc_form_code
+			WHERE 
+			    doc_number IS NOT NULL
+			AND doc_apr_status IN('승인', '반려')
+			ORDER BY DOC_DRAFT_DATE DESC
+		]]>
+	</select>
+	
+	<select id="selectDraftsForReference" parameterType="String" resultType="Approval">
+		<![CDATA[
+			WITH referenceDoc AS (
+				SELECT *
+				FROM REFERENCE_EMP
+				WHERE emp_id = #{empId}
+			)
+			SELECT B.*, C.doc_form_name
+			FROM referenceDoc A
+				LEFT OUTER JOIN DOCUMENT_FOLDER B ON A.doc_number = B.doc_number
+                LEFT OUTER JOIN DOCUMENT_FORM C ON B.doc_form_code = C.doc_form_code
+            WHERE doc_apr_status NOT IN('회수', '폐기')
+			ORDER BY doc_draft_date DESC
+		]]>
 	</select>
 </mapper>

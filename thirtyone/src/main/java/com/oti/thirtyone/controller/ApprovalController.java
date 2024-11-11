@@ -216,22 +216,93 @@ public class ApprovalController {
 	}
 	
 	@GetMapping("/archive")
-	public String getDeptOfficeBoxPage(PageParam param, Model model) {
+	public String getDeptOfficeBoxPage(PageParam param, Authentication auth, Model model) {
 		log.info("실행");
 		model.addAttribute("selectedSub", "archive");
 		model.addAttribute("title", "문서함");
 		
+		List<ApprovalDTO> draftList = null;
+		param.setPageNo(param.getPageNo() == 0 ? 1 : param.getPageNo());
+		EmployeesDto myInfo = empService.getEmpInfo(auth.getName());
+		
 		if(param.getType()!=null && param.getType().equals("completeDoc")) {
 			model.addAttribute("activePage", "completeDoc");
 			model.addAttribute("sectionTitle", "완결 문서함");
+			
+			draftList = approvalService.getDepartmentsCompleteDrafts(myInfo.getDeptId());
 		} else if(param.getType()!=null && param.getType().equals("referenceDoc")) {
 			model.addAttribute("activePage", "referenceDoc");
 			model.addAttribute("sectionTitle", "참조 문서함");
+			
+			draftList = approvalService.getDraftsForReference(myInfo.getEmpId());
 		} else { //default page, type="deptDoc"
 			model.addAttribute("activePage", "deptDoc");
 			model.addAttribute("sectionTitle", "부서 문서함");
 			
+			draftList = approvalService.getDepartmentsDrafts(myInfo.getDeptId());
 		}
+		
+		Pager pager = new Pager(7, 5, draftList.size(), param.getPageNo());
+		List<ApprovalDTO> pageNoDraftList = draftList.stream()
+			    .skip(pager.getStartRowNo() - 1)
+			    .limit(pager.getEndRowNo() - pager.getStartRowNo()+1)
+			    .collect(Collectors.toList());
+
+		draftList.clear();
+		draftList.addAll(pageNoDraftList);
+		
+		List<DocumentApprovalLineDTO> docAprLineList = approvalService.getDocAprLinesByDocNumbers(draftList);
+		List<DocumentReferenceDTO> docRefList = approvalService.getDocRefsByDocNumbers(draftList);
+		Set<String> empIdSet = new HashSet<>();
+		empIdSet.add(auth.getName());
+		
+		draftList.stream().forEach(item -> {
+			item.setDocApprovalLine(docAprLineList.parallelStream()
+				.filter(elem -> elem.getDocNumber().equals(item.getDocNumber()))
+				.collect(Collectors.toList()));
+			item.getDocApprovalLine().sort(Comparator.comparingInt(DocumentApprovalLineDTO::getDocAprSeq));
+			item.setDocReferenceList(docRefList.parallelStream()
+				.filter(elem -> elem.getDocNumber().equals(item.getDocNumber()))
+				.collect(Collectors.toList()));
+			item.getDocApprovalLine().forEach(elem -> empIdSet.add(elem.getDocAprApprover()));
+			item.getDocReferenceList().forEach(elem -> empIdSet.add(elem.getEmpId()));
+			empIdSet.add(item.getEmpId());
+		});
+		List<EmployeesDto> empList = empService.getEmployeeListByEmpId(new ArrayList<String>(empIdSet));
+		
+		draftList.stream().forEach(item -> {
+			item.setEmpInfo(empList.stream().filter(elem -> elem.getEmpId().equals(item.getEmpId())).findFirst().get());
+			item.setDeptId(item.getEmpInfo().getDeptId());
+			item.setDeptName(item.getEmpInfo().getDeptName());
+			item.setEmpPosition(item.getEmpInfo().getPosition());
+			item.setEmpName(item.getEmpInfo().getEmpName());
+			item.setApproveState(item.getDocAprStatus());
+			item.getDocApprovalLine().stream()
+				.forEach(elem -> elem.setApproverInfo(empList.stream()
+							.filter(ele -> ele.getEmpId().equals(elem.getDocAprApprover()))
+							.findFirst().get()));
+			item.getDocReferenceList().stream()
+				.forEach(elem -> {
+					EmployeesDto empInfo = empList.stream()
+							.filter(ele -> ele.getEmpId().equals(elem.getEmpId()))
+							.findFirst().get();
+					elem.setDeptId(empInfo.getDeptId());
+					elem.setDeptName(empInfo.getDeptName());
+					elem.setEmpName(empInfo.getEmpName());
+					elem.setPosition(empInfo.getPosition());
+				});
+			item.setLastApprover(item.getDocApprovalLine().get(0).getApproverInfo());
+			item.setReviewingApproverSeq(0);
+			for(int i=1; i<item.getDocApprovalLine().size(); i++) {
+				if(item.getDocApprovalLine().get(i).getDocAprState().equals("승인") || 
+					item.getDocApprovalLine().get(i).getDocAprState().equals("반려")) {
+					item.setLastApprover(item.getDocApprovalLine().get(i).getApproverInfo());
+					item.setReviewingApproverSeq(i);
+				}
+			}
+		});
+		model.addAttribute("draftList", draftList);
+		model.addAttribute("pager", pager);
 		
 		return "approval/approvalDeptOfficeBox";
 	}
@@ -406,7 +477,8 @@ public class ApprovalController {
 		}
 		Pager pager = new Pager(7, 5, docNumbers.size(), param.getPageNo());
 		pager.setDocNumbers(docNumbers);
-		List<ApprovalDTO> list = approvalService.getDraftsByDocNumbers(pager);
+		List<ApprovalDTO> draftList = approvalService.getDraftsByDocNumbers(pager);
+		/*
 		list.parallelStream().forEach(ele -> {
 			ele.setDocApprovalLine(approvalService.getDraftApprovalLine(ele.getDocNumber()));
 			ele.setDocReferenceList(approvalService.getDraftReferenceList(ele.getDocNumber()));
@@ -425,7 +497,58 @@ public class ApprovalController {
 		});
 		//log.info("######## 결재하기 목록: "+list);
 		log.info("### list size: "+list.size());
-		model.addAttribute("aprList", list);
+		*/
+		List<DocumentApprovalLineDTO> docAprLineList = approvalService.getDocAprLinesByDocNumbers(draftList);
+		List<DocumentReferenceDTO> docRefList = approvalService.getDocRefsByDocNumbers(draftList);
+		Set<String> empIdSet = new HashSet<>();
+		empIdSet.add(auth.getName());
+		
+		draftList.stream().forEach(item -> {
+			item.setDocApprovalLine(docAprLineList.parallelStream()
+				.filter(elem -> elem.getDocNumber().equals(item.getDocNumber()))
+				.collect(Collectors.toList()));
+			item.getDocApprovalLine().sort(Comparator.comparingInt(DocumentApprovalLineDTO::getDocAprSeq));
+			item.setDocReferenceList(docRefList.parallelStream()
+				.filter(elem -> elem.getDocNumber().equals(item.getDocNumber()))
+				.collect(Collectors.toList()));
+			item.getDocApprovalLine().forEach(elem -> empIdSet.add(elem.getDocAprApprover()));
+			item.getDocReferenceList().forEach(elem -> empIdSet.add(elem.getEmpId()));
+			empIdSet.add(item.getEmpId());
+		});
+		List<EmployeesDto> empList = empService.getEmployeeListByEmpId(new ArrayList<String>(empIdSet));
+		
+		draftList.stream().forEach(item -> {
+			item.setEmpInfo(empList.stream().filter(elem -> elem.getEmpId().equals(item.getEmpId())).findFirst().get());
+			item.setDeptId(item.getEmpInfo().getDeptId());
+			item.setDeptName(item.getEmpInfo().getDeptName());
+			item.setEmpPosition(item.getEmpInfo().getPosition());
+			item.setEmpName(item.getEmpInfo().getEmpName());
+			item.setApproveState(item.getDocAprStatus());
+			item.getDocApprovalLine().stream()
+				.forEach(elem -> elem.setApproverInfo(empList.stream()
+							.filter(ele -> ele.getEmpId().equals(elem.getDocAprApprover()))
+							.findFirst().get()));
+			item.getDocReferenceList().stream()
+				.forEach(elem -> {
+					EmployeesDto empInfo = empList.stream()
+							.filter(ele -> ele.getEmpId().equals(elem.getEmpId()))
+							.findFirst().get();
+					elem.setDeptId(empInfo.getDeptId());
+					elem.setDeptName(empInfo.getDeptName());
+					elem.setEmpName(empInfo.getEmpName());
+					elem.setPosition(empInfo.getPosition());
+				});
+			item.setLastApprover(item.getDocApprovalLine().get(0).getApproverInfo());
+			item.setReviewingApproverSeq(0);
+			for(int i=1; i<item.getDocApprovalLine().size(); i++) {
+				if(item.getDocApprovalLine().get(i).getDocAprState().equals("승인") || 
+					item.getDocApprovalLine().get(i).getDocAprState().equals("반려")) {
+					item.setLastApprover(item.getDocApprovalLine().get(i).getApproverInfo());
+					item.setReviewingApproverSeq(i);
+				}
+			}
+		});
+		model.addAttribute("aprList", draftList);
 		model.addAttribute("pager", pager);
 		
 		return "approval/approvalReadyList";

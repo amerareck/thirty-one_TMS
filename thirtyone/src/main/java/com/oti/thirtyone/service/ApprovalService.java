@@ -375,4 +375,16 @@ public class ApprovalService {
 		return documentFolderDAO.selectRejectDraftByEmpId(empId);
 	}
 
+	public List<ApprovalDTO> getDepartmentsDrafts(int deptId) {
+		return documentFolderDAO.selectDepartmentsDrafts(deptId);
+	}
+
+	public List<ApprovalDTO> getDepartmentsCompleteDrafts(int deptId) {
+		return documentFolderDAO.selectDepartmentsCompleteDrafts(deptId);
+	}
+
+	public List<ApprovalDTO> getDraftsForReference(String empId) {
+		return documentFolderDAO.selectDraftsForReference(empId);
+	}
+
 }
