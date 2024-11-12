@@ -13,6 +13,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -60,6 +61,7 @@ public class AttendanceController {
 	
 	
 	@GetMapping("")
+	@Secured("ROLE_USER")
 	public String attendanceMain(Model model, Authentication authentication) {
 		String empId = authentication.getName();
 
@@ -133,6 +135,7 @@ public class AttendanceController {
 		return status;
 	}
 	@GetMapping("/time")
+	@Secured("ROLE_USER")
 	public String attendacnetime(Model model, Authentication authentication) {
 		EmployeeDetails empDetail = (EmployeeDetails) authentication.getPrincipal();
 		EmployeesDto empDto = empDetail.getEmployee();
@@ -171,6 +174,7 @@ public class AttendanceController {
 	}
 
 	@GetMapping("/process")
+	@Secured("ROLE_USER")
 	public String atdProcess(Model model, Authentication authentication, @RequestParam(defaultValue = "1") int pageNo, HttpSession session ) {
 		String empId = authentication.getName();
 		

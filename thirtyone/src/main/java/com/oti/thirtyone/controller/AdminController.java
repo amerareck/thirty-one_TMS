@@ -12,7 +12,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -34,7 +34,6 @@ import com.oti.thirtyone.dto.JoinFormDto;
 import com.oti.thirtyone.dto.Pager;
 import com.oti.thirtyone.dto.PositionsDto;
 import com.oti.thirtyone.dto.ReasonDto;
-import com.oti.thirtyone.security.EmployeeDetails;
 import com.oti.thirtyone.service.AttendanceService;
 import com.oti.thirtyone.service.DepartmentService;
 import com.oti.thirtyone.service.EmployeesService;
@@ -65,6 +64,7 @@ public class AdminController {
 	}
 	
 	@GetMapping("")
+	@Secured("ROLE_ADMIN")
 	public String adminMain(Model model) {
 		List<Map<String, Object>> empInfoList = new LinkedList<>();
 		List<EmployeesDto> empList = empService.getEmpInfoHead();
@@ -94,6 +94,7 @@ public class AdminController {
 	}
 	
 	@GetMapping("/joinForm")
+	@Secured("ROLE_ADMIN")
 	public String joinForm(Model model){
 		List<Departments> deptList = deptService.getDepartmentList();
 		
@@ -138,6 +139,7 @@ public class AdminController {
 	}
 	
 	@GetMapping("/searchList")
+	@Secured("ROLE_ADMIN")
 	public String searchList(Model model, @RequestParam(defaultValue = "1") int pageNo, HttpSession session) {
 		
 		int totalRows = empService.countRows();
@@ -165,6 +167,7 @@ public class AdminController {
 	}
 	
 	@GetMapping("/searchEmp")
+	@Secured("ROLE_ADMIN")
 	public String searchList(Model model, String query, int category,
 			 	@RequestParam(defaultValue = "1") int pageNo, HttpSession session){
 		int totalRows = empService.countRowsBySearch(query, category);
@@ -193,6 +196,7 @@ public class AdminController {
 	}
 	
 	@GetMapping("/empDetail")
+	@Secured("ROLE_ADMIN")
 	public String empDetail(Model model, String empId) {
 		log.info("asdasfasf:   " + empId);
 		EmployeesDto empDto = empService.getEmpInfo(empId);
@@ -216,6 +220,7 @@ public class AdminController {
 	}
 	
 	@GetMapping("atdList")
+	@Secured("ROLE_ADMIN")
 	public String atdList(Model model, @RequestParam(defaultValue = "1") int pageNo, HttpSession session) {
 		int totalRows = reasonService.countRows();
 		Pager pager = new Pager(10, 5, totalRows, pageNo);
@@ -254,6 +259,7 @@ public class AdminController {
 	}
 	
 	@GetMapping("/org")
+	@Secured("ROLE_ADMIN")
 	public String getOrgChartPage(Model model, @RequestParam(defaultValue = "1") int pageNo, HttpSession session) {
 		int totalRows = deptService.countRows();
 		Pager pager = new Pager(10, 5, totalRows, pageNo);
@@ -280,6 +286,7 @@ public class AdminController {
 	}
 	
 	@GetMapping("/position")
+	@Secured("ROLE_ADMIN")
 	public String getPositionPage(Model model) {
 		List<PositionsDto> posList = posService.getPosList();
 
@@ -325,6 +332,7 @@ public class AdminController {
 	}
 	
 	@GetMapping("/employee")
+	@Secured("ROLE_ADMIN")
 	public String getEmployeePage(Model model, @RequestParam(defaultValue = "1") int pageNo, HttpSession session) {
 
 		int totalRows = empService.countRows();
@@ -362,6 +370,7 @@ public class AdminController {
 	}
 	
 	@GetMapping("/searchDeptEmp")
+	@Secured("ROLE_ADMIN")
 	public String searchEmpListByDept(Model model, String query, int category,
 			 	@RequestParam(defaultValue = "1") int pageNo, HttpSession session){
 		int totalRows = empService.countRowsBySearch(query, category);

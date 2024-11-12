@@ -9,7 +9,6 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import javax.servlet.ServletContext;
@@ -22,6 +21,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -40,10 +40,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.oti.thirtyone.dto.AlternateApproverDTO;
 import com.oti.thirtyone.dto.ApprovalDTO;
 import com.oti.thirtyone.dto.ApprovalData;
-import com.oti.thirtyone.dto.DocumentApprovalLineDTO;
-import com.oti.thirtyone.dto.DocumentReferenceDTO;
 import com.oti.thirtyone.dto.Departments;
 import com.oti.thirtyone.dto.DocFilesDTO;
+import com.oti.thirtyone.dto.DocumentApprovalLineDTO;
+import com.oti.thirtyone.dto.DocumentReferenceDTO;
 import com.oti.thirtyone.dto.DraftForm;
 import com.oti.thirtyone.dto.EmpApprovalLineDTO;
 import com.oti.thirtyone.dto.EmployeesDto;
@@ -56,11 +56,11 @@ import com.oti.thirtyone.validator.ArtApproverValidator;
 import com.oti.thirtyone.validator.DraftValidator;
 
 import lombok.extern.slf4j.Slf4j;
-import oracle.ucp.common.FailoverStats.Item;
 
 @Slf4j
 @Controller
 @RequestMapping("/approval")
+@Secured("ROLE_USER")
 public class ApprovalController {
 	
 	@Autowired
