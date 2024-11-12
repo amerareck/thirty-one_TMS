@@ -81,10 +81,12 @@ public class HolidayService {
 		}
 		List<ApprovalDTO> eventHdrList = docFolderDao.selectHdrByEmpId(empId);
 		for(ApprovalDTO eventHdr : eventHdrList) {
-			if(eventHdr.getDocHolidayType().equals("familyEvent")){
-				hdrCalList.add(formatInputCalendar("", "경조사", eventHdr.getDocHolidayStartDate(), eventHdr.getDocHolidayEndDate(), "#F5F5F5", "#F5F5F5)", "black"));
-			}else if(eventHdr.getDocHolidayType().equals("sickLeave")) {
-				hdrCalList.add(formatInputCalendar("", "병가", eventHdr.getDocHolidayStartDate(), eventHdr.getDocHolidayEndDate(),  "#F5F5F5", "#F5F5F5)", "black"));
+			if(eventHdr.getDocHolidayType() != null) {
+				if(eventHdr.getDocHolidayType().equals("familyEvent")){
+					hdrCalList.add(formatInputCalendar("", "경조사", eventHdr.getDocHolidayStartDate(), eventHdr.getDocHolidayEndDate(), "#F5F5F5", "#F5F5F5)", "black"));
+				}else if(eventHdr.getDocHolidayType().equals("sickLeave")) {
+					hdrCalList.add(formatInputCalendar("", "병가", eventHdr.getDocHolidayStartDate(), eventHdr.getDocHolidayEndDate(),  "#F5F5F5", "#F5F5F5)", "black"));
+				}
 			}
 		}
 		return hdrCalList;

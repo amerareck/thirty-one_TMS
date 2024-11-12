@@ -70,4 +70,8 @@ public interface EmployeesDao {
 
 	List<EmployeesDto> selectEmployeeListByEmpIds(List<String> list);
 
+	List<EmployeesDto> selectEmpListCheckIn();
+
+	List<EmployeesDto> selectEmpListCheckOut();
+
 }
