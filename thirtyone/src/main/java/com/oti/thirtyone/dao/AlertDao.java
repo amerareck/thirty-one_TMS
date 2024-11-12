@@ -13,15 +13,19 @@ public interface AlertDao {
 
 	int insertAlert(AlertDto alert);
 
-	List<AlertDto> selectAlertListByEmpId(@Param("pager") Pager pager,@Param("empId") String empId);
+	List<AlertDto> selectAlertListByEmpId(@Param("pager") Pager pager,@Param("empId") String empId, @Param("query") String query);
 
 	List<AlertDto> selectAlertListNotReaded(@Param("pager") Pager pager,@Param("empId") String empId);
 	
-	int countRowsByEmpId(String empId);
+	int countRowsByEmpId(@Param("empId") String empId, @Param("query") String query);
 
 	int countRowsNotReaded(String empId);
 
 	int updateStatusToRead(int alertId);
+
+	int insertAlertAll(List<AlertDto> alertList);
+
+	List<Integer> selectAlertSeq(int size);
 
 
 }

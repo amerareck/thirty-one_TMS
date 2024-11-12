@@ -2,6 +2,7 @@ package com.oti.thirtyone.service;
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -17,7 +18,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import com.oti.thirtyone.dao.AlertDao;
+import com.oti.thirtyone.dao.EmployeesDao;
 import com.oti.thirtyone.dto.AlertDto;
+import com.oti.thirtyone.dto.EmployeesDto;
 import com.oti.thirtyone.dto.Pager;
 
 import lombok.extern.log4j.Log4j2;
@@ -31,6 +34,8 @@ public class AlertService {
 	
     @Autowired
     AlertDao alertDao;
+    @Autowired
+    EmployeesDao empDao;
     
 	//thread의 안전성을 보장
 	@PostConstruct
@@ -133,6 +138,69 @@ public class AlertService {
          });
     }
     
+    public void sendAlertToNoCheckIn(String alertContent, String alertType) {
+    	List<EmployeesDto> atdList = empDao.selectEmpListCheckIn();
+    	List<AlertDto> alertList = new LinkedList<>(); 
+    	emitters.forEach((empId, emitter) -> {
+    		for (EmployeesDto emp : atdList) {
+				if(empId.equals(emp.getEmpId())) {
+					executor.submit(() -> {
+						try {
+							AlertDto alert = new AlertDto(alertContent, alertType, empId, new Date());
+							alertList.add(alert);
+							emitter.send(SseEmitter.event()
+									.name("alert")
+									.data(alert));
+							log.info("Sent alert to empId {}: {}", empId, alertContent, alertType);
+						} catch (IOException e) {
+							emitter.completeWithError(e);
+							emitters.remove(empId);
+							log.warn("Failed to send SSE to empId {}: {}", empId, e.getMessage());
+						}
+					});					
+				}
+			}
+    	});
+    	List<Integer> alertIdList = alertDao.selectAlertSeq(alertList.size());
+    	for(int i = 0; i < alertList.size(); i++) {
+    		alertList.get(i).setAlertId(alertIdList.get(i));
+    	}
+    	alertDao.insertAlertAll(alertList);
+    	
+    }
+    
+    public void sendAlertToNoCheckOut(String alertContent, String alertType) {
+    	List<EmployeesDto> atdList = empDao.selectEmpListCheckOut();
+    	List<AlertDto> alertList = new LinkedList<>(); 
+    	emitters.forEach((empId, emitter) -> {
+			for (EmployeesDto emp : atdList) {
+				if(empId.equals(emp.getEmpId())) {
+		    		executor.submit(() -> {
+		    			try {
+		    				AlertDto alert = new AlertDto(alertContent, alertType, empId, new Date());
+		    				alertList.add(alert);
+		    				emitter.send(SseEmitter.event()
+		    						.name("alert")
+		    						.data(alert));
+		    				log.info("Sent alert to empId {}: {}", empId, alertContent, alertType);
+		    			} catch (IOException e) {
+		    				emitter.completeWithError(e);
+		    				emitters.remove(empId);
+		    				log.warn("Failed to send SSE to empId {}: {}", empId, e.getMessage());
+		    			}
+		    		});
+				}
+			}
+    	});
+    	
+    	List<Integer> alertIdList = alertDao.selectAlertSeq(alertList.size());
+    	for(int i = 0; i < alertList.size(); i++) {
+    		alertList.get(i).setAlertId(alertIdList.get(i));
+    	}
+    	
+    	alertDao.insertAlertAll(alertList);
+    }
+    
     @PreDestroy 
     public void destroy() {
         try {
@@ -149,8 +217,8 @@ public class AlertService {
     }
 
 	
-	public int countRowsByEmpId(String empId) {
-		return alertDao.countRowsByEmpId(empId);
+	public int countRowsByEmpId(String empId, String query) {
+		return alertDao.countRowsByEmpId(empId, query);
 		
 	}
 	
@@ -158,8 +226,8 @@ public class AlertService {
 		return alertDao.countRowsNotReaded(empId);
 	}
 
-	public List<AlertDto> getAlertListByEmpId(Pager pager, String empId) {
-		List<AlertDto> alertList = alertDao.selectAlertListByEmpId(pager, empId);
+	public List<AlertDto> getAlertListByEmpId(Pager pager, String empId, String query) {
+		List<AlertDto> alertList = alertDao.selectAlertListByEmpId(pager, empId, query);
 		return alertList;
 	}
 	

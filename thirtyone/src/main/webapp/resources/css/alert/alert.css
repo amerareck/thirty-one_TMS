@@ -47,6 +47,7 @@
 .alert-list-box{
 	margin-top: 30px;
 	border-top : 2.5px solid var(--lightgray);
+	min-height: 500px;
 }
 
 .alert-content{

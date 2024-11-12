@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.expression.ParseException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -58,6 +59,7 @@ public class HolidayController {
 	EmployeesService employeesService;
 
 	@GetMapping("")
+	@Secured("ROLE_USER")
 	public String holidayMain(Model model, Authentication authentication, @RequestParam(defaultValue = "1") int pageNo,
 			HttpSession session) {
 		String empId = authentication.getName();
@@ -98,6 +100,7 @@ public class HolidayController {
 	}
 
 	@GetMapping("/requestForm")
+	@Secured("ROLE_USER")
 	public String holidayRequestForm(Model model, Authentication authentication) {
 		
 		EmployeeDetails employeeDetails = (EmployeeDetails) authentication.getPrincipal();
@@ -194,6 +197,7 @@ public class HolidayController {
 	
 	//휴가처리
 	@GetMapping("/process")
+	@Secured("ROLE_USER")
 	public String holidayProcess(Model model, @RequestParam(defaultValue = "1") int pageNo,
 			Authentication authentication, HttpSession session) {
 		
