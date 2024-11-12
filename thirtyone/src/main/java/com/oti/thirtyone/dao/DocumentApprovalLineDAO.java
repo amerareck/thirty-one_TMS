@@ -41,4 +41,6 @@ public interface DocumentApprovalLineDAO {
 
 	List<DocumentApprovalLineDTO> selectDocAprLinesByDocNumbers(List<ApprovalDTO> approveList);
 
+	List<String> selectProxyApprovalDocNumberByEmpId(List<String> list);
+
 }

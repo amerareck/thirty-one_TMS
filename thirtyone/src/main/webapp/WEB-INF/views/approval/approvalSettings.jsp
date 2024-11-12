@@ -3,7 +3,7 @@
 
 <%@ include file="/WEB-INF/views/approval/approvalContainer.jsp"%>
 
-<div class="sectionContainer d-flex justify-content-center align-items-stretch p-0 w-100 h-100" id="approvalSettingsContainer">
+<div class="sectionContainer d-flex justify-content-center align-items-stretch p-0 w-100 h-100" id="approvalSettingsContainer" style="max-width: 1100px;">
 	<div class="defaultApprovalLineSetting me-3 h-auto" style="width: 55%; margin-right: 10px;">
 		<div class="card h-100">
 		    <div class="card-body p-4 h-100" id="settingApprovalLine">
@@ -11,7 +11,7 @@
 		    </div>
 		</div>
 	</div>
-	<div class="proxySetting1 h-auto" style="width: 45%;">
+	<div class="proxySetting1 h-auto d-flex flex-column justify-content-between" style="width: 45%; max-width: 466px; min-height: 845px;">
 		<div class="card mb-2 h-auto">
 		    <div class="card-body p-4">
 				<%@ include file="/WEB-INF/views/approval/approvalSettingsProxy.jsp" %>

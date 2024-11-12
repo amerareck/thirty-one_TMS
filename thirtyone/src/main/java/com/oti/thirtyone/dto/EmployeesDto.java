@@ -30,6 +30,7 @@ public class EmployeesDto {
 	
 	private String docAprState; // 결재 진행 상황
 	private String deptName; // 부서이름
+	private String altAprEmp; // 대리결재 위임자
 	
 	public EmployeesDto() {}
 	public EmployeesDto(String empId, String empName, int deptId, String position) {

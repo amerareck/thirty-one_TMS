@@ -30,7 +30,7 @@
 		]]>
 	</insert>
 	
-	<select id="selectAltHolidayDataById" parameterType="Approval" resultType="int">
+	<select id="selectAltHolidayDataById" parameterType="Approval" resultType="Holiday">
 		<![CDATA[
 			SELECT
 				hd_category,

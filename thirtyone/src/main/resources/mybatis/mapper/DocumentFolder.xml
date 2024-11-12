@@ -449,4 +449,5 @@
 			ORDER BY doc_draft_date DESC
 		]]>
 	</select>
+	
 </mapper>

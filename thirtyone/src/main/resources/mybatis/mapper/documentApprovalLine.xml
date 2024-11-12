@@ -197,8 +197,9 @@
                  ORDER BY doc_draft_date) a
 			    LEFT OUTER JOIN DOCUMENT_APPROVAL_LINE b USING (doc_number)
 			WHERE 
-				a.doc_apr_approver = #{empId}
-			AND a.doc_apr_status not in('폐기', '회수')
+				(a.doc_apr_approver = #{emp_id}
+			AND a.doc_apr_status not in('폐기', '회수'))
+            OR a.doc_apr_proxy = #{emp_id}
 		]]>
 	</select>
 	
@@ -238,6 +239,39 @@
 		</if>
 		<![CDATA[
 			ORDER BY doc_number, doc_apr_seq
+		]]>
+	</select>
+	
+	<select id="selectProxyApprovalDocNumberByEmpId" parameterType="java.util.List" resultType="String">
+		<![CDATA[
+			WITH approvalLine AS ( 
+			    SELECT DISTINCT doc_number, doc_apr_approver, doc_apr_state, doc_apr_seq 
+			    FROM document_approval_line 
+		]]>
+		<if test="list != null and list.size() > 0">
+			WHERE doc_apr_approver IN
+			<foreach collection="list" item="item" open="(" separator="," close=")">
+			#{item}
+			</foreach>
+		</if>
+		<if test="list == null or list.size() == 0">
+			WHERE 1 = 0
+		</if>
+		
+		<![CDATA[
+			AND doc_apr_state = '대기' 
+			) 
+			SELECT doc_number
+			FROM approvalLine A 
+			WHERE 
+			    EXISTS ( 
+			        SELECT 1 
+			        FROM document_approval_line B 
+			        WHERE 
+			            B.doc_number = A.doc_number 
+			        AND B.doc_apr_seq < A.doc_apr_seq 
+			        AND B.doc_apr_state NOT IN ('대기', '보류'))
+			    OR A.doc_apr_seq = 0
 		]]>
 	</select>
 </mapper>

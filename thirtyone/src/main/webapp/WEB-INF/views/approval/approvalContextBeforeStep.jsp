@@ -62,10 +62,10 @@
 		                    	<c:forEach items="${apr.docApprovalLine}" var="aprLine">
 			                    	<c:if test="${aprLine.docAprState == '승인' || aprLine.docAprState == '반려'}" >
 				                    	<div class="w-100 mb-1">
-				                    		<c:if test="${empty aprLine.docAprProxy}">
+				                    		<c:if test="${empty aprLine.approverProxyInfo}">
 				                    			<span class="fw-bold w-25">${aprLine.approverInfo.empName}&nbsp;${aprLine.approverInfo.position}</span>
 			                    			</c:if>
-			                    			<c:if test="${aprLine.docAprProxy}">
+			                    			<c:if test="${not empty aprLine.approverProxyInfo}">
 				                    			<span class="fw-bold w-25">${aprLine.approverProxyInfo.empName}&nbsp;${aprLine.approverProxyInfo.position}</span>
 			                    			</c:if>
 				                    		<span class="w-75">- ${aprLine.docAprComment}</span>
@@ -73,10 +73,10 @@
 			                    	</c:if>
 			                    	<c:if test="${aprLine.docAprState == '대기' || aprLine.docAprState == '진행' || aprLine.docAprState == '보류'}" >
 			                    		<div class="w-100 mb-1">
-			                    			<c:if test="${empty aprLine.docAprProxy}">
+			                    			<c:if test="${empty aprLine.approverProxyInfo}">
 				                    			<span class="fw-bold w-25">${aprLine.approverInfo.empName}&nbsp;${aprLine.approverInfo.position}</span>
 			                    			</c:if>
-			                    			<c:if test="${aprLine.docAprProxy}">
+			                    			<c:if test="${not empty aprLine.approverProxyInfo}">
 				                    			<span class="fw-bold w-25">${aprLine.approverProxyInfo.empName}&nbsp;${aprLine.approverProxyInfo.position}</span>
 			                    			</c:if>
 				                    		<span class="w-75">- 결재 전</span>
@@ -104,20 +104,19 @@
 	                <div class="approvalLineList my-auto" style="width:20%">
 	                    <c:forEach items="${apr.docApprovalLine}" var="docApr" varStatus="idx" >
 	                		<div class="d-flex flex-column approval-line-cube border border-dark p-2 mt-2" style="margin: 0 auto;">
-		                        <p class="approval-line-cube-info">${docApr.approverInfo.deptName}</p>
-		                        <p class="approval-line-cube-info">&nbsp;</p>
-		                        <c:if test="${not empty docApr.docAprType && docApr.docAprType != '일반'}">
-			                        <p class="approval-line-cube-info text-center">[${docApr.docAprType}]</p>
-			                        <p class="approval-line-cube-info text-center">(<fmt:formatDate value="${docApr.docAprDate}" pattern="yy-MM-dd" />)</p>
-		                        </c:if>
-		                        <span class="text-center fs-6 mt-auto" style="font-size: 11pt;"><b>${docApr.approverInfo.empName}</b>&nbsp;${docApr.approverInfo.position}</span>
-		                        <p class="approval-line-cube-info">&nbsp;</p>
 		                        <c:if test="${not empty docApr.approverProxyInfo}">
-			                        <p class="approval-line-cube-info text-center">[대결]</p>
-			                        <p class="approval-line-cube-info text-center">(<fmt:formatDate value="${docApr.docAprDate}" pattern="yy-MM-dd" />)</p>
+		                        	<p class="approval-line-cube-info">${docApr.approverProxyInfo.deptName}</p>
+			                        <p class="approval-line-cube-info">&nbsp;</p>
 			                        <span class="text-center fs-6 mt-auto" style="font-size: 11pt;"><b>${docApr.approverProxyInfo.empName}</b>&nbsp;${docApr.approverProxyInfo.position}</span>
 			                        <p class="approval-line-cube-info">&nbsp;</p>
+			                        <p class="approval-line-cube-info text-center">(<fmt:formatDate value="${docApr.docAprDate}" pattern="yy-MM-dd" />)</p>
+			                        <div class="fw-bold fs-5 text-center mt-auto">대결</div>
+		                        <hr/>
 		                        </c:if>
+		                        <p class="approval-line-cube-info">${docApr.approverInfo.deptName}</p>
+		                        <p class="approval-line-cube-info">&nbsp;</p>
+		                        <span class="text-center fs-6 mt-auto" style="font-size: 11pt;"><b>${docApr.approverInfo.empName}</b>&nbsp;${docApr.approverInfo.position}</span>
+		                        <p class="approval-line-cube-info">&nbsp;</p>
 		                        <div class="fw-bold fs-5 text-center mt-auto">${docApr.docAprState}</div>
 		                        <p class="approval-line-cube-info">&nbsp;</p>
 	                    	</div>

@@ -104,20 +104,21 @@ $('.approveSubmit').on('click', function(e){
     	}
     	
     	$(contentDocument.getElementById('approval-result-'+reviewerSeq)).before(`
-    		<span id="approval-result-type-${reviewerSeq}" class="${cssClass}" style="font-size: .75rem;>[전결]</span>
+    		<span id="approval-result-type-${reviewerSeq}" class="${cssClass}" style="font-size: .75rem;">[전결]</span>
     		<br/>
     	`);
     }
     
     if(approvalData.approvalType === '대결') {
-    	$(contentDocument.getElementById('approval-result-'+reviewerSeq)).before(`
-    		<span id="approval-result-type-${reviewerSeq}" class="${cssClass}" style="font-size: .75rem;>[대결]</span>
-        `);
-    	$(contentDocument.getElementById('approval-result-'+reviewerSeq)).before(`
-    		<br/>
-    		<span id="approval-result-empName-${reviewerSeq}" class="${cssClass}">${reviewerInfo.attr('data-name')} ${reviewerInfo.attr('data-postion')}</span>
+    	const proxyTemp = $(contentDocument.getElementById('approval-result-'+reviewerSeq));
+    	proxyTemp.prepend(`
+    		<span id="approval-result-empName-${reviewerSeq}" class="${cssClass}" style="font-size: .85em;">${reviewerInfo.attr('data-name')} ${reviewerInfo.attr('data-position')}</span>
     		<br/>
         `);
+    	proxyTemp.prepend(`
+			<span id="approval-result-type-${reviewerSeq}" class="${cssClass}" style="font-size: .85em;">[대결]</span>
+			<br/>
+    	`);
     }
     
     if(approvalData.approvalResult === '반려') {

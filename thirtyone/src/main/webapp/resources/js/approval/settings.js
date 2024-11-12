@@ -357,28 +357,87 @@ $('#deptEmpListForProxyModal').on('dblclick', '.jstree-node', function(e) {
 
 $('#selectedEmployeeForProxyModal').on('dblclick', '.selected-proxy', function(e){
 	e.stopPropagation();
-	const param = {};
-	param.empId = $(this).val();
-	param.empName = $(this).text().split(' ')[0];
-	param.position = $(this).text().split(' ')[1];
-	param.deptId = $(this).attr('data-deptId');
-	param.deptName = $(this).attr('data-deptName');
-	
-	console.log(param);
-	const target = $('.fw-boldtext-body-tertiary');
-	target.text('');
-	target.text('['+param.deptName+'] '+param.empName+' '+param.position);
-	
-	const input = $('div.proxy-info');
-	input.append(`<input type="hidden" value="${param.empId}" class="proxy-info-values" name="empId" />`);
-	input.append(`<input type="hidden" value="${param.empName}" class="proxy-info-values" name="empName" />`);
-	input.append(`<input type="hidden" value="${param.position}" class="proxy-info-values" name="position" />`);
-	input.append(`<input type="hidden" value="${param.deptId}" class="proxy-info-values" name="deptId" />`);
-	input.append(`<input type="hidden" value="${param.deptName}" class="proxy-info-values" name="deptName" />`);
+	setAltApprover($(this));
 	
 	$('#selectAltApproverModal').modal('hide');
 });
 
-$('#btnSubmitApprovalProxy').on('click', function(){
+$('#btnSelectAltApprover').on('click', function(){
+	setAltApprover($('#selectedEmployeeForProxyModal').find('option:selected'));
+	$('#selectAltApproverModal').modal('hide');
+});
+
+function setAltApprover(jqueryValue) {
+	const param = {};
+	param.empId = jqueryValue.val();
+	param.empName = jqueryValue.text().split(' ')[0];
+	param.position = jqueryValue.text().split(' ')[1];
+	param.deptId = jqueryValue.attr('data-deptId');
+	param.deptName = jqueryValue.attr('data-deptName');
 	
+	console.log(param);
+	const target = $('#altApproverInfo');
+	target.text('');
+	target.text('['+param.deptName+'] '+param.empName+' '+param.position);
+	
+	const input = $('div.proxy-info');
+	input.append(`<input type="hidden" value="${param.empId}" class="proxy-info-empId" name="empId" />`);
+	input.append(`<input type="hidden" value="${param.empName}" class="proxy-info-empName" name="empName" />`);
+	input.append(`<input type="hidden" value="${param.position}" class="proxy-info-position" name="position" />`);
+	input.append(`<input type="hidden" value="${param.deptId}" class="proxy-info-deptId" name="deptId" />`);
+	input.append(`<input type="hidden" value="${param.deptName}" class="proxy-info-deptName" name="deptName" />`);
+}
+
+$('#btnSubmitApprovalProxy').on('click', function(){
+	const param = {};
+	param.altAprEmp = $('.proxy-info-empId').val();
+	param.altAprEmpName = $('.proxy-info-empName').val();
+	param.altAprPosition = $('.proxy-info-position').val();
+	param.altAprDeptId = $('.proxy-info-deptId').val();
+	param.altAprDeptName = $('.proxy-info-deptName').val();
+	param.altAprStartDate = $('#proxyStartDate').val();
+	param.altAprEndDate = $('#proxyEndDate').val();
+	param.altAprContent = $('#proxyReasonArea').val();
+	
+	console.log(param);
+	
+	$.ajax({
+		url: 'submitAltApprover',
+		method: 'post',
+		contentType: "application/json",
+		data: JSON.stringify(param),
+		success: function(response) {
+			if (response.status === 'ok') {
+				location.href = 'settings';
+				
+			} else if (response.status === 'error') {
+				const error = response.error;
+				$('#altApproverEmpValidation').text('');
+				$('#altApproverDateValidation').text('');
+				
+				for(let key of Object.keys(error)) {
+					switch (key) {
+					case 'altAprEmp':
+						$('#altApproverEmpValidation').text(error[key]);
+						break;
+					case 'altAprStartDate':
+					case 'altAprEndDate':
+						$('#altApproverDateValidation').text(error[key]);
+						break;
+					}
+				}
+			}
+		},
+		error: function (xhr, status, error) {
+            console.log('Error: ' + error);
+        },
+	});
+});
+
+$('#btnResetApprovalProxy').on('click', function(){
+	$('.fw-boldtext-body-tertiary').text('대리자 없음');
+	$('div.proxy-info').empty();
+	$('#proxyStartDate').val('');
+	$('#proxyEndDate').val('');
+	$('#proxyReasonArea').val('');
 });

@@ -15,19 +15,92 @@
 			WHERE
 				emp_id = #{empId}
 			AND alt_apr_emp = #{altAprEmp}
-			AND alt_apr_state = 1
+			ORDER BY alt_apr_id DESC
+			FETCH FIRST 1 ROW ONLY
 		]]>
 	</select>
 	
 	<update id="updateAltApproverState" parameterType="AltApprover">
 		<![CDATA[
 			UPDATE ALTERNATE_APPROVER
-			SET alt_apr_state = 0
+			SET alt_apr_state = CASE 
+									WHEN sysdate < alt_apr_start_date OR sysdate > alt_apr_end_date THEN 0
+			                        ELSE 1
+			                    END
 			WHERE
-				emp_id = #{empId}
+			    emp_id = #{empId}
 			AND alt_apr_emp = #{altAprEmp}
-			AND alt_apr_start_date < sysdate
-			AND alt_apr_end_date > sysdate
 		]]>
 	</update>
+	
+	<insert id="insertAltApprover" parameterType="AltApprover">
+		<![CDATA[
+			INSERT INTO ALTERNATE_APPROVER(
+				alt_apr_id,
+				alt_apr_start_date,
+				alt_apr_end_date,
+				alt_apr_content,
+				alt_apr_state,
+				emp_id,
+				alt_apr_emp
+			) VALUES (
+				alt_apr_seq.nextval,
+				#{altAprStartDate},
+				#{altAprEndDate},
+				#{altAprContent},
+				#{altAprState},
+				#{empId},
+				#{altAprEmp}
+			)
+		]]>
+	</insert>
+	
+	<select id="selectCurrentAltApprover" parameterType="String" resultType="AltApprover">
+		<![CDATA[
+			-- 내가 부여한 대리자를 조회
+			SELECT
+				alt_apr_id,
+				alt_apr_start_date,
+				alt_apr_end_date,
+				alt_apr_content,
+				alt_apr_state,
+				emp_id,
+				alt_apr_emp
+			FROM ALTERNATE_APPROVER
+			WHERE
+				emp_id = #{empId}
+			AND alt_apr_state = 1
+			ORDER BY alt_apr_id DESC
+			FETCH FIRST 1 ROW ONLY
+		]]>
+	</select>
+	
+	<select id="selectCurrentProxyInfoByEmpId" parameterType="String" resultType="AltApprover">
+		<![CDATA[
+			-- 내가 대리하고 있는 권한을 조회
+			SELECT
+				alt_apr_id,
+				alt_apr_start_date,
+				alt_apr_end_date,
+				alt_apr_content,
+				alt_apr_state,
+				emp_id,
+				alt_apr_emp
+			FROM ALTERNATE_APPROVER
+			WHERE
+				alt_apr_emp = #{empId}
+			AND alt_apr_state = 1
+			ORDER BY alt_apr_id
+		]]>
+	</select>
+	
+	<select id="selectProxyEmpIdsByAltAprEmp" parameterType="String" resultType="String">
+		<![CDATA[
+			SELECT emp_id
+			FROM ALTERNATE_APPROVER
+			WHERE 
+			    alt_apr_emp = #{altAprEmp}
+			AND alt_apr_state = 1
+		]]>
+	</select>
 </mapper>

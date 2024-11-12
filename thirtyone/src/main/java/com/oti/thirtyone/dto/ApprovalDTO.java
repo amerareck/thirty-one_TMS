@@ -48,6 +48,7 @@ public class ApprovalDTO {
 	private String docFormName; // 기안유형한글
 	private EmployeesDto nowApprover;
 	private EmployeesDto lastApprover; // 최종검토자
+	private boolean alternativeApproval; // 대결자 체크
 	
 	private DocumentApprovalLineDTO approveInfo; // 결재 업데이트 데이터.
 	

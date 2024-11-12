@@ -1,9 +1,12 @@
 package com.oti.thirtyone.service;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -42,7 +45,7 @@ public class ApprovalService {
 	@Autowired
 	DocumentFormDAO docFormDAO;
 	@Autowired
-	AlternateApproverDAO altApproverService;
+	AlternateApproverDAO altApproverDAO;
 	@Autowired
 	AttendanceService atdService;
 	@Autowired
@@ -267,13 +270,13 @@ public class ApprovalService {
 				}
 				break;
 			case "승인":
-				if(dal.getDocAprType().equals("일반")) {
+				if(dal.getDocAprType().equals("일반") || dal.getDocAprType().equals("대결")) {
 					dal.setDocAprSeq(dal.getDocAprSeq()+1);
 					if(docApprovalLineDAO.selectAprLineOneByDocNumAndSeq(dal) != null) {
 						dto.setDocAprStatus("진행");
 						documentFolderDAO.updateDraftDocumentFromApprove(dto);
+						break;
 					}
-					break;
 				}
 				dto.setDocAprStatus("승인");
 				documentFolderDAO.updateDraftDocumentFromApprove(dto);
@@ -349,10 +352,9 @@ public class ApprovalService {
 		AlternateApproverDTO param = new AlternateApproverDTO();
 		param.setEmpId(dal.getDocAprApprover());
 		param.setAltAprEmp(dto.getNowApprover().getEmpId());
-		
-		altApproverService.updateAltApproverState(param);
-		
-		return altApproverService.selectAltApproverOne(param) != null;
+		param = altApproverDAO.selectAltApproverOne(param);
+		if(param != null) return altApproverDAO.updateAltApproverState(param) == 1;
+		else return false;
 	}
 
 	public List<String> getDocNumberToAprLineIncludeUser(String name) {
@@ -385,6 +387,26 @@ public class ApprovalService {
 
 	public List<ApprovalDTO> getDraftsForReference(String empId) {
 		return documentFolderDAO.selectDraftsForReference(empId);
+	}
+
+	public boolean setAltApprover(AlternateApproverDTO form) {
+		return altApproverDAO.insertAltApprover(form) == 1;
+	}
+
+	public AlternateApproverDTO getCurrentAltApproverInfoByEmpId(String empId) {
+		return altApproverDAO.selectCurrentAltApprover(empId);
+	}
+	
+	public List<AlternateApproverDTO> getCurrentProxyInfoByEmpId(String empId) {
+		return altApproverDAO.selectCurrentProxyInfoByEmpId(empId);
+	}
+
+	public List<String> getProxyApprovalDocNumbersByEmpId(List<String> list) {
+		return docApprovalLineDAO.selectProxyApprovalDocNumberByEmpId(list);
+	}
+
+	public List<String> getProxyEmpIdsById(String altAprEmp) {
+		return altApproverDAO.selectProxyEmpIdsByAltAprEmp(altAprEmp);
 	}
 
 }

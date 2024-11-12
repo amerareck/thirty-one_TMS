@@ -33,23 +33,36 @@
 		                </div>
 		            </div>
 		            <div class="d-flex justify-content-between w-100 p-2 my-2">
+	                <div class="d-flex align-items-start justify-content-start" style="width: 30%">
+	                    <label for="approveDraft" class="form-label fw-bold m-0 mt-2" style="width: 30%" >결재</label>
+	                    <select class="form-select approval-result" style="width: 70%;">
+	                        <option value="승인" selected>승인</option>
+	                        <option value="보류">보류</option>
+	                        <option value="반려">반려</option>
+	                    </select>
+	                </div>
+		            <c:if test="${apr.alternativeApproval}" >
 		                <div class="d-flex align-items-start justify-content-start" style="width: 30%">
-		                    <label for="approveDraft" class="form-label fw-bold m-0 mt-2" style="width: 30%" >결재</label>
-		                    <select class="form-select approval-result" style="width: 70%;">
-		                        <option value="승인" selected>승인</option>
-		                        <option value="보류">보류</option>
-		                        <option value="반려">반려</option>
+		                    <label for="approvalType" class="form-label fw-bold m-0 mt-2" style="width: 30%">결재 유형</label>
+		                    <select class="form-select approval-type" style="width: 70%;" id="approvalType" disabled>
+		                        <option value="일반" disabled>일반</option>
+		                        <option value="전결" disabled>전결</option>
+		                        <option value="대결" selected>대결</option>
+		                        <option value="선결" disabled >선결</option>
 		                    </select>
 		                </div>
+		            </c:if>
+		            <c:if test ="${!apr.alternativeApproval}" >
 		                <div class="d-flex align-items-start justify-content-start" style="width: 30%">
 		                    <label for="approvalType" class="form-label fw-bold m-0 mt-2" style="width: 30%">결재 유형</label>
 		                    <select class="form-select approval-type" style="width: 70%;" id="approvalType">
 		                        <option value="일반" selected>일반</option>
 		                        <option value="전결" >전결</option>
-		                        <option value="대결" >대결</option>
+		                        <option value="대결" disabled >대결</option>
 		                        <option value="선결" disabled >선결</option>
 		                    </select>
 		                </div>
+		            </c:if>
 		                <div class="d-flex align-items-start justify-content-start pt-2" style="width: 30%">
 	                    	<label for="approvalStatus" class="form-label fw-bold m-0" style="width: 30%; line-height: 1.4">결재 상태</label>
 	                		<input type="text" readonly class="form-control-plaintext p-0" id="approvalStatus" value="${apr.docAprStatus}" style="width: 70%;">
@@ -62,10 +75,10 @@
 		                    	<c:forEach items="${apr.docApprovalLine}" var="aprLine">
 			                    	<c:if test="${aprLine.docAprState == '승인' || aprLine.docAprState == '반려'}" >
 				                    	<div class="w-100 mb-1">
-				                    		<c:if test="${empty aprLine.docAprProxy}">
+				                    		<c:if test="${empty aprLine.approverProxyInfo}">
 				                    			<span class="fw-bold w-25">${aprLine.approverInfo.empName}&nbsp;${aprLine.approverInfo.position}</span>
 			                    			</c:if>
-			                    			<c:if test="${aprLine.docAprProxy}">
+			                    			<c:if test="${not empty aprLine.approverProxyInfo}">
 				                    			<span class="fw-bold w-25">${aprLine.approverProxyInfo.empName}&nbsp;${aprLine.approverProxyInfo.position}</span>
 			                    			</c:if>
 				                    		<span class="w-75">- ${aprLine.docAprComment}</span>
@@ -73,10 +86,10 @@
 			                    	</c:if>
 			                    	<c:if test="${aprLine.docAprState == '대기' || aprLine.docAprState == '진행' || aprLine.docAprState == '보류'}" >
 			                    		<div class="w-100 mb-1">
-			                    			<c:if test="${empty aprLine.docAprProxy}">
+			                    			<c:if test="${empty aprLine.approverProxyInfo}">
 				                    			<span class="fw-bold w-25">${aprLine.approverInfo.empName}&nbsp;${aprLine.approverInfo.position}</span>
 			                    			</c:if>
-			                    			<c:if test="${aprLine.docAprProxy}">
+			                    			<c:if test="${not empty aprLine.approverProxyInfo}">
 				                    			<span class="fw-bold w-25">${aprLine.approverProxyInfo.empName}&nbsp;${aprLine.approverProxyInfo.position}</span>
 			                    			</c:if>
 				                    		<span class="w-75">- 결재 전</span>
@@ -104,16 +117,19 @@
 	                <div class="approvalLineList my-auto" style="width:20%">
 	                    <c:forEach items="${apr.docApprovalLine}" var="docApr" varStatus="idx" >
 	                		<div class="d-flex flex-column approval-line-cube border border-dark p-2 mt-2" style="margin: 0 auto;">
+		                        <c:if test="${not empty docApr.approverProxyInfo}">
+		                        	<p class="approval-line-cube-info">${docApr.approverProxyInfo.deptName}</p>
+			                        <p class="approval-line-cube-info">&nbsp;</p>
+			                        <span class="text-center fs-6 mt-auto" style="font-size: 11pt;"><b>${docApr.approverProxyInfo.empName}</b>&nbsp;${docApr.approverProxyInfo.position}</span>
+			                        <p class="approval-line-cube-info">&nbsp;</p>
+			                        <p class="approval-line-cube-info text-center">(<fmt:formatDate value="${docApr.docAprDate}" pattern="yy-MM-dd" />)</p>
+			                        <div class="fw-bold fs-5 text-center mt-auto">대결</div>
+		                        <hr/>
+		                        </c:if>
 		                        <p class="approval-line-cube-info">${docApr.approverInfo.deptName}</p>
 		                        <p class="approval-line-cube-info">&nbsp;</p>
 		                        <span class="text-center fs-6 mt-auto" style="font-size: 11pt;"><b>${docApr.approverInfo.empName}</b>&nbsp;${docApr.approverInfo.position}</span>
 		                        <p class="approval-line-cube-info">&nbsp;</p>
-		                        <c:if test="${not empty docApr.approverProxyInfo}">
-			                        <p class="approval-line-cube-info text-center">[대결]</p>
-			                        <p class="approval-line-cube-info text-center">(<fmt:formatDate value="${docApr.docAprDate}" pattern="yy-MM-dd" />)</p>
-			                        <span class="text-center fs-6 mt-auto" style="font-size: 11pt;"><b>${docApr.approverProxyInfo.empName}</b>&nbsp;${docApr.approverProxyInfo.position}</span>
-			                        <p class="approval-line-cube-info">&nbsp;</p>
-		                        </c:if>
 		                        <div class="fw-bold fs-5 text-center mt-auto">${docApr.docAprState}</div>
 		                        <p class="approval-line-cube-info">&nbsp;</p>
 	                    	</div>
