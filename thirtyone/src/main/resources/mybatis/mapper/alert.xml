@@ -19,6 +19,15 @@
 				select alert_id, alert_content, alert_type, alert_time, emp_id, alert_read_status
 				from alert
 				where emp_id = #{empId}
+				<if test="query == 'atd'">
+					and alert_type='근태'
+				</if>
+				<if test="query == 'holiday'">
+					and alert_type='휴가'
+				</if>
+				<if test="query == 'apr'">
+					and alert_type='결재'
+				</if>
 				order by alert_time	
 			)
 			where rownum &lt;= #{pager.endRowNo}			
@@ -48,10 +57,19 @@
 	</update>
 	
 	
-	<select id="countRowsByEmpId" parameterType="String">
+	<select id="countRowsByEmpId" resultType="int">
 		select count(alert_id)
 		from alert
-		where emp_id = #{empId}
+		where emp_id = #{empId} 
+		<if test="query == 'atd'">
+			and alert_type='근태'
+		</if>
+		<if test="query == 'holiday'">
+			and alert_type='휴가'
+		</if>
+		<if test="query == 'apr'">
+			and alert_type='결재'
+		</if>
 	</select>
 	
 	<select id="countRowsNotReaded" parameterType="String">
@@ -60,5 +78,16 @@
 		where emp_id = #{empId} and alert_read_status = 0
 	</select>
 	
+	<select id="selectAlertSeq" resultType="int">
+	    SELECT alert_seq.nextval FROM dual CONNECT BY LEVEL &lt;= #{size}
+	</select>
+	
+	<insert id="insertAlertAll" parameterType="list">
+		INSERT INTO alert (alert_id, alert_content, alert_type, emp_id, alert_time, alert_read_status)
+	    VALUES
+		<foreach collection="list" item="alert" separator=",">
+			(#{alert.alertId}, #{alert.alertContent}, #{alert.alertType}, #{alert.empId}, sysdate, 0)
+		</foreach>
+	</insert>
 	
 </mapper>
