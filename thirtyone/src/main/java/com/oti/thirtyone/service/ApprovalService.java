@@ -409,4 +409,8 @@ public class ApprovalService {
 		return altApproverDAO.selectProxyEmpIdsByAltAprEmp(altAprEmp);
 	}
 
+	public List<ApprovalDTO> getAllDraftsByEmpId(String empId) {
+		return documentFolderDAO.selectAllDraftsByEmpId(empId);
+	}
+
 }

@@ -450,4 +450,35 @@
 		]]>
 	</select>
 	
+	<select id="selectAllDraftsByEmpId" parameterType="String" resultType="Approval">
+		<![CDATA[
+			SELECT DISTINCT
+			    a.doc_number,
+			    a.doc_draft_date,
+			    a.doc_retention_period,
+			    a.doc_title,
+			    a.emp_id,
+			    a.doc_form_code,
+			    a.doc_apr_status,
+			    b.doc_apr_date,
+			    b.doc_apr_approver,
+			    c.doc_form_name
+			FROM DOCUMENT_FOLDER a
+			LEFT OUTER JOIN (
+			    SELECT b1.*
+			    FROM DOCUMENT_APPROVAL_LINE b1
+			    WHERE (b1.doc_number, b1.doc_apr_seq) IN (
+			        SELECT b2.doc_number, MAX(b2.doc_apr_seq)
+			        FROM DOCUMENT_APPROVAL_LINE b2
+			        WHERE b2.doc_apr_state IN ('승인', '반려', '대기', '보류')
+			        GROUP BY b2.doc_number
+			    )
+			) b ON a.doc_number = b.doc_number AND a.doc_apr_status = b.doc_apr_state
+			LEFT OUTER JOIN DOCUMENT_FORM c ON a.doc_form_code = c.doc_form_code
+			WHERE 
+			    a.emp_id = #{empId}
+			AND a.doc_apr_status NOT IN ('회수', '폐기')
+			ORDER BY a.doc_draft_date DESC
+		]]>
+	</select>
 </mapper>

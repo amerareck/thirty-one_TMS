@@ -62,12 +62,12 @@
 					</div>
 				</div>
 				<div class="approval-list card">
-					<p class="mini-title">결재 내역</p>
+					<p class="mini-title">기안서 결재 현황</p>
 					<div class="apr-list-box">
-						<p>기안<span>0</span></p>
-						<p>결재<span>3</span></p>
-						<p>승인<span>0</span></p>
-						<p>반려<span>1</span></p>
+						<p>대기<span>${readyCount}</span></p>
+						<p>진행<span>${processCount}</span></p>
+						<p>승인<span>${approveCount}</span></p>
+						<p>반려<span>${rejectCount}</span></p>
 					</div>
 					<%-- <div>
 						<table class="table approval-list-table">

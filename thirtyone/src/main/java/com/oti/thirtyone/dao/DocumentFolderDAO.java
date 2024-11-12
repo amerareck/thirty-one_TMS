@@ -34,5 +34,6 @@ public interface DocumentFolderDAO {
 	List<ApprovalDTO> selectDepartmentsDrafts(int deptId);
 	List<ApprovalDTO> selectDepartmentsCompleteDrafts(int deptId);
 	List<ApprovalDTO> selectDraftsForReference(String empId);
+	List<ApprovalDTO> selectAllDraftsByEmpId(String empId);
 	
 }

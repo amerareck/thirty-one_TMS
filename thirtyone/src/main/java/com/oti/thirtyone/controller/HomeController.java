@@ -2,7 +2,10 @@ package com.oti.thirtyone.controller;
 
 import java.io.OutputStream;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -14,10 +17,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.oti.thirtyone.dto.ApprovalDTO;
 import com.oti.thirtyone.dto.AttendanceDto;
 import com.oti.thirtyone.dto.EmployeesDto;
 import com.oti.thirtyone.security.EmployeeDetails;
 import com.oti.thirtyone.service.AlertService;
+import com.oti.thirtyone.service.ApprovalService;
 import com.oti.thirtyone.service.AttendanceService;
 import com.oti.thirtyone.service.DepartmentService;
 
@@ -33,6 +38,8 @@ public class HomeController {
 	AttendanceService atdService;
 	@Autowired
 	AlertService alertService;
+	@Autowired
+	ApprovalService approvalService;
 	
 	@GetMapping("/home")
 	public String home(Model model, Authentication authentication){
@@ -57,6 +64,18 @@ public class HomeController {
 			model.addAttribute("atd", atdDto);
 			model.addAttribute("empNamePosition", empName + " " + empPosition);
 			model.addAttribute("empDept", deptName);
+			
+			List<ApprovalDTO> draft = approvalService.getAllDraftsByEmpId(authentication.getName());
+			int readyCount = draft.stream().filter(item -> item.getDocAprStatus().equals("대기")).collect(Collectors.toList()).size();
+			int processCount = draft.stream().filter(item -> item.getDocAprStatus().equals("진행")).collect(Collectors.toList()).size();
+			int approveCount = draft.stream().filter(item -> item.getDocAprStatus().equals("승인")).collect(Collectors.toList()).size();
+			int rejectCount = draft.stream().filter(item -> item.getDocAprStatus().equals("반려")).collect(Collectors.toList()).size();
+			
+			model.addAttribute("readyCount", readyCount);
+			model.addAttribute("processCount", processCount);
+			model.addAttribute("approveCount", approveCount);
+			model.addAttribute("rejectCount", rejectCount);
+			
 		}
 		model.addAttribute("title", "");
 		model.addAttribute("selectedTitle", "home");
