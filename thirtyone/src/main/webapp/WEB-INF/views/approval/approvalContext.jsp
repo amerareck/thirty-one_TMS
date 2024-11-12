@@ -6,7 +6,7 @@
 <c:set var="index" value="${i.index}" />
 <div class="modal approveModal" id="approvalContext-${index}">
 <div class="d-none approve-modal-index">${index}</div>
-	<div class="modal-dialog">
+	<div class="modal-dialog" style="max-width: 1080px;">
 	    <div class="modal-content">
 	        <div class="modal-header">
 	            <h3 class="modal-title fw-bold">전자결재 내용</h3>

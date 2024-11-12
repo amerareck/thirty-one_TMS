@@ -15,13 +15,12 @@
 			<h5 class="fw-bold" style="margin:auto 0; color:#5A5A5A;">${sectionTitle}</h5>
 		</div>
 		<div class="input-group" style="width: 40%;">
-			<select class="form-select form-select-sm" style="flex:1;">
-			    <option selected>전체</option>
-			    <option value="draftTitle">제목</option>
-			    <option value="draftType">유형</option>
+			<select class="form-select form-select-sm select-search-draft" style="flex:1;">
+			    <option value="draftTitle" selected>제목</option>
+			    <option value="draftType">기안 유형</option>
 			    <option value="draftAuthor">기안자</option>
 			</select>
-			<input class="form-control col-8" placeholder="검색 유형 입력" style="flex:3;" />
+			<input class="form-control col-8 input-search-draft draft-title" placeholder="검색 유형 입력" style="flex:3;" />
 			<button class="btn btn-outline-secondary" style="border-color: #dee2e6;" type="button"><i class="fa-solid fa-magnifying-glass"></i></button>
 		</div>
 	</div>
@@ -64,31 +63,21 @@
 		</tbody>
 	</table>
 	
-	<div class="mt-5 mb-3 d-flex justify-content-center align-items-center w-100">
-		<c:if test="${pager.totalRows > 0}">
+	<c:if test="${pager.totalRows > 0}">
 		<nav class="d-flex justify-content-center" style="width: 95%">
 			<ul class="pagination pagination-not-effect justify-content-center pagination-size">
 				<li class="page-item ${pager.startPageNo == 1 ? 'disabled' : ''}">
-					<a class="page-link page-border-none text-dark" href="submitted?type=submitted&pageNo=${pager.endPageNo-pager.pagesPerGroup}" tabindex="-1" aria-disabled="true"><i class="fa-solid fa-chevron-left"></i></a>
+					<a class="page-link page-border-none text-dark" href="submitted?type=${activePage}&pageNo=${pager.endPageNo-pager.pagesPerGroup}" tabindex="-1" aria-disabled="true"><i class="fa-solid fa-chevron-left"></i></a>
 				</li>
 				<c:forEach begin="${pager.startPageNo}" end="${pager.endPageNo}" var="i">
-					<li class="page-item ${pager.pageNo == i ? 'disabled' : ''}"><a class="page-link text-dark page-border-none ${pager.pageNo==i ? 'fw-bold' : ''} ${i == pager.startPageNo ? 'ms-5' : 'ms-1'} ${i == pager.endPageNo ? 'me-5' : ''}" href="#">${i}</a></li>
+					<li class="page-item ${pager.pageNo == i ? 'disabled' : ''}"><a class="page-link text-dark page-border-none ${pager.pageNo==i ? 'fw-bold' : ''} ${i == pager.startPageNo ? 'ms-5' : 'ms-1'} ${i == pager.endPageNo ? 'me-5' : ''}" href="${pageContext.request.contextPath}/approval/submitted?type=${activePage}&pageNo=${i}">${i}</a></li>
 				</c:forEach>
-				<%-- 
-				<li class="page-item"><a class="page-link text-dark page-border-none ms-5" href="#">1</a></li>
-				<li class="page-item"><a class="page-link text-dark page-border-none ms-1" href="#">2</a></li>
-				<li class="page-item"><a class="page-link text-dark page-border-none ms-1" href="#">3</a></li>
-				<li class="page-item"><a class="page-link text-dark page-border-none ms-1" href="#">4</a></li>
-				<li class="page-item"><a class="page-link text-dark page-border-none ms-1 me-5" href="#">5</a></li>
-				 --%>
 				<li class="page-item ${pager.totalPageNo == pager.endPageNo ? 'disabled' : ''}">
-					<a class="page-link page-border-none text-dark" href="submitted?type=submitted&pageNo=${pager.endPageNo+1}"><i class="fa-solid fa-chevron-right"></i></a>
+					<a class="page-link page-border-none text-dark" href="submitted?type=${activePage}&pageNo=${pager.endPageNo+1}"><i class="fa-solid fa-chevron-right"></i></a>
 				</li>
 			</ul>
 		</nav>
-		<div style="width: 5%;"><button class="btn btn-secondary btn-sm" style="background-color: #C3C3C3; border-color: #C3C3C3;">회수</button></div>
-		</c:if>
-	</div>
+	</c:if>
 	</c:if>
 	
 	<%-- 회수 문서 --%>
@@ -124,24 +113,21 @@
 		</tbody>
 	</table>
 	
-	<div class="mt-5 mb-3 d-flex justify-content-center align-items-center w-100">
 		<c:if test="${pager.totalRows > 0}">
-		<nav class="d-flex justify-content-center" style="width: 95%">
-			<ul class="pagination pagination-not-effect justify-content-center pagination-size">
-				<li class="page-item ${pager.startPageNo == 1 ? 'disabled' : ''}">
-					<a class="page-link page-border-none text-dark" href="submitted?type=retrieval&pageNo=${pager.endPageNo-pager.pagesPerGroup}" tabindex="-1" aria-disabled="true"><i class="fa-solid fa-chevron-left"></i></a>
-				</li>
-				<c:forEach begin="${pager.startPageNo}" end="${pager.endPageNo}" var="i">
-					<li class="page-item ${pager.pageNo == i ? 'disabled' : ''}"><a class="page-link text-dark page-border-none ${pager.pageNo==i ? 'fw-bold' : ''} ${i == pager.startPageNo ? 'ms-5' : 'ms-1'} ${i == pager.endPageNo ? 'me-5' : ''}" href="#">${i}</a></li>
-				</c:forEach>
-				<li class="page-item ${pager.totalPageNo == pager.endPageNo ? 'disabled' : ''}">
-					<a class="page-link page-border-none text-dark" href="submitted?type=retrieval&pageNo=${pager.endPageNo+1}"><i class="fa-solid fa-chevron-right"></i></a>
-				</li>
-			</ul>
-		</nav>
-		<div style="width: 5%;"><button class="btn btn-secondary btn-sm" style="background-color: #C3C3C3; border-color: #C3C3C3;">회수</button></div>
+			<nav class="d-flex justify-content-center" style="width: 95%">
+				<ul class="pagination pagination-not-effect justify-content-center pagination-size">
+					<li class="page-item ${pager.startPageNo == 1 ? 'disabled' : ''}">
+						<a class="page-link page-border-none text-dark" href="submitted?type=${activePage}&pageNo=${pager.endPageNo-pager.pagesPerGroup}" tabindex="-1" aria-disabled="true"><i class="fa-solid fa-chevron-left"></i></a>
+					</li>
+					<c:forEach begin="${pager.startPageNo}" end="${pager.endPageNo}" var="i">
+						<li class="page-item ${pager.pageNo == i ? 'disabled' : ''}"><a class="page-link text-dark page-border-none ${pager.pageNo==i ? 'fw-bold' : ''} ${i == pager.startPageNo ? 'ms-5' : 'ms-1'} ${i == pager.endPageNo ? 'me-5' : ''}" href="${pageContext.request.contextPath}/approval/submitted?type=${activePage}&pageNo=${i}">${i}</a></li>
+					</c:forEach>
+					<li class="page-item ${pager.totalPageNo == pager.endPageNo ? 'disabled' : ''}">
+						<a class="page-link page-border-none text-dark" href="submitted?type=${activePage}&pageNo=${pager.endPageNo+1}"><i class="fa-solid fa-chevron-right"></i></a>
+					</li>
+				</ul>
+			</nav>
 		</c:if>
-	</div>
 	</c:if>
 </section>
 <%@ include file="/WEB-INF/views/approval/approvalViewSubmitted.jsp"%>

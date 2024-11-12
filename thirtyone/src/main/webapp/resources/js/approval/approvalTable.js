@@ -171,6 +171,33 @@ $('.approval-type').on('change', function(){
 	}
 });
 
+$('.select-search-draft').on('change', function() {
+	const type = $(this).val();
+	console.log(type);
+	$(this).next('.input-search-draft').remove();
+	if(type === 'draftTitle') {
+		$(this).after(`
+				<input class="form-control col-8 input-search-draft draft-title" placeholder="검색 유형 입력" style="flex:3;" />
+		`);
+		
+	} else if (type === 'draftType') {
+		$(this).after(`
+				<select class="form-select form-select-sm col-8 input-search-draft" style="flex: 3;">
+					<option value="근태신청서">근태신청서</option>
+					<option value="출장품의서">출장품의서</option>
+					<option value="출장보고서">출장보고서</option>
+					<option value="휴일근무신청서">휴일근무신청서</option>
+					<option value="연장근무신청서">연장근무신청서</option>
+				</select>
+		`);
+		
+	} else if (type === 'draftAuthor') {
+		$(this).after(`
+				<input class="form-control col-8 input-search-draft draft-author" placeholder="검색 유형 입력" style="flex:3;" />
+		`);
+	}
+});
+
 
 
 

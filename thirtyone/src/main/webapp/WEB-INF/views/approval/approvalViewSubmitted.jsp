@@ -7,7 +7,7 @@
 <c:forEach items="${list}" var="draft" varStatus="i" >
 <c:set var="index" value="${i.index}" />
 <div class="modal approvalViews" id="approvalView-${index}">
-	<div class="modal-dialog modal-dialog-centered">
+	<div class="modal-dialog modal-dialog-centered h-auto" style="max-width: 1080px;" >
 	    <div class="modal-content">
 	        <div class="modal-header">
 	            <h3 class="modal-title fw-bold">전자결재 열람</h3>
