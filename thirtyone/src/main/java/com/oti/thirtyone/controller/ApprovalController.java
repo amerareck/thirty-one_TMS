@@ -805,7 +805,7 @@ public class ApprovalController {
 			for(int i=0; i<dateLen; i++) {
 				Date date = (Date) form.getBizTripStartDate().clone();
 				date.setDate(date.getDate()+i);
-				if(dto.isWeekend(date)) dto.getDateList().add(date);
+				if(!dto.isWeekend(date)) dto.getDateList().add(date);
 			}
 			dto.setDocBiztripDay(dto.getDateList().size());
 			dto.setDocBiztripPurpose(form.getBizTripPurposeForm());

@@ -385,6 +385,7 @@ public class AttendanceService {
 		boolean result = true;
 		int start = 0, end = 0;
 		apr.setDocDocumentData("");
+		log.info("실행 apr:"+apr.toString());
 		switch (apr.getDocFormCode()) {
 			case "HLD" :
 				apr.setAtdState("휴가");
@@ -404,7 +405,7 @@ public class AttendanceService {
 				apr.setDateList(new ArrayList<Date>());
 				start = apr.getDocBiztripStartDate().getDate();
 				end = apr.getDocBiztripEndDate().getDate();
-				for(int i=0; i<apr.getDocBiztripDay(); i++) {
+				for(int i=start; i<=end; i++) {
 					Date item = (Date) apr.getDocBiztripStartDate().clone();
 					item.setDate(i);
 					apr.getDateList().add(item);
