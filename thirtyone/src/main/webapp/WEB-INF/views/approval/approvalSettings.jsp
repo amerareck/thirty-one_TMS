@@ -13,7 +13,7 @@
 	</div>
 	<div class="proxySetting1 h-auto d-flex flex-column justify-content-between" style="width: 45%; max-width: 466px; min-height: 845px;">
 		<div class="card mb-2 h-auto">
-		    <div class="card-body p-4">
+		    <div class="card-body p-4" id="approvalSettingsProxy">
 				<%@ include file="/WEB-INF/views/approval/approvalSettingsProxy.jsp" %>
 		    </div>
 		</div>

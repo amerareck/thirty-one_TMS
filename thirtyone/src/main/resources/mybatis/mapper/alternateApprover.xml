@@ -33,6 +33,19 @@
 		]]>
 	</update>
 	
+	<update id="updateAltApprover" parameterType="AltApprover">
+		<![CDATA[
+			UPDATE ALTERNATE_APPROVER
+			SET alt_apr_start_date = #{altAprStartDate},
+				alt_apr_end_date = #{altAprEndDate},
+				alt_apr_state = #{altAprState}
+			WHERE
+				emp_id = #{empId}
+			AND alt_apr_emp = #{altAprEmp}
+			AND alt_apr_id = #{altAprId}
+		]]>
+	</update>
+	
 	<insert id="insertAltApprover" parameterType="AltApprover">
 		<![CDATA[
 			INSERT INTO ALTERNATE_APPROVER(

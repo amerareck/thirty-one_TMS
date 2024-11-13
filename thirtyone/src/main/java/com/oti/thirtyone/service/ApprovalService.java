@@ -1,6 +1,7 @@
 package com.oti.thirtyone.service;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
@@ -411,6 +412,24 @@ public class ApprovalService {
 
 	public List<ApprovalDTO> getAllDraftsByEmpId(String empId) {
 		return documentFolderDAO.selectAllDraftsByEmpId(empId);
+	}
+
+	public boolean updateAltApproveByEmpid(AlternateApproverDTO form) {
+		AlternateApproverDTO alt = altApproverDAO.selectAltApproverOne(form);
+		if(alt != null) {
+			Calendar calendar = Calendar.getInstance();
+			calendar.set(Calendar.YEAR, 1900);
+			alt.setAltAprEndDate(calendar.getTime());
+			calendar.set(Calendar.MONTH, Calendar.DECEMBER);
+			calendar.set(Calendar.DATE, 31);
+			alt.setAltAprStartDate(calendar.getTime());
+			alt.setAltAprState(false);
+			
+			altApproverDAO.updateAltApprover(alt);
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 }

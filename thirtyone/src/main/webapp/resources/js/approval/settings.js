@@ -309,7 +309,7 @@ $('#settingApprovalLineList').on('click', '.page-move', function(e){
 });
 
 $(document).ready(function() {
-    $('#selectAltApproverModal').on('shown.bs.modal', function() {
+    $('#approvalSettingsProxy').on('shown.bs.modal', '#selectAltApproverModal', function() {
         console.log('모달 오픈');
         $.ajax({
     		url: "getOrgChart",
@@ -317,7 +317,40 @@ $(document).ready(function() {
     		success: function(data) {
     			 if (data['status'] === 'ok' && data['org-chart']) {
                      $('#deptEmpListForProxyModal').jstree(data['org-chart']); 
-                 } else {
+                     $('#deptEmpListForProxyModal').on('dblclick', '.jstree-node', function(e) {
+                    		e.stopPropagation();
+                    	    var nodeId = $(this).attr('id');
+                    	    var deptName = $(this).find('a.jstree-anchor').text();
+                    	    if(nodeId === 'j1_1') return;
+                    	    console.log("더블클릭된 노드 ID:", nodeId);
+                    	    
+                    	    $.ajax({
+                    			url: "getOrgEmp?deptId="+nodeId,
+                    			method: "get",
+                    			success: function(data) {
+                    				console.log(data);
+                    				const empList = data['empInfo'];
+                    				let options = '';
+                    				for(let ele of empList) {
+                    					options += '<option value="'+ele['empId']+`" class="selected-proxy" data-deptId="${nodeId}" data-deptName="${deptName}">`+ele['name']+' '+ele['empPosition']+'</option>\n';
+                    				}
+                    				
+                    				$('#selectedEmployeeForProxyModal').empty();
+                    				$('#selectedEmployeeForProxyModal').html(options);
+                    			},
+                    			error: function (xhr, status, error) {
+                    	            console.log('Error: ' + error);
+                    	        }
+                    		});
+                    	});
+                     
+                    $('#selectedEmployeeForProxyModal').on('dblclick', '.selected-proxy', function(e){
+                    		e.stopPropagation();
+                    		setAltApprover($(this));
+                    		
+                    		$('#selectAltApproverModal').modal('hide');
+                    });
+    			 } else {
                      console.error('Invalid org-chart structure:', data);
                  }
     		},
@@ -328,41 +361,7 @@ $(document).ready(function() {
     });
 });
 
-$('#deptEmpListForProxyModal').on('dblclick', '.jstree-node', function(e) {
-	e.stopPropagation();
-    var nodeId = $(this).attr('id');
-    var deptName = $(this).find('a.jstree-anchor').text();
-    if(nodeId === 'j1_1') return;
-    console.log("더블클릭된 노드 ID:", nodeId);
-    
-    $.ajax({
-		url: "getOrgEmp?deptId="+nodeId,
-		method: "get",
-		success: function(data) {
-			console.log(data);
-			const empList = data['empInfo'];
-			let options = '';
-			for(let ele of empList) {
-				options += '<option value="'+ele['empId']+`" class="selected-proxy" data-deptId="${nodeId}" data-deptName="${deptName}">`+ele['name']+' '+ele['empPosition']+'</option>\n';
-			}
-			
-			$('#selectedEmployeeForProxyModal').empty();
-			$('#selectedEmployeeForProxyModal').html(options);
-		},
-		error: function (xhr, status, error) {
-            console.log('Error: ' + error);
-        }
-	});
-});
-
-$('#selectedEmployeeForProxyModal').on('dblclick', '.selected-proxy', function(e){
-	e.stopPropagation();
-	setAltApprover($(this));
-	
-	$('#selectAltApproverModal').modal('hide');
-});
-
-$('#btnSelectAltApprover').on('click', function(){
+$('#approvalSettingsProxy').on('click', '#btnSelectAltApprover',function(){
 	setAltApprover($('#selectedEmployeeForProxyModal').find('option:selected'));
 	$('#selectAltApproverModal').modal('hide');
 });
@@ -381,6 +380,7 @@ function setAltApprover(jqueryValue) {
 	target.text('['+param.deptName+'] '+param.empName+' '+param.position);
 	
 	const input = $('div.proxy-info');
+	input.empty();
 	input.append(`<input type="hidden" value="${param.empId}" class="proxy-info-empId" name="empId" />`);
 	input.append(`<input type="hidden" value="${param.empName}" class="proxy-info-empName" name="empName" />`);
 	input.append(`<input type="hidden" value="${param.position}" class="proxy-info-position" name="position" />`);
@@ -388,7 +388,7 @@ function setAltApprover(jqueryValue) {
 	input.append(`<input type="hidden" value="${param.deptName}" class="proxy-info-deptName" name="deptName" />`);
 }
 
-$('#btnSubmitApprovalProxy').on('click', function(){
+$('#approvalSettingsProxy').on('click', '#btnSubmitApprovalProxy', function(){
 	const param = {};
 	param.altAprEmp = $('.proxy-info-empId').val();
 	param.altAprEmpName = $('.proxy-info-empName').val();
@@ -434,10 +434,56 @@ $('#btnSubmitApprovalProxy').on('click', function(){
 	});
 });
 
-$('#btnResetApprovalProxy').on('click', function(){
+$('#approvalSettingsProxy').on('click', '#btnResetApprovalProxy', function(){
 	$('.fw-boldtext-body-tertiary').text('대리자 없음');
 	$('div.proxy-info').empty();
 	$('#proxyStartDate').val('');
 	$('#proxyEndDate').val('');
 	$('#proxyReasonArea').val('');
+});
+
+$('#approvalSettingsProxy').on('click', '#btnCancleApprovalProxy', function(){
+	console.log('클릭');
+	const param = {};
+	param.altAprEmp = $('#altAprEmp').text();
+	param.deptName = $('#altApproverInfo').text().split(' ')[0].replace(/\[/g, '').replace(/\]/g, '');
+	param.empName = $('#altApproverInfo').text().split(' ')[1];
+	param.position = $('#altApproverInfo').text().split(' ')[2];
+	param.altAprStartDate = $('#proxyStartDate').text();
+	param.altAprEndDate = $('#proxyEndDate').text();
+	param.altAprContent = $('#proxyReasonArea').text();
+	
+	console.log(param);
+	
+	$.ajax({
+		url: 'deleteAltApprove',
+		method: 'post',
+		contentType: "application/json",
+		data: JSON.stringify(param),
+		success: function(response) {
+			if(response.status === 'ok') {
+				console.log(response.html);
+				//location.href = 'settings';
+				const html = response.html.replace(/\\"/g, '"');
+				$('#approvalSettingsProxy').empty();
+				$('#approvalSettingsProxy').html(html);
+				
+				flatpickr("#proxyStartDate", {
+				    dateFormat: "Y-m-d",
+				    allowInput: true,
+				    conjunction: " ~ ",
+				});
+
+				flatpickr("#proxyEndDate", {
+				    dateFormat: "Y-m-d",
+				    allowInput: true
+				});
+			} else if(response.status === 'fail') {
+				alert(response.message);
+			}
+		},
+		error: function (xhr, status, error) {
+            console.log('Error: ' + error);
+        },
+	});
 });

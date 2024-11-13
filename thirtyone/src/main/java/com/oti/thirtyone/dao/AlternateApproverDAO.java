@@ -17,5 +17,6 @@ public interface AlternateApproverDAO {
 	AlternateApproverDTO selectCurrentAltApprover(String empId);
 	List<AlternateApproverDTO> selectCurrentProxyInfoByEmpId(String empId);
 	List<String> selectProxyEmpIdsByAltAprEmp(String altAprEmp);
+	int updateAltApprover(AlternateApproverDTO alt);
 
 }

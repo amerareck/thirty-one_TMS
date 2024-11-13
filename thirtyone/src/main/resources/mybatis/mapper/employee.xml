@@ -252,7 +252,7 @@
     </select>
     
     <select id="selectAllEmployees" resultType="Employee">
-    	SELECT * FROM EMPLOYEES
+    	SELECT e.*, d.dept_name FROM EMPLOYEES e LEFT OUTER JOIN DEPARTMENTS d ON e.dept_id = d.dept_id 
     </select>
     
     <select id="getEmployeesIfAbsence" resultType="String">

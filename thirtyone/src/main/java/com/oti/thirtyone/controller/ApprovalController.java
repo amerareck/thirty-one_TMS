@@ -3,6 +3,7 @@ package com.oti.thirtyone.controller;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
@@ -11,8 +12,11 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpServletResponseWrapper;
 import javax.validation.Valid;
 
 import org.json.JSONArray;
@@ -133,8 +137,12 @@ public class ApprovalController {
 		// proxy의 경우 emp는 내가 대행하는 권한의 사원 정보를 뜻합니다.
 		AlternateApproverDTO altApprover = approvalService.getCurrentAltApproverInfoByEmpId(auth.getName());
 		if(altApprover != null) {
-			altApprover.setAltAprEmpInfo(empService.getEmpInfo(altApprover.getAltAprEmp()));
-			model.addAttribute("altApprover", altApprover);
+			Date now = new Date();
+			// 이미 대결 위임 기간이 지난 경우는 렌더링 제외
+			if(now.getTime() < altApprover.getAltAprEndDate().getTime()) {
+				altApprover.setAltAprEmpInfo(empService.getEmpInfo(altApprover.getAltAprEmp()));
+				model.addAttribute("altApprover", altApprover);
+			}
 		}
 		List<AlternateApproverDTO> proxy = approvalService.getCurrentProxyInfoByEmpId(auth.getName());
 		if(!proxy.isEmpty()) {
@@ -358,19 +366,22 @@ public class ApprovalController {
 	            int index = recallList.indexOf(item)+1;
 	            return index < pager.getStartRowNo() || index > pager.getEndRowNo();
 	        });
+			
+			List<EmployeesDto> empList = empService.getAllEmployees();
+			EmployeesDto empDTO = empList.stream().filter(elem -> elem.getEmpId().equals(auth.getName())).findFirst().get();
 			recallList.parallelStream().forEach(item -> {
-				EmployeesDto empDTO = empService.getEmpInfo(auth.getName());
 				item.setDeptId(empDTO.getDeptId());
-				item.setDeptName(deptService.getDeptName(item.getDeptId()));
+				item.setDeptName(empDTO.getDeptName());
 				item.setEmpPosition(empDTO.getPosition());
 				item.setEmpName(empDTO.getEmpName());
 				item.setApproveState(item.getDocAprStatus());
 				item.setDocApprovalLine(approvalService.getDraftApprovalLine(item.getDocNumber()));
 				//회수 문서에는 참조자가 전부 삭제되어 있음. 참조자는 회수 문서를 조회하면 안되니까.
 				//item.setDocReferenceList(approvalService.getDraftReferenceList(item.getDocNumber()));
+				
 				item.getDocApprovalLine().forEach(elem -> {
-					elem.setApproverInfo(empService.getEmpInfo(elem.getDocAprApprover()));
-					elem.getApproverInfo().setDeptName(deptService.getDeptName(elem.getApproverInfo().getDeptId()));
+					elem.setApproverInfo(empList.stream().filter(ele -> ele.getEmpId().equals(elem.getDocAprApprover())).findFirst().get());
+					//elem.getApproverInfo().setDeptName(deptService.getDeptName(elem.getApproverInfo().getDeptId()));
 				});
 				List<DocumentApprovalLineDTO> dalList = item.getDocApprovalLine().stream()
 					    .filter(elem -> elem.getDocAprState().equals("대기"))
@@ -416,18 +427,22 @@ public class ApprovalController {
 	            int index = approvalList.indexOf(item)+1;
 	            return index < pager.getStartRowNo() || index > pager.getEndRowNo();
 	        });
+			
+			List<EmployeesDto> empList = empService.getAllEmployees();
+			EmployeesDto empDTO = empList.stream().filter(elem -> elem.getEmpId().equals(auth.getName())).findFirst().get();
 			approvalList.parallelStream().forEach(item -> {
-				EmployeesDto empDTO = empService.getEmpInfo(auth.getName());
 				item.setDeptId(empDTO.getDeptId());
-				item.setDeptName(deptService.getDeptName(item.getDeptId()));
+				item.setDeptName(empDTO.getDeptName());
 				item.setEmpPosition(empDTO.getPosition());
 				item.setEmpName(empDTO.getEmpName());
 				item.setDocApprovalLine(approvalService.getDraftApprovalLine(item.getDocNumber()));
 				item.setDocReferenceList(approvalService.getDraftReferenceList(item.getDocNumber()));
-				item.getDocApprovalLine().forEach(elem -> {
-					elem.setApproverInfo(empService.getEmpInfo(elem.getDocAprApprover()));
-					elem.getApproverInfo().setDeptName(deptService.getDeptName(elem.getApproverInfo().getDeptId()));
-				});
+				item.getDocApprovalLine().forEach(elem -> elem.setApproverInfo(
+						empList.stream()
+							.filter(ele -> ele.getEmpId().equals(elem.getDocAprApprover()))
+							.findFirst()
+							.get()
+						));
 				List<DocumentApprovalLineDTO> dalList = item.getDocApprovalLine().stream()
 				    .filter(elem -> elem.getDocAprState().equals("대기"))
 				    .collect(Collectors.toList());
@@ -1150,14 +1165,6 @@ public class ApprovalController {
 	public void submitAltApprover(@RequestBody @Valid AlternateApproverDTO form, Errors error, Authentication auth, HttpServletResponse res) {
 		log.info("실행");
 		form.setEmpId(auth.getName());
-		form.getAltAprStartDate().setHours(0);
-		form.getAltAprEndDate().setHours(0);
-		form.getAltAprEndDate().setDate(form.getAltAprEndDate().getDate()+1);
-		form.getAltAprEndDate().setSeconds(form.getAltAprEndDate().getSeconds()-1);
-		Date nowDate = new Date();
-		if(form.getAltAprStartDate().getTime() <= nowDate.getTime() && nowDate.getTime() < form.getAltAprEndDate().getTime()) {
-			form.setAltAprState(true);
-		}
 		log.info("form data: "+form.toString());
 		
 		JSONObject json = new JSONObject();
@@ -1185,6 +1192,14 @@ public class ApprovalController {
     		}
     		return;
 		}
+		form.getAltAprStartDate().setHours(0);
+		form.getAltAprEndDate().setHours(0);
+		form.getAltAprEndDate().setDate(form.getAltAprEndDate().getDate()+1);
+		form.getAltAprEndDate().setSeconds(form.getAltAprEndDate().getSeconds()-1);
+		Date nowDate = new Date();
+		if(form.getAltAprStartDate().getTime() <= nowDate.getTime() && nowDate.getTime() < form.getAltAprEndDate().getTime()) {
+			form.setAltAprState(true);
+		}
 		
 		approvalService.setAltApprover(form);
 		json.put("status", "ok");
@@ -1196,6 +1211,49 @@ public class ApprovalController {
 		} catch(IOException ioex) {
 			ioex.printStackTrace();
 		}
+	}
+	
+	@PostMapping("deleteAltApprove")
+	public void deleteAltApprove(
+			@RequestBody AlternateApproverDTO form, 
+			Authentication auth, 
+			HttpServletRequest req, 
+			HttpServletResponse res) throws Exception {
+	    log.info("실행");
+	    form.setEmpId(auth.getName());
+	    log.info("form data: " + form.toString());
+	    
+	    JSONObject json = new JSONObject();
+	    if (approvalService.updateAltApproveByEmpid(form)) {
+	        json.put("status", "ok");
+
+	        StringWriter stringWriter = new StringWriter();
+	        PrintWriter printWriter = new PrintWriter(stringWriter);
+
+	        // JSP 파일을 포함하여 HTML 결과를 캡처
+	        RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/views/approval/approvalSettingsProxy.jsp");
+	        dispatcher.include(req, new HttpServletResponseWrapper(res) {
+	            @Override
+	            public PrintWriter getWriter() {
+	                return printWriter;
+	            }
+	        });
+
+	        // HTML 내용 이스케이프 처리
+	        log.info(stringWriter.toString());
+	        String htmlContent = stringWriter.toString().replaceAll("\n", "").replaceAll("\r", "").replaceAll("\"", "\\\\\"");
+	        json.put("html", htmlContent);
+	    } else {
+	        json.put("status", "fail");
+	        json.put("message", "결재 권한을 위임했거나, 예정 중인 사원을 찾을 수 없습니다.");
+	    }
+
+	    res.setContentType("application/json; charset=UTF-8");
+	    res.setCharacterEncoding("UTF-8");
+	    PrintWriter pw = res.getWriter();
+	    pw.println(json.toString());
+	    pw.flush();
+	    pw.close();
 	}
 	
 }

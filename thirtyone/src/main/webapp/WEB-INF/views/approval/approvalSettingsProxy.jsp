@@ -16,7 +16,8 @@
     </c:if>
     <c:if test="${not empty altApprover}">
     <div class="d-flex justify-content-end" style="width: 60%">
-		<span class="fw-bold text-body-tertiary" style="font-size: 0.85rem; font-weight: 500; padding-top: 6px;" aria-describedby="altApproverEmpValidation">[${altApprover.altAprEmpInfo.deptName}] ${altApprover.altAprEmpInfo.empName} ${altApprover.altAprEmpInfo.position}</span>
+		<span class="fw-bold text-body-tertiary" id="altApproverInfo" style="font-size: 0.85rem; font-weight: 500; padding-top: 6px;" aria-describedby="altApproverEmpValidation">[${altApprover.altAprEmpInfo.deptName}] ${altApprover.altAprEmpInfo.empName} ${altApprover.altAprEmpInfo.position}</span>
+		<span class="d-none" id="altAprEmp">${altApprover.altAprEmpInfo.empId}</span>
 	</div>
     </c:if>
 </div>
@@ -33,9 +34,9 @@
     </c:if>
     <c:if test="${not empty altApprover}" >
     <div class="d-flex align-items-center justify-content-end" style="width: 70%;" aria-describedby="altApproverDateValidation">
-	    <span class="fw-bold text-body-tertiary" style="font-size: 0.85rem; font-weight: 500; padding-top: 6px;"><fmt:formatDate value="${altApprover.altAprStartDate}" pattern="yyyy-MM-dd"/></span>
+	    <span class="fw-bold text-body-tertiary" id="proxyStartDate" style="font-size: 0.85rem; font-weight: 500; padding-top: 6px;"><fmt:formatDate value="${altApprover.altAprStartDate}" pattern="yyyy-MM-dd"/></span>
 	    <span class="fw-bold mx-2 pt-2">~</span>
-	    <span class="fw-bold text-body-tertiary" style="font-size: 0.85rem; font-weight: 500; padding-top: 6px;"><fmt:formatDate value="${altApprover.altAprEndDate}" pattern="yyyy-MM-dd"/></span>
+	    <span class="fw-bold text-body-tertiary" id="proxyEndDate" style="font-size: 0.85rem; font-weight: 500; padding-top: 6px;"><fmt:formatDate value="${altApprover.altAprEndDate}" pattern="yyyy-MM-dd"/></span>
 	</div>
     </c:if>
 </div>
@@ -47,7 +48,7 @@
 	<textarea class="form-control" id="proxyReasonArea" cols="3" style="width: 68.5%; font-size:0.8rem;"></textarea>
     </c:if>
     <c:if test="${not empty altApprover}">
-    <span class="fw-bold text-body-tertiary" style="font-size: 0.85rem; font-weight: 500; padding-top: 6px;">${altApprover.altAprContent}</span>
+    <span class="fw-bold text-body-tertiary" id="proxyReasonArea" style="font-size: 0.85rem; font-weight: 500; padding-top: 6px;">${altApprover.altAprContent}</span>
     </c:if>
 </div>
 <hr class="my-1 mx-auto" style="width: 98%"/>

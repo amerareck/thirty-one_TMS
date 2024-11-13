@@ -617,22 +617,29 @@ $('#workOvertimeStartDatetime').on('change', function(){
     const contentDocument = editor.getDoc();
     const myElement = contentDocument.getElementById('workovertimeStart');
     const endElement = contentDocument.getElementById('workovertimeEnd');
-    const startDay = $('#workOvertimeStartDatetime').val().split(' ')[0];
-    const year = startDay.split('-')[0];
-    const month = startDay.split('-')[1];
-    const day = startDay.split('-')[2];
-    const startTime = $('#workOvertimeStartDatetime').val().split(' ')[1];
-    const hour = startTime.split(':')[0];
-    const today = new Date();
-    today.setHours(18, 0, 0);
-    const overtime = new Date();
-    overtime.setDate(parseInt(day));
-    overtime.setHours(parseInt(hour), 0, 0);
-    console.log(overtime);
-    const totalHour = (overtime - today) / (60 * 60 * 1000);
     
-    $(myElement).text(today.getFullYear()+'년\u00A0'+today.getMonth()+'월\u00A0'+today.getDate()+'일\u00A0'+today.getHours()+'시\u00A0');
-    $(endElement).text(year+'년\u00A0'+month+'월\u00A0'+day+'일\u00A0'+hour+'시\u00A0(총\u00A0'+parseInt(totalHour)+'시간)');
+    const overtime = {};
+    overtime.value = $(this).val();
+    overtime.year = parseInt(overtime.value.split('-')[0]);
+    overtime.month = parseInt(overtime.value.split('-')[1]).toString().padStart(2, '0');
+    overtime.date = parseInt(overtime.value.split('-')[2].split(' ')[0]).toString().padStart(2, '0');
+    overtime.hour = parseInt(overtime.value.split(' ')[1].split(':')[0]).toString().padStart(2, '0');
+    overtime.minute = parseInt(overtime.value.split(' ')[1].split(':')[1]).toString().padStart(2, '0');
+    overtime.obj = new Date(overtime.year, overtime.month-1, overtime.date, overtime.hour, overtime.minute, 0);
+    console.log(overtime);
+    
+    const startDay = new Date(overtime.obj.getTime());
+    if(overtime.hour < 5) startDay.setDate(overtime.obj.getDate()-1);
+    startDay.setHours(18, 0, 0);
+    const year = startDay.getFullYear();
+    const month = startDay.getMonth()+1;
+    const day = startDay.getDate();
+    const hour = startDay.getHours();
+    
+    const wotTime = (overtime.obj - startDay) / (60 * 60 * 1000);
+    
+    $(myElement).text(year+'년\u00A0'+month.toString().padStart(2, '0')+'월\u00A0'+day.toString().padStart(2, '0')+'일\u00A0'+hour.toString().padStart(2, '0')+'시\u00A0');
+    $(endElement).text(overtime.year+'년\u00A0'+overtime.month+'월\u00A0'+overtime.date+'일\u00A0'+overtime.hour+'시\u00A0(총\u00A0'+parseInt(wotTime)+'시간)');
 });
 
 $('#approvalAttachFile').on('change', function(){
