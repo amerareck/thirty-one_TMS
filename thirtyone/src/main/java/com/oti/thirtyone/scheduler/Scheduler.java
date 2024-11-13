@@ -18,26 +18,25 @@ public class Scheduler {
 	@Autowired
 	AlertService alertService; 
 	
-//	@Scheduled(cron = "0 00 14 * * MON-FRI")
-//	public void absenceProccess() {
-//		log.info("스케줄러 실행됨");
-//		empService.absenceProccess();
-//	}
+	@Scheduled(cron = "0 00 14 * * MON-FRI")
+	public void absenceProccess() {
+		log.info("스케줄러 실행됨");
+		empService.absenceProccess();
+	}
 	
-//	@Scheduled(cron = "0 55 08 * * MON-FRI")
-//	public void checkInAlert() {
-//		log.info("일괄적으로 출근 알람 실행됨");
-//		String alertContent = "아직 출근을 체크하지 않았습니다. 출근 버튼을 눌러주세요.";
-//		alertService.sendAlertToNoCheckIn(alertContent, "근태");
-//		
-//	}
-//
-//	@Scheduled(cron = "0 56 23 * * MON-FRI")
-//	public void checkOutAlert() {
-//		log.info("일괄적으로 출근 알람 실행됨");
-//		String alertContent = "아직 퇴근을 체크하지 않았습니다. 퇴근 버튼을 눌러주세요.";
-//		alertService.sendAlertToNoCheckOut(alertContent, "근태");
-//		
-//	}
-//	
+	@Scheduled(cron = "0 14 09 * * MON-FRI")
+	public void checkInAlert() {
+		log.info("일괄적으로 출근 알람 실행됨");
+		String alertContent = "아직 출근을 체크하지 않았습니다. 출근 버튼을 눌러주세요.";
+		alertService.sendAlertToNoCheckIn(alertContent, "근태");
+	}
+
+	@Scheduled(cron = "0 05 18 * * MON-FRI")
+	public void checkOutAlert() {
+		log.info("일괄적으로 출근 알람 실행됨");
+		String alertContent = "아직 퇴근을 체크하지 않았습니다. 퇴근 버튼을 눌러주세요.";
+		alertService.sendAlertToNoCheckOut(alertContent, "근태");
+		
+	}
+	
 }

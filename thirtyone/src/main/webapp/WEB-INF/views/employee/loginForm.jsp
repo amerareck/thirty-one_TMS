@@ -41,7 +41,6 @@
 			<div>
 				<label for="empPassword">비밀번호</label>
 				<input type="password" id="empPassword" name="empPassword" placeholder="비밀번호를 입력해주세요." required>
-				<a href="#">비밀번호를 잊으셨나요?</a>
 			</div>
 			<c:if test="${SPRING_SECURITY_LAST_EXCEPTION != null}">
 				<div class="login-fail mt-2">

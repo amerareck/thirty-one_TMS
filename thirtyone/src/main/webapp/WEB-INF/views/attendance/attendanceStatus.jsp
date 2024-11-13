@@ -8,7 +8,7 @@
 	<div class="main-container" >
 		<p class="title-31">${title}</p>
 		<div class="attendance-subtitle sub-title">
-			<div class="selected-sub-title"><a href="${pageContext.request.contextPath}/atd/">근태 현황</a></div>
+			<div class="selected-sub-title"><a href="${pageContext.request.contextPath}/atd">근태 현황</a></div>
 			<div ><a href="${pageContext.request.contextPath}/atd/time">근무 시간</a></div>
 			<div><a href="${pageContext.request.contextPath}/atd/process">근태 처리</a></div>
 		</div>

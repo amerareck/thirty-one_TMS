@@ -174,6 +174,7 @@ $(document).ready(function() {
 	function success(pos, atd) {
 		var crd = pos.coords;
 		console.log(atd);
+		console.log(crd);
 		
 		$.ajax({
 			method: 'Get',
@@ -183,13 +184,19 @@ $(document).ready(function() {
 				"longitude" : crd.longitude
 			},
 			success : function (data){
-				if(!data)
-					alert("지역이 다릅니다.");
+				if(!data){
+					Swal.fire({
+					  icon: "error",
+					  title: "지역이 다른 곳입니다.",
+					  text: "해당 지역에서 버튼을 눌러주세요."
+					});
+				
+				}
 				location.reload();
 			},
 			error : function (request, status, error){
 						  
-			}
+			}	
 		})
 
 	}
