@@ -9,7 +9,6 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import javax.servlet.ServletContext;
@@ -22,6 +21,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -40,10 +40,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.oti.thirtyone.dto.AlternateApproverDTO;
 import com.oti.thirtyone.dto.ApprovalDTO;
 import com.oti.thirtyone.dto.ApprovalData;
-import com.oti.thirtyone.dto.DocumentApprovalLineDTO;
-import com.oti.thirtyone.dto.DocumentReferenceDTO;
 import com.oti.thirtyone.dto.Departments;
 import com.oti.thirtyone.dto.DocFilesDTO;
+import com.oti.thirtyone.dto.DocumentApprovalLineDTO;
+import com.oti.thirtyone.dto.DocumentReferenceDTO;
 import com.oti.thirtyone.dto.DraftForm;
 import com.oti.thirtyone.dto.EmpApprovalLineDTO;
 import com.oti.thirtyone.dto.EmployeesDto;
@@ -56,11 +56,11 @@ import com.oti.thirtyone.validator.ArtApproverValidator;
 import com.oti.thirtyone.validator.DraftValidator;
 
 import lombok.extern.slf4j.Slf4j;
-import oracle.ucp.common.FailoverStats.Item;
 
 @Slf4j
 @Controller
 @RequestMapping("/approval")
+@Secured("ROLE_USER")
 public class ApprovalController {
 	
 	@Autowired
@@ -261,6 +261,11 @@ public class ApprovalController {
 			
 			draftList = approvalService.getDepartmentsDrafts(myInfo.getDeptId());
 		}
+		if(param.getSearch() != null) {
+			draftList = getPickupSearchList(param, draftList);
+			model.addAttribute("search", true);
+			model.addAttribute("paramObj", param);
+		}
 		
 		Pager pager = new Pager(7, 5, draftList.size(), param.getPageNo());
 		List<ApprovalDTO> pageNoDraftList = draftList.stream()
@@ -333,13 +338,21 @@ public class ApprovalController {
 		
 		model.addAttribute("selectedSub", "submitted");
 		model.addAttribute("title", "기결/회수");
+		model.addAttribute("urlName", "submitted");
 		param.setPageNo(param.getPageNo() == 0 ? 1 : param.getPageNo());
 		
 		if(param.getType()!=null && param.getType().equals("retrieval")) {
 			model.addAttribute("activePage", "retrieval");
 			model.addAttribute("sectionTitle", "결재 회수 목록");
 			
-			List<ApprovalDTO> recallList = approvalService.getRecallDocumentListById(auth.getName());
+			List<ApprovalDTO> recallTotalList = approvalService.getRecallDocumentListById(auth.getName());
+			if(param.getSearch() != null) {
+				recallTotalList = getPickupSearchList(param, recallTotalList);
+				model.addAttribute("search", true);
+				model.addAttribute("paramObj", param);
+			}
+			List<ApprovalDTO> recallList = recallTotalList;
+			
 			Pager pager = new Pager(7, 5, recallList.size(), param.getPageNo());
 			recallList.removeIf(item -> {
 	            int index = recallList.indexOf(item)+1;
@@ -390,7 +403,14 @@ public class ApprovalController {
 			model.addAttribute("activePage", "submitted");
 			model.addAttribute("sectionTitle", "결재 상신 목록");
 			
-			List<ApprovalDTO> approvalList = approvalService.getDraftDocumentById(auth.getName());
+			List<ApprovalDTO> approvalTotalList = approvalService.getDraftDocumentById(auth.getName());
+			if(param.getSearch() != null) {
+				approvalTotalList = getPickupSearchList(param, approvalTotalList);
+				model.addAttribute("search", true);
+				model.addAttribute("paramObj", param);
+			}
+			List<ApprovalDTO> approvalList = approvalTotalList;
+			
 			Pager pager = new Pager(7, 5, approvalList.size(), param.getPageNo());
 			approvalList.removeIf(item -> {
 	            int index = approvalList.indexOf(item)+1;
@@ -439,6 +459,29 @@ public class ApprovalController {
 		return "approval/approvalSubmitted";
 	}
 	
+	private List<ApprovalDTO> getPickupSearchList(PageParam param, List<ApprovalDTO> recallList) {
+		String type = param.getSearch();
+		log.info("##### param: "+param.toString());
+		List<ApprovalDTO> result = null;
+		switch(type) {
+			case "draftTitle" : 
+				result = recallList.stream().filter(item -> item.getDocTitle().contains(param.getKeyword())).collect(Collectors.toList());
+				break;
+			case "draftAuthor" : 
+				result = recallList.stream().filter(item -> item.getEmpName().contains(param.getKeyword())).collect(Collectors.toList());
+				break;
+			case "draftType" :
+				result = recallList.stream().filter(item -> item.getDocFormName().equals(param.getKeyword())).collect(Collectors.toList());
+				break;
+			case "draftState" :
+				result = recallList.stream().filter(item -> item.getDocAprStatus().equals(param.getKeyword())).collect(Collectors.toList());
+				break;
+			default :
+				result = new ArrayList<>();
+		}
+		return result;
+	}
+
 	@GetMapping("/before")
 	public String getBeforePage(PageParam param, Authentication auth, Model model) {
 		log.info("실행");
@@ -1154,4 +1197,5 @@ public class ApprovalController {
 			ioex.printStackTrace();
 		}
 	}
+	
 }

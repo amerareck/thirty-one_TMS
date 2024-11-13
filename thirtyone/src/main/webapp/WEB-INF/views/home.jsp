@@ -58,7 +58,7 @@
 					<div class="atd-box-bottom">
 						<p>${workTime.hour}시간</p>
 						<div class="work-time-bar" style="background-image: linear-gradient(to right, #1F5FFF 0%, #1F5FFF ${workTime.workpart}%, #BEFDB7 ${workTime.workpart+10}%, #BEFDB7 100% )"></div>
-						<div><span>0H</span><span>8H</span><span>12H</span><span>14H</span></div>
+						<div><span>0H</span><span>7H</span><span>11H</span><span>14H</span></div>
 					</div>
 				</div>
 				<div class="approval-list card">

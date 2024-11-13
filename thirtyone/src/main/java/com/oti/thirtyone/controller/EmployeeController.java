@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -64,6 +65,7 @@ public class EmployeeController {
 	}
 	
 	@GetMapping("empDetail")
+	@Secured("ROLE_USER")
 	public String empDetail(Model model, Authentication authentication){
 		EmployeeDetails userInfo = (EmployeeDetails) authentication.getPrincipal();
 		EmployeesDto empDto = userInfo.getEmployee();
@@ -77,6 +79,7 @@ public class EmployeeController {
 	}
 	
 	@GetMapping("empPwUpdate")
+	@Secured("ROLE_USER")
 	public String empPwUpdate() {
 		
 		return "employee/empPwUpdate";
@@ -105,6 +108,7 @@ public class EmployeeController {
 	}
 	
 	@PostMapping("updatePw")
+	@Secured("ROLE_USER")
 	public String updatePw(String empPassword, Authentication authentication) {
 		log.info(empPassword + " ");
 		String empId = authentication.getName();

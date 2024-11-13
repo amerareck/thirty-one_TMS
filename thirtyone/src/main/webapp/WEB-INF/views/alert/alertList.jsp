@@ -14,9 +14,10 @@
 				<div class="middle-container">
 					<div class="search">
 						<select class="form-select" id="search-menu" name="holiday-type">
-							<option value="0" selected>이름</option>
-							<option value="1">직급</option>
-							<option value="2">부서</option>
+							<option value="" ${query=="" ? "selected" : ""}>전체</option>
+							<option value="atd"  ${query=="atd" ? "selected" : ""} >근태</option>
+							<option value="holiday" ${query=="holiday" ? "selected" : ""}>휴가</option>
+							<option value="apr" ${query=="apr" ? "selected" : ""}>결재</option>
 						</select>
 					</div>
 				</div>
@@ -46,24 +47,24 @@
 		    	    </div>
 				  	<div class="pagination">
 						<c:if test="${pager.groupNo>1}">
-							<a href="process?pageNo=${pager.startPageNo-1}"> 
+							<a href="alert/list?pageNo=${pager.startPageNo-1}&query=${query}"> 
 								<img src="${pageContext.request.contextPath}/resources/image/prev_icon.png" alt="prev" style="width: 15px">
 							</a>
 						</c:if>
 						<c:forEach begin="${pager.startPageNo}" end="${pager.endPageNo}" step="1" var="i">
 							<c:if test="${pager.pageNo==i}">
 								<button class="page-num active"
-									onclick="location.href='${pageContext.request.contextPath}/atd/process?pageNo=${i}'"
+									onclick="location.href='${pageContext.request.contextPath}/alert/list?pageNo=${i}&query=${query}'"
 									style="color: #686868">${i}</button>
 							</c:if>
 							<c:if test="${pager.pageNo!=i}">
 								<button class="page-num"
-									onclick="location.href='${pageContext.request.contextPath}/atd/process?pageNo=${i}'">
+									onclick="location.href='${pageContext.request.contextPath}/alert/list?pageNo=${i}&query=${query}'">
 									${i}</button>
 							</c:if>
 						</c:forEach>
 						<c:if test="${pager.groupNo<pager.totalGroupNo}">
-							<a href="process?pageNo=${pager.endPageNo+1}">
+							<a href="alert/list?pageNo=${pager.endPageNo+1}&query=${query}">
 								<img src="${pageContext.request.contextPath}/resources/image/next_icon.png" alt="next" style="width: 15px">
 							</a>
 						</c:if>

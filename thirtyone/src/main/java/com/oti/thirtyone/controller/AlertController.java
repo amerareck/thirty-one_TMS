@@ -6,6 +6,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -33,20 +34,25 @@ public class AlertController {
 	AlertService alertService;
     
 	@GetMapping("/list")
-	public String alert(Model model, Authentication authentication, @RequestParam(defaultValue = "1") int pageNo, HttpSession session ) {
+	@Secured("ROLE_USER")
+	public String alertList(Model model, Authentication authentication, 
+						@RequestParam(defaultValue = "1") int pageNo, 
+						String query, HttpSession session ) {
 		String empId = authentication.getName();
 		
-		int totalRows = alertService.countRowsByEmpId(empId);
+		int totalRows = alertService.countRowsByEmpId(empId, query);
 		Pager pager = new Pager(5, 5, totalRows, pageNo);
 		session.setAttribute("pager", pager);
-		List<AlertDto> alertList = alertService.getAlertListByEmpId(pager, empId);
+		List<AlertDto> alertList = alertService.getAlertListByEmpId(pager, empId, query);
 		
 		model.addAttribute("alertList", alertList);
 		model.addAttribute("title", "알람");
+		model.addAttribute("query", query);
 		return "alert/alertList";
 	}
 	
 	@GetMapping("")
+	@Secured("ROLE_USER")
 	public String notReadedAlert(Model model, Authentication authentication, @RequestParam(defaultValue = "1") int pageNo, HttpSession session ) {
 		String empId = authentication.getName();
 		

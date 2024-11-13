@@ -8,7 +8,7 @@ import org.apache.ibatis.annotations.Param;
 
 import com.oti.thirtyone.dto.ApprovalDTO;
 import com.oti.thirtyone.dto.AttendanceDto;
-import com.oti.thirtyone.dto.HolidayDto;
+import com.oti.thirtyone.dto.EmployeesDto;
 import com.oti.thirtyone.dto.HolidayRequestDto;
 
 @Mapper
@@ -45,4 +45,5 @@ public interface AttendanceDao {
 	int insertAtdDefaultData(ApprovalDTO apr);
 
 	int insertHdrPeriod(HolidayRequestDto hdrDto);
+
 }

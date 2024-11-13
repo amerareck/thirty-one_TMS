@@ -10,6 +10,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -48,6 +49,7 @@ public class DepartmentController {
 	HolidayService holidayService;
 	
 	@GetMapping("/")
+	@Secured("ROLE_USER")
 	public String deptMain(Model model, Authentication authentication, @RequestParam(defaultValue = "1") int atdPageNo,
 			@RequestParam(defaultValue = "1") int pageNo, HttpSession session) {
 		
@@ -109,6 +111,7 @@ public class DepartmentController {
 	}
 	
 	@GetMapping("/holiday")
+	@Secured("ROLE_USER")
 	public String deptHoliday(Model model) {
 		model.addAttribute("title", "정원석님의 부서 관리");
 		model.addAttribute("selectedSub", "deptAtd");

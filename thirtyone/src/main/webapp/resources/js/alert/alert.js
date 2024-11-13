@@ -7,3 +7,8 @@ if (toastTrigger) {
     toastBootstrap.show()
   })
 }
+
+$("#search-menu").on("change", function(){
+	const query = $(this).val();
+	location.href = '/thirtyone/alert/list?query=' + query;
+})

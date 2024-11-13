@@ -26,6 +26,7 @@
 	
 <link rel="stylesheet"
 	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+<link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.14.5/dist/sweetalert2.min.css" rel="stylesheet">
 
 <script
 	src="${pageContext.request.contextPath}/resources/jquery/jquery.min.js"></script>
@@ -33,6 +34,9 @@
 	src="${pageContext.request.contextPath}/resources/bootstrap/bootstrap.bundle.min.js"></script>
 <script
 	src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js'></script>
+<script 
+	src="https://cdn.jsdelivr.net/npm/sweetalert2@11.14.5/dist/sweetalert2.all.min.js"></script>
+
 
 
 <c:if test="${ApprovalRequest}">

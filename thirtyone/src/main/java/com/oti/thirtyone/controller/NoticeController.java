@@ -10,6 +10,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -47,6 +48,7 @@ public class NoticeController {
 
 	// 공지사항 조회
 	@GetMapping("/noticeList")
+	@Secured("ROLE_ADMIN")
 	public String noticeList(Model model, @RequestParam(defaultValue = "1") int pageNo, HttpSession session,
 			NoticeDto noticeDto) {
 
@@ -74,6 +76,7 @@ public class NoticeController {
 
 	// 공지사항 검색
 	@GetMapping("/searchNotice")
+	@Secured("ROLE_ADMIN")
 	public String searchNotice(Model model, @RequestParam(defaultValue = "1") int pageNo, HttpSession session,
 			@RequestParam("noticeTitle") String noticeTitle) {
 
@@ -98,6 +101,7 @@ public class NoticeController {
 
 	// 공지사항 상세페이지
 	@GetMapping("/noticeDetail")
+	@Secured("ROLE_ADMIN")
 	public String noticeDetail(Model model, int noticeId) {
 
 		NoticeDto notice = noticeService.selectByNoticeId(noticeId);
@@ -225,6 +229,7 @@ public class NoticeController {
 	}
 
 	@GetMapping("/updateNoticeForm")
+	@Secured("ROLE_ADMIN")
 	public String updateNoticeForm(int noticeId, Model model, NoticeFileDto noticeFie) {
 		NoticeDto notice = noticeService.selectByNoticeId(noticeId);
 		NoticeFileDto noticeFile = noticeService.selectAttachByNoticeId(noticeId);
@@ -332,6 +337,7 @@ public class NoticeController {
 	
 	// 공지사항 조회
 		@GetMapping("/empNoticeList")
+		@Secured("ROLE_USER")
 		public String empNoticeList(Model model, @RequestParam(defaultValue = "1") int pageNo, HttpSession session,
 				NoticeDto noticeDto) {
 
@@ -359,6 +365,7 @@ public class NoticeController {
 		
 		// 공지사항 검색
 		@GetMapping("/emp/searchNotice")
+		@Secured("ROLE_USER")
 		public String empSearchNotice(Model model, @RequestParam(defaultValue = "1") int pageNo, HttpSession session,
 				@RequestParam("noticeTitle") String noticeTitle) {
 
@@ -384,6 +391,7 @@ public class NoticeController {
 
 		// 공지사항 상세페이지
 		@GetMapping("/empNoticeDetail")
+		@Secured("ROLE_USER")
 		public String empNoticeDetail(Model model, int noticeId) {
 
 			NoticeDto notice = noticeService.selectByNoticeId(noticeId);

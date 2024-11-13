@@ -182,7 +182,7 @@ $('.select-search-draft').on('change', function() {
 		
 	} else if (type === 'draftType') {
 		$(this).after(`
-				<select class="form-select form-select-sm col-8 input-search-draft" style="flex: 3;">
+				<select class="form-select form-select-sm col-8 input-search-draft draft-type" style="flex: 3;">
 					<option value="근태신청서">근태신청서</option>
 					<option value="출장품의서">출장품의서</option>
 					<option value="출장보고서">출장보고서</option>
@@ -195,7 +195,30 @@ $('.select-search-draft').on('change', function() {
 		$(this).after(`
 				<input class="form-control col-8 input-search-draft draft-author" placeholder="검색 유형 입력" style="flex:3;" />
 		`);
+	} else if (type === 'draftState') {
+		$(this).after(`
+				<select class="form-select form-select-sm col-8 input-search-draft draft-state" style="flex: 3;">
+					<option value="대기">&nbsp;&nbsp;대기</option>
+					<option value="진행">&nbsp;&nbsp;진행</option>
+					<option value="승인">&nbsp;&nbsp;승인</option>
+					<option value="반려">&nbsp;&nbsp;반려</option>
+				</select>
+		`);
 	}
+});
+
+$('.btnApprovalSearch').on('click', function(){
+	const inputDiv = $(this).closest('.approval-search-input-group');
+	const url = inputDiv.attr('data-url');
+	const param = {};
+	param.type = inputDiv.attr('data-active-page');
+	param.pageNo = inputDiv.attr('data-page-no');
+	param.search = inputDiv.find('select.select-search-draft').val();
+	param.keyword = inputDiv.find('.input-search-draft').val();
+	
+	console.log(param);
+	
+	location.href = url+'?type='+param.type+'&pageNo='+param.pageNo+'&search='+param.search+'&keyword='+param.keyword;
 });
 
 
