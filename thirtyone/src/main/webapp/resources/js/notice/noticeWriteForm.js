@@ -14,16 +14,19 @@ document.addEventListener("DOMContentLoaded", function() {
 			url: contextPath + '/notice/deptList',
 			success: function(data) {
 				const modalBody = document.getElementById("modalBody");
-				modalBody.innerHTML = "";
-				data.forEach(dept => {
-					const deptCheck = document.createElement("div");
-					deptCheck.classList.add('form-check');
-					deptCheck.innerHTML = `
-						<input class= "form-check-input" type="checkBox" name="deptId" value="${dept.deptId}" id="dept_${dept.deptName}">
-						<label class="form-check-label" for="dept_${dept.deptName}">${dept.deptName}</label>
-						`;
-					modalBody.appendChild(deptCheck);
-				});
+				console.log(modalBody);
+				if(modalBody.children.length == 0){
+					modalBody.innerHTML = "";
+					data.forEach(dept => {
+						const deptCheck = document.createElement("div");
+						deptCheck.classList.add('form-check');
+						deptCheck.innerHTML = `
+							<input class= "form-check-input" type="checkBox" name="deptId" value="${dept.deptId}" id="dept_${dept.deptName}">
+							<label class="form-check-label" for="dept_${dept.deptName}">${dept.deptName}</label>
+							`;
+						modalBody.appendChild(deptCheck);
+					});
+				}
 				$("#exampleModal").modal("show");
 			},
 			error: function(xhr) {

@@ -22,4 +22,5 @@ public class NoticeDto {
 	private String prevTitle;
 	private String nextTitle;
 	/*private int noticeRowNum;*/
+	private int[] existingDeptId;
 }

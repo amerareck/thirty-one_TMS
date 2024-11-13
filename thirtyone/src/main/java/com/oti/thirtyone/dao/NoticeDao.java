@@ -56,6 +56,12 @@ public interface NoticeDao {
 
 	 //파일 수정
 	 public int hasNoticeFileId(int noticeFileId);
+
+	 public int hasNoticeTarget(@Param("deptId") int deptId, @Param("noticeId") int noticeId);
+
+	public void insertNoticeTargetOne(@Param("deptId") int deptId, @Param("noticeId") int noticeId);
+
+	public void deleteNoticeTarget(@Param("deptId") int exDeptId, @Param("noticeId") int noticeId);
 	
 
 }

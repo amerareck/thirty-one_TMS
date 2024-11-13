@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', function () {
         dateFormat: "Y-m-d",
         inline: true,
         onChange: function(selectedDates, dateStr, instance) {
-        	
+        	console.log('asd');
         	calculateUsedDay(selectedDates);
         	alertShown = false;
         }

@@ -52,7 +52,7 @@
 					<div class="noticeTarget">
 						<div class="notice-target">공지 대상</div>
 						<button type="button" class="button-small search" id="deptSearch"
-							data-bs-toggle="modal" data-bs-target="#ganadaramabasa">찾기</button>
+							>찾기</button>
 
 
 						<div class="targetBox" id="result">
@@ -147,38 +147,38 @@
 						value="${employees.empId}">
 
 					<!-- Modal -->
-					<div class="modal fade" id="exampleModal" tabindex="-1"
-						aria-labelledby="exampleModalLabel" aria-hidden="true">
-						<div class="modal-dialog">
-							<div class="modal-content">
-								<div class="modal-header">
-									<div class="modal-title" id="exampleModalLabel">부서 찾기</div>
-									<button type="button" class="btn-close" data-bs-dismiss="modal"
-										aria-label="Close"></button>
-								</div>
-								<div class="modal-body" id="modalBody">
+				</form>
+				<div class="modal fade" id="exampleModal" tabindex="-1"
+					aria-labelledby="exampleModalLabel" aria-hidden="true">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<div class="modal-title" id="exampleModalLabel">부서 찾기</div>
+								<button type="button" class="btn-close" data-bs-dismiss="modal"
+									aria-label="Close"></button>
+							</div>
+							<div class="modal-body" id="modalBody">
 
-									<%-- <c:forEach var="deptName" items="${deptName}">  --%>
-									<!-- 체크 -->
-									<div class="form-check">
-										<input class="form-check-input" type="checkbox" name="deptId"
-											value="${dept.deptId}" id="${dept.deptName}"
-											onclick="getCheckboxValue()"><label
-											class="form-check-label" for="${dept.deptName}"></label>
-									</div>
-									<%--  </c:forEach> --%>
+								<%-- <c:forEach var="deptName" items="${deptName}">  --%>
+								<!-- 체크 -->
+<!-- 								<div class="form-check"> -->
+<!-- 									<input class="form-check-input" type="checkbox" name="deptId" -->
+<%-- 										value="${dept.deptId}" id="${dept.deptName}" --%>
+<!-- 										onclick="getCheckboxValue()"><label -->
+<%-- 										class="form-check-label" for="${dept.deptName}"></label> --%>
+<!-- 								</div> -->
+								<%--  </c:forEach> --%>
 
-								</div>
-								<div class="modal-footer">
-									<button type="button" class="button-medium cancel"
-										data-bs-dismiss="modal">취소</button>
-									<input type="submit" class="button-medium save"
-										onclick="getCheckboxValue()" id="getCheckboxValue" value="확인">
-								</div>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="button-medium cancel"
+									data-bs-dismiss="modal">취소</button>
+								<input type="submit" class="button-medium save" id="getCheckboxValue" value="확인">
+<!-- 									onclick="getCheckboxValue()" -->
 							</div>
 						</div>
 					</div>
-				</form>
+				</div>
 			</div>
 		</div>
 	</div>

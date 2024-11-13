@@ -7,6 +7,7 @@ import java.util.List;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -305,46 +306,47 @@ public class NoticeController {
 	}
 
 	// 공지사항 수정
-		@PostMapping("/updateNotice")
-		public String updateNotice(Model model, NoticeFormDto notice) throws Exception {
+	@Transactional
+	@PostMapping("/updateNotice")
+	public String updateNotice(Model model, NoticeFormDto notice) throws Exception {
 
-			NoticeDto dbNotice = new NoticeDto();
-			dbNotice.setNoticeId(notice.getNoticeId());
-			dbNotice.setNoticeTitle(notice.getNoticeTitle());
-			dbNotice.setNoticeContent(notice.getNoticeContent());
-			dbNotice.setNoticeDate(notice.getNoticeDate());
-			dbNotice.setNoticeImportant(notice.getNoticeImportant());
-			dbNotice.setNoticeAllTarget(notice.getNoticeAllTarget());
+		NoticeDto dbNotice = new NoticeDto();
+		dbNotice.setDeptId(notice.getDeptId());
+		dbNotice.setNoticeId(notice.getNoticeId());
+		dbNotice.setNoticeTitle(notice.getNoticeTitle());
+		dbNotice.setNoticeContent(notice.getNoticeContent());
+		dbNotice.setNoticeDate(notice.getNoticeDate());
+		dbNotice.setNoticeImportant(notice.getNoticeImportant());
+		dbNotice.setNoticeAllTarget(notice.getNoticeAllTarget());
+		dbNotice.setExistingDeptId(notice.getExistingDeptId());
 
-			log.info(dbNotice.toString());
+		noticeService.updateNotice(dbNotice);
+		noticeService.insertNoticeTarget(dbNotice);
+		MultipartFile[] files = notice.getAttachFile();
 
-			noticeService.updateNotice(dbNotice);
-
-			MultipartFile[] files = notice.getAttachFile();
-
-			for (int fileId : notice.getDeleteFileId()) {
-				log.info(" fileId = " + fileId);
-				noticeService.deleteFileFromDb(fileId);
-			}
-
-			if (files != null) {
-				for (MultipartFile mf : files) {
-					NoticeFileDto dbFile = new NoticeFileDto();
-//					if (!noticeService.hasNoticeFileId(dbFile.getNoticeFileId())) continue; //noticeFileId 가 없으면 밑에 구문을 실행시키지 않고 다음 index로 넘어간다.
-					dbFile.setNoticeFileName(mf.getOriginalFilename());
-					dbFile.setNoticeFileData(mf.getBytes());
-					dbFile.setNoticeFileType(mf.getContentType());
-					dbFile.getNoticeFileId();
-					dbFile.setNoticeId(dbNotice.getNoticeId());
-					noticeService.insertNoticeFile(dbFile); // db에 없으면 insert 있으면 노 insert
-				}
-			}
-//			log.info(notice.toString());
-			log.info("마바사");
-
-			model.addAttribute("selectedTitle", "notice");
-			return "redirect:/notice/noticeDetail?noticeId=" + notice.getNoticeId();
+		for (int fileId : notice.getDeleteFileId()) {
+			log.info(" fileId = " + fileId);
+			noticeService.deleteFileFromDb(fileId);
 		}
+
+		if (files != null) {
+			for (MultipartFile mf : files) {
+				NoticeFileDto dbFile = new NoticeFileDto();
+//					if (!noticeService.hasNoticeFileId(dbFile.getNoticeFileId())) continue; //noticeFileId 가 없으면 밑에 구문을 실행시키지 않고 다음 index로 넘어간다.
+				dbFile.setNoticeFileName(mf.getOriginalFilename());
+				dbFile.setNoticeFileData(mf.getBytes());
+				dbFile.setNoticeFileType(mf.getContentType());
+				dbFile.getNoticeFileId();
+				dbFile.setNoticeId(dbNotice.getNoticeId());
+				noticeService.insertNoticeFile(dbFile); // db에 없으면 insert 있으면 노 insert
+			}
+		}
+//			log.info(notice.toString());
+		log.info("마바사");
+
+		model.addAttribute("selectedTitle", "notice");
+		return "redirect:/notice/noticeDetail?noticeId=" + notice.getNoticeId();
+	}
 
 
 	// 공지사항 삭제

@@ -7,6 +7,8 @@ document.addEventListener("DOMContentLoaded", function() {
     let existingFiles = []; // 기존 파일 목록
     let updateFiles = [];
     let deleteFileId = [];
+    let existingDeptId = [];
+    
     var noticeId = document.getElementById("noticeId").value;
 //    console.log("Notice ID:", noticeId);
     
@@ -275,28 +277,30 @@ document.addEventListener("DOMContentLoaded", function() {
             url: contextPath + '/notice/deptList',
             success: function(data) {
                 const modalBody = document.getElementById("modalBody");
-                modalBody.innerHTML = "";
-                let deptNames = $('.targetBox div').text().split(",").map(function(item) {
-                	  return item.trim();
-            	});
-//                console.log(deptNames);
-                //부서 목록 동적으로 생성
-                data.forEach(dept => {
-                	let isCheck = false;
-                	deptNames.forEach(item => {
-                		if(dept.deptName===item) isCheck = true  ;
-                	})
-                    const deptCheck = document.createElement("div");
-                    deptCheck.classList.add('form-check');
-                    deptCheck.innerHTML = `
-                        <input class= "form-check-input" type="checkBox" name="deptId" value="${dept.deptId}" id="dept_${dept.deptName}"
-                        ` + (isCheck ? 'checked' : '') +
-                        `>
-                        <label class="form-check-label" for="dept_${dept.deptName}">${dept.deptName}</label>
-                    `;
-                    modalBody.appendChild(deptCheck);
-                });
-
+                if(modalBody.children.length == 0){
+	                modalBody.innerHTML = "";
+	                let deptNames = $('.targetBox div').text().split(",").map(function(item) {
+	                	  return item.trim();
+	            	});
+	//                console.log(deptNames);
+	                //부서 목록 동적으로 생성
+	                data.forEach(dept => {
+	                	existingDeptId.push(dept.deptId);
+	                	let isCheck = false;
+	                	deptNames.forEach(item => {
+	                		if(dept.deptName===item) isCheck = true  ;
+	                	})
+	                    const deptCheck = document.createElement("div");
+	                    deptCheck.classList.add('form-check');
+	                    deptCheck.innerHTML = `
+	                        <input class= "form-check-input" type="checkBox" name="deptId" value="${dept.deptId}" id="dept_${dept.deptName}"
+	                        ` + (isCheck ? 'checked' : '') +
+	                        `>
+	                        <label class="form-check-label" for="dept_${dept.deptName}">${dept.deptName}</label>
+	                    `;
+	                    modalBody.appendChild(deptCheck);
+	                });
+                }
 
                 $("#exampleModal").modal("show");
             },
@@ -308,27 +312,28 @@ document.addEventListener("DOMContentLoaded", function() {
     
      //확인 버튼 클릭 시 부서 값 div에 추가
      $('#getCheckboxValue').click(function(event) {
-    	 event.prevenDefault();
-    	 updateSelectedDepartments(); //선택된 부서 값 div에 추가
+//    	 event.prevenDefault();
+//    	 updateSelectedDepartments(); //선택된 부서 값 div에 추가
+    	 updateDepartmentSelection();	
     	 $("#exampleModal").modal("hide");
      });
-
+     
     
     //선택된 부서 ID를 폼에 업데이트 / selectedDeptDiv에 표시
     function updateDepartmentSelection() {
     	const selectedDeptIds = getCheckedDeptIds(); //선택된 부서 ID 가져오기    	
     	const selectedDeptNames = getCheckedDeptNames(); //선택된 부서 이름 가져오기
-    	
-    	const selectedDeptDiv = document.getElementById("selectedDeptDiv");
+    	const selectedDeptDiv = document.getElementsByClassName("targetBox")[0];
     	selectedDeptDiv.innerHTML = ""; //기존 내용 초기화
     	
     	//선택된 부서들 표시
-    	selectedDeptIds.forEach(deptName => {
+    	selectedDeptNames.forEach(deptName => {
     		const deptDiv = document.createElement("div");
     		deptDiv.classList.add("selected-department");
-    		deptDiv.textContent = deptName; //부서 이름 표시
+    		deptDiv.textContent = deptName+", "; //부서 이름 표시
     		selectedDeptDiv.appendChild(deptDiv);
     	});
+    	result.innerHTML = selectedDeptNames.join(", ");
     }
     
     //체크된 부서 ID 가져오기
@@ -339,7 +344,7 @@ document.addEventListener("DOMContentLoaded", function() {
     }
     
     //체크된 부서 이름 가져오기
-    function getSelectedDeptNames() {
+    function getCheckedDeptNames() {
     	return $('input[name="deptId"]:checked').map(function() {
     		return $(this).next('label').text(); //체크된 부서의 이름
     	}).get();
@@ -392,6 +397,7 @@ document.addEventListener("DOMContentLoaded", function() {
 		
 		const checkedDeptIds = getCheckedDeptIds().map(id => parseInt(id));
 		checkedDeptIds.forEach(deptId => formData.append('deptId[]', deptId)); // 배열처럼 사용
+		existingDeptId.forEach(deptId => formData.append('existingDeptId[]', deptId));
 		console.log("부서 ID:", checkedDeptIds);
 		
 		

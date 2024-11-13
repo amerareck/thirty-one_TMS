@@ -118,8 +118,17 @@ public class NoticeService {
 	}
 	
 	//부서
-	public void insertNoticeTarget(NoticeDto notice) {
-		noticeDao.insertNoticeTarget(notice);
+	public void insertNoticeTarget(NoticeDto notice) { 	
+		for(int exDeptId:notice.getExistingDeptId()) {
+			boolean isCheckedDeptId = false;
+			for(int deptId : notice.getDeptId()) {
+				if(deptId == exDeptId) isCheckedDeptId=true;
+				if(noticeDao.hasNoticeTarget(deptId, notice.getNoticeId()) == 0)
+					noticeDao.insertNoticeTargetOne(deptId, notice.getNoticeId());
+			}
+			if(!isCheckedDeptId) noticeDao.deleteNoticeTarget(exDeptId, notice.getNoticeId()); 
+			
+		}
 	}
 
 	public void updateNoticeTarget(NoticeDto notice) {

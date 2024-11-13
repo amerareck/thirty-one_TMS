@@ -232,4 +232,22 @@
 		SELECT COUNT(NOTICE_FILE_ID) FROM NOTICE_FILES
 		WHERE NOTICE_FILE_ID = #{noticeFileId}
 	</select>
+	
+	<select id="hasNoticeTarget" resultType="int">
+		SELECT COUNT(*)
+		FROM NOTICE_TARGET
+		WHERE NOTICE_ID = #{noticeId} and DEPT_ID=#{deptId}
+	</select>
+	
+	<insert id="insertNoticeTargetOne">
+		INSERT INTO NOTICE_TARGET
+			(NOTICE_ID, DEPT_ID)
+		VALUES
+			(#{noticeId}, #{deptId})
+	</insert>
+	
+	<delete id="deleteNoticeTarget">
+		delete from notice_target
+		where dept_id = #{deptId} and notice_id = #{noticeId}
+	</delete>
 </mapper>

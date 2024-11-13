@@ -49,7 +49,7 @@
 						id="hdCategory" name="hdCategory">
 						<option value="0">휴가 유형을 선택해 주세요.</option>
 						<c:forEach var="holiday" items="${holiday}">
-							<option value="${holiday.hdCategory}">${holiday.hdName}(${holiday.hdCount - holiday.hdUsed}일)</option>
+							<option value="${holiday.hdCategory}">${holiday.hdName}(${holiday.hdCount - holiday.hdUsed >= 0? holiday.hdCount - holiday.hdUsed : 0.0}일)</option>
 						</c:forEach>
 					</select>
 				</div>

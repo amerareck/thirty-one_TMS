@@ -104,6 +104,8 @@
 					</div>
 
 
+				</form>
+
 					<!-- Modal -->
 					<div class="modal fade" id="exampleModal" tabindex="-1"
 						aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -116,28 +118,26 @@
 								</div>
 								<div class="modal-body" id="modalBody">
 
-									<%-- <c:forEach var="deptName" items="${deptName}">  --%>
-									<!-- 체크 -->
-									<div class="form-check">
-										<input class="form-check-input" type="checkbox" name="deptId"
-											value="${dept.deptId}" id="${dept.deptName}"
-											onclick="getCheckboxValue()"><label
-											class="form-check-label" for="${dept.deptName}"></label>
-									</div>
-									<%--  </c:forEach> --%>
+<%-- 									<c:forEach var="deptName" items="${deptName}">  --%>
+<!-- 									체크 -->
+<!-- 									<div class="form-check"> -->
+<!-- 										<input class="form-check-input" type="checkbox" name="deptId" -->
+<%-- 											value="${dept.deptId}" id="${dept.deptName}" --%>
+<!-- 											><label -->
+<%-- 											class="form-check-label" for="${dept.deptName}"></label> --%>
+<!-- 									</div> -->
+<%-- 									 </c:forEach> --%>
 
 								</div>
 								<div class="modal-footer">
 									<button type="button" class="button-medium cancel"
 										data-bs-dismiss="modal">취소</button>
 									<input type="submit" class="button-medium save"
-										onclick="getCheckboxValue()" id="getCheckboxValue" value="확인">
+										 id="getCheckboxValue" value="확인">
 								</div>
 							</div>
 						</div>
 					</div>
-
-				</form>
 			</div>
 		</div>
 
