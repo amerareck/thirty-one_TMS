@@ -1,6 +1,8 @@
 package com.oti.thirtyone.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -55,10 +57,22 @@ public class NoticeService {
 		return list;
 	}
 	
-	public int searchCountRows(String noticeTitle) {
+	public int searchCountRows(String noticeTitle, int deptId) {
 		int totalRows = noticeDao.searchCountRows(noticeTitle);
 		return totalRows;
 	}	
+	
+	//부서별 조회
+	public List<NoticeDto> searchNoticeByDeptId(String noticeTitle, Pager pager, int deptId) {		
+		/*List<NoticeDto> list = noticeDao.searchNoticeByDeptId(deptId, pager);
+		return list;*/
+		return noticeDao.searchNoticeByDeptId(noticeTitle, pager, deptId);
+	}
+	
+	public int searchDeptIdCountRows(int deptId) {
+		int totalRows = noticeDao.searchDeptIdCountRows(deptId);
+		return totalRows;
+	}
 
 	//특정파일
 	public NoticeFileDto selectAttachByNoticeId(int noticeId) {

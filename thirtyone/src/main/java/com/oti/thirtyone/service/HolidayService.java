@@ -13,11 +13,13 @@ import com.oti.thirtyone.dao.DocumentFolderDAO;
 import com.oti.thirtyone.dao.EmployeesDao;
 import com.oti.thirtyone.dao.HolidayDao;
 import com.oti.thirtyone.dao.HolidayRequestDao;
+import com.oti.thirtyone.dao.PositionDao;
 import com.oti.thirtyone.dto.ApprovalDTO;
 import com.oti.thirtyone.dto.CalendarDto;
 import com.oti.thirtyone.dto.HolidayDto;
 import com.oti.thirtyone.dto.HolidayRequestDto;
 import com.oti.thirtyone.dto.Pager;
+import com.oti.thirtyone.dto.PositionsDto;
 
 import lombok.extern.log4j.Log4j2;
 
@@ -39,6 +41,9 @@ public class HolidayService {
 	
 	@Autowired
 	DocumentFolderDAO docFolderDao;
+	
+	@Autowired
+	PositionDao positionDao;
 
 	public List<HolidayRequestDto> getHdrReqAllbyEmpId(String empId, Pager pager) {
 		return hdrDao.selectHdrAllByEmpId(empId, pager);
@@ -47,6 +52,11 @@ public class HolidayService {
 	public int countRowsByEmpId(String empId) {
 		return hdrDao.countRowsByEmpId(empId);
 	}
+	
+	public int countRowsByEmpIdForPorcess(String empId) {
+		return hdrDao.countRowsByEmpIdForPorcess(empId);
+	}
+
 
 	public CalendarDto formatInputCalendar(String empName, String title, Date startdate, Date enddate,
 			String background, String border, String text) {
@@ -166,5 +176,25 @@ public class HolidayService {
 			atdDao.insertHdrPeriod(hdrDto);
 			holidayDao.updateHdrCount(empId, hdrDto.getHdrUsedDay(), hdCategory);
 		}
+	}	
+		
+	public void updateRequestForm(HolidayRequestDto holidayRequest) {
+		hdrDao.updateRequestForm(holidayRequest);
+	}
+	
+	//db에서 수정할 정보 가져오기
+	public List<HolidayRequestDto> selectHolidayRequestById(int hdrId) {
+		List<HolidayRequestDto> hdrList = hdrDao.selectHolidayRequestById(hdrId);
+		return hdrList;
+	}
+	
+	//직급 정보 가져오기
+	public List<PositionsDto> selectHdrPosition(int hdrId) {
+		List<PositionsDto> positionList = positionDao.selectHdrPosition(hdrId);
+		return positionList;
+	}
+
+	public void deleteRequest(int hdrId) {
+		hdrDao.deleteRequest(hdrId);
 	}
 }

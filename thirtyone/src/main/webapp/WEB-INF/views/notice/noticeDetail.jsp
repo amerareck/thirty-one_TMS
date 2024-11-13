@@ -73,9 +73,13 @@
 					<div class="notice-target">공지 대상</div>
 					<c:choose>
 						<c:when test="${not empty deptName}">
-							<c:forEach var="dept" items="${deptName}">
-								<div class="target" style="margin-right: 5px;">${dept}</div>
+							<c:forEach var="dept" items="${deptName}" varStatus="status">
+								<div class="target" style="margin-right: 5px;">
+									${dept}
+									<c:if test="${!status.last}">,</c:if>
+								</div>
 							</c:forEach>
+
 						</c:when>
 						<c:otherwise>
 							<p>전체</p>
@@ -147,7 +151,7 @@
 						</c:otherwise>
 					</c:choose>
 				</div>
-				
+
 				<div class="preTitle">
 					<div class="pre-title">이전글</div>
 					<c:choose>

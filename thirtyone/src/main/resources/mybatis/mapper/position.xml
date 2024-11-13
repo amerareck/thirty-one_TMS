@@ -40,4 +40,9 @@
 		delete from positions
 		where position=#{prePosName}
 	</delete>
+	
+	<select id="selectHdrPosition" resultType="Position">
+		SELECT POSITION, POSITION_CLASS
+		FROM POSITIONS
+	</select>
 </mapper> 

@@ -21,4 +21,5 @@ public class NoticeDto {
 	private int nextNum;
 	private String prevTitle;
 	private String nextTitle;
+	/*private int noticeRowNum;*/
 }

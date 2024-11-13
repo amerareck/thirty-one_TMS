@@ -31,4 +31,13 @@ public interface HolidayRequestDao {
 	int updateHdrUsedDay(String empId);
 
 	HolidayRequestDto selectHdrByHdrId(int hdrId);
+	
+	int countRowsByEmpIdForPorcess(String empId);
+	
+	int updateRequestForm(HolidayRequestDto holidayRequest);
+	
+	//db에서 정보가져오기
+	List<HolidayRequestDto> selectHolidayRequestById(int hdrId);
+
+	int deleteRequest(int hdrId);
 }

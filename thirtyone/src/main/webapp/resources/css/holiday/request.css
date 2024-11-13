@@ -29,7 +29,7 @@
 	height: 60px;
 	margin: 20px 40px;
 	display: grid;
-	grid-template-columns: 3fr 7fr 7fr;
+	/* grid-template-columns: 3fr 7fr 15fr; */
 	justify-content: center;	
 }
 
@@ -37,7 +37,7 @@
 	margin: 20px 40px;
 	height: 60px;
 	display: grid !important;
-	grid-template-columns: 3fr 3fr 2fr 3fr 2fr 3fr 1fr !important;
+	/* grid-template-columns: 3fr 3fr 2fr 3fr 2fr 11.8fr !important; */
 	justify-content: center;
 }
 
@@ -63,7 +63,7 @@
 .holiday-select3{
 	margin: 20px 40px;
 	display: grid;
-	grid-template-columns: 3fr 0fr 7fr 7fr;
+	grid-template-columns: 3fr 0fr 7fr 15fr;
 		
 }
 .holiday-select4{
@@ -104,4 +104,8 @@
 
 #deptId {
 	width: 150px;
+}
+
+.holidaySelects {
+	display: flex;
 }

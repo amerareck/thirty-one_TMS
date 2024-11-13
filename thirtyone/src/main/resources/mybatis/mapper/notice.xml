@@ -36,14 +36,13 @@
 	<select id="selectListPager" parameterType="Pager"
 		resultType="Notice">
 		<![CDATA[		
-			SELECT ROWNUM AS RNUM, NOTICE_ID, NOTICE_TITLE, NOTICE_DATE, NOTICE_HIT_COUNT, NOTICE_IMPORTANT, EMP_ID
-			FROM (
+			SELECT NOTICE_ID, NOTICE_TITLE, NOTICE_DATE, NOTICE_HIT_COUNT, NOTICE_IMPORTANT, EMP_ID FROM (
 				SELECT ROWNUM AS RNUM, NOTICE_ID, NOTICE_TITLE, NOTICE_DATE, NOTICE_HIT_COUNT, NOTICE_IMPORTANT, EMP_ID
-				FROM (
-					SELECT NOTICE_ID, NOTICE_TITLE, NOTICE_DATE, NOTICE_HIT_COUNT, NOTICE_IMPORTANT, EMP_ID
-					FROM NOTICES
-					WHERE NOTICE_DELETED = 0
-			        ORDER BY (CASE WHEN NOTICE_IMPORTANT = '1' THEN 1 ELSE 2 END), NOTICE_ID DESC
+			FROM (
+				SELECT NOTICE_ID, NOTICE_TITLE, NOTICE_DATE, NOTICE_HIT_COUNT, NOTICE_IMPORTANT, EMP_ID
+				FROM NOTICES
+				WHERE NOTICE_DELETED = 0
+		        ORDER BY (CASE WHEN NOTICE_IMPORTANT = '1' THEN 1 ELSE 2 END), NOTICE_ID DESC
 		        )
 				WHERE ROWNUM <= #{endRowNo}
 			)
@@ -69,12 +68,53 @@
         WHERE RNUM >= #{pager.startRowNo}
     	]]>
 	</select>
-
-	<select id="searchCountRows" parameterType="String"
+	
+	<select id="searchCountRows" parameterType="Map"
 		resultType="int">
 		SELECT COUNT (*) FROM NOTICES
 		WHERE NOTICE_TITLE LIKE
 		'%'||#{noticeTitle}||'%'
+		<!-- AND DEPT_ID = #{deptId} -->
+	</select>
+	
+	<select id="searchNoticeByDeptId" resultType="Notice">
+		<![CDATA[
+	    SELECT * FROM (
+	        SELECT ROWNUM AS RNUM, 
+	               NOTICE_ID AS NOTICE_ID, 
+	               NOTICE_TITLE AS NOTICE_TITLE, 
+	               NOTICE_DATE AS NOTICE_DATE, 
+	               NOTICE_HIT_COUNT AS NOTICE_HIT_COUNT, 
+	               NOTICE_IMPORTANT AS NOTICE_IMPORTANT, 
+	               EMP_ID AS EMP_ID
+	        FROM (
+	            SELECT n.NOTICE_ID, 
+	                   n.NOTICE_TITLE, 
+	                   n.NOTICE_DATE, 
+	                   n.NOTICE_HIT_COUNT, 
+	                   n.NOTICE_IMPORTANT, 
+	                   n.EMP_ID
+	            FROM NOTICES n
+	            JOIN NOTICE_TARGET nt ON n.NOTICE_ID = nt.NOTICE_ID
+	            WHERE n.NOTICE_DELETED = 0
+	            AND (nt.DEPT_ID = #{deptId} OR n.notice_all_target = 0) 
+	            AND (n.NOTICE_TITLE LIKE '%' || #{noticeTitle} || '%' OR #{noticeTitle} IS NULL)
+	            ORDER BY (CASE WHEN n.NOTICE_IMPORTANT = '1' THEN 1 ELSE 2 END), n.NOTICE_ID DESC
+	        )
+	        WHERE ROWNUM <= #{pager.endRowNo}
+	    ) 
+	    WHERE RNUM >= #{pager.startRowNo}
+	    ]]>
+	</select>
+
+	<select id="searchDeptIdCountRows" parameterType="int">
+		<![CDATA[
+	    SELECT COUNT(*) 
+	    FROM NOTICES n
+	    JOIN NOTICE_TARGET nt ON n.NOTICE_ID = nt.NOTICE_ID
+	    WHERE n.NOTICE_DELETED = 0
+	    AND nt.DEPT_ID = #{deptId}
+	    ]]>
 	</select>
 
 	<select id="countRows" parameterType="int">
@@ -108,17 +148,17 @@
 
 	<select id="prevNext" resultType="Notice">
 		SELECT * FROM (SELECT
-		NOTICE_ID, NOTICE_TITLE,
-		LAG(NOTICE_ID, 1, 0) OVER(ORDER BY NOTICE_ID)
-		PREVNUM,
-		LAG(NOTICE_TITLE, 1, '이전글이 없습니다') OVER(ORDER BY NOTICE_ID)
-		PREVTITLE,
-
-		LEAD(NOTICE_ID, 1, 0) OVER(ORDER BY NOTICE_ID) NEXTNUM,
-		LEAD(NOTICE_TITLE, 1, '다음글이
-		없습니다') OVER(ORDER BY NOTICE_ID) NEXTTITLE
-		FROM NOTICES) WHERE
-		NOTICE_ID=#{noticeId} ORDER BY NOTICE_ID
+			NOTICE_ID, 
+			NOTICE_TITLE,
+			LAG(NOTICE_ID, 1, 0) OVER(ORDER BY NOTICE_ID) AS PREVNUM,
+			LAG(NOTICE_TITLE, 1, '이전글이 없습니다') OVER(ORDER BY NOTICE_ID) PREVTITLE,	
+			LEAD(NOTICE_ID, 1, 0) OVER(ORDER BY NOTICE_ID) AS NEXTNUM,
+			LEAD(NOTICE_TITLE, 1, '다음글이 없습니다') OVER(ORDER BY NOTICE_ID) NEXTTITLE
+		FROM NOTICES
+		WHERE NOTICE_DELETED = 0
+		)
+		WHERE NOTICE_ID=#{noticeId} 
+		ORDER BY NOTICE_ID
 	</select>
 
 	<update id="updateNotice" parameterType="Notice">

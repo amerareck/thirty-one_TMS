@@ -254,3 +254,43 @@
     box-shadow: none !important;
     border: none !important;
 }
+
+.delete-btn {
+	/* display: none; */
+	color: red;
+	font-size: 14px;
+	cursor: pointer;
+	position: absolute;
+	top: 0;
+	right: 0;
+}
+
+.accept-state:hover .delete-btn {
+	display: block;
+}
+
+.accpet-state {
+	/* position: relative; */
+}
+
+/* 기본 상태: 버튼이 회색으로 보입니다 */
+.delete-btn.ready-state {
+    background-color: gray;
+    padding: 5px 10px;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 14px;
+    text-align: center;
+}
+
+/* 마우스를 올렸을 때 X 표시가 보이도록 */
+.delete-btn.ready-state:hover {
+    background-color: darkgray;
+}
+
+/* 클릭 시 마우스 포인터 스타일 변경 */
+.delete-btn.ready-state:active {
+    background-color: #555;
+}

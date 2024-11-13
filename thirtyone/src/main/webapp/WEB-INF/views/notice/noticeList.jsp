@@ -51,7 +51,7 @@
 
 			<div class="line" style="border: 2.5px solid #F0F0F0;"></div>
 
-			<c:forEach var="notice" items="${notice}">
+			<c:forEach var="notice" items="${notice}" varStatus="status">
 
 				<table class="tableContent">
 					<tr
@@ -64,7 +64,7 @@
 										alt="중요도">
 								</c:when>
 								<c:otherwise>
-						${notice.noticeId}
+						${pager.totalRows - (pager.pageNo-1) * 10 - status.index}
 					</c:otherwise>
 							</c:choose></td>
 						<td>${notice.noticeTitle}</td>
@@ -80,7 +80,6 @@
 			<button class="button-medium" id="writeButton"
 				onclick="location.href='${pageContext.request.contextPath}/notice/noticeWriteForm'">+
 				작성하기</button>
-
 
 			<div class="pagination">
 				<c:choose>
@@ -98,6 +97,7 @@
 					</c:when>
 				</c:choose>		
 
+					<c:if test="${pager.totalRows != 0}">
 						<c:forEach begin="${pager.startPageNo}" end="${pager.endPageNo}"
 							var="i">
 							<c:choose>
@@ -115,7 +115,9 @@
 								</c:otherwise>
 							</c:choose>
 						</c:forEach>
-
+					</c:if>
+		
+		
 						<c:choose>
 							<c:when test="${pager.totalPageNo >= 5}">
 								<c:if test="${pager.pageNo< pager.totalPageNo}">

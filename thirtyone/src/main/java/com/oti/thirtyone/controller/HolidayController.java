@@ -195,6 +195,14 @@ public class HolidayController {
 		return ResponseEntity.ok(employees);
 	}
 	
+	//직급 정보 가져오기
+	@GetMapping("/getPositions")
+	public ResponseEntity<List<PositionsDto>> getPositions(int hdrId) {
+		List<PositionsDto> positions = hdService.selectHdrPosition(hdrId);
+		return ResponseEntity.ok(positions);
+	}
+
+	
 	//휴가처리
 	@GetMapping("/process")
 	@Secured("ROLE_USER")
@@ -240,5 +248,12 @@ public class HolidayController {
 		return ResponseEntity.ok("ok");
 	}
 	
+	//휴가 삭제하기
+	@PostMapping("/deleteRequest")
+		public String deleteRequest(int hdrId) {
+		hdService.deleteRequest(hdrId);
+		return "redirect:/holiday/";
+		
+	}
 
 }

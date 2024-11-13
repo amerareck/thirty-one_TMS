@@ -132,6 +132,28 @@ document.addEventListener('DOMContentLoaded', function () {
 	
 });
 
+function deleteRequest(hdrId) {
+	if (confirm('해당 휴가 신청 내역을 삭제하시겠습니까?')) {
+		
+		$.ajax({
+			url: contextPath + '/holiday/deleteRequest',
+			type: 'POST',
+			data: {hdrId : hdrId},
+			success: function(response) {
+				alert('삭제되었습니다.');
+				location.reload();
+			},
+			error: function(error) {
+				alert('삭제가 실패되었습니다.');
+			}
+		});
+	}
+}
+
+$('.delete-btn').on("click", function(){
+	deleteRequest($(this).data('hdrid'));
+})
+
 function formatDate(date) {
     let year = date.getFullYear();
     let month = ('0' + (date.getMonth() + 1)).slice(-2); 

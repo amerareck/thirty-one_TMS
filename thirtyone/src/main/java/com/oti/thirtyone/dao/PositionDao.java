@@ -22,4 +22,6 @@ public interface PositionDao {
 
 	int deletePos(String prePosName);
 
+	List<PositionsDto> selectHdrPosition(int hdrId);
+
 }

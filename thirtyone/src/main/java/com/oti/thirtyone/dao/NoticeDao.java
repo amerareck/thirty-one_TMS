@@ -24,7 +24,11 @@ public interface NoticeDao {
 	 
 	 //공지사항 검색
 	 public List<NoticeDto> searchNotice(@Param("noticeTitle") String noticeTitle, @Param("pager") Pager pager);
-	 public int searchCountRows(String noticeTitle);
+	 public int searchCountRows(@Param("noticeTitle") String noticeTitle);
+	 
+	 //공지사항 부서별 조회
+	 public List<NoticeDto> searchNoticeByDeptId(@Param("noticeTitle") String noticeTitle, @Param("pager") Pager pager, @Param("deptId") int deptId);
+	 public int searchDeptIdCountRows(int deptId);
 	 
 	 //공지사항 상세페이지 조회
 	 public NoticeDto selectByNoticeId(int noticeId);	 

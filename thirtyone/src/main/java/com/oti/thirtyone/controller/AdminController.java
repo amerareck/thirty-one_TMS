@@ -31,12 +31,14 @@ import com.oti.thirtyone.dto.Departments;
 import com.oti.thirtyone.dto.DocFilesDTO;
 import com.oti.thirtyone.dto.EmployeesDto;
 import com.oti.thirtyone.dto.JoinFormDto;
+import com.oti.thirtyone.dto.NoticeDto;
 import com.oti.thirtyone.dto.Pager;
 import com.oti.thirtyone.dto.PositionsDto;
 import com.oti.thirtyone.dto.ReasonDto;
 import com.oti.thirtyone.service.AttendanceService;
 import com.oti.thirtyone.service.DepartmentService;
 import com.oti.thirtyone.service.EmployeesService;
+import com.oti.thirtyone.service.NoticeService;
 import com.oti.thirtyone.service.PositionService;
 import com.oti.thirtyone.service.ReasonService;
 
@@ -57,6 +59,8 @@ public class AdminController {
 	ReasonService reasonService;
 	@Autowired
 	AttendanceService atdSErvice;
+	@Autowired
+	NoticeService noticeService;
 	
 	@ModelAttribute
 	public void settings(Model model) {
@@ -65,9 +69,17 @@ public class AdminController {
 	
 	@GetMapping("")
 	@Secured("ROLE_ADMIN")
-	public String adminMain(Model model) {
+	public String adminMain(Model model, @RequestParam(defaultValue = "1") int pageNo
+			, HttpSession session) {
+		
+		int totalRows = empService.countRows();
+		Pager pager = new Pager(10, 5, totalRows, pageNo);
+		session.setAttribute("pager", pager);
+		
 		List<Map<String, Object>> empInfoList = new LinkedList<>();
 		List<EmployeesDto> empList = empService.getEmpInfoHead();
+		
+		List<NoticeDto> noticeList = noticeService.selectListPager(pager);
 		
 		for(EmployeesDto emp : empList) {
 			Map<String, Object> empInfo = new HashMap<>();
@@ -87,6 +99,7 @@ public class AdminController {
 			reasonInfoList.add(reasonInfo);
 		}
 		
+		model.addAttribute("noticeList", noticeList);
 		model.addAttribute("reasonInfoList", reasonInfoList);
 		model.addAttribute("empInfoList", empInfoList);
 		model.addAttribute("selectedTitle", "home");

@@ -32,7 +32,7 @@
 	<select id="countRowsByEmpId" parameterType="String" resultType="int">
 		select count(hdr_id)
 		from holiday_request
-		where HDR_EMP_ID = #{enpId}
+		where HDR_EMP_ID = #{empId}
 	</select>
 	
 	<select id="selectHdrListByAprId" parameterType="Pager" resultType="HolidayRequest">
@@ -54,6 +54,13 @@
 			)
 			WHERE rnum >= #{pager.startRowNo}
 		]]>
+	</select>
+	
+	<select id="countRowsByEmpIdForPorcess" parameterType="String" resultType="int">
+		SELECT COUNT(HDR_ID)
+		FROM HOLIDAY_REQUEST
+		WHERE HDR_EMP_ID = #{hdrEmpId}
+		AND HDR_STATUS = '대기'
 	</select>
 		
 	<insert id="insertHdrRequest" parameterType="HolidayRequest">
@@ -122,8 +129,36 @@
 		SELECT HDR_ID, HDR_SUBMITTED_DATE, HDR_START_DATE, HDR_END_DATE, HDR_CONTENT,
 			HDR_STATUS, HDR_COMPLETED_DATE, HD_CATEGORY, HDR_EMP_ID, HDR_APPROVER, HDR_USED_DAY
 		FROM HOLIDAY_REQUEST
-		WHERE HDR_ID = #{hdrId}
-		
+		WHERE HDR_ID = #{hdrId}	
 	</select>
+	
+	<select id="selectHolidayRequestById" parameterType="int" resultType="HolidayRequest">
+		SELECT HDR_ID, HDR_SUBMITTED_DATE, HDR_START_DATE, HDR_END_DATE, HDR_CONTENT,
+			HDR_STATUS, HDR_COMPLETED_DATE, HD_CATEGORY, HDR_EMP_ID, HDR_APPROVER, HDR_USED_DAY
+		FROM HOLIDAY_REQUEST
+		WHERE HDR_ID = #{hdrId}
+	</select>
+	
+	<update id="updateRequestForm" parameterType="HolidayRequest">
+		UPDATE HOLIDAY_REQUEST SET
+		HDR_SUBMITTED_DATE = sysdate,
+		HDR_START_DATE = #{hdrStartDate},
+		HDR_END_DATE = #{hdrEndDate},
+		HDR_CONTENT = #{hdrContent},
+		HDR_STATUS = '대기',
+		HDR_COMPLETED_DATE = #{hdrCompletedDate},
+		HD_CATEGORY = #{hdCategory},
+		HDR_EMP_ID = #{hdrEmpId},
+		HDR_APPROVER = #{hdrApprover},
+		HDR_USED_DAY = #{hdrUsedDay}
+		WHERE HDR_ID = #{hdrId}
+	</update>
+	
+	<!-- 휴가 삭제 -->
+	<delete id="deleteRequest" parameterType="int">
+		DELETE FROM
+		HOLIDAY_REQUEST
+		WHERE HDR_ID = #{hdrId}
+	</delete>
 
 </mapper>

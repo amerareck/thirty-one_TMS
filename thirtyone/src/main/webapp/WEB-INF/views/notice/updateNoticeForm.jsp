@@ -57,25 +57,31 @@
 
 						<div class="targetBox" id="result">
 							<c:choose>
-								<c:when test="${empty noticeDeptList}">
-								미선택 시, 전체직원에게 공지가 노출됩니다.
-								</c:when>
-								<c:when test="${not empty noticeDeptList}">
-									<c:forEach var="dept" items="${noticeDeptList}">
-										<div class="target" style="margin-right: 5px;">${dept.deptId}</div>
+								<c:when test="${not empty deptName}">
+									<c:forEach var="dept" items="${deptName}" varStatus="status">
+										<div>
+											${dept}
+											<c:if test="${!status.last}">, &nbsp;</c:if>
+										</div>
 									</c:forEach>
 								</c:when>
+								<c:otherwise>
+						            미선택 시, 전체직원에게 공지가 노출됩니다.
+						        </c:otherwise>
 							</c:choose>
-
 						</div>
-
+						
 						<div class="notice-target">중요도</div>
 						<div class="custom-select" style="width: 75px;">
 							<select class="form-select" id="formSelect"
 								name="noticeImportant" required>
 								<option value="">선택</option>
-								<option value="0">기본</option>
-								<option value="1">중요</option>
+								<option value="0"
+									<c:if test="${noticeImportant == 0}">selected</c:if>>
+									기본</option>
+								<option value="1"
+									<c:if test="${noticeImportant == 1}">selected</c:if>>
+									중요</option>
 							</select>
 						</div>
 					</div>
