@@ -30,7 +30,8 @@
 								<c:forEach items="${deptEmpList}" var="deptEmp">
 								  <tr>
 								    <th scope="row" class="dept-profile-box">
-								    	<img class="dept-profile-img" src="${pageContext.request.contextPath}/resources/image/profileDefault.png">
+								    <img class="dept-profile-img" src="${pageContext.request.contextPath}/admin/imageDown?empId=${deptEmp.emp.empId}" 
+										onerror="this.onerror=null; this.src='${pageContext.request.contextPath}/resources/image/sky-profile-img.png';">
 								    	<div class="dept-profile-info">
 								    		<h4>${deptEmp.emp.empName} ${deptEmp.emp.position}</h4>
 								    		<p>${deptEmp.deptName }</p>
@@ -151,7 +152,8 @@
 								    <tr>
 								        <td>
 											<div class="dept-profile-box">
-									    	    <img class="dept-profile-img" src="${pageContext.request.contextPath}/resources/image/profileDefault.png">
+									    	     <img class="hd-profile-img" src="${pageContext.request.contextPath}/admin/imageDown?empId=${deptHd.emp.empId}" 
+													onerror="this.onerror=null; this.src='${pageContext.request.contextPath}/resources/image/sky-profile-img.png'; this.width=29; this.height=29;">
 									    	    <div class="holiday-profile-info">
 									    	 	    <h4>${deptHd.emp.empName} ${deptHd.emp.position} </h4>
 									    		    <p>${deptHd.deptName}</p>

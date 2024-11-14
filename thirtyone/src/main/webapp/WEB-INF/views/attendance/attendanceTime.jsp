@@ -24,7 +24,7 @@
 			<img class='legend' src="${pageContext.request.contextPath}/resources/image/legend.png">
 		
 		</div>
-		<canvas id="myChart" style="width: 100px; height: 40px;"></canvas>
+		<canvas id="myChart" width="1200" height="400"></canvas>
 		<table class="table worktime-list">
 		  <thead>
 		    <tr>

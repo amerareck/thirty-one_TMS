@@ -66,13 +66,17 @@
 }
 
 .dept-profile-img{
-	width: 30px;
+	border-radius: 50%;
+	width: 29px;
+	height: 29px;
+    object-fit: cover;
 }
 
 .dept-profile-info{
 	margin-top: 5px;
 	margin-left:10px;
 	display:flex;
+	justify-content: flex-start;
 	flex-direction: column;
 }
 
@@ -82,7 +86,7 @@
 }
 
 .dept-profile-info p {
-	margin:5px;
+	margin-top:5px;
 	font-size :10px;
 	color: var(--lightgray);
 }
@@ -272,6 +276,13 @@
 	height: 60px;
 }
 
+.hd-profile-img{
+	border-radius: 50%;
+	width: 29px;
+	height: 29px;
+    object-fit: cover;
+    aspect-ratio: 1 / 1;
+}
 .holiday-profile-info h4 {
 	font-size :12px;
 	font-weight: bold;

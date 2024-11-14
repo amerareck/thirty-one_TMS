@@ -92,7 +92,7 @@ public class AttendanceController {
 		
 		double distance = atdService.distanceCalculation(latitude, longitude, regionalOffice);
 
-		if(distance < 1000) {
+		if(distance < 5000) {
 			atdService.checkIn(empId);
 			return ResponseEntity.ok(true);
 		}else {
@@ -110,7 +110,7 @@ public class AttendanceController {
 		
 		double distance = atdService.distanceCalculation(latitude, longitude, regionalOffice);
 		boolean result = false;
-		if(distance < 1000) {
+		if(distance < 5000) {
 			log.info("ASD");
 			result = atdService.checkOut(empId);
 		}

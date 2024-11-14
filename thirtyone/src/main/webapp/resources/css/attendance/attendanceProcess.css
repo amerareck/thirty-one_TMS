@@ -1,3 +1,8 @@
+.main-container{
+	height: auto !important;
+	min-height: 700px !important;
+}
+
 .selected-sub-title{
 	border-bottom: 2.5px solid var(--blue);
 }
@@ -119,15 +124,15 @@
 	font-size :11px;
 	color: var(--lightgray);
 }
-.reason-report{
-	margin: 10px 40px;
-}
 
 /* ###################사유서####################### */
-
-
-.reason-report {
+.reason-report{
 	margin: 0px 40px;
+}
+
+.reason-report-box, .process-list-box{
+	min-height: 610px;
+	position: relative;
 }
 
 .reason-report div:not(.button-box):not(.file-list){
@@ -204,18 +209,24 @@
 	align-items: center;
 }
 
-
-
-
 .pagination {
-	display: flex;
-	justify-content: center;
-	margin-top: 50px;
-    align-items: center;
+	position: absolute; 
+    bottom: 30px;
+    left: 50%; 
+    transform: translateX(-50%);
 }
 
 .page-num {
 	background-color: transparent;
 	border: solid transparent;
     color: #c7c7c7;
+}
+
+
+.not-req-holiday{
+	color: var(--lightgray);
+	font-size: 24px;
+	font-weight: bold;
+	text-align: center;
+	margin-top:20px;
 }

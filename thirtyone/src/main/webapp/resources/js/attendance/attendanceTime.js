@@ -290,7 +290,8 @@ function drawGraph(weekData){
 	  type: 'bar',
 	  data: data,
 	  options: {
-	    responsive: true,
+		responsive: false,
+//	    maintainAspectRatio: false, 
 	    scales: {
 	      x: {
 	        stacked: true, 

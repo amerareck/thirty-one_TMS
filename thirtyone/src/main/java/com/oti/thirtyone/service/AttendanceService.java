@@ -45,7 +45,7 @@ public class AttendanceService {
 		double[] seoul = {37.583729, 126.999942};
 		double[] sejong = {36.496289, 127.262671};
 		double[] jincheon = {36.905176, 127.550420};
-		final int EARTH_RADIUS = 6371; // Radius of the earth
+		final int EARTH_RADIUS = 6371;
 		
 		double officeLat = 0;
 		double officeLng = 0;
@@ -196,16 +196,16 @@ public class AttendanceService {
 		List<CalendarDto> calendarList = new LinkedList<CalendarDto>();
 		
 		for (HolidayRequestDto hdrReq : hdrList) {
-			calendarList.add(formatInputCalendar("", "휴가", hdrReq.getHdrStartDate(), hdrReq.getHdrEndDate(), "rgba(31, 95, 255)", "rgba(31, 95, 255)", "white"));
+			calendarList.add(formatInputCalendar("", "휴가", hdrReq.getHdrStartDate(), hdrReq.getHdrEndDate(), "#6F81AC", "#6F81AC", "white"));
 		}
 		
 		for(ApprovalDTO eventHdr : eventHdrList) {
 
 			if(eventHdr.getDocHolidayType() != null) {
 				if(eventHdr.getDocHolidayType().equals("familyEvent")){
-					calendarList.add(formatInputCalendar("", "경조사", eventHdr.getDocHolidayStartDate(), eventHdr.getDocHolidayEndDate(), "#F5F5F5", "#F5F5F5)", "black"));
+					calendarList.add(formatInputCalendar("", "경조사", eventHdr.getDocHolidayStartDate(), eventHdr.getDocHolidayEndDate(), "#5A5A5A", "#5A5A5A", "white"));
 				}else if(eventHdr.getDocHolidayType().equals("sickLeave")) {
-					calendarList.add(formatInputCalendar("", "병가", eventHdr.getDocHolidayStartDate(), eventHdr.getDocHolidayEndDate(),  "#F5F5F5", "#F5F5F5)", "black"));
+					calendarList.add(formatInputCalendar("", "병가", eventHdr.getDocHolidayStartDate(), eventHdr.getDocHolidayEndDate(),  "#5A5A5A", "#5A5A5A", "white"));
 				}
 			}
 		}
@@ -326,7 +326,7 @@ public class AttendanceService {
 					if(checkInDate != null) {
 						checkIn.add(formatHours(checkInDate) +":"+ formatMinutes(checkInDate));
 					}else {
-						checkIn.add("00:00"); checkOut.add("00:00"); workTime.add(0); overTime.add(0); lateTime.add("00:00");
+						checkIn.add("08:00"); checkOut.add("08:00"); workTime.add(0); overTime.add(0); lateTime.add("08:00");
 					}
 					if(checkOutDate != null) {
 						checkOut.add(formatHours(checkOutDate) +":"+ formatMinutes(checkOutDate));
@@ -348,7 +348,7 @@ public class AttendanceService {
 				}
 			}
 			if(!check){
-				checkIn.add("00:00"); checkOut.add("00:00"); workTime.add(0); overTime.add(0); lateTime.add("00:00");
+				checkIn.add("08:00"); checkOut.add("08:00"); workTime.add(0); overTime.add(0); lateTime.add("08:00");
 				AttendanceDto tempAtd = new AttendanceDto();
 				tempAtd.setAtdDate(thisDay);
 				atdList.add(tempAtd);

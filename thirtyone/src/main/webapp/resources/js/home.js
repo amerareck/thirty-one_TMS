@@ -110,8 +110,14 @@ function success(pos, atd) {
 			"longitude" : crd.longitude
 		},
 		success : function (data){
-			if(!data)
-				alert("지역이 다릅니다.");
+			console.log(crd);
+			if(!data){
+				Swal.fire({
+				  icon: "error",
+				  title: "지역이 다릅니다.",
+				  text: "해당 지사에서 로그인 해주세요."
+				});
+			}
 			location.reload();
 		},
 		error : function (request, status, error){

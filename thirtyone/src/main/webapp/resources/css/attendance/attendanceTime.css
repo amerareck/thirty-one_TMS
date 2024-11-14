@@ -1,3 +1,17 @@
+.container-box{
+	height: auto !important;
+	min-height: calc(100vh - 100px);
+}
+
+.sidebar{
+	height: 100%;
+}
+
+.main-container{
+	padding-bottom: 30px;
+	margin-bottom: 30px !important;
+}
+
 .selected-sub-title{
 	border-bottom: 2.5px solid var(--blue);
 }
@@ -7,7 +21,7 @@
 }
 
 #mychart{
-	margin: 0px 40px;
+	margin: auto;
 /* 	height: 588px; */
 }
 
@@ -54,9 +68,10 @@
 }
 /* ########################## table ######################### */
 .worktime-list{
-	margin: 40px;
-    overflow: hidden;
-    width: 1290px !important;
+	margin: auto;
+	margin-top: 30px;
+/*     overflow: hidden; */
+    width: 1200px !important;
 }
 
 .worktime-list thead tr{

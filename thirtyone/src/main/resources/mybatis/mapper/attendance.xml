@@ -16,7 +16,7 @@
 	</insert>
 	
 	<update id="updateCheckOut">
-		update attendances set check_out = sysdate, atd_state=#{state}, atd_statndard_time = ((floor((CAST(sysdate) - CAST(check_in)) * 24) * 60) -60)
+		update attendances set check_out = sysdate, atd_state=#{state}, atd_standard_time = (floor((cast(sysdate AS DATE) - CAST(check_in AS DATE)) * 24) * 60 - 60) 
 		where TO_CHAR(atd_date, 'YY/MM/DD') = TO_CHAR(sysdate, 'YY/MM/DD') and emp_id = #{empId}
 	</update>
 	
