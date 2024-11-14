@@ -140,7 +140,7 @@
 									<c:when test="${notice.noticeImportant == '1'}">
 										<img
 											src="${pageContext.request.contextPath}/resources/image/important_btn.png"
-											alt="중요도">
+											alt="중요도" style="width:47px;">
 									</c:when>
 									<c:otherwise>
 						${notice.noticeId}

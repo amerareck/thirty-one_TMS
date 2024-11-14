@@ -172,15 +172,12 @@
 }
 
 .notice-btn{
-	font-size: 10px;
+	font-size: 12px;
 	display: flex;
 	justify-content:center;
 	align-items: center;
-	width: 45px;
-	height: 20px;
-	border-radius: 30px;
-	background: #4CB864;
-	color:white;
+	/* width: 45px;
+	height: 20px; */
 }
 
 
@@ -195,8 +192,4 @@
 	background-color: transparent;
 	border: solid transparent;
     color: #c7c7c7;
-}
-
-.tableContent img {
-    width: 40px;
 }

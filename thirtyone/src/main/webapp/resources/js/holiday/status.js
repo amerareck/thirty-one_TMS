@@ -140,11 +140,44 @@ function deleteRequest(hdrId) {
 			type: 'POST',
 			data: {hdrId : hdrId},
 			success: function(response) {
-				alert('삭제되었습니다.');
-				location.reload();
+				
+				Swal.fire({
+					title: '휴가 신청 내역을 삭제하시겠습니까?',
+					text: '확인을 누르면 휴가 신청 내역이 삭제됩니다.',
+					icon: 'warning',
+					
+					showCancelButton: true,
+					confirmButtonColor: '#3085d6',
+					cancelButtonColor: '#d33',
+					confirmButtonText: '확인',
+					cancelButtonText: '취소',
+					
+					reverseButtons: true
+				
+				}).then(result => {
+					if (result.isConfirmed) {
+						Swal.fire({
+							title: '휴가 신청이 삭제되었습니다.', 
+							text: '휴가 내역에서 확인해주세요.', 
+							icon: 'success'
+						}).then(() => {
+							location.reload();
+						});
+					}
+				});
+				
+				
 			},
 			error: function(error) {
-				alert('삭제가 실패되었습니다.');
+				
+				Swal.fire({
+                    title: '휴가 신청 내역 삭제에 실패했습니다.',
+                    text: '휴가 신청 내역을 삭제하는 과정에 문제가 발생했습니다. 나중에 다시 시도해주세요.',
+                    icon: 'error',
+                    confirmButtonText: '확인',
+                    confirmButtonColor: '#FF6347'
+                });
+
 			}
 		});
 	}

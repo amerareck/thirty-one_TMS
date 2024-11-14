@@ -126,7 +126,15 @@ document.addEventListener('DOMContentLoaded', function () {
 	 // 알림 한 번만 띄우는 함수
 	    function alertIfNeeded() {
 	        if (!alertShown) {
-	            alert("반차 / 반반차는 1일 이하의 기간만 가능합니다.");
+	        	
+	        	Swal.fire({
+	        	    title: '날짜를 재선택해주세요!',
+	        	    text: '반차 / 반반차는 1일 이하의 기간만 가능합니다.',
+	        	    icon: 'error',
+	        	    confirmButtonText: '확인',
+	        	    confirmButtonColor: '#FF6347'
+	        	});
+	        	
 	            alertShown = true; // 알림을 한 번만 띄운다고 설정
 	        }
 	    }
@@ -257,7 +265,23 @@ document.addEventListener('DOMContentLoaded', function () {
             })
             .catch(error => {
                 console.error("사원 데이터를 가져오는 중 오류 발생:", error);
-                alert('직급에 맞는 사원을 불러오는 데 실패했습니다. 잠시 후 다시 시도해 주세요.');
+                
+                const Toast = Swal.mixin({
+                	toast: true,
+                	position: 'center-center',
+                	showConfirmButton: false,
+                	timer: 3000,
+                	timerProgressBar: true,
+                	didOpen: (toast) => {
+                		toast.addEventListener('mouseenter', Swal.stopTimer)
+                		toast.addEventListener('mouseleave', Swal.resumeTimer)
+                	}
+                })
+                
+                Toast.fire({
+                	icon: 'warning',
+            		title: '직급에 맞는 사원을 불러오는 데 실패했습니다. 잠시 후 다시 시도해 주세요.'
+                })
             /* }); */
             });
     })
@@ -305,12 +329,43 @@ document.addEventListener('DOMContentLoaded', function () {
 	            processData: false,
 	            contentType: false,
 	            success: function(response) {
-	                alert("휴가 신청이 완료되었습니다.");
-	                window.location.href = contextPath + '/holiday/';
+	            	
+	            	Swal.fire({
+						title: '휴가 신청을 완료하시겠습니까?',
+						text: '확인을 누르면 휴가 신청이 완료됩니다.',
+						icon: 'warning',
+						
+						showCancelButton: true,
+						confirmButtonColor: '#3085d6',
+						cancelButtonColor: '#d33',
+						confirmButtonText: '확인',
+						cancelButtonText: '취소',
+						
+						reverseButtons: true
+					
+					}).then(result => {
+						if (result.isConfirmed) {
+							Swal.fire({
+								title: '휴가 신청이 완료되었습니다.', 
+								text: '신청 내역에서 확인해주세요.', 
+								icon: 'success'
+							}).then(() => {
+								location.href = contextPath + '/holiday/';
+							});
+						}
+					});
+	                /*window.location.href = contextPath + '/holiday/';*/
 	            },
 	            error: function(xhr) {
 	                console.error('Error', xhr.status);
-	                alert("휴가 신청 실패: " + xhr.responseText);
+	                
+	                Swal.fire({
+	                    title: '휴가 신청이 실패했습니다.',
+	                    text: '휴가 신청 과정에 문제가 발생했습니다. 나중에 다시 시도해주세요.',
+	                    icon: 'error',
+	                    confirmButtonText: '확인',
+	                    confirmButtonColor: '#FF6347'
+	                });
 	            }
 	        });
 	    }
@@ -330,42 +385,90 @@ document.addEventListener('DOMContentLoaded', function () {
 	        console.log("approverValue: ", approverValue);
 	        
 	        if (!choiceDay) {
-	        	alert("날짜를 선택해 주세요.");
+	        	Swal.fire({
+				    title: '날짜를 선택해 주세요.',
+				    text: '날짜가 비어있습니다. 휴가 기간을 지정해주세요.',
+				    icon: 'warning',
+				    confirmButtonText: '확인',
+				    confirmButtonColor: '#FF6347'
+				});
 	        	return false;
 	        }
 	        
 	        if (hdCategoryValue === "0") {
-	        	alert("휴가 유형을 선택해주세요.");
+	        	Swal.fire({
+				    title: '휴가 유형을 선택해주세요.',
+				    text: '휴가 유형이 비어있습니다. 휴가 유형을 선택해주세요.',
+				    icon: 'warning',
+				    confirmButtonText: '확인',
+				    confirmButtonColor: '#FF6347'
+				});
 	        	return false;
 	        }
 	        
 	        if (holidayTypeValue === "0") {
-	        	alert("종일 / 반차 / 반반차를 선택해주세요.");
+	        	Swal.fire({
+				    title: '종일 / 반차 / 반반차를 선택해주세요.',
+				    text: '종일 / 반차 / 반반차 부분이 비어있습니다. 해당 유형을 선택해주세요.',
+				    icon: 'warning',
+				    confirmButtonText: '확인',
+				    confirmButtonColor: '#FF6347'
+				});
 	        	return false;
 	        }
 	        
 	        if (holidayTypeValue === "2" && holidayPeriodValue === "0") {
-	        	alert("반차 시간대를 선택해주세요.");
+	        	Swal.fire({
+				    title: '반차 시간대를 선택해주세요.',
+				    text: '반차 시간대가 비어있습니다. 해당 유형을 선택해주세요.',
+				    icon: 'warning',
+				    confirmButtonText: '확인',
+				    confirmButtonColor: '#FF6347'
+				});
 	        	return false;
 	        }
 	        
 	        if (holidayTypeValue === "3" && holidayTimeValue === "0") {
-	        	alert("반반차 시간대를 선택해주세요.");
+	        	Swal.fire({
+				    title: '반반차 시간대를 선택해주세요.',
+				    text: '반반차 시간대가 비어있습니다. 해당 유형을 선택해주세요.',
+				    icon: 'warning',
+				    confirmButtonText: '확인',
+				    confirmButtonColor: '#FF6347'
+				});
 	        	return false;
 	        }
 	        
 	        if (positionValue === "0") {
-	        	alert("승인권자의 직급을 선택해주세요.");
+	        	Swal.fire({
+				    title: '승인권자의 직급을 선택해주세요.',
+				    text: '직급이 비어있습니다. 직급을 선택해주세요.',
+				    icon: 'warning',
+				    confirmButtonText: '확인',
+				    confirmButtonColor: '#FF6347'
+				});
 	        	return false;	        	
 	        }
 	        
 	        if (approverValue === "0" || approverValue === "") {
-	        	alert("승인권자를 선택해주세요.");
+	        	Swal.fire({
+				    title: '승인권자를 선택해주세요.',
+				    text: '승인권자가 비어있습니다. 승인권자를 선택해주세요.',
+				    icon: 'warning',
+				    confirmButtonText: '확인',
+				    confirmButtonColor: '#FF6347'
+				});
 	        	return false;	        	
 	        }
 	        
 	        if (!hdrContent) {
-	        	alert("사유를 작성해주세요.");
+	        	Swal.fire({
+				    title: '사유를 작성해주세요.',
+				    text: '사유가 비어있습니다. 내용을 입력해주세요.',
+				    icon: 'warning',
+				    confirmButtonText: '확인',
+				    confirmButtonColor: '#FF6347'
+				});
 	        	return false;
 	        }
 	        return true;

@@ -83,15 +83,16 @@
 									<td><div class="btn accept-state">${hdrReq.hdrStatus}</div>
 
 										<c:if test="${hdrReq.hdrStatus == '대기'}">
-											<div class="delete-btn ready-state" data-hdrid='${hdrReq.hdrId }'
-<%-- 												onclick="deleteRequest(${hdrReq.hdrId})" --%>
-											>x</div>
+											<div class="delete-btn ready-state" data-hdrid='${hdrReq.hdrId }
+											'>x</div>
 										</c:if></td>
 								</tr>
 							</c:forEach>
 						</tbody>
 					</table>
 					<div class="pagination">
+					<c:choose>
+					<c:when test="${pager.totalRows != 0}">
 						<c:if test="${pager.groupNo>1}">
 							<a href="?pageNo=${pager.startPageNo-1}"> <img
 								src="${pageContext.request.contextPath}/resources/image/prev_icon.png"
@@ -117,6 +118,12 @@
 								alt="next" style="width: 110px">
 							</a>
 						</c:if>
+						</c:when>
+						<c:otherwise>
+							<!-- <i class="bi bi-exclamation-circle"></i> -->
+							<div class="holidayList">휴가 신청 내역이 없습니다.</div>
+						</c:otherwise>
+						</c:choose>
 					</div>
 				</div>
 			</div>
