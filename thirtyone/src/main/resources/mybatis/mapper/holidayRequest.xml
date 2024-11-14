@@ -34,6 +34,11 @@
 		from holiday_request
 		where HDR_EMP_ID = #{empId}
 	</select>
+	<select id="countRowsByApproverId" parameterType="String" resultType="int">
+		select count(hdr_id)
+		from holiday_request
+		where HDR_APPROVER = #{approverId}
+	</select>
 	
 	<select id="selectHdrListByAprId" parameterType="Pager" resultType="HolidayRequest">
 		<![CDATA[		

@@ -232,3 +232,22 @@ form input::file-selector-button {
 .fileContent file {
 	color: transparent;
 }
+
+/* .custom-confirm-btn {
+	font-size: 14px;
+	border-radius: 0;
+}
+
+.custom-confirm-btn:hover {
+	background-color: #f8f8f8;	
+}
+.custom-cancel-btn {
+	background-color: transparent;
+	border: 1px solid #1F5FFF;
+	font-size: 14px;
+	border-radius: 0;
+}
+
+.custom-cancel-btn {
+	background-color: #f8f8f8;	
+} */

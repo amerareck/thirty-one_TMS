@@ -139,7 +139,7 @@
 					<div class="noticeButton">
 						<button class="button-medium cancel"
 							onclick="location.href='${pageContext.request.contextPath}/notice/noticeDetail?noticeId=${notice.noticeId}'">취소</button>
-						<input type="submit" class="button-medium" id="save" name="action"
+						<input type="submit" class="button-medium" id="save" name="action" onclick="Contirm();"
 							value="수정"></input>
 					</div>
 					<input type="hidden" name="noticeId" value="${notice.noticeId}"

@@ -269,13 +269,10 @@
 	display: block;
 }
 
-.accpet-state {
-	/* position: relative; */
-}
-
 /* 기본 상태: 버튼이 회색으로 보입니다 */
-.delete-btn.ready-state {
-    background-color: gray;
+.ready-state  {
+	display: flex;
+    background-color: gray !important;
     padding: 5px 10px;
     border-radius: 5px;
     color: white;
@@ -293,4 +290,11 @@
 /* 클릭 시 마우스 포인터 스타일 변경 */
 .delete-btn.ready-state:active {
     background-color: #555;
+}
+
+.holidayList {
+	margin-bottom: 150px;
+	font-weight: 500;
+	color: var(--lightgray); 
+	font-size: 20px;
 }

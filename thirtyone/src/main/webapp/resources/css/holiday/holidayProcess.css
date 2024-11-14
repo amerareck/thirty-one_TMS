@@ -259,3 +259,10 @@
 	border: solid transparent;
     color: #c7c7c7;
 }
+
+.holidayList {
+	margin-bottom: 150px;
+	font-weight: 500;
+	color: var(--lightgray); 
+	font-size: 20px;
+}

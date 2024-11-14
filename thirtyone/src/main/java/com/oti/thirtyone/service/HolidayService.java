@@ -197,4 +197,8 @@ public class HolidayService {
 	public void deleteRequest(int hdrId) {
 		hdrDao.deleteRequest(hdrId);
 	}
+
+	public int countRowsByApproverId(String approverId) {
+		return hdrDao.countRowsByApproverId(approverId);
+	}
 }

@@ -43,7 +43,25 @@ document.addEventListener("DOMContentLoaded", function() {
             },
             error: function(xhr) {
                 console.error('파일 정보를 가져오는 데 실패했습니다.', xhr.status);
-                alert('파일을 가져오는 데 문제가 발생했습니다. 나중에 다시 시도해주세요.');
+                /*alert('파일을 가져오는 데 문제가 발생했습니다. 나중에 다시 시도해주세요.');*/
+                
+                const Toast = Swal.mixin({
+                	toast: true,
+                	position: 'center-center',
+                	showConfirmButton: false,
+                	timer: 3000,
+                	timerProgressBar: true,
+                	didOpen: (toast) => {
+                		toast.addEventListener('mouseenter', Swal.stopTimer)
+                		toast.addEventListener('mouseleave', Swal.resumeTimer)
+                	}
+                })
+                
+                Toast.fire({
+                	icon: 'warning',
+            		title: '파일을 가져오는 데 문제가 발생했습니다. 나중에 다시 시도해주세요.'
+                })
+                
             }
         });
     }
@@ -369,12 +387,24 @@ document.addEventListener("DOMContentLoaded", function() {
 		const summernote = $("#summernote").summernote('code');
 		
 		if (!titleBox) {
-			alert("제목을 입력해주세요.");
+			Swal.fire({
+			    title: '제목을 입력해주세요.',
+			    text: '제목이 비어있습니다. 제목을 입력해주세요.',
+			    icon: 'warning',
+			    confirmButtonText: '확인',
+			    confirmButtonColor: '#FF6347'
+			});
 			return false;
 		}
 		
 		if (!summernote || summernote === '<p><br></p>') {
-			alert("내용이 비어있습니다. 내용을 입력해주세요.");
+			Swal.fire({
+			    title: '내용을 입력해주세요.',
+			    text: '내용이 비어있습니다. 내용을 입력해주세요.',
+			    icon: 'warning',
+			    confirmButtonText: '확인',
+			    confirmButtonColor: '#FF6347'
+			});
 			return false;
 		}
 		return true;
@@ -409,13 +439,47 @@ document.addEventListener("DOMContentLoaded", function() {
 			contentType: false,
 			success: function(response) {
 				const noticeId = response.noticeId;
-				alert("공지사항 수정이 성공적으로 되었습니다!");
+				console.log(Swal); 
+				
+				Swal.fire({
+					title: '공지사항 수정을 완료하시겠습니까?',
+					text: '확인을 누르면 공지사항 수정이 완료됩니다.',
+					icon: 'warning',
+					
+					showCancelButton: true,
+					confirmButtonColor: '#3085d6',
+					cancelButtonColor: '#d33',
+					confirmButtonText: '확인',
+					cancelButtonText: '취소',
+					
+					reverseButtons: true
+				
+				}).then(result => {
+					if (result.isConfirmed) {
+						Swal.fire({
+							title: '공지사항 수정이 완료되었습니다.', 
+							text: '공지사항 목록에서 확인해주세요.', 
+							icon: 'success'
+						}).then(() => {
+							location.href = contextPath + '/notice/noticeList';
+						});
+					}
+				});
+				
 				console.log("작성 AJAX 성공", response);
-				location.href = contextPath + '/notice/noticeList';
+				/*location.href = contextPath + '/notice/noticeList';*/
 			},
 			error: function(xhr) {
 				console.error('Error', xhr.status);
 				console.log(xhr.responseText);
+				
+				Swal.fire({
+                    title: '공지사항 수정이 실패했습니다.',
+                    text: '공지사항 수정 과정에 문제가 발생했습니다. 나중에 다시 시도해주세요.',
+                    icon: 'error',
+                    confirmButtonText: '확인',
+                    confirmButtonColor: '#FF6347'
+                });
 			}
 		});
 	}

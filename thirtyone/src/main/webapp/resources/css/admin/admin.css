@@ -16,6 +16,10 @@
 	margin-right: 40px;
 }
 
+.emp-status-top a {
+	margin-top: 5px;
+}
+
 .atd-status-top p:nth-child(2), .emp-status-top a{
 	font-size: 11px;
 	font-weight: bold;
@@ -61,6 +65,7 @@
 	font-size: 11px;
 	font-weight: bold;
 	color: var(--darkgray);
+	margin-right: 50px;
 }
 
 .work-status div, .attendance-emp div{
@@ -74,6 +79,7 @@
 	font-size: 11px;
 	width:80px;
 	color: var(--darkgray);
+	margin-right: 50px;
 }
 
 
@@ -121,7 +127,7 @@
 
 .admin-profile-info{
 	width: 70px;
-	margin-left:5px;
+	margin-left:10px;
 	display:flex;
 	flex-direction: column;
 	gap:4px;
@@ -133,7 +139,7 @@
 }
 
 .admin-profile-info p {
-	font-size: 8px;
+	font-size: 10px;
 	color:var(--darkgray);
 }
 
@@ -150,14 +156,28 @@
 	display: grid;
 	grid-template-columns: 5fr 5fr;	
 }
-.new-request-box{
+#reasonRequest {
 	margin: 10px 40px;
+}
+
+#new-request-box {
+	margin: 0;
 }
 
 .new-request{
 	display: grid;
 	grid-template-columns: 2fr 5fr 3fr;
-	margin: 15px 0px 15px 20px;
+	margin: 15px 0px 15px 0;
+	align-items: center;
+}
+
+.new-request p {
+	margin-right: 5px;
+}
+
+.admin-profile-img {
+	width: 33px;
+	height: 33px;
 }
 .status-btn{
 	font-size: 10px;
@@ -172,15 +192,12 @@
 }
 
 .notice-btn{
-	font-size: 10px;
+	font-size: 12px;
 	display: flex;
 	justify-content:center;
 	align-items: center;
-	width: 45px;
-	height: 20px;
-	border-radius: 30px;
-	background: #4CB864;
-	color:white;
+	/* width: 45px;
+	height: 20px; */
 }
 
 
@@ -197,6 +214,7 @@
     color: #c7c7c7;
 }
 
-.tableContent img {
-    width: 40px;
+.bottom-container p {
+	font-size: 14px;
+	color:var(--darkgray);
 }
