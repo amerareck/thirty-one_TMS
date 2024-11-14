@@ -213,7 +213,7 @@ public class HolidayController {
 		EmployeesDto employee = employeeDetails.getEmployee(); //나의 정보
 		
 		String empId = authentication.getName();
-		int totalRows = hdService.countRowsByEmpId(empId);
+		int totalRows = hdService.countRowsByApproverId(empId);
 		Pager pager = new Pager(4, 5, totalRows, pageNo);
 		session.setAttribute("pager", pager);
 		
@@ -243,7 +243,7 @@ public class HolidayController {
 	//승인 반려
 	@PostMapping("/hdrAccept")
 	public ResponseEntity<String> selectHdrAccept(int hdrId, String status, int hdCategory, Authentication authentication, String empId) {
-
+		log.info("hdCategory "+hdCategory);
 		hdService.updateHdrAccept(hdrId, status, empId, hdCategory);
 		return ResponseEntity.ok("ok");
 	}

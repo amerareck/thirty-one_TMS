@@ -17,7 +17,7 @@
 			<div class="listTop">
 				<div class="text">써리원의 사내 공지사항을 조회합니다.</div>
 
-				<form action="${pageContext.request.contextPath}/emp/searchNotice"
+				<form action="${pageContext.request.contextPath}/notice/emp/searchNotice"
 					method="GET">
 					<input type="hidden" value="${pager.pageNo}" name="pageNo">
 					<div class="search">
@@ -49,8 +49,7 @@
 			</table>
 
 			<div class="line" style="border: 2.5px solid #F0F0F0;"></div>
-
-			<c:forEach var="notice" items="${notice}">
+			<c:forEach var="notice" items="${notice}" varStatus="status">
 
 				<table class="tableContent">
 					<tr
@@ -63,9 +62,13 @@
 										alt="중요도">
 								</c:when>
 								<c:otherwise>
-						${pager.totalRows - (pager.pageNo-1) * 10 - status.index}
-					</c:otherwise>
-							</c:choose></td>
+									${pager.totalRows - (pager.pageNo-1) * 10 - status.index}
+									<%-- <p>pager.totalRows: ${pager.totalRows}</p>
+									<p>pager.pageNo: ${pager.pageNo}</p>
+									<p>status.index: ${status.index}</p>
+									<p>계산된 값: ${pager.totalRows - (pager.pageNo - 1) * 10 - status.index}</p> --%>
+								</c:otherwise>
+										</c:choose></td>
 						<td>${notice.noticeTitle}</td>
 						<td>${notice.empId}</td>
 						<td><fmt:formatDate value="${notice.noticeDate}"
@@ -96,6 +99,7 @@
 				</c:choose>
 
 				<!-- 페이지 번호 출력 -->
+				<c:if test="${pager.totalRows != 0}">
 				<c:forEach begin="${pager.startPageNo}" end="${pager.endPageNo}"
 					var="i">
 					<c:choose>
@@ -103,12 +107,18 @@
 							<span style="color: #686868">${i}</span>
 						</c:when>
 						<c:otherwise>
+							<c:if test="${not empty noticeTitle}">
 							<a
 								href="${pageContext.request.contextPath}/notice/empNoticeList?pageNo=${i}&noticeTitle=${noticeTitle}"
 								style="color: #c7c7c7">${i}</a>
+							</c:if>
+							<c:if test="${empty noticeTitle}">
+										<a href="empNoticeList?pageNo=${i}" style="color: #c7c7c7">${i}</a>
+							</c:if>	
 						</c:otherwise>
 					</c:choose>
 				</c:forEach>
+				</c:if>
 
 				<c:choose>
 					<c:when test="${pager.pageNo < pager.totalPageNo}">

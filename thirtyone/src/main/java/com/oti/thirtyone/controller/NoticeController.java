@@ -53,7 +53,7 @@ public class NoticeController {
 	public String noticeList(Model model, @RequestParam(defaultValue = "1") int pageNo, HttpSession session,
 			NoticeDto noticeDto) {
 
-		int totalRows = noticeService.countRows();
+		int totalRows = noticeService.searchCountRows("", 0);
 
 		if (totalRows == 0) {
 			Pager pager = new Pager(10, 5, 0, pageNo);
@@ -63,7 +63,7 @@ public class NoticeController {
 			Pager pager = new Pager(10, 5, totalRows, pageNo);
 			session.setAttribute("pager", pager);
 
-			List<NoticeDto> notice = noticeService.selectListPager(pager);
+			List<NoticeDto> notice = noticeService.searchNotice("", pager);
 			
 			
 			model.addAttribute("selectedTitle", "notice");
@@ -105,13 +105,14 @@ public class NoticeController {
 	@GetMapping("/searchNotice")
 	@Secured("ROLE_ADMIN")
 	public String searchNotice(Model model, @RequestParam(defaultValue = "1") int pageNo, HttpSession session,
-			@RequestParam("noticeTitle") String noticeTitle, int deptId) {
+			@RequestParam("noticeTitle") String noticeTitle,@RequestParam(defaultValue = "0") int deptId) {
 
 		int totalRows = noticeService.searchCountRows(noticeTitle, deptId);
-
+		
 		Pager pager = new Pager(10, 5, totalRows, pageNo);
 		model.addAttribute("pager", pager);
-
+		log.info("adssadsadasdasdasddasdsaa" + pager.toString());
+		log.info("adssadsadasdasdasddasdsaa" + totalRows);
 		if (totalRows > 0) {
 			List<NoticeDto> notice = noticeService.searchNotice(noticeTitle, pager);
 			model.addAttribute("title", "공지사항");
@@ -395,8 +396,8 @@ public class NoticeController {
 			EmployeesDto employees = employeeDetails.getEmployee();
 
 			int deptId = employees.getDeptId();
-				
-			int totalRows = noticeService.searchDeptIdCountRows(deptId);
+
+			int totalRows = noticeService.searchCountRows(noticeTitle, deptId);
 			log.info(deptId + "");
 
 			Pager pager = new Pager(10, 5, totalRows, pageNo);
@@ -404,7 +405,9 @@ public class NoticeController {
 			
 			List<NoticeDto> notice = noticeService.searchNoticeByDeptId(noticeTitle, pager, deptId);
 			
-			log.info(notice.toString());
+			for(NoticeDto no: notice) {
+				log.info(no.toString());
+			}
 			model.addAttribute("selectedTitle", "notice");
 			model.addAttribute("title", "공지사항");
 			model.addAttribute("notice", notice);

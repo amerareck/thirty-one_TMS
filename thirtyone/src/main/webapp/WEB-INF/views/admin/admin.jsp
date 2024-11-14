@@ -22,7 +22,7 @@
 						<canvas id="attendance-rate" style="width: 250px; height: 250px;"></canvas>
 					</div>
 					<div>
-						<canvas id="emp-rate" style="width: 250px; height: 250px;"></canvas>
+						<canvas id="emp-rate" style="width: 250px; height: 250px; margin-left: 50px;"></canvas>
 					</div>
 				</div>
 				<table class="table atd-status-table">
@@ -62,6 +62,7 @@
 				<p class="mini-title">근로자 현황</p>
 				<a href="${pageContext.request.contextPath}/admin/searchList">더보기</a>
 			</div>
+			<div class="mini-line"></div>
 			<div class="emp-status-box">
 				<c:forEach items="${empInfoList}" var="empInfo">
 					<div class="admin-profile-box">
@@ -113,7 +114,7 @@
 				<a href="${pageContext.request.contextPath}/admin/atdList">더보기</a>
 			</div>
 			<div class="mini-line"></div>
-			<div class="new-request-box">
+			<div class="new-request-box" id="reasonRequest">
 				<c:forEach items="${reasonInfoList }" var="reason">
 					<div class="new-request">
 						<div class="status-btn">${reason.reason.reasonStatus}</div>
@@ -132,8 +133,8 @@
 				<a href="${pageContext.request.contextPath}/notice/noticeList">더보기</a>
 			</div>
 			<div class="mini-line"></div>
-			<div class="new-request-box">
-				<c:forEach begin="1" end="6" items="${noticeList}" var="notice">
+			<div class="new-request-box" id="noticeRequest">
+				<c:forEach begin="1" end="5" items="${noticeList}" var="notice" varStatus="status">
 					<div class="new-request">
 						<div class="notice-btn">
 							<td><c:choose>
@@ -143,13 +144,14 @@
 											alt="중요도" style="width:47px;">
 									</c:when>
 									<c:otherwise>
-						${notice.noticeId}
+						${pager.totalRows - (pager.pageNo-1) * 10 - status.index}
 					</c:otherwise>
 								</c:choose></td>
 
 						</div>
 						<p>${notice.noticeTitle}</p>
-						<p>${notice.noticeDate}</p>
+						<p><fmt:formatDate value='${notice.noticeDate}'
+								pattern='yyyy-MM-dd HH:mm' /></p>
 					</div>
 				</c:forEach>
 			</div>

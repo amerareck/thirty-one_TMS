@@ -80,12 +80,19 @@
 											pattern="MM-dd" /></td>
 									<td>${hdrReq.hdrUsedDay}일</td>
 									<td>${hdrReq.hdrContent}</td>
-									<td><div class="btn accept-state">${hdrReq.hdrStatus}</div>
-
-										<c:if test="${hdrReq.hdrStatus == '대기'}">
-											<div class="delete-btn ready-state" data-hdrid='${hdrReq.hdrId }
-											'>x</div>
-										</c:if></td>
+									<c:if test="${hdrReq.hdrStatus == '대기'}">
+										<td><div class="btn accept-state ready-state">${hdrReq.hdrStatus}</div>
+										<div class="delete-btn" data-hdrid='${hdrReq.hdrId }
+										'>x</div>
+									</c:if></td>
+									<c:if test="${hdrReq.hdrStatus == '승인'}">
+										<td><div class="btn accept-state">${hdrReq.hdrStatus}</div>
+									</c:if></td>
+									<c:if test="${hdrReq.hdrStatus == '반려'}">
+										<td><div class="btn accept-state reject-state">${hdrReq.hdrStatus}</div>
+										<div class="delete-btn" data-hdrid='${hdrReq.hdrId }
+										'>x</div>
+									</c:if></td>
 								</tr>
 							</c:forEach>
 						</tbody>

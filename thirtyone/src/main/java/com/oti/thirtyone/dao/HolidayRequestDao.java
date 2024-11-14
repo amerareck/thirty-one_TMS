@@ -40,4 +40,6 @@ public interface HolidayRequestDao {
 	List<HolidayRequestDto> selectHolidayRequestById(int hdrId);
 
 	int deleteRequest(int hdrId);
+
+	int countRowsByApproverId(String approverId);
 }

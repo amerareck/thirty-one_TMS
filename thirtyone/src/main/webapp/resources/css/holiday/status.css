@@ -271,6 +271,7 @@
 
 /* 기본 상태: 버튼이 회색으로 보입니다 */
 .ready-state  {
+	display: flex;
     background-color: gray !important;
     padding: 5px 10px;
     border-radius: 5px;

@@ -58,7 +58,7 @@ public class NoticeService {
 	}
 	
 	public int searchCountRows(String noticeTitle, int deptId) {
-		int totalRows = noticeDao.searchCountRows(noticeTitle);
+		int totalRows = noticeDao.searchCountRows(noticeTitle, deptId);
 		return totalRows;
 	}	
 	
@@ -119,15 +119,17 @@ public class NoticeService {
 	
 	//부서
 	public void insertNoticeTarget(NoticeDto notice) { 	
-		for(int exDeptId:notice.getExistingDeptId()) {
-			boolean isCheckedDeptId = false;
-			for(int deptId : notice.getDeptId()) {
-				if(deptId == exDeptId) isCheckedDeptId=true;
-				if(noticeDao.hasNoticeTarget(deptId, notice.getNoticeId()) == 0)
-					noticeDao.insertNoticeTargetOne(deptId, notice.getNoticeId());
+		if(notice.getExistingDeptId() != null) {
+			for(int exDeptId : notice.getExistingDeptId()) {
+				boolean isCheckedDeptId = false;
+				for(int deptId : notice.getDeptId()) {
+					if(deptId == exDeptId) isCheckedDeptId=true;
+					if(noticeDao.hasNoticeTarget(deptId, notice.getNoticeId()) == 0)
+						noticeDao.insertNoticeTargetOne(deptId, notice.getNoticeId());
+				}
+				if(!isCheckedDeptId) noticeDao.deleteNoticeTarget(exDeptId, notice.getNoticeId()); 
+				
 			}
-			if(!isCheckedDeptId) noticeDao.deleteNoticeTarget(exDeptId, notice.getNoticeId()); 
-			
 		}
 	}
 

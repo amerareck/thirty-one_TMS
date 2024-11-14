@@ -56,7 +56,6 @@
 				<table class="tableContent">
 					<tr
 						onclick="location.href='${pageContext.request.contextPath}/notice/noticeDetail?noticeId=${notice.noticeId}'">
-
 						<td><c:choose>
 								<c:when test="${notice.noticeImportant == '1'}">
 									<img
@@ -64,8 +63,8 @@
 										alt="중요도">
 								</c:when>
 								<c:otherwise>
-						${pager.totalRows - (pager.pageNo-1) * 10 - status.index}
-					</c:otherwise>
+									${pager.totalRows - (pager.pageNo-1) * 10 - status.index}
+								</c:otherwise>
 							</c:choose></td>
 						<td>${notice.noticeTitle}</td>
 						<td>${notice.empId}</td>
