@@ -1085,7 +1085,7 @@ public class ApprovalController {
 		log.info(data.toString());
 		JSONObject json = new JSONObject();
 		
-		ApprovalDTO dto = new ApprovalDTO();
+		ApprovalDTO dto = approvalService.getDraftSingleByDocNumber(data.getDocNumber());
 		dto.setNowApprover(empService.getEmpInfo(data.getApprover()));
 		dto.setDocNumber(data.getDocNumber());
 		dto.setDocDocumentData(data.getDocData());

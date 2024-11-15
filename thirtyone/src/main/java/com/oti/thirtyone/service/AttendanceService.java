@@ -417,12 +417,13 @@ public class AttendanceService {
 				break;
 				
 			case "WOT" :
-				Date tempDate = apr.getDocWorkOvertimeEndDate();
+				Date tempDate = (Date) apr.getDocWorkOvertimeEndDate().clone();
 				if(tempDate.getHours() < 5) tempDate.setDate(tempDate.getDate()-1);
 				tempDate.setHours(18);
+				tempDate.setMinutes(0);
 				long ms = apr.getDocWorkOvertimeEndDate().getTime() - tempDate.getTime();
 				int minutes = (int)(ms/(1000*60));
-				apr.setAtdOverTime(minutes);
+				
 				tempDate.setHours(0);
 				apr.setAtdDate(tempDate);
 				AttendanceDto item = atdDao.selectAtdForApproval(apr);
@@ -433,6 +434,7 @@ public class AttendanceService {
 						throw new RuntimeException("업데이트 실패");
 					}
 				}
+				item.setAtdOverTime(minutes);
 				if(atdDao.updateAtdOvertime(item) != 1) {
 					throw new RuntimeException("업데이트 실패");
 				}
