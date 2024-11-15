@@ -33,6 +33,31 @@
 		]]>
 	</update>
 	
+	<update id="updateAltApproverStateByList" parameterType="java.util.List">
+		<![CDATA[
+			UPDATE ALTERNATE_APPROVER
+			SET alt_apr_state = CASE 
+									WHEN sysdate < alt_apr_start_date OR sysdate > alt_apr_end_date THEN 0
+			                        ELSE 1
+			                    END
+			WHERE
+				alt_apr_id
+		]]>
+		<if test="list != null and list.size() > 0">
+        <![CDATA[
+        IN
+        ]]>
+        <foreach collection="list" item="AltApprover" open="(" separator="," close=")">
+            #{AltApprover.altAprId}
+        </foreach>
+    </if>
+    <if test="list == null or list.size() == 0">
+        <![CDATA[
+        = 0
+        ]]>
+    </if>
+	</update>
+	
 	<update id="updateAltApprover" parameterType="AltApprover">
 		<![CDATA[
 			UPDATE ALTERNATE_APPROVER
@@ -114,6 +139,34 @@
 			WHERE 
 			    alt_apr_emp = #{altAprEmp}
 			AND alt_apr_state = 1
+		]]>
+	</select>
+	
+	<select id="selectAltApproverDateByAllEmp" resultType="AltApprover">
+		<![CDATA[
+			WITH altApprover AS (
+				SELECT
+					a.ALT_APR_ID,
+					a.ALT_APR_START_DATE,
+					a.ALT_APR_END_DATE,
+					a.ALT_APR_CONTENT,
+					a.ALT_APR_STATE,
+					a.EMP_ID,
+					a.ALT_APR_EMP,
+					ROW_NUMBER() OVER (PARTITION BY a.EMP_ID ORDER BY a.ALT_APR_ID DESC) AS rn
+				FROM ALTERNATE_APPROVER a
+    				 LEFT OUTER JOIN EMPLOYEES e ON a.emp_id = e.emp_id
+			)
+			SELECT
+				ALT_APR_ID,
+				ALT_APR_START_DATE,
+				ALT_APR_END_DATE,
+				ALT_APR_CONTENT,
+				ALT_APR_STATE,
+				EMP_ID,
+				ALT_APR_EMP
+			FROM altApprover
+			WHERE rn = 1
 		]]>
 	</select>
 </mapper>

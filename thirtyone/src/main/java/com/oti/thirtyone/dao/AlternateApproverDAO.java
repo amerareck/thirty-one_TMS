@@ -7,6 +7,7 @@ import javax.validation.Valid;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.oti.thirtyone.dto.AlternateApproverDTO;
+import com.oti.thirtyone.dto.EmployeesDto;
 
 @Mapper
 public interface AlternateApproverDAO {
@@ -18,5 +19,7 @@ public interface AlternateApproverDAO {
 	List<AlternateApproverDTO> selectCurrentProxyInfoByEmpId(String empId);
 	List<String> selectProxyEmpIdsByAltAprEmp(String altAprEmp);
 	int updateAltApprover(AlternateApproverDTO alt);
+	List<AlternateApproverDTO> selectAltApproverDateByAllEmp();
+	Integer updateAltApproverStateByList(List<AlternateApproverDTO> altList);
 
 }

@@ -2,12 +2,9 @@ package com.oti.thirtyone.service;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
-
-import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -430,6 +427,16 @@ public class ApprovalService {
 		} else {
 			return false;
 		}
+	}
+
+	public void checkAltApproverByAllEmp() {
+		List<AlternateApproverDTO> altList = altApproverDAO.selectAltApproverDateByAllEmp();
+		
+		// 기간 지난 대결자 지정 및 기간 도래한 대결자 지정.
+		if(altApproverDAO.updateAltApproverStateByList(altList) < 1) {
+			throw new RuntimeException("대결자 업데이트 스케쥴러 에러");
+		};
+		
 	}
 
 }
