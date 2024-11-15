@@ -3,8 +3,8 @@
 	display:flex;
 	align-items: center;
 	justify-content: space-between;
-	height: 100px;
-	box-shadow: 0px 3px 32px rgba(195, 195, 195, 0.3);
+	height: 90px;
+	box-shadow: 0px 3px 32px rgba(195, 195, 195, 0.35);
 }
 
 .dropdown-toggle:hover{
@@ -29,7 +29,7 @@
 
 .logo-image{
 	margin-left: 40px;
-	width: 45px;
+	width: 40px;
 }
 
 .logo-image:hover{
@@ -48,11 +48,12 @@
 }
 
 .sidebar{
-	width:252px !important;
+	width:260px !important;
 	height: auto;
 	display: flex;
     flex-direction: column;
 	box-shadow: 3px 0px 32px rgba(195, 195, 195, 0.3);
+	align-items: flex-start;
 }
 
 .content-box{
@@ -93,7 +94,7 @@
 .sidebar-attendance{
 	display: flex;
     flex-direction: column;
-	margin-left:25px;
+	margin-left:28px;
 	margin-top:30px;
 }
 
@@ -105,7 +106,7 @@
 	margin-top:5px;
 	font-weight: 500;
 	font-size: 47px;
-	margin-bottom: 20px;
+	margin-bottom: 25px;
 }
 .sidebar-start-time, .sidebar-end-time{
 	display:flex;
@@ -116,10 +117,12 @@
 
 .sidebar-start-time span:nth-child(1), .sidebar-end-time span:nth-child(1) {
 	font-weight: bold;
+	font-size: 14px;
 }
 
 .sidebar-start-time span:nth-child(2), .sidebar-end-time span:nth-child(2) {
 	color : var(--darkgray);
+	font-size: 14px;
 }
 
 .sidebar-attendance-btn{
@@ -149,7 +152,7 @@
 }
 
 .sidebar-line{
-	margin-top: 20px;
+	margin-top: 30px;
 	margin-right: 20px;
 	background-color: var(--lightgray);
 	height: 1px;
@@ -178,13 +181,15 @@
 .sidebar-title{
 
 	background-color : white;
-	width: 85%;
+	width: 87%;
 	display: flex;
 	justify-content: space-between;
-	margin-bottom: 5px;
+	margin-bottom: 18px;
+	margin-top: 2px;
 	padding: 10px;
 	border-radius: 32px;
 	height: 50px;
+	font-weight: 500;
 }
 
 .selected{
@@ -221,9 +226,22 @@
 .sidebar-subtitle{
 	color: var(--lightgray);
 	width: 85%;
-	margin-bottom: 5px;
+	margin-bottom: 3px;
 	padding: 10px;
 	border-radius: 32px;
+}
+
+.sidebar-subtitle:hover{
+	color: var(--hover-text-color, white);
+	width: 85%;
+	margin-bottom: 3px;
+	padding: 10px;
+	border-radius: 32px;
+    background-color: var(--hover-background-color, rgba(181, 202, 255, 100));
+}
+
+.sidebar-subtitle a:hover {
+	color: var(--hover-text-color, white);
 }
 
 .sub-selected{
@@ -240,7 +258,7 @@
 }
 
 .main-container{
-	margin: 50px 50px 0px 50px;
+	margin: 40px 50px 0px 50px;
 	margin-left: 50px;
 	min-height: calc(100vh - 200px);
 	box-shadow: 0px 3px 20px rgba(195,195,195,0.35);
@@ -291,8 +309,8 @@
     top: 1px; 
     right: -4px; 
     color: white;
-    font-size: 14px;
-    font-weight: bold;
+    font-size: 13px;
+    font-weight: 600;
     display: flex;
    	align-items: center;
    	justify-content: center;

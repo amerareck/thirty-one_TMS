@@ -84,10 +84,10 @@
 				<c:choose>
 					<c:when test="${pager.totalPageNo >= 5}">
 						<c:if test="${pager.pageNo>1}">
-							<a href="noticeList?pageNo=1"> <img
+							<%-- <a href="noticeList?pageNo=1"> <img
 								src="${pageContext.request.contextPath}/resources/image/double_prev_icon.png"
 								alt="doublePrev" style="width: 20px">
-							</a>
+							</a> --%>
 							<a href="noticeList?pageNo=${pager.pageNo-1}"> <img
 								src="${pageContext.request.contextPath}/resources/image/prev_icon.png"
 								alt="prev" style="width: 20px; margin-right: 15px;">
@@ -124,10 +124,10 @@
 										src="${pageContext.request.contextPath}/resources/image/next_icon.png"
 										alt="next" style="width: 20px; margin-left: 15px;">
 									</a>
-									<a href="noticeList?pageNo=${pager.totalPageNo}"> <img
+									<%-- <a href="noticeList?pageNo=${pager.totalPageNo}"> <img
 										src="${pageContext.request.contextPath}/resources/image/double_next_icon.png"
 										alt="next" style="width: 20px">
-									</a>
+									</a> --%>
 								</c:if>
 							</c:when>
 							<c:otherwise>

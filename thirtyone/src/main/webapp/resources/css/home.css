@@ -11,7 +11,7 @@
 
 .my-holiday{
     margin-left: 20px;
-    height: 700px;
+    height: 720px;
     width: 655px;
 }
 
@@ -24,12 +24,13 @@
 	margin-left : 40px;
 	width: 700px;
 	height: 100%;
+	margin-top: 25px;
 }
 
 .mini-title{
 	font-weight: bold;
 	font-size: 16px;
-	margin: 40px 0px 20px 20px;
+	margin: 30px 0px 20px 10px;
 	margin-left: 40px;
 }
 
@@ -81,13 +82,13 @@
 
 .atd-state{
 	margin-right: 40px;
-	margin-top: 20px;
+	margin-top: 35px;
 	width: 240px;
 	height: 50px;
 	display: flex;
 	align-items:center;
 	justify-content:center;
-	border : 1px solid var(--lightgray);
+	border: 1.2px solid #e1e1e1;
 	border-radius: 5px;
 	color: var(--darkgray);
 	font-weight: bold;
@@ -98,13 +99,14 @@
 }
 
 
-.atd-box-bottom{
+.atd-box-bottom {
 	font-weight: bold;
 	color: var(--darkgray);
 	display:flex;
 	flex-direction:column;
 	gap:10px;
     margin: 50px 40px 40px 40px;
+    font-size:14px;
 }
 
 .atd-box-bottom div:nth-child(3){
@@ -226,7 +228,7 @@
 
 .apr-list-box {
 	background-color: var(--blue);
-	margin:20px 40px 0px 50px;
+	margin:40px 40px 0px 40px;
 	padding: 0px 50px; 	
 	height: 60px;
 	border-radius: 12px;
@@ -242,9 +244,9 @@
 	align-items: center;
 }
 .apr-list-box span{	
-	margin-left: 5px;
+	margin-left: 10px;
 	font-weight: bold;
-	font-size: 30px;
+	font-size: 25px;
 	display : flex;
 	align-items: center;
 	margin-bottom:3px;
@@ -406,4 +408,8 @@
     outline: none !important;
     box-shadow: none !important;
     border: none !important;
+}
+
+.fc .fc-scrollgrid-liquid {
+	margin-top: 26px;
 }

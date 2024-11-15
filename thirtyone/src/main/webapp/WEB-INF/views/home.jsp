@@ -63,6 +63,7 @@
 				</div>
 				<div class="approval-list card">
 					<p class="mini-title">기안서 결재 현황</p>
+					<div class="mini-line"></div>
 					<div class="apr-list-box">
 						<p>대기<span>${readyCount}</span></p>
 						<p>진행<span>${processCount}</span></p>
