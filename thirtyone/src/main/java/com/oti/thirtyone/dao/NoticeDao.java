@@ -59,9 +59,11 @@ public interface NoticeDao {
 
 	 public int hasNoticeTarget(@Param("deptId") int deptId, @Param("noticeId") int noticeId);
 
-	public void insertNoticeTargetOne(@Param("deptId") int deptId, @Param("noticeId") int noticeId);
+	public int insertNoticeTargetOne(@Param("deptId") int deptId, @Param("noticeId") int noticeId);
 
-	public void deleteNoticeTarget(@Param("deptId") int exDeptId, @Param("noticeId") int noticeId);
+	public int deleteNoticeTarget(@Param("deptId") int exDeptId, @Param("noticeId") int noticeId);
+
+	public int updateNoticeTargetToZero(NoticeDto notice);
 	
 
 }

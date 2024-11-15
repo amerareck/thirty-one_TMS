@@ -79,7 +79,7 @@
 	background-color: var(--blue) !important;
 	color: white !important;
 	font-weight: bold !important;
-	font-size: 13px !important;
+	font-size: 12px !important;
 }
 
 .wating-state{
@@ -110,16 +110,20 @@
 	width:15%;
 }
 
+.holiday-list-table td {
+	font-size: 14px;
+}
+
 .holiday-list-table thead tr{
-	border-bottom: 1.5px solid var(--lightgray);
+	border-bottom: 2.5px solid #F0F0F0;
 	height: 40px;
 	font-weight: bold;
 	color: var(--darkgray);
 }
 
 .holiday-list-table tbody tr{
-	border-bottom: 1.5px solid var(--lightgray);
-	height: 70px;
+	border-bottom: 0.5px solid #F0F0F0;
+	height: 60px;
 }
 
 .holiday-list-table th, .holiday-list-table td{
@@ -166,6 +170,12 @@
 .holiday-status-box {
 /* 	margin-bottom: 40px; */
 	margin-bottom: 20px;
+}
+
+.holiday-status-detail {
+    position: relative; /* 여기에 relative 추가 */
+    margin-left: 20px;
+    width: 200px;
 }
 
 .holiday-status-detail div{
@@ -255,8 +265,8 @@
     border: none !important;
 }
 
-.delete-btn {
-	/* display: none; */
+.delete-btn.ready-state {
+	display: none;
 	color: red;
 	font-size: 14px;
 	cursor: pointer;
@@ -270,26 +280,60 @@
 }
 
 /* 기본 상태: 버튼이 회색으로 보입니다 */
-.ready-state  {
+.ready-state, .reject-state {
 	display: flex;
+	align-items: center;
     background-color: gray !important;
     padding: 5px 10px;
     border-radius: 5px;
     color: white;
     cursor: pointer;
-    display: inline-block;
-    font-size: 14px;
+    font-size: 12px !important;
     text-align: center;
+    position: relative;
+}
+
+.reject-state {
+	background-color: transparent !important;
+	border: 1.3px solid #1F5FFF;
+	color: #1F5FFF !important;
+}
+
+/* 상태 텍스트 숨기기 */
+.ready-state .status-text, .reject-state .status-text {
+    transition: opacity 0.2s ease; /* Smooth fade effect */
+}
+
+/* 삭제 버튼 기본 설정 */
+.ready-state .delete-btn, .reject-state .delete-btn {
+    display: none;
+    position: absolute; /* Position it at the right */
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* 마우스를 올렸을 때 상태 텍스트 숨기고 X 표시 */
+.ready-state:hover .status-text, .reject-state:hover .status-text {
+    opacity: 0; /* Make the "대기" text invisible */
+}
+
+.ready-state:hover .delete-btn, .reject-state:hover .delete-btn {
+    display: inline-block; /* Show the X */
+    color: white; /* Make sure it's visible */
 }
 
 /* 마우스를 올렸을 때 X 표시가 보이도록 */
-.delete-btn.ready-state:hover {
-    background-color: darkgray;
+.ready-state:hover {
+    background-color: darkgray !important;
 }
 
-/* 클릭 시 마우스 포인터 스타일 변경 */
-.delete-btn.ready-state:active {
-    background-color: #555;
+.reject-state:hover {
+	background-color: #8DADFF !important;
+}
+
+.deleteText {
+	display: flex;
+	align-items: center;
 }
 
 .holidayList {
@@ -297,4 +341,8 @@
 	font-weight: 500;
 	color: var(--lightgray); 
 	font-size: 20px;
+}
+
+.delete-btn {
+	display: flex;
 }

@@ -133,13 +133,13 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 function deleteRequest(hdrId) {
-	if (confirm('해당 휴가 신청 내역을 삭제하시겠습니까?')) {
+	/*if (confirm('해당 휴가 신청 내역을 삭제하시겠습니까?')) {*/
 		
-		$.ajax({
+		/*$.ajax({
 			url: contextPath + '/holiday/deleteRequest',
 			type: 'POST',
 			data: {hdrId : hdrId},
-			success: function(response) {
+			success: function(response) {*/
 				
 				Swal.fire({
 					title: '휴가 신청 내역을 삭제하시겠습니까?',
@@ -156,6 +156,13 @@ function deleteRequest(hdrId) {
 				
 				}).then(result => {
 					if (result.isConfirmed) {
+						
+						$.ajax({
+							url: contextPath + '/holiday/deleteRequest',
+							type: 'POST',
+							data: {hdrId : hdrId},
+							success: function(response) {
+						
 						Swal.fire({
 							title: '휴가 신청이 삭제되었습니다.', 
 							text: '휴가 내역에서 확인해주세요.', 
@@ -163,25 +170,24 @@ function deleteRequest(hdrId) {
 						}).then(() => {
 							location.reload();
 						});
+					},
+					error: function(error) {
+						
+						Swal.fire({
+							title: '휴가 신청 내역 삭제에 실패했습니다.',
+							text: '휴가 신청 내역을 삭제하는 과정에 문제가 발생했습니다. 나중에 다시 시도해주세요.',
+							icon: 'error',
+							confirmButtonText: '확인',
+							confirmButtonColor: '#FF6347'
+						});
+						
 					}
-				});
-				
-				
-			},
-			error: function(error) {
-				
-				Swal.fire({
-                    title: '휴가 신청 내역 삭제에 실패했습니다.',
-                    text: '휴가 신청 내역을 삭제하는 과정에 문제가 발생했습니다. 나중에 다시 시도해주세요.',
-                    icon: 'error',
-                    confirmButtonText: '확인',
-                    confirmButtonColor: '#FF6347'
-                });
-
+				});	
 			}
 		});
 	}
-}
+/*}*/
+
 
 $('.delete-btn').on("click", function(){
 	deleteRequest($(this).data('hdrid'));

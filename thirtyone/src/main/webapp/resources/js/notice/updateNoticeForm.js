@@ -303,10 +303,13 @@ document.addEventListener("DOMContentLoaded", function() {
 	//                console.log(deptNames);
 	                //부서 목록 동적으로 생성
 	                data.forEach(dept => {
-	                	existingDeptId.push(dept.deptId);
 	                	let isCheck = false;
 	                	deptNames.forEach(item => {
-	                		if(dept.deptName===item) isCheck = true  ;
+	                		if(dept.deptName===item){
+	                			console.log("###########dept###############", dept);
+	                			isCheck = true  ;
+	                			existingDeptId.push(dept.deptId);
+	                		}
 	                	})
 	                    const deptCheck = document.createElement("div");
 	                    deptCheck.classList.add('form-check');
@@ -431,7 +434,7 @@ document.addEventListener("DOMContentLoaded", function() {
 		console.log("부서 ID:", checkedDeptIds);
 		
 		
-		$.ajax({
+		/*$.ajax({
 			method: 'POST',
 			url: contextPath + '/notice/updateNotice',
 			data: formData,
@@ -439,7 +442,7 @@ document.addEventListener("DOMContentLoaded", function() {
 			contentType: false,
 			success: function(response) {
 				const noticeId = response.noticeId;
-				console.log(Swal); 
+				console.log(Swal); */
 				
 				Swal.fire({
 					title: '공지사항 수정을 완료하시겠습니까?',
@@ -456,31 +459,40 @@ document.addEventListener("DOMContentLoaded", function() {
 				
 				}).then(result => {
 					if (result.isConfirmed) {
-						Swal.fire({
-							title: '공지사항 수정이 완료되었습니다.', 
-							text: '공지사항 목록에서 확인해주세요.', 
-							icon: 'success'
-						}).then(() => {
-							location.href = contextPath + '/notice/noticeList';
+						
+						$.ajax({
+							method: 'POST',
+							url: contextPath + '/notice/updateNotice',
+							data: formData,
+							processData: false,
+							contentType: false,
+							success: function(response) {
+								const noticeId = response.noticeId;
+							
+								Swal.fire({
+									title: '공지사항 수정이 완료되었습니다.', 
+									text: '공지사항 목록에서 확인해주세요.', 
+									icon: 'success'
+								}).then(() => {
+									location.href = contextPath + '/notice/noticeList';
+									console.log("작성 AJAX 성공", response);
+								});
+						
+							},
+							error: function(xhr) {
+								console.error('Error', xhr.status);
+								console.log(xhr.responseText);
+								
+								Swal.fire({
+				                    title: '공지사항 수정이 실패했습니다.',
+				                    text: '공지사항 수정 과정에 문제가 발생했습니다. 나중에 다시 시도해주세요.',
+				                    icon: 'error',
+				                    confirmButtonText: '확인',
+				                    confirmButtonColor: '#FF6347'
+								});
+							}
 						});
 					}
 				});
-				
-				console.log("작성 AJAX 성공", response);
-				/*location.href = contextPath + '/notice/noticeList';*/
-			},
-			error: function(xhr) {
-				console.error('Error', xhr.status);
-				console.log(xhr.responseText);
-				
-				Swal.fire({
-                    title: '공지사항 수정이 실패했습니다.',
-                    text: '공지사항 수정 과정에 문제가 발생했습니다. 나중에 다시 시도해주세요.',
-                    icon: 'error',
-                    confirmButtonText: '확인',
-                    confirmButtonColor: '#FF6347'
-                });
-			}
+			}	
 		});
-	}
-});

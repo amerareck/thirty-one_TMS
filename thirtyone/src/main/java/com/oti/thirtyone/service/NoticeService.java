@@ -119,7 +119,8 @@ public class NoticeService {
 	
 	//부서
 	public void insertNoticeTarget(NoticeDto notice) { 	
-		if(notice.getExistingDeptId() != null) {
+		log.info(notice.toString());
+		if(notice.getExistingDeptId() != null && notice.getDeptId() != null) {
 			for(int exDeptId : notice.getExistingDeptId()) {
 				boolean isCheckedDeptId = false;
 				for(int deptId : notice.getDeptId()) {
@@ -130,6 +131,16 @@ public class NoticeService {
 				if(!isCheckedDeptId) noticeDao.deleteNoticeTarget(exDeptId, notice.getNoticeId()); 
 				
 			}
+		}else if(notice.getExistingDeptId() == null && notice.getDeptId() != null) {
+			for(int deptId : notice.getDeptId()) {
+				if(noticeDao.hasNoticeTarget(deptId, notice.getNoticeId()) == 0)
+					noticeDao.insertNoticeTargetOne(deptId, notice.getNoticeId());
+			}
+		}else if(notice.getDeptId() == null && notice.getExistingDeptId() != null) {
+			for(int exDeptId: notice.getExistingDeptId()) {
+				noticeDao.deleteNoticeTarget(exDeptId, notice.getNoticeId());
+			}
+			noticeDao.updateNoticeTargetToZero(notice);
 		}
 	}
 

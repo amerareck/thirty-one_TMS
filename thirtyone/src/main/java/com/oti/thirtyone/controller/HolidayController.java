@@ -34,6 +34,7 @@ import com.oti.thirtyone.dto.Pager;
 import com.oti.thirtyone.dto.PositionsDto;
 import com.oti.thirtyone.enums.HolidayType;
 import com.oti.thirtyone.security.EmployeeDetails;
+import com.oti.thirtyone.service.AlertService;
 import com.oti.thirtyone.service.DepartmentService;
 import com.oti.thirtyone.service.EmployeesService;
 import com.oti.thirtyone.service.HolidayService;
@@ -57,6 +58,9 @@ public class HolidayController {
 	
 	@Autowired
 	EmployeesService employeesService;
+	
+	@Autowired
+	AlertService alertService;
 
 	@GetMapping("")
 	@Secured("ROLE_USER")
@@ -144,6 +148,10 @@ public class HolidayController {
 		EmployeeDetails employeeDetails = (EmployeeDetails) authentication.getPrincipal();
 		EmployeesDto employee = employeeDetails.getEmployee();
 		
+		//알림
+		Departments deptDto = departmentService.getDeptInfo(employee.getDeptId());
+		String improverId = deptDto.getEmpId();
+		
 		HolidayRequestDto hdrReq = new HolidayRequestDto();
 		
 		double hdrUsedDay = hdrForm.getHdrUsedDay();
@@ -179,6 +187,10 @@ public class HolidayController {
 		//승인자 설정
 		String hdrApprover = hdrForm.getHdrApprover();
 		hdrReq.setHdrApprover(hdrApprover);
+		
+		//알림
+		String alertContent=employee.getEmpName() + "님에게 휴가 요청을 신청 하였습니다.";
+		alertService.sendAlert(improverId, alertContent, "휴가");
 
 		hdService.insertHdrRequest(hdrReq);
 		model.addAttribute("hdrUsedDay", hdrUsedDay);
@@ -245,6 +257,16 @@ public class HolidayController {
 	public ResponseEntity<String> selectHdrAccept(int hdrId, String status, int hdCategory, Authentication authentication, String empId) {
 		log.info("hdCategory "+hdCategory);
 		hdService.updateHdrAccept(hdrId, status, empId, hdCategory);
+		
+		String alertContent = "";
+		if(status.equals("반려")) {
+			alertContent="님이 휴가 신청이 반려되었습니다.";
+			alertService.sendAlert(empId, alertContent, "휴가");
+		}else {
+			alertContent="휴가 신청이 승인되었습니다.";
+			alertService.sendAlert(empId, alertContent, "휴가");			
+		}	
+		
 		return ResponseEntity.ok("ok");
 	}
 	

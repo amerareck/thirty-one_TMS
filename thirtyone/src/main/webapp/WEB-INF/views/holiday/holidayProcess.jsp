@@ -22,6 +22,7 @@
 		<div class="main-line"></div>
 		<div class="full-container">
 			<div class="holiday-list-box card">
+				<%-- <c:if test="${not empty hdrInfoList}"> --%>
 				<p class="mini-title">휴가 신청 내역</p>
 				<table class="table holiday-list-table">
 					<tbody>
@@ -84,10 +85,10 @@
 												<div class="holiday-time">${hdrApr.hdrApr.hdrUsedDay}</div>
 												<p class="accept-label">사유</p>
 												<div class="holiday-reason">${hdrApr.hdrApr.hdrContent}</div>
-												<div class="holiday-file">
+												<!-- <div class="holiday-file">
 													<p class="accept-label">파일</p>
 													<a class="choiced-file">선택된 파일 없음</a>
-												</div>
+												</div> -->
 											</div>
 											<div class='button-list'>
 												<button class="requestReject button-large reject"
@@ -107,6 +108,7 @@
 						</c:forEach>
 					</tbody>
 				</table>
+				<%-- </c:if> --%>
 				<%-- <nav class="mt-3 mb-3">
 					<ul class="pagination justify-content-center">
 						<li class="page-item disabled"><a class="page-link text-dark"

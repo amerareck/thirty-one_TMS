@@ -156,12 +156,7 @@ document.addEventListener('DOMContentLoaded', function () {
 			holidayPeriodSelect.disabled = true;
 			holidayTimeSelect.disabled = true;	
 		}
-		
-		flatpickr("#choiceDay", {
-	        mode: "range",
-	        dateFormat: "Y-m-d",
-	        inline: true
-		});
+
     });
     
     
@@ -322,13 +317,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
 	    // AJAX로 폼 제출
 	    function submitForm(formData) {
-	        $.ajax({
+	        /*$.ajax({
 	            method: 'POST',
 	            url: contextPath + '/holiday/request',
 	            data: formData,
 	            processData: false,
 	            contentType: false,
-	            success: function(response) {
+	            success: function(response) {*/
 	            	
 	            	Swal.fire({
 						title: '휴가 신청을 완료하시겠습니까?',
@@ -345,6 +340,15 @@ document.addEventListener('DOMContentLoaded', function () {
 					
 					}).then(result => {
 						if (result.isConfirmed) {
+						
+						$.ajax({
+				            method: 'POST',
+				            url: contextPath + '/holiday/request',
+				            data: formData,
+				            processData: false,
+				            contentType: false,
+				            success: function(response) {
+						
 							Swal.fire({
 								title: '휴가 신청이 완료되었습니다.', 
 								text: '신청 내역에서 확인해주세요.', 
@@ -352,23 +356,24 @@ document.addEventListener('DOMContentLoaded', function () {
 							}).then(() => {
 								location.href = contextPath + '/holiday/';
 							});
+						},
+						error: function(xhr) {
+							console.error('Error', xhr.status);
+							
+							Swal.fire({
+								title: '휴가 신청이 실패했습니다.',
+								text: '휴가 신청 과정에 문제가 발생했습니다. 나중에 다시 시도해주세요.',
+								icon: 'error',
+								confirmButtonText: '확인',
+								confirmButtonColor: '#FF6347'
+							});
 						}
-					});
 	                /*window.location.href = contextPath + '/holiday/';*/
-	            },
-	            error: function(xhr) {
-	                console.error('Error', xhr.status);
-	                
-	                Swal.fire({
-	                    title: '휴가 신청이 실패했습니다.',
-	                    text: '휴가 신청 과정에 문제가 발생했습니다. 나중에 다시 시도해주세요.',
-	                    icon: 'error',
-	                    confirmButtonText: '확인',
-	                    confirmButtonColor: '#FF6347'
-	                });
-	            }
+		            });
+                }
 	        });
 	    }
+	    
 	    
 	    // 유효성 검사
 	    function contentValidChk() {

@@ -226,26 +226,28 @@ public class NoticeController {
 		noticeService.noticeWrite(dbNotice);
 
 		noticeDto.setNoticeId(dbNotice.getNoticeId());
-		/* noticeService.insertNoticeTarget(noticeDto); */
-
 		if (notice.getDeptId() != null && notice.getDeptId().length > 0) {
 			noticeService.insertNoticeTarget(noticeDto);
 			noticeService.updateNoticeTarget(noticeDto);
 		}
 
 		MultipartFile[] files = notice.getAttachFile();
-		for (MultipartFile mf : files) {
-			if (!mf.isEmpty()) {
-				NoticeFileDto dbFile = new NoticeFileDto();
-				dbFile.setNoticeFileName(mf.getOriginalFilename());
-				dbFile.setNoticeFileData(mf.getBytes());
-				dbFile.setNoticeFileType(mf.getContentType());
-				dbFile.setNoticeFileId(1);
-				dbFile.setNoticeId(dbNotice.getNoticeId());
-				log.info(dbFile.toString());
-				noticeService.insertNoticeFile(dbFile);
+		
+		if (files != null && files.length > 0) {
+			for (MultipartFile mf : files) {
+				if (!mf.isEmpty()) {
+					NoticeFileDto dbFile = new NoticeFileDto();
+					dbFile.setNoticeFileName(mf.getOriginalFilename());
+					dbFile.setNoticeFileData(mf.getBytes());
+					dbFile.setNoticeFileType(mf.getContentType());
+					dbFile.setNoticeFileId(1);
+					dbFile.setNoticeId(dbNotice.getNoticeId());
+					log.info(dbFile.toString());
+					noticeService.insertNoticeFile(dbFile);
+				}
 			}
 		}
+		
 		log.info("하이루");
 
 		model.addAttribute("employees", employees);
@@ -324,6 +326,15 @@ public class NoticeController {
 		noticeService.updateNotice(dbNotice);
 		noticeService.insertNoticeTarget(dbNotice);
 		MultipartFile[] files = notice.getAttachFile();
+		
+		
+		/*notice.setNoticeId(dbNotice.getNoticeId());
+		if (dbNotice.getDeptId() != null && dbNotice.getDeptId().length == 0) {
+			log.info(dbNotice.getDeptId()+ "aaaaaa");
+			noticeService.updateNotice(dbNotice);
+			noticeService.noticeWrite(dbNotice);
+		}*/
+		
 
 		for (int fileId : notice.getDeleteFileId()) {
 			log.info(" fileId = " + fileId);

@@ -102,7 +102,7 @@
 	align-items: center;
 	margin: 20px 0px;
 	font-weight: 400;
-	font-size: 20px;
+	font-size: 14px;
 }
 .holiday-file{
 	display: flex;
@@ -151,7 +151,7 @@
 }
 
 .holiday-list-table tbody tr:nth-child(1){
-	border-bottom: 0.5px solid var(--lightgray);
+	border-bottom: 2.5px solid #F0F0F0;
 }
 .holiday-list-table tbody tr:nth-child(1) td{
 	color: var(--darkgray);
@@ -261,8 +261,15 @@
 }
 
 .holidayList {
-	margin-bottom: 150px;
+	margin-top: 150px;
 	font-weight: 500;
 	color: var(--lightgray); 
 	font-size: 20px;
+	height: 200px;
+	margin: 500px;
+	margin-top: 1000px;
+}
+
+.modalContent {
+	height: 400px;	
 }

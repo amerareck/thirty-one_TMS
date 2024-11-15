@@ -28,6 +28,7 @@
 			<div class="right-container">
 				<div class="holiday-status-box card">
 					<p class="mini-title">휴가 현황</p>
+					<div class="mini-line"></div>
 					<div class="holiday-status">
 						<div class="holiday-status-detail">
 							<div>
@@ -81,18 +82,22 @@
 									<td>${hdrReq.hdrUsedDay}일</td>
 									<td>${hdrReq.hdrContent}</td>
 									<c:if test="${hdrReq.hdrStatus == '대기'}">
-										<td><div class="btn accept-state ready-state">${hdrReq.hdrStatus}</div>
-										<div class="delete-btn" data-hdrid='${hdrReq.hdrId }
-										'>x</div>
-									</c:if></td>
+										<td><div class="btn accept-state ready-state" >
+											<span class="status-text">${hdrReq.hdrStatus}</span>
+											<span class="delete-btn" data-hdrid='${hdrReq.hdrId}'><div class="deleteText">삭제&nbsp;<i class="bi bi-x-lg"></i></div></span>
+											</div>
+										</td>
+									</c:if>
 									<c:if test="${hdrReq.hdrStatus == '승인'}">
-										<td><div class="btn accept-state">${hdrReq.hdrStatus}</div>
-									</c:if></td>
+										<td><div class="btn accept-state">${hdrReq.hdrStatus}</div></td>
+									</c:if>
 									<c:if test="${hdrReq.hdrStatus == '반려'}">
-										<td><div class="btn accept-state reject-state">${hdrReq.hdrStatus}</div>
-										<div class="delete-btn" data-hdrid='${hdrReq.hdrId }
-										'>x</div>
-									</c:if></td>
+										<td><div class="btn accept-state reject-state" >
+											<span class="status-text">${hdrReq.hdrStatus}</span>
+											<span class="delete-btn" data-hdrid='${hdrReq.hdrId}'><div class="deleteText">삭제&nbsp;<i class="bi bi-x-lg"></i></div></span>
+											</div>
+										</td>
+									</c:if>
 								</tr>
 							</c:forEach>
 						</tbody>

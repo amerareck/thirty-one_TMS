@@ -104,14 +104,14 @@ document.addEventListener("DOMContentLoaded", function() {
 		console.log("부서 ID:", checkedDeptIds);
 		
 		
-		$.ajax({
+		/*$.ajax({
 			method: 'POST',
 			url: contextPath + '/notice/noticeWrite',
 			data: formData,
 			processData: false,
 			contentType: false,
-			success: function(response) {
-				const noticeId = response.noticeId;
+			success: function(response) {*/
+				/*const noticeId = response.noticeId;*/
 
 				Swal.fire({
 					title: '공지사항 작성을 완료하시겠습니까?',
@@ -128,35 +128,51 @@ document.addEventListener("DOMContentLoaded", function() {
 				
 				}).then(result => {
 					if (result.isConfirmed) {
-						Swal.fire({
-							title: '공지사항 작성이 완료되었습니다.', 
-							text: '공지사항 목록에서 확인해주세요.', 
-							icon: 'success'
-						}).then(() => {
-							location.href = contextPath + '/notice/noticeList';
+					
+					$.ajax({
+						method: 'POST',
+						url: contextPath + '/notice/noticeWrite',
+						data: formData,
+						processData: false,
+						contentType: false,
+						success: function(response) {
+							const noticeId = response.noticeId;
+						/*}
+							if (result.isConfirmed) {*/
+								Swal.fire({
+									title: '공지사항 작성이 완료되었습니다.', 
+									text: '공지사항 목록에서 확인해주세요.', 
+									icon: 'success'
+								}).then(() => {
+									location.href = contextPath + '/notice/noticeList';
+									console.log("작성 AJAX 성공", response);
+								});
+							/*}*/
+						},
+							error: function(xhr) {
+								console.error('Error', xhr.status);
+								console.log(xhr.responseText);
+								
+								Swal.fire({
+				                    title: '공지사항 작성이 실패했습니다.',
+				                    text: '공지사항 작성 과정에 문제가 발생했습니다. 나중에 다시 시도해주세요.',
+				                    icon: 'error',
+				                    confirmButtonText: '확인',
+				                    confirmButtonColor: '#FF6347'
+				                });
+							}
 						});
 					}
-				});
-			/*	})*/
-				
-				
-				console.log("작성 AJAX 성공", response);
-				/*location.href = contextPath + '/notice/noticeList';*/
-			},
-			error: function(xhr) {
-				console.error('Error', xhr.status);
-				console.log(xhr.responseText);
-				
-				Swal.fire({
-                    title: '공지사항 작성이 실패했습니다.',
-                    text: '공지사항 작성 과정에 문제가 발생했습니다. 나중에 다시 시도해주세요.',
-                    icon: 'error',
-                    confirmButtonText: '확인',
-                    confirmButtonColor: '#FF6347'
-                });
-			}
-		});
+					
+					});
 	}
+				/*})*/
+			/*});
+	});	*/	
+				/*location.href = contextPath + '/notice/noticeList';*/
+			
+			
+
 
 	
 	$('#summernote').summernote();
