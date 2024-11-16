@@ -204,6 +204,29 @@ $('.select-search-draft').on('change', function() {
 					<option value="반려">&nbsp;&nbsp;반려</option>
 				</select>
 		`);
+	} else if (type === 'draftDept') {
+		$(this).after(`
+				<select class="form-select form-select-sm col-8 input-search-draft draft-dept" style="flex: 3;">
+					<option value="" disabled="disabled" >&nbsp;&nbsp;부서 선택</option>
+				</select>
+		`);
+		
+		$.ajax({
+			url: 'getDeptList',
+			method: 'get',
+			success: function(data) {
+				const id = data.deptIds;
+				const name = data.deptNames;
+				for(let i=0; i<id.length; i++) {
+					$('select.draft-dept').append(`
+						<option value="${id[i]}">&nbsp;&nbsp;${name[i]}</option>
+					`);
+				}
+			},
+			error: function (xhr, status, error) {
+	            console.log('Error: ' + error);
+			},
+		});
 	}
 });
 
@@ -221,6 +244,26 @@ $('.btnApprovalSearch').on('click', function(){
 	location.href = url+'?type='+param.type+'&pageNo='+param.pageNo+'&search='+param.search+'&keyword='+param.keyword;
 });
 
+$(function(){
+	if($('.select-search-draft').val() === 'draftDept') {
+		$.ajax({
+	        url: 'getDeptList',
+	        method: 'get',
+	        success: function(data) {
+	            const id = data.deptIds;
+	            const name = data.deptNames;
+	            for(let i=0; i<id.length; i++) {
+	                $('select.draft-dept').append(`
+	                    <option value="${id[i]}">${name[i]}</option>
+	                `);
+	            }
+	        },
+	        error: function (xhr, status, error) {
+	            console.log('Error: ' + error);
+	        },
+	    });
+	}
+});
 
 
 

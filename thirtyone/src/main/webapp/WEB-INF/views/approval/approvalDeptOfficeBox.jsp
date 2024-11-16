@@ -21,6 +21,9 @@
 			    <option value="draftAuthor" ${paramObj.search == 'draftAuthor'?'selected':''} >기안자</option>
 			    <option value="draftType" ${paramObj.search == 'draftType'?'selected':''} >기안 유형</option>
 			    <option value="draftState" ${paramObj.search == 'draftState'?'selected':''} >기안 상태</option>
+			    <c:if test="${activePage == 'referenceDoc'}">
+			    <option value="draftDept" ${paramObj.search == 'draftDept'?'selected':''} >기안 부서</option>
+			    </c:if>
 			</select>
 			<c:if test="${paramObj.search == 'draftTitle' || empty paramObj.search}">
 				<input class="form-control col-8 input-search-draft draft-title" value="${paramObj.keyword}" placeholder="검색 유형 입력" style="flex:3;" />
@@ -44,6 +47,12 @@
 			</c:if>
 			<c:if test="${paramObj.search == 'draftAuthor'}">
 				<input class="form-control col-8 input-search-draft draft-author" value="${paramObj.keyword}" placeholder="검색 유형 입력" style="flex:3;" />
+			</c:if>
+			<c:if test="${paramObj.search == 'draftDept'}">
+				<select class="form-select form-select-sm col-8 input-search-draft draft-dept" style="flex: 3;">
+					<option value="" disabled="disabled" >&nbsp;&nbsp;부서 선택</option>
+				</select>
+				<span class="d-none">${paramObj.keyword}</span>
 			</c:if>
 			<button class="btn btn-outline-secondary btnApprovalSearch" style="border-color: #dee2e6;" type="button"><i class="fa-solid fa-magnifying-glass"></i></button>
 		</div>

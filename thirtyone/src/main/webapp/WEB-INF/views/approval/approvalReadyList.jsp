@@ -14,16 +14,47 @@
 	    <div class="w-25 d-flex align-item-center">
 	        <h5 class="fw-bold" style="margin:auto 0; color:#5A5A5A;">${sectionTitle}</h5>
 	    </div>
-	    <div class="input-group" style="width: 40%;">
-	        <select class="form-select form-select-sm" style="flex:1;">
-	            <option selected>전체</option>
-	            <option value="draftTitle">제목</option>
-	            <option value="draftType">유형</option>
-	            <option value="draftAuthor">기안자</option>
-	        </select>
-	        <input class="form-control col-8" placeholder="검색 유형 입력" style="flex:3;" />
-	        <button class="btn btn-outline-secondary" style="border-color: #dee2e6;" type="button"><i class="fa-solid fa-magnifying-glass"></i></button>
-	    </div>
+	    <div class="input-group approval-search-input-group" style="width: 40%;" data-active-page="${activePage}" data-page-no="${pager.pageNo}" data-url="${urlName}" >
+			<select class="form-select form-select-sm select-search-draft" style="flex:1;">
+			    <option value="draftTitle" ${paramObj.search == 'draftTitle'?'selected':''}>제목</option>
+			    <option value="draftAuthor" ${paramObj.search == 'draftAuthor'?'selected':''} >기안자</option>
+			    <option value="draftType" ${paramObj.search == 'draftType'?'selected':''} >기안 유형</option>
+			    <option value="draftState" ${paramObj.search == 'draftState'?'selected':''} >기안 상태</option>
+			    <c:if test="${activePage == 'referenceDoc'}">
+			    <option value="draftDept" ${paramObj.search == 'draftDept'?'selected':''} >기안 부서</option>
+			    </c:if>
+			</select>
+			<c:if test="${paramObj.search == 'draftTitle' || empty paramObj.search}">
+				<input class="form-control col-8 input-search-draft draft-title" value="${paramObj.keyword}" placeholder="검색 유형 입력" style="flex:3;" />
+			</c:if>
+			<c:if test="${paramObj.search == 'draftType'}">
+				<select class="form-select form-select-sm col-8 input-search-draft draft-type" style="flex: 3;">
+					<option value="근태신청서" ${paramObj.keyword == '근태신청서'?'selected':''}>근태신청서</option>
+					<option value="출장품의서" ${paramObj.keyword == '출장품의서'?'selected':''}>출장품의서</option>
+					<option value="출장보고서" ${paramObj.keyword == '출장보고서'?'selected':''}>출장보고서</option>
+					<option value="휴일근무신청서" ${paramObj.keyword == '휴일근무신청서'?'selected':''}>휴일근무신청서</option>
+					<option value="연장근무신청서" ${paramObj.keyword == '연장근무신청서'?'selected':''}>연장근무신청서</option>
+				</select>
+			</c:if>
+			<c:if test="${paramObj.search == 'draftState'}">
+				<select class="form-select form-select-sm col-8 input-search-draft draft-state" style="flex: 3;">
+					<option value="대기" ${paramObj.keyword == '대기'?'selected':''}>&nbsp;&nbsp;대기</option>
+					<option value="진행" ${paramObj.keyword == '진행'?'selected':''}>&nbsp;&nbsp;진행</option>
+					<option value="승인" ${paramObj.keyword == '승인'?'selected':''}>&nbsp;&nbsp;승인</option>
+					<option value="반려" ${paramObj.keyword == '반려'?'selected':''}>&nbsp;&nbsp;반려</option>
+				</select>
+			</c:if>
+			<c:if test="${paramObj.search == 'draftAuthor'}">
+				<input class="form-control col-8 input-search-draft draft-author" value="${paramObj.keyword}" placeholder="검색 유형 입력" style="flex:3;" />
+			</c:if>
+			<c:if test="${paramObj.search == 'draftDept'}">
+				<select class="form-select form-select-sm col-8 input-search-draft draft-dept" style="flex: 3;">
+					<option value="" disabled="disabled" >&nbsp;&nbsp;부서 선택</option>
+				</select>
+				<span class="d-none">${paramObj.keyword}</span>
+			</c:if>
+			<button class="btn btn-outline-secondary btnApprovalSearch" style="border-color: #dee2e6;" type="button"><i class="fa-solid fa-magnifying-glass"></i></button>
+		</div>
 	</div>
 
 	<table class="table table-hover table-header-bg">
@@ -63,22 +94,41 @@
 			</c:if>
 	    </tbody>
 	</table>
-
-	<c:if test="${pager.totalRows > 0}">
-		<nav class="d-flex justify-content-center" style="width: 95%">
-			<ul class="pagination pagination-not-effect justify-content-center pagination-size">
-				<li class="page-item ${pager.startPageNo == 1 ? 'disabled' : ''}">
-					<a class="page-link page-border-none text-dark" href="submitted?type=retrieval&pageNo=${pager.endPageNo-pager.pagesPerGroup}" tabindex="-1" aria-disabled="true"><i class="fa-solid fa-chevron-left"></i></a>
-				</li>
-				<c:forEach begin="${pager.startPageNo}" end="${pager.endPageNo}" var="i">
-					<li class="page-item ${pager.pageNo == i ? 'disabled' : ''}"><a class="page-link text-dark page-border-none ${pager.pageNo==i ? 'fw-bold' : ''} ${i == pager.startPageNo ? 'ms-5' : 'ms-1'} ${i == pager.endPageNo ? 'me-5' : ''}" href="${pageContext.request.contextPath}/approval/approveList?type=${activePage}&pageNo=${i}">${i}</a></li>
-				</c:forEach>
-				<li class="page-item ${pager.totalPageNo == pager.endPageNo ? 'disabled' : ''}">
-					<a class="page-link page-border-none text-dark" href="submitted?type=retrieval&pageNo=${pager.endPageNo+1}"><i class="fa-solid fa-chevron-right"></i></a>
-				</li>
-			</ul>
-		</nav>
+	<c:if test="${search}">
+      	<c:if test="${pager.totalRows > 0}">
+			<nav class="d-flex justify-content-center" style="width: 95%">
+				<ul class="pagination pagination-not-effect justify-content-center pagination-size">
+					<li class="page-item ${pager.startPageNo == 1 ? 'disabled' : ''}">
+						<a class="page-link page-border-none text-dark" href="approveList?type=${activePage}&pageNo=${pager.endPageNo-pager.pagesPerGroup-1}&search=${paramObj.search}&keyword=${paramObj.keyword}" tabindex="-1" aria-disabled="true"><i class="fa-solid fa-chevron-left"></i></a>
+					</li>
+					<c:forEach begin="${pager.startPageNo}" end="${pager.endPageNo}" var="i">
+						<li class="page-item ${pager.pageNo == i ? 'disabled' : ''}"><a class="page-link text-dark page-border-none ${pager.pageNo==i ? 'fw-bold' : ''} ${i == pager.startPageNo ? 'ms-5' : 'ms-1'} ${i == pager.endPageNo ? 'me-5' : ''}" href="${pageContext.request.contextPath}/approval/approveList?type=${activePage}&pageNo=${i}&search=${paramObj.search}&keyword=${paramObj.keyword}">${i}</a></li>
+					</c:forEach>
+					<li class="page-item ${pager.totalPageNo == pager.endPageNo ? 'disabled' : ''}">
+						<a class="page-link page-border-none text-dark" href="approveList?type=${activePage}&pageNo=${pager.endPageNo+1}&search=${paramObj.search}&keyword=${paramObj.keyword}"><i class="fa-solid fa-chevron-right"></i></a>
+					</li>
+				</ul>
+			</nav>
+		</c:if>
+    </c:if>
+	<c:if test="${empty search}">
+		<c:if test="${pager.totalRows > 0}">
+			<nav class="d-flex justify-content-center" style="width: 95%">
+				<ul class="pagination pagination-not-effect justify-content-center pagination-size">
+					<li class="page-item ${pager.startPageNo == 1 ? 'disabled' : ''}">
+						<a class="page-link page-border-none text-dark" href="approveList?type=${activePage}&pageNo=${pager.endPageNo-pager.pagesPerGroup-1}" tabindex="-1" aria-disabled="true"><i class="fa-solid fa-chevron-left"></i></a>
+					</li>
+					<c:forEach begin="${pager.startPageNo}" end="${pager.endPageNo}" var="i">
+						<li class="page-item ${pager.pageNo == i ? 'disabled' : ''}"><a class="page-link text-dark page-border-none ${pager.pageNo==i ? 'fw-bold' : ''} ${i == pager.startPageNo ? 'ms-5' : 'ms-1'} ${i == pager.endPageNo ? 'me-5' : ''}" href="${pageContext.request.contextPath}/approval/approveList?type=${activePage}&pageNo=${i}">${i}</a></li>
+					</c:forEach>
+					<li class="page-item ${pager.totalPageNo == pager.endPageNo ? 'disabled' : ''}">
+						<a class="page-link page-border-none text-dark" href="approveList?type=${activePage}&pageNo=${pager.endPageNo+1}"><i class="fa-solid fa-chevron-right"></i></a>
+					</li>
+				</ul>
+			</nav>
+		</c:if>
 	</c:if>
+	
 </section>
 
 <c:if test="${activePage == 'ready'}">
