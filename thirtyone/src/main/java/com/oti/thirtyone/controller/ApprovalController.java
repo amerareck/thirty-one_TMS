@@ -1005,7 +1005,7 @@ public class ApprovalController {
 		
 		log.info(dto.toString());
 		
-		return "redirect:/home";
+		return "redirect:/approval/submitted?type=submitted";
 	}
 	
 	@PostMapping("/getDocNumber")

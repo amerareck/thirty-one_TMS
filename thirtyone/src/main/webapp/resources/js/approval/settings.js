@@ -74,7 +74,7 @@ $('#approvalLineSettingUpdateBtn').on('click', function(){
 		element.approverDeptId = $(this).attr('data-deptId');
 		element.aprLineApprover = $(this).attr('data-empid');
 		element.aprLineSeq = index;//$(this).attr('data-seq');
-		element.aprLineIndex = index;//$(this).attr('data-index');
+		element.aprLineIndex = $(this).attr('data-index');
 		element.changeName = element.aprLineName;
 		element.empName = $(this).find('.apl-emp-name').text();
 		element.position = $(this).find('.apl-emp-position').text();
