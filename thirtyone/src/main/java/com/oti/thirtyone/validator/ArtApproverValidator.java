@@ -1,7 +1,12 @@
 package com.oti.thirtyone.validator;
 
+import java.security.Principal;
 import java.util.Date;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
@@ -10,7 +15,12 @@ import com.oti.thirtyone.dto.AlternateApproverDTO;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+@Component
 public class ArtApproverValidator implements Validator {
+	
+	@Autowired
+    private HttpServletRequest request;
+	
 	@Override
 	public boolean supports(Class<?> clazz) {
 		log.info("실행");
@@ -23,8 +33,11 @@ public class ArtApproverValidator implements Validator {
 		AlternateApproverDTO alt = (AlternateApproverDTO) target;
 
 		String altAprEmp = alt.getAltAprEmp();
+		Principal prin = request.getUserPrincipal();
 		if (altAprEmp == null || altAprEmp.trim().isEmpty()) {
 			errors.rejectValue("altAprEmp", "errors.altAprEmp.required", "권한을 위임할 사원은 반드시 지정해야 합니다.");
+		} else if(prin != null && prin.getName().equals(altAprEmp)) {
+			errors.rejectValue("altAprEmp", "errors.altAprEmp.duplication", "자기 자신을 대결자로 지정할 수 없습니다.");
 		}
 		
 		Date altAprStartDate = alt.getAltAprStartDate();
