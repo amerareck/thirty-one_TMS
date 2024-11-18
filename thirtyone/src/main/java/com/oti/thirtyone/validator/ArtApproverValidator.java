@@ -6,20 +6,18 @@ import java.util.Date;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.oti.thirtyone.dto.AlternateApproverDTO;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@Component
 public class ArtApproverValidator implements Validator {
-	
-	@Autowired
-    private HttpServletRequest request;
+	HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
 	
 	@Override
 	public boolean supports(Class<?> clazz) {
@@ -31,7 +29,7 @@ public class ArtApproverValidator implements Validator {
 	public void validate(Object target, Errors errors) {
 		log.info("실행");
 		AlternateApproverDTO alt = (AlternateApproverDTO) target;
-
+		
 		String altAprEmp = alt.getAltAprEmp();
 		Principal prin = request.getUserPrincipal();
 		if (altAprEmp == null || altAprEmp.trim().isEmpty()) {
