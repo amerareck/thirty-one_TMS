@@ -73,4 +73,4 @@
 			</div>
 		</div>
 <script src="${pageContext.request.contextPath}/resources/js/alert/alert.js"></script>
-<%-- <%@ include file="/WEB-INF/views/common/footer.jsp" %> --%>
+<%@ include file="/WEB-INF/views/common/footer.jsp" %>

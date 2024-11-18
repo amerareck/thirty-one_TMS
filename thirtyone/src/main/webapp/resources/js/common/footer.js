@@ -16,39 +16,6 @@ window.addEventListener('load', () => {
 	})
 });
 
-
-// 알림 전송 버튼 클릭 시 이벤트 핸들러
-//sendAlertButtons.forEach(button => {
-//    button.addEventListener('click', () => {
-//    	console.log("hey hey hey!!");
-//        const empId = button.getAttribute('data-empId');
-//        const message = button.getAttribute('data-message');
-//
-//        if (!empId) {
-//            alert('Employee ID is missing.');
-//            return;
-//        }
-//
-//        if (!message) {
-//            alert('Message is missing.');
-//            return;
-//        }
-//
-//        // AJAX 요청을 통해 서버로 알림 전송
-//        fetch(`/thirtyone/alert/send?empId=${encodeURIComponent(empId)}&message=${encodeURIComponent(message)}`, {
-//            method: 'POST'
-//        })
-//        .then(response => response.text())
-//        .then(data => {
-//            alert(data); // "Alert sent to empId: X" 메시지 표시
-//        })
-//        .catch(error => {
-//            console.error('Error sending alert:', error);
-//            alert('Failed to send alert.');
-//        });
-	//    });
-	//});
-
 // SSE 스트림에 연결하는 함수
 function subscribeToSSE(empId) {
     if (!empId) {
@@ -64,7 +31,7 @@ function subscribeToSSE(empId) {
 
     // SSE 스트림에 연결
     eventSource = new EventSource(`/thirtyone/alert/stream?empId=${encodeURIComponent(empId)}`);
-    console.log(empId);
+    console.log("empId : ", empId, " eventSource : ", eventSource);
 
     // 기본 메시지 수신 핸들러
     eventSource.onmessage = function(event) {

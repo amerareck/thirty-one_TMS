@@ -78,7 +78,7 @@ public class AttendanceController {
 		
 		model.addAttribute("atd", atdDto);
 		
-		model.addAttribute("title", "정원석님의 근태 관리");
+		model.addAttribute("title", "근태 관리");
 		model.addAttribute("selectedTitle", "hr");
 		model.addAttribute("selectedSub", "attendance");
 		return "attendance/attendanceStatus"; 
@@ -143,7 +143,7 @@ public class AttendanceController {
 		
 		model.addAttribute("deptName", deptName);
 		model.addAttribute("emp", empDto);
-		model.addAttribute("title", "정원석님의 근태 관리");
+		model.addAttribute("title", "근태 관리");
 		model.addAttribute("selectedTitle", "hr");
 		model.addAttribute("selectedSub", "attendance");
 		
@@ -197,7 +197,7 @@ public class AttendanceController {
 		}
 		
 		model.addAttribute("reasonList", reasonInfoList);
-		model.addAttribute("title", "정원석님의 근태 관리");
+		model.addAttribute("title", "근태 관리");
 		model.addAttribute("selectedTitle", "hr");
 		model.addAttribute("selectedSub", "attendance");
 		return "attendance/attendanceProcess"; 
@@ -246,7 +246,7 @@ public class AttendanceController {
 		EmployeesDto empDto = empService.getEmpInfo(empId);
 		String alertContent = "";
 		if(status.equals("반려")) {
-			alertContent="님이 근태 사유가 반려되었습니다.";
+			alertContent="님의 근태 사유가 반려되었습니다.";
 			alertService.sendAlert(empId, alertContent, "근태");
 		}else {
 			alertContent="근태 사유가 승인되었습니다.";
@@ -288,7 +288,7 @@ public class AttendanceController {
 				reasonService.insertReasonFile(fileDto);
 			}
 		}
-		String alertContent=empDto.getEmpName() + "님에게 근태 수정 요청을 신청 하였습니다.";
+		String alertContent=empDto.getEmpName() + "님이 근태 수정 요청을 신청 하였습니다.";
 		alertService.sendAlert(improverId, alertContent, "근태");
 		
 		return ResponseEntity.ok(true);

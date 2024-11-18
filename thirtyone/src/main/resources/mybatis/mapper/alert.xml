@@ -36,18 +36,18 @@
 	</select>
 
 	<select id="selectAlertListNotReaded" resultType="Alert">
-		select alert_id, alert_content, alert_type, alert_time, emp_id, alert_read_status
-		from (
-			select rownum rnum, alert_id, alert_content, alert_type, alert_time, emp_id, alert_read_status
-			from (
+<!-- 		select alert_id, alert_content, alert_type, alert_time, emp_id, alert_read_status -->
+<!-- 		from ( -->
+<!-- 			select rownum rnum, alert_id, alert_content, alert_type, alert_time, emp_id, alert_read_status -->
+<!-- 			from ( -->
 				select alert_id, alert_content, alert_type, alert_time, emp_id, alert_read_status
 				from alert
 				where emp_id = #{empId} and alert_read_status = 0
 				order by alert_time	
-			)
-			where rownum &lt;= #{pager.endRowNo}			
-		)
-		where rnum >= #{pager.startRowNo}		
+<!-- 			) -->
+<!-- 			where rownum &lt;= #{pager.endRowNo}			 -->
+<!-- 		) -->
+<!-- 		where rnum >= #{pager.startRowNo}		 -->
 	</select>
 	
 	<update id="updateStatusToRead" parameterType="int">

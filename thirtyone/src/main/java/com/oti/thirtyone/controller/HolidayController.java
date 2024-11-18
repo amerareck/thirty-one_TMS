@@ -81,7 +81,7 @@ public class HolidayController {
 		model.addAttribute("annual", annualDto);
 		model.addAttribute("pager", pager);
 		model.addAttribute("hdrReqList", hdrReqList);
-		model.addAttribute("title", "정원석님의 휴가 관리");
+		model.addAttribute("title", "휴가 관리");
 		model.addAttribute("selectedTitle", "hr");
 		model.addAttribute("selectedSub", "holiday");
 		return "holiday/status";
@@ -120,7 +120,7 @@ public class HolidayController {
 			hdDto.setHdName(HolidayType.getCategoryByCode(hdDto.getHdCategory()));
 		}
 		
-		model.addAttribute("title", "정원석님의 휴가 관리");
+		model.addAttribute("title", "휴가 관리");
 		model.addAttribute("selectedTitle", "hr");
 		model.addAttribute("selectedSub", "holiday");
 		
@@ -128,14 +128,14 @@ public class HolidayController {
 		model.addAttribute("deptName", deptName);
 		model.addAttribute("employees", employees);
 		model.addAttribute("employee", employee);
-		log.info("Employee added to model: {}", employee != null ? employee.toString() : "null");
+//		log.info("Employee added to model: {}", employee != null ? employee.toString() : "null");
 
 		model.addAttribute("position", position);
 		model.addAttribute("dept", dept);
 
-		log.info("Employees: {}", employee != null ? employee.toString() : "null");
-		log.info("Position List: {}", position != null ? position.toString() : "null");
-		log.info("Department List: {}", dept != null ? dept.toString() : "null");
+//		log.info("Employees: {}", employee != null ? employee.toString() : "null");
+//		log.info("Position List: {}", position != null ? position.toString() : "null");
+//		log.info("Department List: {}", dept != null ? dept.toString() : "null");
 		
 		return "holiday/requestForm";
 	}
@@ -244,7 +244,7 @@ public class HolidayController {
 			hdrInfoList.add(hdrInfo);		
 		}			
 				
-		model.addAttribute("title", "정원석님의 휴가 관리");
+		model.addAttribute("title", "휴가 관리");
 		model.addAttribute("selectedTitle", "hr");
 		model.addAttribute("selectedSub", "holiday");
 		model.addAttribute("hdrInfoList", hdrInfoList);			

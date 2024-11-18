@@ -20,15 +20,36 @@ $(document).on("click", ".accept", function() {
 	let reasonId = $(".accept").data("reasonid");
 	let empId = $(".accept").data("empid");
 	let atdDate = formatDate(new Date($(this).data("atddate")));
+	Swal.fire({
+		title: '근태 사유를 승인하시겠습니까?',
+		text: '확인을 누르면 근태 사유가 승인됩니다.',
+		icon: 'warning',
+		
+		showCancelButton: true,
+		confirmButtonColor: '#3085d6',
+		cancelButtonColor: '#d33',
+		confirmButtonText: '확인',
+		cancelButtonText: '취소',
+		
+		reverseButtons: true
 	
-	$.ajax({
-		method: "post",
-		url: contextPath + "/atd/requsetStatus",
-		data: {"reasonId": reasonId ,"empId" : empId, "atdDate": atdDate, "status": '승인'},
-		success: function(data){
-			alert("승인되었습니다.");
-			location.reload();
-		}
+	}).then(result => {
+		$.ajax({
+			method: "post",
+			url: contextPath + "/atd/requsetStatus",
+			data: {"reasonId": reasonId ,"empId" : empId, "atdDate": atdDate, "status": '승인'},
+			success: function(data) {
+				if (result.isConfirmed) {
+					Swal.fire({
+						title: '근태 사유가 승인되었습니다.', 
+						icon: 'success'
+					}).then(() => {
+						location.reload();
+					});
+				}
+			}
+		
+		});
 	})
 })
 $(document).on("click", ".reject", function() {
@@ -36,15 +57,39 @@ $(document).on("click", ".reject", function() {
 	let empId = $(".reject").data("empid");
 	let atdDate = formatDate(new Date($(this).data("atddate")));
 	
-	$.ajax({
-		method: "post",
-		url: contextPath + "/atd/requsetStatus",
-		data: {"reasonId": reasonId ,"empId" : empId, "atdDate": atdDate, "status": '반려'},
-		success: function(data){
-			alert("반려되었습니다.");
-			location.reload();
-		}
-	})
+	Swal.fire({
+		title: '근태 사유를 반려하시겠습니까?',
+		text: '확인을 누르면 근태 사유가 반려됩니다.',
+		icon: 'warning',
+		
+		showCancelButton: true,
+		confirmButtonColor: '#3085d6',
+		cancelButtonColor: '#d33',
+		confirmButtonText: '확인',
+		cancelButtonText: '취소',
+		
+		reverseButtons: true
+	
+	}).then(result => {
+		$.ajax({
+			method: "post",
+			url: contextPath + "/atd/requsetStatus",
+			data: {"reasonId": reasonId ,"empId" : empId, "atdDate": atdDate, "status": '반려'},
+			success: function(data){
+				if (result.isConfirmed) {
+					Swal.fire({
+						title: '근태사유가 반려되었습니다.', 
+						icon: 'success'
+					}).then(() => {
+						location.reload();
+					});
+				}
+				location.reload();
+			}
+		})
+	
+	});
+	
 })
 
 $(document).on("click", ".process-tr", function() {

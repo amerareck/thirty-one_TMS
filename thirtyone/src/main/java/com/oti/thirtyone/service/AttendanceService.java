@@ -196,16 +196,16 @@ public class AttendanceService {
 		List<CalendarDto> calendarList = new LinkedList<CalendarDto>();
 		
 		for (HolidayRequestDto hdrReq : hdrList) {
-			calendarList.add(formatInputCalendar("", "휴가", hdrReq.getHdrStartDate(), hdrReq.getHdrEndDate(), "#6F81AC", "#6F81AC", "white"));
+			calendarList.add(formatInputCalendar("", "휴가", hdrReq.getHdrStartDate(), hdrReq.getHdrEndDate(), "#B5CAFF", "#B5CAFF", "white"));
 		}
 		
 		for(ApprovalDTO eventHdr : eventHdrList) {
 
 			if(eventHdr.getDocHolidayType() != null) {
 				if(eventHdr.getDocHolidayType().equals("familyEvent")){
-					calendarList.add(formatInputCalendar("", "경조사", eventHdr.getDocHolidayStartDate(), eventHdr.getDocHolidayEndDate(), "#5A5A5A", "#5A5A5A", "white"));
+					calendarList.add(formatInputCalendar("", "경조사", eventHdr.getDocHolidayStartDate(), eventHdr.getDocHolidayEndDate(), "#B5CAFF", "#B5CAFF", "white"));
 				}else if(eventHdr.getDocHolidayType().equals("sickLeave")) {
-					calendarList.add(formatInputCalendar("", "병가", eventHdr.getDocHolidayStartDate(), eventHdr.getDocHolidayEndDate(),  "#5A5A5A", "#5A5A5A", "white"));
+					calendarList.add(formatInputCalendar("", "병가", eventHdr.getDocHolidayStartDate(), eventHdr.getDocHolidayEndDate(),  "#B5CAFF", "#B5CAFF", "white"));
 				}
 			}
 		}

@@ -70,7 +70,7 @@
 	<select id="countRowsByImprover" parameterType="String" resultType="int">
 		select count(reason_id)
 		from reason
-		where reason_improver = #{empId}
+		where reason_improver = #{empId} and reason_status = '대기'
 	</select>
 	
 	<select id="selectReason" parameterType="int" resultType="Reason">

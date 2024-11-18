@@ -73,7 +73,7 @@ public class AdminController {
 			, HttpSession session) {
 		
 		int totalRows = empService.countRows();
-		Pager pager = new Pager(10, 5, totalRows, pageNo);
+		Pager pager = new Pager(5, 5, totalRows, pageNo);
 		session.setAttribute("pager", pager);
 		
 		List<Map<String, Object>> empInfoList = new LinkedList<>();
@@ -275,7 +275,7 @@ public class AdminController {
 	@Secured("ROLE_ADMIN")
 	public String getOrgChartPage(Model model, @RequestParam(defaultValue = "1") int pageNo, HttpSession session) {
 		int totalRows = deptService.countRows();
-		Pager pager = new Pager(10, 5, totalRows, pageNo);
+		Pager pager = new Pager(5, 5, totalRows, pageNo);
 		session.setAttribute("pager", pager);
 		List<Departments> deptList = deptService.getDeptListByRegion(pager);
 		List<Map<String, Object>> deptMapList = new LinkedList<>();

@@ -232,8 +232,8 @@ public class AlertService {
 	}
 	
 
-	public List<AlertDto> getAlertListNotReaded(Pager pager, String empId) {
-		return alertDao.selectAlertListNotReaded(pager, empId);
+	public List<AlertDto> getAlertListNotReaded(String empId) {
+		return alertDao.selectAlertListNotReaded(empId);
 	}
 
 	public void updateAlertStatus(List<AlertDto> alertList) {

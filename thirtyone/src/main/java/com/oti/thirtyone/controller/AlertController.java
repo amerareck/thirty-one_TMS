@@ -57,22 +57,37 @@ public class AlertController {
 		String empId = authentication.getName();
 		
 		
-		int totalRows = alertService.countRowsNotReaded(empId);
-		Pager pager = new Pager(5, 5, totalRows, pageNo);
-		session.setAttribute("pager", pager);
-		List<AlertDto> alertList = alertService.getAlertListNotReaded(pager, empId);
+//		int totalRows = alertService.countRowsNotReaded(empId);
+//		Pager pager = new Pager(5, 5, totalRows, pageNo);
+//		session.setAttribute("pager", pager);
+//		List<AlertDto> alertList = alertService.getAlertListNotReaded(pager, empId);
+		List<AlertDto> alertList = alertService.getAlertListNotReaded(empId);
 		
-		alertService.updateAlertStatus(alertList);
 		
 		model.addAttribute("alertList", alertList);
 		model.addAttribute("title", "알람");
 		return "alert/alert";
 	}
+	
+	@PostMapping("/updateReadedAlert")
+	public ResponseEntity<String> updateReadedAlert(Authentication authentication) {
+		log.info("ADS");
+		String empId = authentication.getName();
+		
+		List<AlertDto> alertList = alertService.getAlertListNotReaded(empId);
+		if(alertList.size() > 0)
+			alertService.updateAlertStatus(alertList);
+		
+		return ResponseEntity.ok("OK");
+		
+	}
 
     @GetMapping("/stream")
     public SseEmitter stream(String empId) {
     	log.info("연결을 시작합니다." + empId);
-    	return alertService.subscribe(empId);
+    	SseEmitter emitter = alertService.subscribe(empId);
+    	log.info(emitter.toString());
+    	return emitter;
     }
     
     /**

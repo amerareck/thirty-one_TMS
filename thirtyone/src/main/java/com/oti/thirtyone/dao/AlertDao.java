@@ -15,7 +15,7 @@ public interface AlertDao {
 
 	List<AlertDto> selectAlertListByEmpId(@Param("pager") Pager pager,@Param("empId") String empId, @Param("query") String query);
 
-	List<AlertDto> selectAlertListNotReaded(@Param("pager") Pager pager,@Param("empId") String empId);
+	List<AlertDto> selectAlertListNotReaded(@Param("empId") String empId);
 	
 	int countRowsByEmpId(@Param("empId") String empId, @Param("query") String query);
 
