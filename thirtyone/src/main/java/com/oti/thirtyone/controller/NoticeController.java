@@ -2,7 +2,9 @@ package com.oti.thirtyone.controller;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
@@ -10,6 +12,7 @@ import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
@@ -64,8 +67,7 @@ public class NoticeController {
 			session.setAttribute("pager", pager);
 
 			List<NoticeDto> notice = noticeService.searchNotice("", pager);
-			
-			
+
 			model.addAttribute("selectedTitle", "notice");
 			model.addAttribute("title", "공지사항");
 			model.addAttribute("notice", notice);
@@ -74,41 +76,43 @@ public class NoticeController {
 		}
 		return "notice/noticeList";
 	}
-	
-	//부서별 공지사항
-		/*@GetMapping("/searchNoticeByDeptId")
-		public String searchNoticeByDeptId(Model model, Authentication authentication, int deptId,
-				@RequestParam(defaultValue = "1") int pageNo, HttpSession session) {
-			
-			int totalRows = noticeService.searchDeptIdCountRows(deptId);
 
-			Pager pager = new Pager(10, 5, totalRows, pageNo);
-			model.addAttribute("pager", pager);
-			
-			EmployeeDetails employeeDetails = (EmployeeDetails) authentication.getPrincipal();
-			EmployeesDto employees = employeeDetails.getEmployee();
-			
-			int deptIds = employees.getDeptId();
-			
-			List<NoticeDto> noticeList = noticeService.searchNoticeByDeptId(deptId, pager);
-		    model.addAttribute("noticeList", noticeList); 
-			
-			List<Departments> deptList = departmentService.getDeptList();
-			model.addAttribute("deptList", deptList);
-			
-			model.addAttribute("deptIds", deptIds);
-			return "notice/searchNoticeByDeptId";
-		}*/
-
+	// 부서별 공지사항
+	/*
+	 * @GetMapping("/searchNoticeByDeptId") public String searchNoticeByDeptId(Model
+	 * model, Authentication authentication, int deptId,
+	 * 
+	 * @RequestParam(defaultValue = "1") int pageNo, HttpSession session) {
+	 * 
+	 * int totalRows = noticeService.searchDeptIdCountRows(deptId);
+	 * 
+	 * Pager pager = new Pager(10, 5, totalRows, pageNo);
+	 * model.addAttribute("pager", pager);
+	 * 
+	 * EmployeeDetails employeeDetails = (EmployeeDetails)
+	 * authentication.getPrincipal(); EmployeesDto employees =
+	 * employeeDetails.getEmployee();
+	 * 
+	 * int deptIds = employees.getDeptId();
+	 * 
+	 * List<NoticeDto> noticeList = noticeService.searchNoticeByDeptId(deptId,
+	 * pager); model.addAttribute("noticeList", noticeList);
+	 * 
+	 * List<Departments> deptList = departmentService.getDeptList();
+	 * model.addAttribute("deptList", deptList);
+	 * 
+	 * model.addAttribute("deptIds", deptIds); return "notice/searchNoticeByDeptId";
+	 * }
+	 */
 
 	// 공지사항 검색
 	@GetMapping("/searchNotice")
 	@Secured("ROLE_ADMIN")
 	public String searchNotice(Model model, @RequestParam(defaultValue = "1") int pageNo, HttpSession session,
-			@RequestParam("noticeTitle") String noticeTitle,@RequestParam(defaultValue = "0") int deptId) {
+			@RequestParam("noticeTitle") String noticeTitle, @RequestParam(defaultValue = "0") int deptId) {
 
 		int totalRows = noticeService.searchCountRows(noticeTitle, deptId);
-		
+
 		Pager pager = new Pager(10, 5, totalRows, pageNo);
 		model.addAttribute("pager", pager);
 		log.info("adssadsadasdasdasddasdsaa" + pager.toString());
@@ -151,7 +155,7 @@ public class NoticeController {
 				}
 			}
 		}
-		
+
 		String deptNamestr = String.join(", ", deptName); // deptName 리스트를 쉼표로 구분된 문자열로 변환
 
 		notice.setPrevNum(prevNext.getPrevNum());
@@ -232,7 +236,7 @@ public class NoticeController {
 		}
 
 		MultipartFile[] files = notice.getAttachFile();
-		
+
 		if (files != null && files.length > 0) {
 			for (MultipartFile mf : files) {
 				if (!mf.isEmpty()) {
@@ -247,7 +251,7 @@ public class NoticeController {
 				}
 			}
 		}
-		
+
 		log.info("하이루");
 
 		model.addAttribute("employees", employees);
@@ -280,7 +284,7 @@ public class NoticeController {
 			}
 		}
 
-		//중요도 값
+		// 중요도 값
 		int noticeImportant = notice.getNoticeImportant();
 
 		model.addAttribute("notice", notice);
@@ -294,7 +298,6 @@ public class NoticeController {
 
 		return "notice/updateNoticeForm";
 	}
-
 
 	@ResponseBody
 	@GetMapping("/updateNoticeByDb")
@@ -326,15 +329,13 @@ public class NoticeController {
 		noticeService.updateNotice(dbNotice);
 		noticeService.insertNoticeTarget(dbNotice);
 		MultipartFile[] files = notice.getAttachFile();
-		
-		
-		/*notice.setNoticeId(dbNotice.getNoticeId());
-		if (dbNotice.getDeptId() != null && dbNotice.getDeptId().length == 0) {
-			log.info(dbNotice.getDeptId()+ "aaaaaa");
-			noticeService.updateNotice(dbNotice);
-			noticeService.noticeWrite(dbNotice);
-		}*/
-		
+
+		/*
+		 * notice.setNoticeId(dbNotice.getNoticeId()); if (dbNotice.getDeptId() != null
+		 * && dbNotice.getDeptId().length == 0) { log.info(dbNotice.getDeptId()+
+		 * "aaaaaa"); noticeService.updateNotice(dbNotice);
+		 * noticeService.noticeWrite(dbNotice); }
+		 */
 
 		for (int fileId : notice.getDeleteFileId()) {
 			log.info(" fileId = " + fileId);
@@ -360,17 +361,25 @@ public class NoticeController {
 		return "redirect:/notice/noticeDetail?noticeId=" + notice.getNoticeId();
 	}
 
-
 	// 공지사항 삭제
-	@GetMapping("/deleteNotice")
-	public String deleteNotice(int noticeId, HttpSession session) {
-		
-		noticeService.deactivateNoticeById(noticeId);
+	/*@ResponseBody*/ // AJAX 요청에 JSON 응답을 보낼 수 있도록 함
+	@PostMapping("/deleteNotice")
+	public String deleteNotice(int noticeId) {
+		/*Map<String, Object> response = new HashMap<>();*/
 
-		Pager pager = (Pager) session.getAttribute("pager");
-		int pageNo = pager.getPageNo();
+		// 공지사항 삭제
+		noticeService.deactivateNoticeById(noticeId); // 예: 1이면 성공, 0이면 실패
 
-		return "redirect:/notice/noticeList?pageNo=" + pageNo;
+		// 페이저 정보 가져오기
+		/*Pager pager = (Pager) session.getAttribute("pager");
+		int pageNo = pager != null ? pager.getPageNo() : 1;*/ // pager가 null일 경우 기본값 설정
+
+		// 성공 응답
+		/*response.put("status", "success");
+		response.put("message", "공지사항이 성공적으로 삭제되었습니다.");*/
+		/*return ResponseEntity.ok(response);*/
+		return "redirect:/notice/noticeList";
+
 	}
 
 	// 공지사항 수정에서 파일 삭제
@@ -389,120 +398,114 @@ public class NoticeController {
 		log.info(deptList + " ");
 		return ResponseEntity.ok(deptList);
 	}
-	
-	
-	
-	
-	//---------------------------------------------------
-	
-	
-	
-	
+
+	// ---------------------------------------------------
+
 	// 공지사항 조회
-		@GetMapping("/empNoticeList")
-		public String empNoticeList(Model model, @RequestParam(defaultValue = "1") int pageNo, HttpSession session,
-				NoticeDto noticeDto, Authentication authentication, String noticeTitle) {
-			
-			EmployeeDetails employeeDetails = (EmployeeDetails) authentication.getPrincipal();
-			EmployeesDto employees = employeeDetails.getEmployee();
+	@GetMapping("/empNoticeList")
+	public String empNoticeList(Model model, @RequestParam(defaultValue = "1") int pageNo, HttpSession session,
+			NoticeDto noticeDto, Authentication authentication, String noticeTitle) {
 
-			int deptId = employees.getDeptId();
+		EmployeeDetails employeeDetails = (EmployeeDetails) authentication.getPrincipal();
+		EmployeesDto employees = employeeDetails.getEmployee();
 
-			int totalRows = noticeService.searchCountRows(noticeTitle, deptId);
-			log.info(deptId + "");
+		int deptId = employees.getDeptId();
 
-			Pager pager = new Pager(10, 5, totalRows, pageNo);
-			session.setAttribute("pager", pager);
-			
-			List<NoticeDto> notice = noticeService.searchNoticeByDeptId(noticeTitle, pager, deptId);
-			
-			for(NoticeDto no: notice) {
-				log.info(no.toString());
-			}
-			model.addAttribute("selectedTitle", "notice");
+		int totalRows = noticeService.searchCountRows(noticeTitle, deptId);
+		log.info(deptId + "");
+
+		Pager pager = new Pager(10, 5, totalRows, pageNo);
+		session.setAttribute("pager", pager);
+
+		List<NoticeDto> notice = noticeService.searchNoticeByDeptId(noticeTitle, pager, deptId);
+
+		for (NoticeDto no : notice) {
+			log.info(no.toString());
+		}
+		model.addAttribute("selectedTitle", "notice");
+		model.addAttribute("title", "공지사항");
+		model.addAttribute("notice", notice);
+		model.addAttribute("noticeDto", noticeDto);
+
+		return "notice/empNoticeList";
+	}
+
+	// 공지사항 검색
+	@GetMapping("/emp/searchNotice")
+	public String empSearchNotice(Model model, @RequestParam(defaultValue = "1") int pageNo, HttpSession session,
+			@RequestParam("noticeTitle") String noticeTitle, Authentication authentication) {
+
+		EmployeeDetails employeeDetails = (EmployeeDetails) authentication.getPrincipal();
+		int deptId = employeeDetails.getEmployee().getDeptId();
+
+		int totalRows = noticeService.searchCountRows(noticeTitle, deptId);
+
+		Pager pager = new Pager(10, 5, totalRows, pageNo);
+		model.addAttribute("pager", pager);
+
+		if (totalRows > 0) {
+			List<NoticeDto> notice = noticeService.empSearchNotice(noticeTitle, deptId, pager);
 			model.addAttribute("title", "공지사항");
 			model.addAttribute("notice", notice);
-			model.addAttribute("noticeDto", noticeDto);
-			
-			return "notice/empNoticeList";
+
+		} else {
+			model.addAttribute("title", "공지사항 - 검색 결과 없음");
+			model.addAttribute("notice", new ArrayList<>());
 		}
+		model.addAttribute("selectedTitle", "notice");
+		model.addAttribute("noticeTitle", noticeTitle);
+		log.info("Search Title: " + noticeTitle);
+		return "notice/empNoticeList";
+	}
 
-		// 공지사항 검색
-		@GetMapping("/emp/searchNotice")
-		public String empSearchNotice(Model model, @RequestParam(defaultValue = "1") int pageNo, HttpSession session,
-				@RequestParam("noticeTitle") String noticeTitle, Authentication authentication) {
-			
-			EmployeeDetails employeeDetails = (EmployeeDetails) authentication.getPrincipal();
-			int deptId = employeeDetails.getEmployee().getDeptId();
+	// 공지사항 상세페이지
+	@GetMapping("/empNoticeDetail")
+	public String empNoticeDetail(Model model, int noticeId, Authentication authentication) {
 
-			int totalRows = noticeService.searchCountRows(noticeTitle, deptId);
+		EmployeeDetails employeeDetails = (EmployeeDetails) authentication.getPrincipal();
+		int deptId = employeeDetails.getEmployee().getDeptId();
 
-			Pager pager = new Pager(10, 5, totalRows, pageNo);
-			model.addAttribute("pager", pager);
+		NoticeDto notice = noticeService.selectByNoticeId(noticeId);
+		log.info("Notice fetched: " + notice);
+		List<NoticeFileDto> noticeFile = noticeService.selectAttachFiles(noticeId);
+		NoticeDto prevNext = noticeService.prevNext(noticeId);
 
-			if (totalRows > 0) {
-				List<NoticeDto> notice = noticeService.searchNotice(noticeTitle, pager);
-				model.addAttribute("title", "공지사항");
-				model.addAttribute("notice", notice);
+		List<NoticeTargetDto> noticeDeptList = noticeService.selectDeptId(noticeId);
+		List<Departments> deptList = departmentService.getDeptList();
+		log.info("Notice Dept List: " + noticeDeptList);
+		log.info("Dept List: " + deptList);
 
-			} else {
-				model.addAttribute("title", "공지사항 - 검색 결과 없음");
-				model.addAttribute("notice", new ArrayList<>());
-			}
-			model.addAttribute("selectedTitle", "notice");
-			model.addAttribute("noticeTitle", noticeTitle);
-			log.info("Search Title: " + noticeTitle);
-			return "notice/empNoticeList";
-		}
+		List<String> deptName = new ArrayList<>();
 
-		// 공지사항 상세페이지
-		@GetMapping("/empNoticeDetail")
-		public String empNoticeDetail(Model model, int noticeId, Authentication authentication) {
-			
-			EmployeeDetails employeeDetails = (EmployeeDetails) authentication.getPrincipal();
-			int deptId = employeeDetails.getEmployee().getDeptId();
-
-			NoticeDto notice = noticeService.selectByNoticeId(noticeId);
-			log.info("Notice fetched: " + notice);
-			List<NoticeFileDto> noticeFile = noticeService.selectAttachFiles(noticeId);
-			NoticeDto prevNext = noticeService.prevNext(noticeId);
-
-			List<NoticeTargetDto> noticeDeptList = noticeService.selectDeptId(noticeId);
-			List<Departments> deptList = departmentService.getDeptList();
-			log.info("Notice Dept List: " + noticeDeptList);
-			log.info("Dept List: " + deptList);
-
-			List<String> deptName = new ArrayList<>();
-
-			for (NoticeTargetDto noticeDept : noticeDeptList) {
-				for (Departments dept : deptList) {
-					if (noticeDept.getDeptId() == dept.getDeptId()) {
-						deptName.add(dept.getDeptName());
-					}
+		for (NoticeTargetDto noticeDept : noticeDeptList) {
+			for (Departments dept : deptList) {
+				if (noticeDept.getDeptId() == dept.getDeptId()) {
+					deptName.add(dept.getDeptName());
 				}
 			}
-
-			String deptNamestr = String.join(", ", deptName); // deptName 리스트를 쉼표로 구분된 문자열로 변환
-
-			notice.setPrevNum(prevNext.getPrevNum());
-			notice.setPrevTitle(prevNext.getPrevTitle());
-			notice.setNextNum(prevNext.getNextNum());
-			notice.setNextTitle(prevNext.getNextTitle());
-			notice.setDeptId(notice.getDeptId());
-
-			model.addAttribute("selectedTitle", "notice");
-			model.addAttribute("title", "공지사항");
-			model.addAttribute("notice", notice);
-			model.addAttribute("noticeFile", noticeFile);
-			model.addAttribute("noticeDeptList", noticeDeptList);
-			model.addAttribute("deptName", deptName);
-			model.addAttribute("deptNamestr", deptNamestr);
-
-			log.info(prevNext.getPrevNum() + "");
-			log.info("Notice ID:" + notice.getNoticeId());
-			log.info("Dept ID:" + notice.getDeptId());
-			log.info("Dept Name:" + deptName);
-			noticeService.updateHitCount(noticeId);
-			return "notice/empNoticeDetail";
 		}
+
+		String deptNamestr = String.join(", ", deptName); // deptName 리스트를 쉼표로 구분된 문자열로 변환
+
+		notice.setPrevNum(prevNext.getPrevNum());
+		notice.setPrevTitle(prevNext.getPrevTitle());
+		notice.setNextNum(prevNext.getNextNum());
+		notice.setNextTitle(prevNext.getNextTitle());
+		notice.setDeptId(notice.getDeptId());
+
+		model.addAttribute("selectedTitle", "notice");
+		model.addAttribute("title", "공지사항");
+		model.addAttribute("notice", notice);
+		model.addAttribute("noticeFile", noticeFile);
+		model.addAttribute("noticeDeptList", noticeDeptList);
+		model.addAttribute("deptName", deptName);
+		model.addAttribute("deptNamestr", deptNamestr);
+
+		log.info(prevNext.getPrevNum() + "");
+		log.info("Notice ID:" + notice.getNoticeId());
+		log.info("Dept ID:" + notice.getDeptId());
+		log.info("Dept Name:" + deptName);
+		noticeService.updateHitCount(noticeId);
+		return "notice/empNoticeDetail";
 	}
+}

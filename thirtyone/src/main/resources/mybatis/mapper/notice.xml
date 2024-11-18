@@ -108,6 +108,36 @@
 	    WHERE RNUM >= #{pager.startRowNo}
 	    ]]>
 	</select>
+	
+	<!-- 부서별 검색 -->
+	<select id="empSearchNotice" parameterType="Map" resultType="Notice">
+		<![CDATA[
+	    SELECT * FROM (
+	        SELECT ROWNUM AS RNUM, 
+	               NOTICE_ID AS NOTICE_ID, 
+	               NOTICE_TITLE AS NOTICE_TITLE, 
+	               NOTICE_DATE AS NOTICE_DATE, 
+	               NOTICE_HIT_COUNT AS NOTICE_HIT_COUNT, 
+	               NOTICE_IMPORTANT AS NOTICE_IMPORTANT, 
+	               EMP_ID AS EMP_ID
+	        FROM (
+	            SELECT NOTICE_ID, 
+                   NOTICE_TITLE, 
+                   NOTICE_DATE, 
+                   NOTICE_HIT_COUNT, 
+                   NOTICE_IMPORTANT, 
+                   EMP_ID
+	            FROM NOTICES 
+	            where NOTICE_DELETED = 0
+	            AND (notice_all_target = 0 or notice_id in (select notice_id from notice_target where dept_id = #{deptId}))
+	            AND (NOTICE_TITLE LIKE '%' || #{noticeTitle} || '%' OR #{noticeTitle} IS NULL)
+	            ORDER BY (CASE WHEN NOTICE_IMPORTANT = '1' THEN 1 ELSE 2 END), NOTICE_ID DESC
+	        )
+	        WHERE ROWNUM <= #{pager.endRowNo}
+	    ) 
+	    WHERE RNUM >= #{pager.startRowNo}
+	    ]]>
+	</select>
 
 	<select id="searchDeptIdCountRows" parameterType="int">
 		<![CDATA[

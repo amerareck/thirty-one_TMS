@@ -11,11 +11,11 @@
 <!-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script> -->
 
 <!-- include summernote css/js -->
-<link
-	href="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote.min.css"
-	rel="stylesheet">
-<script
-	src="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote.min.js"></script>
+<!-- Summernote v0.8.18 CSS & JS -->
+<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+
+
 
 
 <link rel="stylesheet" type="text/css"
@@ -144,4 +144,5 @@
 
 		<script
 			src="${pageContext.request.contextPath}/resources/js/notice/noticeWriteForm.js"></script>
+
 		<%@ include file="/WEB-INF/views/common/footer.jsp"%>

@@ -175,7 +175,54 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
 	
-	$('#summernote').summernote();
+	$('#summernote').summernote({
+	    dialogsInBody: true, // 모달을 body에 삽입하여 Bootstrap 모달과 충돌 방지
+	    toolbar: [
+			  ['style', ['style']],
+			  ['font', ['bold', 'underline', 'clear','strikethrough', 'superscript', 'subscript']],
+			  ['fontname', ['fontname']],
+			  ['fontsize', ['fontsize']],
+			  ['color', ['color']],
+			  ['para', ['ul', 'ol', 'paragraph']],
+			  ['table', ['table']],
+			  ['insert', ['link', 'picture', 'video']],
+			  ['view', ['fullscreen', 'codeview', 'help']],
+			],
+			popover: {
+				  image: [
+				    ['image', ['resizeFull', 'resizeHalf', 'resizeQuarter', 'resizeNone']],
+				    ['float', ['floatLeft', 'floatRight', 'floatNone']],
+				    ['remove', ['removeMedia']]
+				  ],
+				  link: [
+				    ['link', ['linkDialogShow', 'unlink']]
+				  ],
+				  table: [
+				    ['add', ['addRowDown', 'addRowUp', 'addColLeft', 'addColRight']],
+				    ['delete', ['deleteRow', 'deleteCol', 'deleteTable']],
+				  ],
+				  air: [
+				    ['color', ['color']],
+				    ['font', ['bold', 'underline', 'clear']],
+				    ['para', ['ul', 'paragraph']],
+				    ['table', ['table']],
+				    ['insert', ['link', 'picture']]
+				  ]
+				},
+				
+			minHeight : null,
+			maxHeight : null,
+			focus : true,
+			callbacks: {
+				onInit: function() {
+					// 에디터 초기화 시 기본 텍스트 정렬 설정
+					$('#noticeContent').css('text-align', 'left');
+				}
+			}
+	});
+
+	
+	
 	
 	//유효성 검사
 	function contentValidChk() {

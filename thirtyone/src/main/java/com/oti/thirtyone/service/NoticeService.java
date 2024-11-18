@@ -69,6 +69,12 @@ public class NoticeService {
 		return noticeDao.searchNoticeByDeptId(noticeTitle, pager, deptId);
 	}
 	
+	//부서별 검색
+	public List<NoticeDto> empSearchNotice(String noticeTitle, int deptId, Pager pager) {
+		List<NoticeDto> list = noticeDao.empSearchNotice(noticeTitle, pager, deptId);
+		return list;
+	}
+	
 	public int searchDeptIdCountRows(int deptId) {
 		int totalRows = noticeDao.searchDeptIdCountRows(deptId);
 		return totalRows;
@@ -161,6 +167,7 @@ public class NoticeService {
 			return false;
 		}
 	}
+
 
 }
 

@@ -29,6 +29,8 @@ public interface NoticeDao {
 	 //공지사항 부서별 조회
 	 public List<NoticeDto> searchNoticeByDeptId(@Param("noticeTitle") String noticeTitle, @Param("pager") Pager pager, @Param("deptId") int deptId);
 	 public int searchDeptIdCountRows(int deptId);
+	 public List<NoticeDto> empSearchNotice(@Param("noticeTitle") String noticeTitle, @Param("pager") Pager pager, @Param("deptId") int deptId);
+
 	 
 	 //공지사항 상세페이지 조회
 	 public NoticeDto selectByNoticeId(int noticeId);	 
@@ -64,6 +66,7 @@ public interface NoticeDao {
 	public int deleteNoticeTarget(@Param("deptId") int exDeptId, @Param("noticeId") int noticeId);
 
 	public int updateNoticeTargetToZero(NoticeDto notice);
+
 	
 
 }

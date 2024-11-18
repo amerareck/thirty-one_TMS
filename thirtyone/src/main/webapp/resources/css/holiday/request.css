@@ -1,111 +1,148 @@
-.selected-sub-title{
-	border-bottom: 2.5px solid var(--blue);
+.selected-sub-title {
+    border-bottom: 2.5px solid var(--blue);
 }
 
-.selected-sub-title a{
-	color: var(--blue);
+.selected-sub-title a {
+    color: var(--blue);
 }
 
-.mini-title{
-	font-weight: bold;
-	font-size: 16px;
-	margin: 40px 0px 20px 20px;
-	margin-left: 40px;
+.mini-title {
+    font-weight: bold;
+    font-size: 16px;
+    margin: 40px 0px 20px 20px;
+    margin-left: 40px;
 }
 
-.mini-line{
-	margin-left : 40px;
-	margin-right : 40px;	
-	height: 0.5px;
-	background-color: var(--lightgray); 	
+.mini-line {
+    margin-left: 40px;
+    margin-right: 40px;
+    height: 0.5px;
+    background-color: var(--lightgray);
 }
 
-.holiday-request-box{
-	display: flex;
-	margin: 20px 40px 20px 40px;
+.holiday-request-box {
+    display: flex;
+    margin: 20px 40px 20px 40px;
+    box-shadow: 0px 0px 0px rgba(0, 0, 0, 0) !important;
 }
 
-.holiday-select1{
-	height: 60px;
-	margin: 20px 40px;
-	display: grid;
-	/* grid-template-columns: 3fr 7fr 15fr; */
-	justify-content: center;	
+.holiday-flex-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    width: 100%;
+    margin-top: 20px;
 }
 
-.holiday-select2{
-	margin: 20px 40px;
-	height: 60px;
-	display: grid !important;
-	/* grid-template-columns: 3fr 3fr 2fr 3fr 2fr 11.8fr !important; */
-	justify-content: center;
+.holiday-calendar {
+    width: 48%;
 }
 
-.holiday-select2 label{
-	justify-content:center;
-	color: var(--darkgray);
+.holiday-details {
+    width: 48%;
+    display: flex;
+    flex-direction: column;
+    margin-right: 100px;
 }
 
-.holiday-request div label{
-	display: flex;
-	align-items: center;
-	font-size: 14px;
-	font-weight: bold;
-	color: var(--darkgray);
+.holiday-select-wrapper {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    align-items: center;
 }
 
-.holiday-request div p{
-	font-size: 14px;
-	font-weight: bold;
-	color: var(--darkgray);
-}
-
-.holiday-select3{
-	margin: 20px 40px;
-	display: grid;
-	grid-template-columns: 3fr 0fr 7fr 15fr;
-		
-}
-.holiday-select4{
-	margin: 20px 40px;
-	display: grid;
-	grid-template-columns: 3fr 7fr 7fr;
-		
-}
-.holiday-button{
-	margin: 30px;
-	display: flex;
-	justify-content: center;
-}
-
-.button-large{
-	border: none;
+.holiday-select1, .holiday-select2, .holiday-select3 {
 	margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
 }
 
-.reject{
-	background-color: white;
-	border:1.5px solid var(--blue);
-	color: var(--blue);
-	font-weight: bold;
-	font-size: 16px;
+.holiday-halfSelect {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+    gap: 10px;
 }
 
-.accept{
-	background-color: var(--blue);
-	color: white;
-	font-weight: bold;
-	font-size: 16px;
+.holiday-select4 {
+    width: 100%;
+    margin-top: 20px;
 }
 
-.holiday-request-box.card {
-	box-shadow: 0px 0px 0px rgba(0, 0, 0, 0) !important;
+.holiday-button {
+    margin: 30px 0;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.button-large {
+    padding: 10px 20px;
+    border: none;
+    margin-bottom: 20px;
+}
+
+.reject {
+    background-color: white;
+    border: 1.5px solid var(--blue);
+    color: var(--blue);
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.accept {
+    background-color: var(--blue);
+    color: white;
+    font-weight: bold;
+    font-size: 16px;
 }
 
 #deptId {
-	width: 150px;
+    width: 150px;
 }
 
-.holidaySelects {
-	display: flex;
+.holiday-select4 {
+    width: 100%;
+}
+
+textarea {
+    width: 100%;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.holiday-calendar p, .holiday-select1,
+.holiday-select2, .holiday-select3, .holiday-select4 p {
+	color: #6B6B6B;
+	font-size: 14px;
+	font-weight: bold;
+}
+
+.flatpickr-calendar {
+	width: 400px !important;
+	margin-top: 20px !important;
+}
+
+.flatpickr-innerContainer {
+	display: flex !important;
+	justify-content: center !important;
+}
+
+#hdCategory {
+	margin-top: 20px;
+	width: 300px;
+}
+
+#holiday-duration {
+	margin-top: 20px;
+	width: 200px
+}
+
+.holiday-select3 {
+	display: felx;
 }

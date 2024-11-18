@@ -23,8 +23,8 @@
 	flex-direction: column;
 	position: relative;
 	margin-bottom: 5px;	
-	min-height: 463px;
-/* 	min-height: 883px; */
+	height: 445px;
+	overflow-y: auto;
 }
 
 .mini-title{
@@ -53,7 +53,7 @@
 
 .holiday-list-table{
 	width: 700px;
-	margin:0px 40px 40px 40px;
+	margin:20px 40px 20px 40px;
 }
 
 #choiceDay{
@@ -80,6 +80,8 @@
 	color: white !important;
 	font-weight: bold !important;
 	font-size: 12px !important;
+	width: 60px;
+	margin-left: 15px;
 }
 
 .wating-state{
@@ -121,14 +123,24 @@
 	color: var(--darkgray);
 }
 
+.holiday-list-table thead th {
+	font-weight: 600;
+	color: #6B6B6B;
+	font-size: 14px;
+}
+
 .holiday-list-table tbody tr{
 	border-bottom: 0.5px solid #F0F0F0;
 	height: 60px;
+	line-height: 1.2;
+    text-align: left;
 }
 
 .holiday-list-table th, .holiday-list-table td{
 	vertical-align: middle;
 	text-align: center;
+	color: #494949;
+	font-size: 14px;
 }
 
 /* ##################################나의 휴가일정 ##################################### */
@@ -291,6 +303,8 @@
     font-size: 12px !important;
     text-align: center;
     position: relative;
+    width: 60px;
+    margin-left: 15px;
 }
 
 .reject-state {

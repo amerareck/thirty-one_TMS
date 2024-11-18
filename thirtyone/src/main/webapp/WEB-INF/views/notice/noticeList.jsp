@@ -80,21 +80,21 @@
 				onclick="location.href='${pageContext.request.contextPath}/notice/noticeWriteForm'">+
 				작성하기</button>
 
-			<div class="pagination">
-				<c:choose>
-					<c:when test="${pager.totalPageNo >= 5}">
-						<c:if test="${pager.pageNo>1}">
-							<%-- <a href="noticeList?pageNo=1"> <img
+				<div class="pagination">
+					<c:choose>
+						<c:when test="${pager.totalPageNo >= 5}">
+							<c:if test="${pager.pageNo>1}">
+								<%-- <a href="noticeList?pageNo=1"> <img
 								src="${pageContext.request.contextPath}/resources/image/double_prev_icon.png"
 								alt="doublePrev" style="width: 20px">
 							</a> --%>
-							<a href="noticeList?pageNo=${pager.pageNo-1}"> <img
-								src="${pageContext.request.contextPath}/resources/image/prev_icon.png"
-								alt="prev" style="width: 20px; margin-right: 15px;">
-							</a>
-						</c:if>
-					</c:when>
-				</c:choose>		
+								<a href="noticeList?pageNo=${pager.pageNo-1}"> <img
+									src="${pageContext.request.contextPath}/resources/image/prev_icon.png"
+									alt="prev" style="width: 20px; margin-right: 15px;">
+								</a>
+							</c:if>
+						</c:when>
+					</c:choose>
 
 					<c:if test="${pager.totalRows != 0}">
 						<c:forEach begin="${pager.startPageNo}" end="${pager.endPageNo}"
@@ -115,25 +115,25 @@
 							</c:choose>
 						</c:forEach>
 					</c:if>
-		
-		
-						<c:choose>
-							<c:when test="${pager.totalPageNo >= 5}">
-								<c:if test="${pager.pageNo< pager.totalPageNo}">
-									<a href="noticeList?pageNo=${pager.pageNo+1}"> <img
-										src="${pageContext.request.contextPath}/resources/image/next_icon.png"
-										alt="next" style="width: 20px; margin-left: 15px;">
-									</a>
-									<%-- <a href="noticeList?pageNo=${pager.totalPageNo}"> <img
+
+
+					<c:choose>
+						<c:when test="${pager.totalPageNo >= 5}">
+							<c:if test="${pager.pageNo< pager.totalPageNo}">
+								<a href="noticeList?pageNo=${pager.pageNo+1}"> <img
+									src="${pageContext.request.contextPath}/resources/image/next_icon.png"
+									alt="next" style="width: 20px; margin-left: 15px;">
+								</a>
+								<%-- <a href="noticeList?pageNo=${pager.totalPageNo}"> <img
 										src="${pageContext.request.contextPath}/resources/image/double_next_icon.png"
 										alt="next" style="width: 20px">
 									</a> --%>
-								</c:if>
-							</c:when>
-							<c:otherwise>
-							</c:otherwise>
-						</c:choose>
-			</div>
+							</c:if>
+						</c:when>
+						<c:otherwise>
+						</c:otherwise>
+					</c:choose>
+				</div>
 
 		</div>
 		<%@ include file="/WEB-INF/views/common/footer.jsp"%>

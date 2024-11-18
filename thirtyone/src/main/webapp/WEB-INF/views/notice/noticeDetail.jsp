@@ -30,8 +30,11 @@
 		<div class="cardBox">
 			<div class="text">
 				써리원의 사내 공지사항을 조회합니다.
-				<button type="button" class="btn list"
-					onclick="location.href='${pageContext.request.contextPath}/notice/deleteNotice?noticeId=${notice.noticeId}'">삭제</button>
+				<button type="button" class="btn list" id="deleteNotice" data-notice-id="${notice.noticeId}">삭제</button>
+<%-- 				<button type="button" class="btn list" id="deleteNotice" onclick="deleteNotice(${notice.noticeId})">삭제</button> --%>
+				
+				<%-- <button type="button" class="btn list"
+					onclick="location.href='${pageContext.request.contextPath}/notice/deleteNotice?noticeId=${notice.noticeId}'">삭제</button> --%>
 				<button type="button" class="btn list"
 					onclick="location.href='${pageContext.request.contextPath}/notice/updateNoticeForm?noticeId=${notice.noticeId}'">수정</button>
 				<button type="button" class="btn list"
@@ -176,3 +179,73 @@
 
 		</div>
 		<%@ include file="/WEB-INF/views/common/footer.jsp"%>
+
+
+		<script>
+		document.addEventListener('DOMContentLoaded', function () {
+		    // 삭제 버튼 클릭 이벤트 처리
+		    const deleteButton = document.getElementById('deleteNotice');
+		    
+		    // deleteNotice 클릭 시 삭제 처리
+		    if (deleteButton) {
+		        deleteButton.addEventListener('click', function () {
+		            const noticeId = deleteButton.getAttribute('data-notice-id');  // 버튼에 data-notice-id 속성 추가
+		            deleteNotice(noticeId);
+		        });
+		    }
+		    
+		    // 공지사항 삭제 함수
+		    function deleteNotice(noticeId) {
+				// 삭제 요청을 AJAX로 보내기
+				
+					Swal.fire({
+						title: '공지사항을 삭제하시겠습니까?',
+						text: '확인을 누르면 공지사항이 삭제됩니다.',
+						icon: 'warning',
+						
+						showCancelButton: true,
+						confirmButtonColor: '#1F5FFF',
+						cancelButtonColor: '#d33',
+						confirmButtonText: '확인',
+						cancelButtonText: '취소',
+						
+						reverseButtons: true
+					
+					}).then(result => {
+						if (result.isConfirmed) {
+						
+						$.ajax({
+							url: contextPath + '/notice/deleteNotice',
+							method: 'POST',
+							data : { noticeId : noticeId },							
+							success: function(response) {
+								console.log('서버 응답:', response);
+								
+									Swal.fire({
+										title : '공지사항 삭제가 완료되었습니다.',
+										text : '공지사항 목록에서 확인해주세요.', 
+										icon : 'success',
+									}).then(() => {
+										// SweetAlert을 확인 후 공지사항 목록 페이지로 이동
+										window.location.href = contextPath + '/notice/noticeList';
+										console.log("작성 AJAX 성공", response);
+									});
+							},
+					
+					
+					error: function(error) {
+												
+						Swal.fire({
+							title: '공지사항 삭제가 실패했습니다.',
+		                    text: '공지사항 삭제 과정에 문제가 발생했습니다. 나중에 다시 시도해주세요.',
+		                    icon: 'error',
+		                    confirmButtonText: '확인',
+		                    confirmButtonColor: '#FF6347'
+						});
+                    }
+                });
+            }
+        });
+    }
+});
+		</script>
