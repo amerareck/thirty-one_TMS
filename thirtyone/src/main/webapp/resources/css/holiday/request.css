@@ -28,21 +28,22 @@
 
 .holiday-flex-container {
     display: flex;
-    justify-content: space-between;
+    /* justify-content: space-between; */
     gap: 20px;
     width: 100%;
     margin-top: 20px;
+    
 }
 
 .holiday-calendar {
-    width: 48%;
+    /* width: 48%; */
+    margin-left: 20px;
 }
 
 .holiday-details {
-    width: 48%;
     display: flex;
     flex-direction: column;
-    margin-right: 100px;
+    margin-left: 60px;
 }
 
 .holiday-select-wrapper {
@@ -52,29 +53,29 @@
     align-items: center;
 }
 
-.holiday-select1, .holiday-select2, .holiday-select3 {
+.holiday-select1, .holiday-select2, .holiday-halfSelect, 
+.holiday-halfHalfSelect {
 	margin-bottom: 20px;
     display: flex;
     flex-direction: column;
 }
 
-.holiday-halfSelect {
+.holiday-halfSelect, .holiday-halfHalfSelect {
     display: flex;
     justify-content: space-between;
-    margin-top: 10px;
     gap: 10px;
 }
 
 .holiday-select4 {
     width: 100%;
-    margin-top: 20px;
+    margin-top: 24px;
 }
 
 .holiday-button {
-    margin: 30px 0;
+    margin: 50px 0 20px 0;
     display: flex;
     justify-content: center;
-    gap: 10px;
+   /*  gap: 10px; */
 }
 
 .button-large {
@@ -99,50 +100,81 @@
 }
 
 #deptId {
-    width: 150px;
-}
-
-.holiday-select4 {
-    width: 100%;
+    width: 140px;
+    border: var(--bs-border-width) solid var(--bs-border-color);
+    border-radius: var(--bs-border-radius);
+    background-color: var(--bs-secondary-bg);
+    padding: .375rem 2.25rem .375rem .75rem;
 }
 
 textarea {
-    width: 100%;
+    width: 122%;
+    height: 110px;
+    border: var(--bs-border-width) solid var(--bs-border-color);
+    border-radius: var(--bs-border-radius);
 }
 
-form {
+/* form {
     display: flex;
     flex-direction: column;
     gap: 20px;
-}
+} */
 
 .holiday-calendar p, .holiday-select1,
-.holiday-select2, .holiday-select3, .holiday-select4 p {
+.holiday-select2, .holiday-select3, .holiday-select4 p,
+.holiday-halfSelect, .holiday-halfHalfSelect {
 	color: #6B6B6B;
 	font-size: 14px;
 	font-weight: bold;
 }
 
 .flatpickr-calendar {
-	width: 400px !important;
-	margin-top: 20px !important;
+	width: 340px !important;
+	margin-top: 10px !important;
 }
 
 .flatpickr-innerContainer {
 	display: flex !important;
 	justify-content: center !important;
+	height: 280px !important;
 }
 
 #hdCategory {
-	margin-top: 20px;
-	width: 300px;
+	margin-top: 10px;
+	width: 250px;
 }
 
 #holiday-duration {
-	margin-top: 20px;
-	width: 200px
+	margin-top: 10px;
+	width: 120px
 }
 
-.holiday-select3 {
-	display: felx;
+#hdrContent {
+	margin-top: 10px;
+}
+
+.holiday-select3{
+	flex-direction: column;
+    display: flex;
+    margin-top: 24px;
+}
+
+.positionEmp {
+	display: flex;
+	margin-top: 10px;
+	margin-bottom: 20px;
+	gap: 20px;
+	height: 37.33px;
+}
+
+#hdrApprover, #position {
+	width: 240px;
+	
+}
+
+#hdCategory, #hdrApprover, #holiday-duration, #holiday-period,
+#holiday-time, #deptId, #position, #hdrApprover {
+	color: #767676;
+    font-size: 14px;
+    font-weight: 500;
 }

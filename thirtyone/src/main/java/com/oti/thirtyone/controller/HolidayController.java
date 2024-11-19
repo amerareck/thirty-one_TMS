@@ -260,7 +260,7 @@ public class HolidayController {
 		
 		String alertContent = "";
 		if(status.equals("반려")) {
-			alertContent="님이 휴가 신청이 반려되었습니다.";
+			alertContent="휴가 신청이 반려되었습니다.";
 			alertService.sendAlert(empId, alertContent, "휴가");
 		}else {
 			alertContent="휴가 신청이 승인되었습니다.";

@@ -61,19 +61,29 @@
 								<div class="modal-dialog">
 									<div class="modal-content" id="modalContent">
 										<div class="holiday-accept card">
+											<div class="cancelBtn">
 											<p class="mini-title">휴가 승인</p>
+											<button type="button" class="btn list"  data-bs-dismiss="modal">
+												<img class="x-icon"
+													src="${pageContext.request.contextPath}/resources/image/x_icon.png"
+													alt="x" style="width: 20px" />
+											</button>
+											</div>
 											<div class="mini-line"></div>
 											<div class="accept-box">
-												<p class="accept-label">신청자</p>
 												<div class="profile-box">
-													<img class="process-profile-img"
-														src="${pageContext.request.contextPath}/resources/image/profileDefault.png">
+												<p class="accept-label">신청자</p>
+													<img class="process-profile-img" src="${pageContext.request.contextPath}/admin/imageDown?empId=${hdrApr.emp.empId}" 
+														onerror="this.onerror=null; this.src='${pageContext.request.contextPath}/resources/image/profileDefault.png';">
+													<%-- <img class="process-profile-img"
+														src="${pageContext.request.contextPath}/resources/image/profileDefault.png"> --%>
 													<div class="process-profile-info">
 														<h4>${hdrApr.emp.empName}</h4>
 														<p>${hdrApr.deptName}</p>
 													</div>
 												</div>
-												<div class="mini-mini-line"></div>
+												<!-- <div class="mini-mini-line"></div> -->
+												<div class="holidayTypeContent">
 												<p class="accept-label holiday-type">${hdrApr.hdrApr.hdName}</p>
 												<p class="holiday-period">
 													<fmt:formatDate value="${hdrApr.hdrApr.hdrStartDate}"
@@ -83,8 +93,11 @@
 														pattern="yyyy-MM-dd" />
 												</p>
 												<div class="holiday-time">${hdrApr.hdrApr.hdrUsedDay}</div>
+												</div>
+												<div class="holidayReasonContent">
 												<p class="accept-label">사유</p>
 												<div class="holiday-reason">${hdrApr.hdrApr.hdrContent}</div>
+												</div>
 												<!-- <div class="holiday-file">
 													<p class="accept-label">파일</p>
 													<a class="choiced-file">선택된 파일 없음</a>

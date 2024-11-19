@@ -28,7 +28,7 @@
 			<div class="right-container">
 				<div class="holiday-status-box card">
 					<p class="mini-title">휴가 현황</p>
-					<div class="mini-line"></div>
+					<!-- <div class="mini-line"></div> -->
 					<div class="holiday-status">
 						<div class="holiday-status-detail">
 							<div>
@@ -53,11 +53,11 @@
 				<div class="holiday-list-box card">
 					<div class="holiday-title-box">
 						<p class="mini-title">휴가 내역</p>
-						<div id="choiceDay">
+						<%-- <div id="choiceDay">
 							<p>2024-10-14 ~ 2024-10-20</p>
 							<img
 								src="${pageContext.request.contextPath}/resources/image/calendar-icon.svg">
-						</div>
+						</div> --%>
 					</div>
 					<table class="table holiday-list-table">
 						<thead>
