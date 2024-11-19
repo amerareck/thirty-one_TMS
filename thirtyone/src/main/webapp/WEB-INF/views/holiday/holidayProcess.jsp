@@ -23,7 +23,7 @@
 		<div class="full-container">
 			<div class="holiday-list-box card">
 				<%-- <c:if test="${not empty hdrInfoList}"> --%>
-				<p class="mini-title">휴가 신청 내역</p>
+				<!-- <p class="mini-title">휴가 신청 내역</p> -->
 				<table class="table holiday-list-table">
 					<tbody>
 						<td scope="col">이름</td>
@@ -36,9 +36,9 @@
 						<c:forEach items="${hdrInfoList}" var="hdrApr" varStatus="status">
 							<tr data-bs-toggle="modal"
 								data-bs-target="#holidayRequestModal${status.index}">
-								<td class="holiday-profile-box"><img
-									class="holiday-profile-img"
-									src="${pageContext.request.contextPath}/resources/image/profileDefault.png">
+								<td class="holiday-profile-box">
+										<img class="process-profile-img" src="${pageContext.request.contextPath}/admin/imageDown?empId=${hdrApr.emp.empId}" 
+										onerror="this.onerror=null; this.src='${pageContext.request.contextPath}/resources/image/profileDefault.png';">
 									<div class="holiday-profile-info">
 										<h4>${hdrApr.emp.empName}</h4>
 										<p>${hdrApr.deptName}</p>
@@ -52,6 +52,7 @@
 								<td>${hdrApr.hdrApr.hdrContent}</td>
 								<td>${hdrApr.hdrApr.hdrStatus}</td>
 							</tr>
+								
 
 
 							<!-- Modal -->
@@ -61,15 +62,11 @@
 								<div class="modal-dialog">
 									<div class="modal-content" id="modalContent">
 										<div class="holiday-accept card">
-											<div class="cancelBtn">
+											<div class="modal-header">
 											<p class="mini-title">휴가 승인</p>
-											<button type="button" class="btn list"  data-bs-dismiss="modal">
-												<img class="x-icon"
-													src="${pageContext.request.contextPath}/resources/image/x_icon.png"
-													alt="x" style="width: 20px" />
+											<button type="button" class="btn-close"  data-bs-dismiss="modal" aria-label="close">
 											</button>
 											</div>
-											<div class="mini-line"></div>
 											<div class="accept-box">
 												<div class="profile-box">
 												<p class="accept-label">신청자</p>
@@ -92,7 +89,7 @@
 													<fmt:formatDate value="${hdrApr.hdrApr.hdrEndDate}"
 														pattern="yyyy-MM-dd" />
 												</p>
-												<div class="holiday-time">${hdrApr.hdrApr.hdrUsedDay}</div>
+												<div class="holiday-time">${hdrApr.hdrApr.hdrUsedDay}&nbsp;일</div>
 												</div>
 												<div class="holidayReasonContent">
 												<p class="accept-label">사유</p>
@@ -103,12 +100,12 @@
 													<a class="choiced-file">선택된 파일 없음</a>
 												</div> -->
 											</div>
-											<div class='button-list'>
-												<button class="requestReject button-large reject"
+											<div class="modal-footer">
+												<button class="requestReject button-medium reject"
 													data-empid="${hdrApr.emp.empId}"
 													data-hdrid="${hdrApr.hdrApr.hdrId}"
 													data-hdcategory="${hdrApr.hdrApr.hdCategory}">반려</button>
-												<button class="requestAccept button-large accept"
+												<button class="requestAccept button-medium accept"
 													data-empid="${hdrApr.emp.empId}"
 													data-hdrid="${hdrApr.hdrApr.hdrId}"
 													data-hdcategory="${hdrApr.hdrApr.hdCategory}">승인</button>
