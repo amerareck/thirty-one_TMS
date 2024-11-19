@@ -114,11 +114,17 @@ function success(pos, atd) {
 			if(!data){
 				Swal.fire({
 				  icon: "error",
-				  title: "지역이 다릅니다.",
-				  text: "해당 지사에서 로그인 해주세요."
+				  title: "지역이 다른 곳입니다.",
+				  text: "해당 지역에서 버튼을 눌러주세요."
+				}).then((result) => {
+					  if (result.isConfirmed) {
+						    location.reload(); 
+					  }
 				});
+			
+			}else{
+				location.reload();
 			}
-			location.reload();
 		},
 		error : function (request, status, error){
 					  

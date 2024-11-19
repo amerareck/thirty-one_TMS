@@ -14,17 +14,30 @@
 .dropdown-menu li:nth-child(1){
 	margin-top: 10px;
 	margin-bottom: 15px;
-	text-align: center;
 }
 
 .dropdown-menu li:nth-child(2){
-	text-align: center;
 	margin-bottom: 15px;
 }
 
 .dropdown-menu li:nth-child(3){
-	text-align: center;
 	margin-bottom: 10px;
+}
+
+.admin-logout{
+    position: relative;
+    height: 40px;
+    padding: 0; 
+    list-style: none;
+}
+
+.admin-logout-drop{
+    margin-top: 0px !important;
+    margin-bottom: 0px !important;
+	display: block; 
+    line-height: 30px;
+    height: 100%;
+    margin-bottom: 10px;
 }
 
 .logo-image{

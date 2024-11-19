@@ -79,13 +79,18 @@
 			<img class="three-dots-vertical dropdown-toggle"
 				data-bs-toggle="dropdown" aria-expanded="false"
 				src="${pageContext.request.contextPath}/resources/image/three-dots-vertical.svg">
-			<ul class="dropdown-menu">
-				<sec:authorize access="!hasRole('ROLE_ADMIN')">
+			<sec:authorize access="!hasRole('ROLE_ADMIN')">
+				<ul class="dropdown-menu">
 					<li><a class="dropdown-item" href="${pageContext.request.contextPath}/emp/empDetail">개인정보 수정</a></li>
 					<li><a class="dropdown-item" href="${pageContext.request.contextPath}/emp/empPwUpdate">비밀번호 변경</a></li>
-				</sec:authorize>
-				<li><a class="dropdown-item logout" href="${pageContext.request.contextPath}/logout">로그아웃</a></li>
-			</ul>
+					<li><a class="dropdown-item logout" href="${pageContext.request.contextPath}/logout">로그아웃</a></li>
+				</ul>
+			</sec:authorize>
+			<sec:authorize access="hasRole('ROLE_ADMIN')">
+				<ul class="dropdown-menu admin-logout">
+					<li class=" admin-logout-drop"><a class="dropdown-item logout" href="${pageContext.request.contextPath}/logout">로그아웃</a></li>
+				</ul>
+			</sec:authorize>
 		</div>
 	</div>
 	<sec:authorize access="hasRole('ROLE_ADMIN')">

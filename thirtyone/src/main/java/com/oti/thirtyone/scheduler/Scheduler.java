@@ -34,7 +34,7 @@ public class Scheduler {
 		approvalService.checkAltApproverByAllEmp();
     }
 	
-	@Scheduled(cron = "0 14 09 * * MON-FRI")
+	@Scheduled(cron = "0 55 08 * * MON-FRI")
 	public void checkInAlert() {
 		log.info("일괄적으로 출근 알람 실행됨");
 		String alertContent = "아직 출근을 체크하지 않았습니다. 출근 버튼을 눌러주세요.";
@@ -43,7 +43,7 @@ public class Scheduler {
 
 	@Scheduled(cron = "0 05 18 * * MON-FRI")
 	public void checkOutAlert() {
-		log.info("일괄적으로 출근 알람 실행됨");
+		log.info("일괄적으로 퇴근 알람 실행됨");
 		String alertContent = "아직 퇴근을 체크하지 않았습니다. 퇴근 버튼을 눌러주세요.";
 		alertService.sendAlertToNoCheckOut(alertContent, "근태");
 		
