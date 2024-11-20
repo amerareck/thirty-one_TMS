@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <%@ include file="/WEB-INF/views/approval/approvalContainer.jsp"%>
 <form action="draftSubmit" method="post" enctype="multipart/form-data" id="draftForm">
@@ -34,9 +35,9 @@
 				<label for="dateOfHoliday" class="fw-bold ${not empty holidayStartDate ? 'mb-4' : 'mb-2'}" style="width: 25%; margin-left: 20px">신청 기간</label>
 				<div style="width: 75%;">
 					<div id="dateOfHoliday" class="d-flex align-items-center w-100" aria-describedby="dateOfHolidayValidation" >
-						<input type="text" id="holidayStartDate" name="holidayStartDate" class="form-control p-2" style="height: 35px; font-size: 0.9rem;" placeholder="휴가 시작일" readonly >
+						<input type="text" id="holidayStartDate" value="<fmt:formatDate value="${form.holidayStartDate}" pattern="yyyy-MM-dd" />" name="holidayStartDate" class="form-control p-2" style="height: 35px; font-size: 0.9rem;" placeholder="휴가 시작일" readonly >
 						<span class="fw-bold mx-2">~</span>
-						<input type="text" id="holidayEndDate" name="holidayEndDate" class="form-control p-2" style="height: 35px; font-size: 0.9rem;" placeholder="휴가 종료일" readonly >
+						<input type="text" id="holidayEndDate" value="<fmt:formatDate value="${form.holidayEndDate}" pattern="yyyy-MM-dd" />" name="holidayEndDate" class="form-control p-2" style="height: 35px; font-size: 0.9rem;" placeholder="휴가 종료일" readonly >
 					</div>
 					<div id="dateOfHolidayValidation" class="form-text">${holidayStartDate}</div>
 				</div>
@@ -45,10 +46,10 @@
           		<label for="holidayType" class="fw-bold ${not empty holidayType ? 'mb-4' : 'mb-2'}" style="width: 25%; margin-left: 20px">휴가 유형</label>
           		<div style="width: 75%;">
 	        		<select id="holidayType" class="form-select w-100" name="holidayType" style="font-size: 0.9rem" aria-describedby="holidayTypeValidation" >
-	        			<option value="default" selected disabled>유형 선택</option>
-	        			<option value="familyEvent">경조사</option>
-	        			<option value="childbirth">출산</option>
-	        			<option value="sickLeave">병가</option>
+	        			<option value="default" ${empty holidayType ? 'selected' : ''} disabled>유형 선택</option>
+	        			<option value="familyEvent" ${form.holidayType == 'familyEvent' ? 'selected' : ''} >경조사</option>
+	        			<option value="childbirth" ${form.holidayType == 'childbirth' ? 'selected' : ''} >출산</option>
+	        			<option value="sickLeave" ${form.holidayType == 'sickLeave' ? 'selected' : ''} >병가</option>
 	        		</select>
 	        		<div id="holidayTypeValidation" class="form-text">${holidayType}</div>
           		</div>
@@ -56,10 +57,10 @@
         	<div class="d-flex align-items-center w-100 mb-3 biz-trip ${draft.docFormCode=='BTD' || draft.docFormCode=='BTR' ? '': 'hidden'}">
           		<label for="dateOfBizTrip" class="fw-bold ${not empty bizTripStartDate ? 'mb-4' : 'mb-2'}" style="width: 25%; margin-left: 20px">신청 기간</label>
           		<div style="width: 75%;">
-	        		<div id="dateOfBizTrip" class="d-flex align-items-center w-100"  aria-describedby="dateOfBizTripValidation" >
-						<input type="text" id="bizTripStartDate" name="bizTripStartDate" class="form-control p-2" style="height: 35px; font-size: 0.9rem;" placeholder="출장 시작일" readonly >
+	        		<div id="dateOfBizTrip" class="d-flex align-items-center w-100" aria-describedby="dateOfBizTripValidation" >
+						<input type="text" id="bizTripStartDate" name="bizTripStartDate" value="<fmt:formatDate value="${form.bizTripStartDate}" pattern="yyyy-MM-dd" />" class="form-control p-2" style="height: 35px; font-size: 0.9rem;" placeholder="출장 시작일" readonly >
 						<span class="fw-bold mx-2">~</span>
-						<input type="text" id="bizTripEndDate" name="bizTripEndDate" class="form-control p-2" style="height: 35px; font-size: 0.9rem;" placeholder="출장 종료일" readonly >
+						<input type="text" id="bizTripEndDate" name="bizTripEndDate" value="<fmt:formatDate value="${form.bizTripEndDate}" pattern="yyyy-MM-dd" />" class="form-control p-2" style="height: 35px; font-size: 0.9rem;" placeholder="출장 종료일" readonly >
 					</div>
 					<div id="dateOfBizTripValidation" class="form-text">${bizTripStartDate}</div>
           		</div>
@@ -67,21 +68,21 @@
         	<div class="d-flex align-items-center w-100 mb-3 biz-trip ${draft.docFormCode=='BTD' || draft.docFormCode=='BTR' ? '': 'hidden'}" >
           		<label for="purposeOfBizTrip" class="fw-bold ${not empty bizTripPurposeForm ? 'mb-4' : 'mb-2'}" style="width: 25%; margin-left: 20px">출장 목적</label>
         		<div id="purposeOfBizTrip" class="d-flex flex-column align-items-start" style="width: 75%;">
-					<textarea class="form-control w-100" id="bizTripPurposeForm" name="bizTripPurposeForm" cols="2" placeholder="간략하게 목적만 작성하시오." style="font-size: 0.9rem;" aria-describedby="bizTripPurposeValidation"></textarea>
+					<textarea class="form-control w-100" id="bizTripPurposeForm" name="bizTripPurposeForm" cols="2" placeholder="간략하게 목적만 작성하시오." style="font-size: 0.9rem;" aria-describedby="bizTripPurposeValidation">${form.bizTripPurposeForm}</textarea>
 					<div id="bizTripPurposeValidation" class="form-text">${bizTripPurposeForm}</div>
 				</div>
         	</div>
         	<div class="d-flex align-items-center justify-content-between w-100 hol-work ${draft.docFormCode=='HLW' ? '': 'hidden'}" >
 				<label for="datetimeOfholidayWork" class="fw-bold ${not empty holidayWorkStartDate ? 'mb-4' : 'mb-2'}" style="width: 25%; margin-left: 20px; margin-right: 10px;">근무 신청</label>
 				<div class="w-75">
-					<input type="text" id="holidayWorkStartDatetime" name="holidayWorkStartDate" class="form-control p-2" style="height: 35px; font-size: 0.8rem;" placeholder="휴가근무 신청일" aria-describedby="datetimeOfholidayWorkValidation" readonly >
+					<input type="text" id="holidayWorkStartDatetime" name="holidayWorkStartDate" value='<fmt:formatDate value="${form.holidayWorkStartDate}" pattern="yyyy-MM-dd" />' class="form-control p-2" style="height: 35px; font-size: 0.8rem;" placeholder="휴가근무 신청일" aria-describedby="datetimeOfholidayWorkValidation" readonly >
 					<div id="datetimeOfholidayWorkValidation" class="form-text">${holidayWorkStartDate}</div>
           		</div>
           	</div>
           	<div class="d-flex align-items-center w-100 work-over ${draft.docFormCode=='WOT' ? '': 'hidden'}" >
 				<label for="datetimeOfWorkOvertime" class="fw-bold ${not empty workOvertimeEndDate ? 'mb-4' : 'mb-2'}" style="width: 25%; margin-left: 20px; margin-right: 10px;">근무 종료</label>
 				<div class="w-75">
-					<input type="text" id="workOvertimeStartDatetime" name="workOvertimeEndDate" class="form-control p-2" style="height: 35px; font-size: 0.8rem;" placeholder="추가근무 종료시각" aria-describedby="datetimeOfWorkOvertimeValidation" readonly >
+					<input type="text" id="workOvertimeStartDatetime" name="workOvertimeEndDate" value="<fmt:formatDate value="${form.workOvertimeEndDate}" pattern="yyyy-MM-dd HH:mm" />" class="form-control p-2" style="height: 35px; font-size: 0.8rem;" placeholder="추가근무 종료시각" aria-describedby="datetimeOfWorkOvertimeValidation" readonly >
 					<div id="datetimeOfWorkOvertimeValidation" class="form-text">${workOvertimeEndDate}</div>
 				</div>
           	</div>
@@ -147,10 +148,10 @@
         <div class="d-flex align-items-center" id="pickApprovalLineContainer" style="width: 100%;" >
             <label for="approvalLineSelect" class="fw-bold ${not empty draftApprovalLine ? 'mb-4' : 'mb-2'}" style="width: 15%;">결재 라인</label>
             <div style="width: 45%;">
-	            <select class="form-select w-100" id="approvalLineSelect" data-redraft="${redraft}" aria-describedby="draftApprovalLineValidation">
-	                <option selected value="selected-apprval-1">기본 결재선</option>
-	                <option value="selected-apprval-2">기본 결재선2</option>
-	                <option value="selected-apprval-3">기본 결재선3</option>
+	            <select class="form-select w-100" id="approvalLineSelect" name="approvalLineSelect" data-errors="${isError}" data-redraft="${redraft}" aria-describedby="draftApprovalLineValidation">
+	                <c:if test="${not empty form.approvalLineSelect}">
+		                <option selected disabled value="${form.approvalLineSelect}">${form.approvalLineSelect}</option>
+	                </c:if>
 	            </select>
 		        <div id="draftApprovalLineValidation" class="form-text">${draftApprovalLine}</div>
             </div>
@@ -162,6 +163,11 @@
     		<c:if test="${redraft}">
     			<c:forEach items="${draft.docApprovalLine}" var="aprLine" >
 	    			<option selected value="${aprLine.docAprSeq}-${aprLine.docAprApprover}"></option>
+    			</c:forEach>
+    		</c:if>
+    		<c:if test="${not empty form.redraftAprLineList}">
+    			<c:forEach items="${form.redraftAprLineList}" var="aprLine" varStatus="i">
+    				<option selected value="${i.index}-${aprLine.empId}"></option>
     			</c:forEach>
     		</c:if>
     	</select>
@@ -184,6 +190,19 @@
 		        </div>
 	        </c:if>
     	</c:forEach>
+    	</c:if>
+    	<c:if test="${not empty form.redraftAprLineList}">
+    		<c:forEach items="${form.redraftAprLineList}" var="empInfo" varStatus="i" >
+    			<div class="custom-card text-end">
+		            <div class="name-text mt-1">${empInfo.empName} <span class="role-text">${empInfo.position}</span></div>
+		            <div class="dept-text mt-2">${empInfo.deptName}</div>
+		        </div>
+		        <c:if test="${i.index != form.redraftAprLineList.size()-1}">
+			        <div class="mx-3">
+			            <img src="${pageContext.request.contextPath}/resources/image/approval-arrow.png" width="20px" />
+			        </div>
+		        </c:if>
+    		</c:forEach>
     	</c:if>
     	<%-- 
         <div class="custom-card text-end">

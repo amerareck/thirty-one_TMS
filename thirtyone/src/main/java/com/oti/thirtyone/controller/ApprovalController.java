@@ -915,12 +915,20 @@ public class ApprovalController {
     		deptList.removeIf(elem -> elem.getDeptId() == 999);
     		model.addAttribute("departments", deptList);
     		List<EmployeesDto> reference = new ArrayList<>();
-    		if(form.getDraftReference() != null && form.getDraftReference().isEmpty()) {
+    		if(form.getDraftReference() != null && !form.getDraftReference().isEmpty()) {
     			for(String ref : form.getDraftReference()) {
     				reference.add(empService.getEmpInfo(ref));
     			}
     		}
+    		if(form.getDraftApprovalLine() != null && !form.getDraftApprovalLine().isEmpty()) {
+    			form.setRedraftAprLineList(new ArrayList<>());
+    			form.getDraftApprovalLine().forEach(item -> {
+    				String[] aprLineName = item.split("-");
+    				form.getRedraftAprLineList().add(empService.getEmpInfo(aprLineName[1]));
+    			});
+    		}
     		model.addAttribute("reference", reference);
+    		model.addAttribute("isError", true);
             return getDraftFormPage(model);
 		}
 		// 재기안의 경우 문서 비활성화
@@ -1381,4 +1389,24 @@ public class ApprovalController {
 	    pw.close();
 	}
 	
+	@GetMapping("searchEmployees")
+	public void searchEmployeesForAprLineModal(String keyword, HttpServletResponse res) throws IOException {
+		log.info("실행");
+		List<EmployeesDto> list = empService.getEmpInfoByKeyword(keyword);
+		JSONArray arr = new JSONArray();
+		list.stream().forEach(item -> {
+			JSONObject obj = new JSONObject();
+			obj.put("empId", item.getEmpId());
+			obj.put("empName", item.getEmpName());
+			obj.put("position", item.getPosition());
+			arr.put(obj);
+		});
+		
+		res.setContentType("application/json; charset=UTF-8");
+	    res.setCharacterEncoding("UTF-8");
+	    PrintWriter pw = res.getWriter();
+	    pw.println(arr.toString());
+	    pw.flush();
+	    pw.close();
+	}
 }

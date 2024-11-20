@@ -136,6 +136,10 @@ public class EmployeesService {
 		return empDao.selectEmpInfoByName(empName);
 	}
 	
+	public List<EmployeesDto> getEmpInfoByKeyword(String keyword) {
+		return empDao.selectEmpInfoByKeyword(keyword);
+	}
+	
 	@Transactional
 	public boolean setApprovalLine(List<EmpApprovalLineDTO> aplForm) {
 		if(aplForm == null || aplForm.isEmpty()) return false;

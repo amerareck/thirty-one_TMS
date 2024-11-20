@@ -6,7 +6,7 @@
 <div class="w-100 h-auto">
 	<div class="w-100 d-flex justify-content-center mb-0">
 		<div class="input-group" style="width: 97%; ">
-  			<input type="text" class="form-control" placeholder="사원 검색" style="height: 30px; font-size: .9rem;">
+  			<input type="text" class="form-control" id="selectEmployeesFromModal" placeholder="사원 검색" style="height: 30px; font-size: .9rem;">
       		<button class="btn btn-outline-secondary" style="border-color: #dee2e6; height: 30px !important;" type="button"><i class="fa-solid fa-magnifying-glass"></i></button>
   		</div>
  	</div>

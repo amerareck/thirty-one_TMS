@@ -209,6 +209,17 @@
 		where emp_name=#{empName}	
 	</select>
 	
+	<select id="selectEmpInfoByKeyword" parameterType="String" resultType="Employee">
+	    select 
+	        e.emp_id, e.emp_number, e.emp_password, e.emp_name, e.emp_email, e.emp_gender, e.emp_birth,
+	        e.emp_postal, e.emp_address, e.emp_detail_address, e.emp_tel, e.emp_image_name,
+	        e.emp_image_data, e.emp_image_type, e.emp_state, e.emp_hiredate, e.emp_resignation_date,
+	        e.emp_role, e.emp_memo, e.dept_id, e.position, d.dept_name
+	    from employees e 
+	    left outer join departments d on e.dept_id = d.dept_id
+	    where e.emp_name like CONCAT(CONCAT('%', #{keyword}), '%')
+	</select>
+	
 	<select id="selectLatestEmpNumber" resultType="int">
 		select max(emp_number)
 		from employees

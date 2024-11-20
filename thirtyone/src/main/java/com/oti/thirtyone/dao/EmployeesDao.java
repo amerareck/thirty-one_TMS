@@ -74,4 +74,6 @@ public interface EmployeesDao {
 
 	List<EmployeesDto> selectEmpListCheckOut();
 
+	List<EmployeesDto> selectEmpInfoByKeyword(String keyword);
+
 }

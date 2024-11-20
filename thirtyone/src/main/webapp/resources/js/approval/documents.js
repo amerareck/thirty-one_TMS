@@ -104,6 +104,29 @@ $('#documentForm').on('change', function() {
     if(selectedValue === 'default') {
     	return;
     } else {
+    	const aprLineBookMark = $('#approvalLineSelect');
+    	$('#approvalLineSelect').empty();
+    	$('#approvalLineInfo select').empty();
+    	$('#approvalLineDiagram').empty();
+    	$.ajax({
+        	url: '../emp/getAllEmpApprovalLine',
+        	method: 'get',
+        	success: function(data) {
+        		if(aprLineBookMark.attr('data-errors')) {
+        			aprLineBookMark.append('<option selected value="default">북마크 결재선 선택</option>');
+        		}
+        		const names = data.aprLineNames;
+        		for(let i=0; i<names.length; i++) {
+        			const context = `
+        				<option value="${names[i]}">${names[i]}</option>
+        			`;
+        			aprLineBookMark.append(context);
+        		}
+        	},
+    		error: function (xhr, status, error) {
+                console.log('Error: ' + error);
+            }
+        });
     	$('#approvalLineSelect').prop('disabled', false);
     	$('#draftDetailForm').children('div').each(function(){
     		$(this).addClass('hidden');

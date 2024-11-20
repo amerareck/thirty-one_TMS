@@ -150,9 +150,11 @@ $(function() {
     	url: '../emp/getAllEmpApprovalLine',
     	method: 'get',
     	success: function(data) {
-    		aprLineBookMark.empty();
+    		if(!aprLineBookMark.attr('data-errors')) {
+    			aprLineBookMark.empty();
+    			aprLineBookMark.append('<option selected value="default">북마크 결재선 선택</option>');
+    		}
     		aprLineModalSelect.empty();
-    		aprLineBookMark.append('<option selected value="default">북마크 결재선 선택</option>');
     		aprLineModalSelect.append('<option selected value="default">북마크 결재선 선택</option>');
     		const names = data.aprLineNames;
     		aprLineData = data.empAPL;
@@ -167,6 +169,9 @@ $(function() {
     		console.log(redraft);
     		if (!redraft) {
     			aprLineBookMark.prop('disabled', true);
+    			if(aprLineBookMark.attr('data-errors')) {
+    				aprLineBookMark.prop('disabled', false);
+    			}
     		}
     	},
 		error: function (xhr, status, error) {
@@ -681,7 +686,8 @@ $('#deleteAttacthFile').on('click', function(){
 
 // 기안서 제출 버튼
 $('#draftSubmitButton').on('click', function(){
-	$('#draftRefSelectBox').prop('selected', true);
+	$('#draftRefSelectBox option').prop('selected', true);
+	if($('#approvalLineSelect').val() === 'default') $('#approvalLineSelect').empty();
 	const draftType = $('#documentForm').find('option:selected').val();
 	console.log(draftType);
 	$.ajax({
@@ -802,6 +808,30 @@ $('#aprLineDeleteBtn').on('click', function(){
 		            console.log('Error: ' + error);
 		        },
 			});
+		},
+		error: function (xhr, status, error) {
+            console.log('Error: ' + error);
+        },
+	});
+});
+
+$('#selectEmployeesFromModal').on('input', function(){
+	const keyword = $(this).val();
+	if(keyword.length == 0) {
+		$('#deptEmployees').empty();
+		return;
+	}
+	$.ajax({
+		url: 'searchEmployees',
+		method: 'get',
+		data: {keyword},
+		success: function(data) {
+			$('#deptEmployees').empty();
+			for(let item of data) {
+				$('#deptEmployees').append(`
+					<option value="${item.empId}">${item.empName} ${item.position}</option>
+				`);
+			}
 		},
 		error: function (xhr, status, error) {
             console.log('Error: ' + error);

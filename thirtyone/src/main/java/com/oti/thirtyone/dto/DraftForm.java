@@ -35,6 +35,8 @@ public class DraftForm {
 	
 	private String prevDocNumber; // 재기안 문서번호
 	private boolean redraft; // 재기안 확인
+	private List<EmployeesDto> redraftAprLineList; // 재기안 결재라인 리스트
+	private String approvalLineSelect; // 북마크 결재선 이름
 	
 	public boolean isWeekend(Date date) {
         Calendar calendar = Calendar.getInstance();
