@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -730,7 +729,10 @@ public class ApprovalController {
 				if(item.getDocApprovalLine().get(i).getDocAprState().equals("승인") || 
 					item.getDocApprovalLine().get(i).getDocAprState().equals("반려")) {
 					item.setLastApprover(item.getDocApprovalLine().get(i).getApproverInfo());
-					item.setReviewingApproverSeq(i);
+				}
+				if(item.getDocApprovalLine().get(i).getDocAprApprover().equals(auth.getName())) {
+					item.setReviewingApprover(auth.getName());
+					item.setReviewingApproverSeq(item.getDocApprovalLine().get(i).getDocAprSeq());
 				}
 			}
 			item.setNowApprover(empList.parallelStream().filter(elem -> elem.getEmpId().equals(auth.getName())).findFirst().get());
@@ -913,11 +915,12 @@ public class ApprovalController {
     		deptList.removeIf(elem -> elem.getDeptId() == 999);
     		model.addAttribute("departments", deptList);
     		List<EmployeesDto> reference = new ArrayList<>();
-    		for(String ref : form.getDraftReference()) {
-    			reference.add(empService.getEmpInfo(ref));
+    		if(form.getDraftReference() != null && form.getDraftReference().isEmpty()) {
+    			for(String ref : form.getDraftReference()) {
+    				reference.add(empService.getEmpInfo(ref));
+    			}
     		}
     		model.addAttribute("reference", reference);
-            
             return getDraftFormPage(model);
 		}
 		// 재기안의 경우 문서 비활성화
@@ -1012,6 +1015,20 @@ public class ApprovalController {
 	public void getDocNumber(ApprovalDTO dto, Authentication auth, HttpServletResponse res) throws IOException {
 		log.info("실행");
 		log.info("draftType: "+dto.getDraftType());
+		JSONObject json = new JSONObject();
+		
+		if(dto.getDraftType().equals("default")) {
+			json.put("status", "error");
+			json.put("errorMessage", "문서 유형은 반드시 선택해야 합니다.");
+			
+			res.setContentType("application/json; charset=UTF-8");
+			res.setCharacterEncoding("UTF-8");
+			PrintWriter pw = res.getWriter();
+			pw.println(json.toString());
+			pw.flush();
+			pw.close();
+			return;
+		}
 		
 		String user = auth.getName();
 		dto.setDeptId(empService.getDeptId(user));
@@ -1020,7 +1037,6 @@ public class ApprovalController {
 		
 		String docNumber = approvalService.createDocNumber(dto);
 		
-		JSONObject json = new JSONObject();
 		json.put("docNumber", docNumber);
 		res.setContentType("application/json; charset=UTF-8");
 		res.setCharacterEncoding("UTF-8");

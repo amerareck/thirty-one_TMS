@@ -282,7 +282,12 @@ $('#approvalLineEmpSelect').on('click', function(){
     let aplLineSeq = $('.approval-line-item').length;
     
     if($('#approvalLineBox .approval-line-item').length + selectedOptions.length > 5) {
-    	alert('결재자는 5인을 초과할 수 없습니다.');
+    	Swal.fire({
+    		  icon: "error",
+    		  title: "결재자 초과",
+    		  text: "결재자는 5인을 초과할 수 없습니다.",
+    	});
+    	//alert('결재자는 5인을 초과할 수 없습니다.');
     	return;
     }
     let approvalLines = [];
@@ -354,6 +359,18 @@ $('#btnApprovalLineSelect').on('click', function(e) {
 		approvalDeptId.push($(this).attr('data-deptId'));
 		approvalEmpId.push($(this).attr('data-empid'));
 	});
+	
+	for (let i=0; i<approvalEmpId.length; i++) {
+	    for (let j=i+1; j<approvalEmpId.length; j++) {
+	        if (approvalEmpId[i] === approvalEmpId[j]) {
+	            Swal.fire({
+	                icon: "error",
+	                text: "동일한 사원이 결재선에 중복하여 있을 수 없습니다.",
+	            });
+	            return;
+	        }
+	    }
+	}
 	
 	$.ajax({
 		url: 'getDeptName',
@@ -458,7 +475,10 @@ function insertDocumentApprovalLine(AprLineLength, aprLineData) {
 
 $('#approvalLineCall').on('click', function(){
 	if ($('#documentForm').find('option:selected').val() === 'default') {
-		alert('기안 양식을 먼저 선택해 주세요.');
+		Swal.fire({
+			  icon: "error",
+			  text: "기안 양식을 먼저 선택해 주세요.",
+		});
 		return false;
 	} else {
 		$('#approvalLine').modal('show');
@@ -487,7 +507,10 @@ $('#draftDepartmentSelect').on('change', function(){
 
 $('#addDraftReferrer').on('click', function(){
 	if ($('#documentForm').find('option:selected').val() === 'default') {
-		alert('기안 양식을 먼저 선택해 주세요.');
+		Swal.fire({
+			  icon: "error",
+			  text: "기안 양식을 먼저 선택해 주세요.",
+		});
 		return false;
 	}
 	
@@ -504,7 +527,10 @@ $('#addDraftReferrer').on('click', function(){
 	if(check) {
 		$('#draftRefSelectBox').append(selectedReferrer.prop('outerHTML'));		
 	} else {
-		alert('이미 존재하는 참조자입니다.');
+		Swal.fire({
+			  icon: "error",
+			  text: "이미 존재하는 참조자입니다.",
+		});
 	}
 	
 	const editor = tinymce.get('draftDocument');
@@ -663,13 +689,22 @@ $('#draftSubmitButton').on('click', function(){
 		method: "post",
 		data: {draftType},
 		success: function(data) {
-			$('#docNumber').val(data.docNumber);
-			const editor = tinymce.get('draftDocument');
-		    const contentDocument = editor.getDoc();
-		    const myElement = contentDocument.getElementById('draftDocumentId');
-		    
-		    $(myElement).text(data.docNumber);
-		    $('#draftForm').submit();
+			if(data.status === 'error') {
+				Swal.fire({
+				  icon: "error",
+				  title: "빈 문서 유형",
+				  text: "문서 유형이 없어 문서 번호를 생성할 수 없습니다.",
+				});
+				return;
+			} else {
+				$('#docNumber').val(data.docNumber);
+				const editor = tinymce.get('draftDocument');
+			    const contentDocument = editor.getDoc();
+			    const myElement = contentDocument.getElementById('draftDocumentId');
+			    
+			    $(myElement).text(data.docNumber);
+			    $('#draftForm').submit();
+			}
 		},
 		error: function (xhr, status, error) {
             console.log('Error: ' + error);
