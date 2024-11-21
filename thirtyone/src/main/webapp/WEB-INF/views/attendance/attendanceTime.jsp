@@ -15,7 +15,7 @@
 			<div><a href="${pageContext.request.contextPath}/atd/process">근태 처리</a></div>
 		</div>
 		<div class="main-line"></div>
-		<p class="mini-title">월별 근태 현황</p>
+		<p class="mini-title">주간 근태 현황</p>
 		<div class="legend-and-period">
 			<div id="choiceDay">
 				<p></p>

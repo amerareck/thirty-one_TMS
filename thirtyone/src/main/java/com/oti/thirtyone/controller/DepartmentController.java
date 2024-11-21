@@ -94,7 +94,7 @@ public class DepartmentController {
 		model.addAttribute("deptEmpList", deptEmpList);
 		model.addAttribute("pager", pager);
 		model.addAttribute("hdpager", hdpager);
-		model.addAttribute("title", "정원석님의 부서 관리");
+		model.addAttribute("title", "부서 관리");
 		model.addAttribute("selectedSub", "deptAtd");
 		model.addAttribute("selectedTitle", "hr");
 		return "department/department";
@@ -113,7 +113,7 @@ public class DepartmentController {
 	@GetMapping("/holiday")
 	@Secured("ROLE_USER")
 	public String deptHoliday(Model model) {
-		model.addAttribute("title", "정원석님의 부서 관리");
+		model.addAttribute("title", "부서 관리");
 		model.addAttribute("selectedSub", "deptAtd");
 		model.addAttribute("selectedTitle", "hr");
 		return "department/deptHoliday";

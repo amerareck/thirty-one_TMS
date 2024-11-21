@@ -80,11 +80,11 @@ document.addEventListener('DOMContentLoaded', function () {
     	if (holidayTypeSelect.value == "1") {
             usedDayValue = daysDifference; // 전체
         } else if (holidayTypeSelect.value == "2" && daysDifference > 1) {
-            holidayTypeSelect.value = "1";
+            holidayTypeSelect.value = "0";
             alertIfNeeded();
             usedDayValue = 1;
         } else if (holidayTypeSelect.value == "3" && daysDifference > 1) {
-            holidayTypeSelect.value = "1";
+            holidayTypeSelect.value = "0";
             alertIfNeeded();
             usedDayValue = 1;
         } else if (holidayTypeSelect.value == "3") {
