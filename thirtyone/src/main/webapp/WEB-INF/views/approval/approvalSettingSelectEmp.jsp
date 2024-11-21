@@ -11,7 +11,7 @@
 	            <div class="w-100 h-100">
 					<div class="w-100 d-flex justify-content-center mb-1">
 						<div class="input-group" style="width:98%">
-				  			<input type="text" class="form-control" id="searchAltApprover" placeholder="사원 검색">
+				  			<input type="text" class="form-control" id="searchAltApprover" class="selectEmployeesFromModal" placeholder="사원 검색">
 				      		<button class="btn btn-outline-secondary" id="btnSearchAltApprover" style="border-color: #dee2e6;" type="button"><i class="fa-solid fa-magnifying-glass"></i></button>
 				  		</div>
 				 	</div>
@@ -26,7 +26,7 @@
 				     	</div>
 				     	<div class="w-50">
 				      		<div class="user-select-container w-100">
-				          		<select id="selectedEmployeeForProxyModal" multiple="multiple">
+				          		<select id="selectedEmployeeForProxyModal" class="deptEmployees" multiple="multiple">
 				          		</select>
 				   			</div>
 				       	</div>

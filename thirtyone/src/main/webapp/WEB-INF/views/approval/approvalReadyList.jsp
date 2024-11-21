@@ -66,7 +66,7 @@
 	        <th scope="col" class="text-center align-middle">부서</th>
 	        <th scope="col" class="text-center align-middle">직급</th>
 	        <th scope="col" class="text-center align-middle">기안자</th>
-	        <th scope="col" class="text-center align-middle">결재</th>
+	        <th scope="col" class="text-center align-middle">${activePage == 'ready' ? '결재' : '열람'}</th>
 	        <th scope="col" class="text-center align-middle">상태</th>
 	      </tr>
 	    </thead>

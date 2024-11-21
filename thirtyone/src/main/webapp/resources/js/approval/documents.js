@@ -112,9 +112,7 @@ $('#documentForm').on('change', function() {
         	url: '../emp/getAllEmpApprovalLine',
         	method: 'get',
         	success: function(data) {
-        		if(aprLineBookMark.attr('data-errors')) {
-        			aprLineBookMark.append('<option selected value="default">북마크 결재선 선택</option>');
-        		}
+        		aprLineBookMark.append('<option selected value="default">북마크 결재선 선택</option>');
         		const names = data.aprLineNames;
         		for(let i=0; i<names.length; i++) {
         			const context = `

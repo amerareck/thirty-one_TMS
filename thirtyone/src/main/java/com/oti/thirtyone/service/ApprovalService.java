@@ -351,8 +351,13 @@ public class ApprovalService {
 		param.setEmpId(dal.getDocAprApprover());
 		param.setAltAprEmp(dto.getNowApprover().getEmpId());
 		param = altApproverDAO.selectAltApproverOne(param);
-		if(param != null) return altApproverDAO.updateAltApproverState(param) == 1;
-		else return false;
+		if(param != null) {
+			//return altApproverDAO.updateAltApproverState(param) == 1;
+			return param.isAltAprState();
+		}
+		else {
+			return false;
+		}
 	}
 
 	public List<String> getDocNumberToAprLineIncludeUser(String name) {

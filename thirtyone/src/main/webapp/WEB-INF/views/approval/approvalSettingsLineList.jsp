@@ -4,7 +4,7 @@
 <div class="d-flex align-items-center justify-content-between">
     <h3 class="fw-bold my-0 p-0" style="width: 40%;">결재선 목록</h3>
     <div class="input-group mt-1" style="width: 50%;">
-        <input type="text" class="form-control" style="height: 25px; font-size: .8rem;" placeholder="결재선 검색" aria-label="결재선 검색" />
+        <input type="text" class="form-control" id="selectEmployeesFromModal" style="height: 25px; font-size: .8rem;" placeholder="결재선 검색" aria-label="결재선 검색" />
         <button class="btn btn-outline-secondary d-flex align-items-center" type="button" style="height: 25px !important; font-size: 0.85rem; border-color: #dee2e6;" id="approvalLineSearch"><i class="fa-solid fa-magnifying-glass"></i></button>
     </div>
 </div>

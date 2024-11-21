@@ -838,3 +838,27 @@ $('#selectEmployeesFromModal').on('input', function(){
         },
 	});
 });
+
+$('#searchAltApprover').on('input', function(){
+	const keyword = $(this).val();
+	if(keyword.length == 0) {
+		$('.deptEmployees').empty();
+		return;
+	}
+	$.ajax({
+		url: 'searchEmployees',
+		method: 'get',
+		data: {keyword},
+		success: function(data) {
+			$('select.deptEmployees').empty();
+			for(let item of data) {
+				$('select.deptEmployees').append(`
+					<option value="${item.empId}">${item.empName} ${item.position}</option>
+				`);
+			}
+		},
+		error: function (xhr, status, error) {
+            console.log('Error: ' + error);
+        },
+	});
+});
