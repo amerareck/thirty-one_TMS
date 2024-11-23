@@ -185,7 +185,7 @@ $('.approveSubmit').on('click', function(e){
 					  text: data.message
 				});
 			} else if(data.status == 'ok') {
-				location.href = 'approveList?type=ready&pageNo=1';
+				location.href = 'approveList?type=all&pageNo=1';
 			}
 		},
 		error: function (xhr, status, error) {

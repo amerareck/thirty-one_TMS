@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletResponseWrapper;
@@ -60,6 +61,7 @@ import com.oti.thirtyone.validator.ArtApproverValidator;
 import com.oti.thirtyone.validator.DraftValidator;
 
 import lombok.extern.slf4j.Slf4j;
+import oracle.ucp.common.FailoverStats.Item;
 
 @Slf4j
 @Controller
@@ -241,6 +243,11 @@ public class ApprovalController {
 					item.setReviewingApproverSeq(i);
 				}
 			}
+			
+			//첨부파일
+			DocFilesDTO docfile = new DocFilesDTO();
+			docfile.setDocNumber(item.getDocNumber());
+			item.setDocAttatchFileList(approvalService.getDocAttachFileListNoData(docfile));
 		});
 		model.addAttribute("draftList", draftList);
 		model.addAttribute("pager", pager);
@@ -338,6 +345,11 @@ public class ApprovalController {
 					item.setReviewingApproverSeq(i);
 				}
 			}
+			
+			//첨부파일
+			DocFilesDTO docfile = new DocFilesDTO();
+			docfile.setDocNumber(item.getDocNumber());
+			item.setDocAttatchFileList(approvalService.getDocAttachFileListNoData(docfile));
 		});
 		model.addAttribute("draftList", draftList);
 		model.addAttribute("pager", pager);
@@ -410,6 +422,10 @@ public class ApprovalController {
 				    item.setApproveState(item.getDocAprStatus());
 				    item.setLastApprover(item.getDocApprovalLine().get(item.getDocApprovalLine().size() - 1).getApproverInfo());
 				}
+				//첨부파일
+				DocFilesDTO docfile = new DocFilesDTO();
+				docfile.setDocNumber(item.getDocNumber());
+				item.setDocAttatchFileList(approvalService.getDocAttachFileListNoData(docfile));
 			});
 			
 			model.addAttribute("recalledList", recallList);
@@ -470,6 +486,11 @@ public class ApprovalController {
 				    item.setApproveState(item.getDocAprStatus());
 				    item.setLastApprover(item.getDocApprovalLine().get(item.getDocApprovalLine().size() - 1).getApproverInfo());
 				}
+				
+				//첨부파일
+				DocFilesDTO docfile = new DocFilesDTO();
+				docfile.setDocNumber(item.getDocNumber());
+				item.setDocAttatchFileList(approvalService.getDocAttachFileListNoData(docfile));
 			});
 			
 			model.addAttribute("draftList", approvalList);
@@ -627,6 +648,11 @@ public class ApprovalController {
 			    item.setApproveState(item.getDocAprStatus());
 			    item.setLastApprover(item.getDocApprovalLine().get(item.getDocApprovalLine().size() - 1).getApproverInfo());
 			}
+			
+			//첨부파일
+			DocFilesDTO docfile = new DocFilesDTO();
+			docfile.setDocNumber(item.getDocNumber());
+			item.setDocAttatchFileList(approvalService.getDocAttachFileListNoData(docfile));
 		});
 		
 		log.info("### list size: "+draftList.size());
@@ -769,6 +795,11 @@ public class ApprovalController {
 			    item.setApproveState(item.getDocAprStatus());
 			    item.setLastApprover(item.getDocApprovalLine().get(item.getDocApprovalLine().size() - 1).getApproverInfo());
 			}
+			
+			//첨부파일
+			DocFilesDTO docfile = new DocFilesDTO();
+			docfile.setDocNumber(item.getDocNumber());
+			item.setDocAttatchFileList(approvalService.getDocAttachFileListNoData(docfile));
 		});
 		
 		model.addAttribute("aprList", draftList);
@@ -1011,6 +1042,7 @@ public class ApprovalController {
 			dto.getDocAttachFile().setDocFileName(form.getDraftAttachFile().getOriginalFilename());
 			dto.getDocAttachFile().setDocFileType(form.getDraftAttachFile().getContentType());
 			dto.getDocAttachFile().setDocFileData(form.getDraftAttachFile().getBytes());
+			dto.getDocAttachFile().setDocNumber(form.getDocNumber());
 			approvalService.setDraftAttachFile(dto.getDocAttachFile());
 		}
 		
@@ -1408,5 +1440,39 @@ public class ApprovalController {
 	    pw.println(arr.toString());
 	    pw.flush();
 	    pw.close();
+	}
+	
+	@GetMapping("download")
+	public void getAttatchFile(String docNumber, int attachNo, HttpServletResponse res) throws IOException {
+		log.info("실행");
+		DocFilesDTO form = new DocFilesDTO();
+		form.setDocNumber(docNumber);
+		List<DocFilesDTO> result = approvalService.getDocAttachFile(form);
+		
+	    if (!result.isEmpty()) {
+	        DocFilesDTO data = null;
+	        for (DocFilesDTO item : result) {
+	            if (item.getDocFileId() == attachNo) {
+	                data = item;
+	                break;
+	            }
+	        }
+	        if (data != null) {
+	            String contentType = data.getDocFileType();
+	            res.setContentType(contentType);
+
+	            String fileName = data.getDocFileName();
+	            String encodingFileName = new String(fileName.getBytes("UTF-8"), "ISO-8859-1");
+	            res.setHeader("Content-Disposition", "attachment; filename=\"" + encodingFileName + "\"");
+
+	            ServletOutputStream out = res.getOutputStream();
+	            out.write(data.getDocFileData());
+	            out.flush();
+	            out.close();
+	            return;
+	        }
+	    }
+	    
+	    res.sendError(HttpServletResponse.SC_NOT_FOUND, "첨부파일을 찾을 수 없습니다.");
 	}
 }

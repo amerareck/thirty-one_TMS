@@ -19,6 +19,7 @@ public class ApprovalDTO {
 	private List<DocumentApprovalLineDTO> docApprovalLine; // 문서 결재선
 	private List<DocumentReferenceDTO> docReferenceList; // 문서 참조자
 	private DocFilesDTO docAttachFile; // 첨부파일
+	private List<DocFilesDTO> docAttatchFileList; // 첨부파일 리스트 
 	
 	private String docHolidayType; // 휴가 유형 (출산, 경조사, 병가 등)
 	private int docHolidayDay; // 신청 휴가 일수

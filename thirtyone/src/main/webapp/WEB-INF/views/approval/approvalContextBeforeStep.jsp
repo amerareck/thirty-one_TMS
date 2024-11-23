@@ -85,6 +85,21 @@
 		                    	</c:forEach>
 		                    </div>
 		                </div>
+		                		                <div class="d-flex align-items-top justify-content-start" style="width: 30%">
+							<label for="documentAttatchFile" class="form-label fw-bold m-0" style="width: 30%">첨부 파일</label>
+							<div class="d-flex align-items-start justify-content-start flex-column">
+								<c:if test="${apr.docAttatchFileList.size() > 0}">
+								<c:forEach items="${apr.docAttatchFileList}" var="attachFile" >
+									<span style="width: auto;" class="doc-attatch-file small pt-1" >
+										<a href="download?docNumber=${attachFile.docNumber}&attachNo=${attachFile.docFileId}" style="color: #212529;" >${attachFile.docFileName}</a>
+									</span>
+								</c:forEach>
+								</c:if>
+								<c:if test="${apr.docAttatchFileList.size() == 0}">
+									<span style="width: auto;" class="doc-attatch-file small pt-1" >첨부파일이 존재하지 않습니다.</span>
+								</c:if>
+							</div>
+		                </div>
 		            </div>
 		            <div class="d-flex justify-content-between w-100 p-2 my-2">
 		                <div class="d-flex align-items-top justify-content-start" style="width: 70%">
@@ -115,7 +130,12 @@
 		                        </c:if>
 		                        <p class="approval-line-cube-info">${docApr.approverInfo.deptName}</p>
 		                        <p class="approval-line-cube-info">&nbsp;</p>
-		                        <span class="text-center fs-6 mt-auto" style="font-size: 11pt;"><b>${docApr.approverInfo.empName}</b>&nbsp;${docApr.approverInfo.position}</span>
+		                        <span class="text-center fs-6 mt-auto" style="font-size: 11pt;"><b>${docApr.approverInfo.empName}</b>
+								    <c:choose>
+								        <c:when test="${docApr.approverInfo.position == '대표이사'}">대표</c:when>
+								        <c:otherwise>${docApr.approverInfo.position}</c:otherwise>
+								    </c:choose>
+								</span>
 		                        <p class="approval-line-cube-info">&nbsp;</p>
 		                        <div class="fw-bold fs-5 text-center mt-auto">${docApr.docAprState}</div>
 		                        <p class="approval-line-cube-info">&nbsp;</p>

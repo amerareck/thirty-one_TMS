@@ -19,4 +19,7 @@ public interface DocFilesDAO {
 
 	int deleteReasonFile(int fileId);
 
+	List<DocFilesDTO> selectDocAttachFileList(DocFilesDTO form);
+	List<DocFilesDTO> selectDocAttachFilesNoData(DocFilesDTO docfile);
+
 }

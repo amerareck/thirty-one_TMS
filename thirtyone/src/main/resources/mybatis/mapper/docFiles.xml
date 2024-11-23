@@ -44,4 +44,22 @@
     <delete id="deleteReasonFile" parameterType="int">
     	delete from doc_files where doc_file_id = #{fileId}
     </delete>
+    
+    <select id="selectDocAttachFileList" parameterType="DocFile" resultType="DocFile" >
+    	<![CDATA[
+    		SELECT
+    			DOC_FILE_ID,
+				DOC_FILE_DATA,
+				DOC_FILE_NAME,
+				DOC_NUMBER,
+				DOC_FILE_TYPE
+			FROM DOC_FILES
+			WHERE
+				DOC_NUMBER = #{docNumber}
+    	]]>
+    </select>
+    
+    <select id="selectDocAttachFilesNoData" parameterType="DocFile" resultType="DocFile">
+    	select doc_file_id, doc_file_name, doc_number from doc_files where doc_number = #{docNumber}
+    </select>
 </mapper>

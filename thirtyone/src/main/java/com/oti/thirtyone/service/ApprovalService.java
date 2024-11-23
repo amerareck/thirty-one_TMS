@@ -72,6 +72,10 @@ public class ApprovalService {
 	public boolean setDraftAttachFile(DocFilesDTO dto) {
 		return docFilesDAO.insertDraftAttachFile(dto) == 1;
 	}
+	
+	public List<DocFilesDTO> getDocAttachFile(DocFilesDTO form) {
+		return docFilesDAO.selectDocAttachFileList(form);
+	}
 
 	public String getDocType(String draftType) {
 		switch (draftType) {
@@ -442,6 +446,10 @@ public class ApprovalService {
 			throw new RuntimeException("대결자 업데이트 스케쥴러 에러");
 		};
 		
+	}
+
+	public List<DocFilesDTO> getDocAttachFileListNoData(DocFilesDTO docfile) {
+		return docFilesDAO.selectDocAttachFilesNoData(docfile);
 	}
 
 }
