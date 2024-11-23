@@ -79,9 +79,9 @@
 		<![CDATA[	
 			select emp_id, emp_name, position, emp_hiredate, dept_id, emp_email, emp_tel
 			from(
-				select rownum as rnum, emp_id, emp_name, position, emp_hiredate, dept_id
+				select rownum as rnum, emp_id, emp_name, position, emp_hiredate, dept_id, emp_email, emp_tel
 				from(
-					select emp_id, emp_name, position, emp_hiredate, dept_id
+					select emp_id, emp_name, position, emp_hiredate, dept_id, emp_email, emp_tel
 					from employees
 					where emp_role='ROLE_USER' and emp_name like '%'||#{query}||'%' and dept_id != 999
 					order by emp_number
@@ -96,9 +96,9 @@
 		<![CDATA[	
 			select emp_id, emp_name, position, emp_hiredate, dept_id, emp_email, emp_tel
 			from(
-				select rownum as rnum, emp_id, emp_name, position, emp_hiredate, dept_id
+				select rownum as rnum, emp_id, emp_name, position, emp_hiredate, dept_id, emp_email, emp_tel
 				from(
-					select e.emp_id, e.emp_name, e.position, e.emp_hiredate, e.dept_id
+					select e.emp_id, e.emp_name, e.position, e.emp_hiredate, e.dept_id, e.emp_email, e.emp_tel
 					from employees e join departments d 
 					on e.dept_id = d.dept_id
 					where e.emp_role='ROLE_USER' and d.dept_name like '%'||#{query}||'%' and d.dept_id != 999
@@ -114,9 +114,9 @@
 		<![CDATA[	
 			select emp_id, emp_name, position, emp_hiredate, dept_id, emp_email, emp_tel
 			from(
-				select rownum as rnum, emp_id, emp_name, position, emp_hiredate, dept_id
+				select rownum as rnum, emp_id, emp_name, position, emp_hiredate, dept_id, emp_email, emp_tel
 				from(
-					select emp_id, emp_name, position, emp_hiredate, dept_id
+					select emp_id, emp_name, position, emp_hiredate, dept_id, emp_email, emp_tel
 					from employees
 					where emp_role='ROLE_USER' and position like '%'||#{query}||'%' and dept_id != 999
 					order by emp_number

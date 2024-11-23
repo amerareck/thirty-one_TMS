@@ -10,9 +10,9 @@
 	
 	<insert id="insertCheckIn">
 		insert into attendances
-			(atd_date, emp_id, check_in, atd_state, atd_standard_time)
+			(atd_date, emp_id, check_in, atd_state)
 		values
-			(TRUNC(SYSDATE), #{empId}, sysdate, #{state}, 480)			
+			(TRUNC(SYSDATE), #{empId}, sysdate, #{state})			
 	</insert>
 	
 	<update id="updateCheckOut">

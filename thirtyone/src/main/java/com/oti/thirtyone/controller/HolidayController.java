@@ -226,7 +226,7 @@ public class HolidayController {
 		
 		String empId = authentication.getName();
 		int totalRows = hdService.countRowsByApproverId(empId);
-		Pager pager = new Pager(4, 5, totalRows, pageNo);
+		Pager pager = new Pager(6, 5, totalRows, pageNo);
 		session.setAttribute("pager", pager);
 		
 		List<HolidayRequestDto> hdrAprList = hdService.selectHdrListByAprId(empId, pager);
