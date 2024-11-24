@@ -25,6 +25,7 @@ import org.json.JSONObject;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
@@ -1157,8 +1158,9 @@ public class ApprovalController {
 		log.info("실행");
 		aprDTO.setEmpId(auth.getName());
 		ApprovalDTO docDTO = approvalService.getDocumentContext(aprDTO);
-		String docData = docDTO.getDocDocumentData();
+		String docData = Jsoup.parse(docDTO.getDocDocumentData()).getElementsByClass("doc-content").outerHtml();
 		String docCss = approvalService.getDocCssByDocType(docDTO.getDocFormCode());
+		
 		JSONObject json = new JSONObject();
 		json.put("html", docData);
 		json.put("css", docCss);
@@ -1230,7 +1232,8 @@ public class ApprovalController {
 		ApprovalDTO dto = approvalService.getDraftSingleByDocNumber(data.getDocNumber());
 		dto.setNowApprover(empService.getEmpInfo(data.getApprover()));
 		dto.setDocNumber(data.getDocNumber());
-		dto.setDocDocumentData(data.getDocData());
+		Document doc = Jsoup.parse(data.getDocData());
+		dto.setDocDocumentData(doc.body().getElementsByClass("doc-content").outerHtml());
 		dto.setApproveInfo(new DocumentApprovalLineDTO());
 		dto.getApproveInfo().setDocNumber(data.getDocNumber());
 		dto.getApproveInfo().setDocAprApprover(data.getApprover());
