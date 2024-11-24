@@ -1355,7 +1355,7 @@ public class ApprovalController {
 			for(DocumentApprovalLineDTO dal : aprList) {
 				if(dal.getDocAprApprover().equals(auth.getName())) {
 					String alertContent = 
-							draftor.getEmpName()+" "+draftor.getPosition()+"님, ["+resultDraft.getDocNumber()+" / "+resultDraft.getDocTitle()+"] 문서가 "+approver.getEmpName()+" "+approver.getPosition()+"(으)로부터 결재 "+dal.getDocAprState()+"되었습니다.";
+							draftor.getEmpName()+" "+draftor.getPosition()+"님, ["+resultDraft.getDocNumber()+" / "+resultDraft.getDocTitle()+"] 문서를 "+approver.getEmpName()+" "+approver.getPosition()+"께서 결재하였습니다. (결재 결과: "+dal.getDocAprState()+")";
 					alertService.sendAlert(draftor.getEmpId(), alertContent, "결재");
 					break;
 				}
