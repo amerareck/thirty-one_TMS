@@ -5,7 +5,7 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/document-form/holidayDocument.css" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/document-form/holidayWork.css" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/document-form/workOvertime.css" />
-<script src="https://cdn.tiny.cloud/1/4goby5nwvfox2v3joghm0derxikb93k0vbtgcjf42japthcq/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
+<script src="https://cdn.tiny.cloud/1/dvqp9uwhbbxbecwyw4ulq6c7enfx4whi5mkop0dyw1tn36px/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
 
 <div class="sectionContainer w-100" style="${title=='전자 결재 설정' ? 'max-width: 1280px; ': ''}">
 	<div class="card">
