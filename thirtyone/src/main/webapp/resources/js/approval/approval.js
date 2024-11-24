@@ -388,6 +388,7 @@ $('#btnApprovalLineSelect').on('click', function(e) {
 			let diagramTags = '';
 			$('#approvalLineDiagram').empty();
 			for(let i=0; i<approvalEmpId.length; i++) {
+				if(approvalPosition[i] === '대표이사') approvalPosition[i] = '대표';
 				diagramTags += `
 					<div class="custom-card text-end">
 			            <div class="name-text mt-1">${approvalNames[i]} <span class="role-text">${approvalPosition[i]}</span></div>
@@ -417,6 +418,7 @@ $('#btnApprovalLineSelect').on('click', function(e) {
 			const docAprLine = [];
 			for(let i=0; i<approvalEmpId.length; i++) {
 				const empInfo = {};
+				if(approvalPosition[i] === '대표') approvalPosition[i] = '대표이사';
 				empInfo.position = approvalPosition[i];
 				empInfo.empName = approvalNames[i];
 				docAprLine.push(empInfo);
