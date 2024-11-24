@@ -234,13 +234,22 @@ public class ApprovalController {
 					elem.setEmpName(empInfo.getEmpName());
 					elem.setPosition(empInfo.getPosition());
 				});
-			item.setLastApprover(item.getDocApprovalLine().get(0).getApproverInfo());
+			item.setLastApprover(item.getDocApprovalLine().get(item.getDocApprovalLine().size()-1).getApproverInfo());
 			item.setReviewingApproverSeq(0);
 			for(int i=1; i<item.getDocApprovalLine().size(); i++) {
 				if(item.getDocApprovalLine().get(i).getDocAprState().equals("승인") || 
 					item.getDocApprovalLine().get(i).getDocAprState().equals("반려")) {
-					item.setLastApprover(item.getDocApprovalLine().get(i).getApproverInfo());
 					item.setReviewingApproverSeq(i);
+				}
+			}
+			
+			//완결 문서의 경우 최종 결재자를 바꿔서 출력
+			if(item.getDocAprStatus().equals("승인") || item.getDocAprStatus().equals("반려")) {
+				for(int i=0; i<item.getDocApprovalLine().size(); i++) {
+					if(item.getDocApprovalLine().get(i).getDocAprState().equals("승인") || 
+						item.getDocApprovalLine().get(i).getDocAprState().equals("반려")) {
+						item.setLastApprover(item.getDocApprovalLine().get(i).getApproverInfo());
+					}
 				}
 			}
 			
@@ -336,13 +345,23 @@ public class ApprovalController {
 					elem.setEmpName(empInfo.getEmpName());
 					elem.setPosition(empInfo.getPosition());
 				});
-			item.setLastApprover(item.getDocApprovalLine().get(0).getApproverInfo());
+			item.setLastApprover(item.getDocApprovalLine().get(item.getDocApprovalLine().size()-1).getApproverInfo());
 			item.setReviewingApproverSeq(0);
 			for(int i=1; i<item.getDocApprovalLine().size(); i++) {
 				if(item.getDocApprovalLine().get(i).getDocAprState().equals("승인") || 
 					item.getDocApprovalLine().get(i).getDocAprState().equals("반려")) {
-					item.setLastApprover(item.getDocApprovalLine().get(i).getApproverInfo());
+					//item.setLastApprover(item.getDocApprovalLine().get(item.getDocApprovalLine().size()-1).getApproverInfo());
 					item.setReviewingApproverSeq(i);
+				}
+			}
+			
+			//완결 문서의 경우 최종 결재자를 바꿔서 출력
+			if(item.getDocAprStatus().equals("승인") || item.getDocAprStatus().equals("반려")) {
+				for(int i=0; i<item.getDocApprovalLine().size(); i++) {
+					if(item.getDocApprovalLine().get(i).getDocAprState().equals("승인") || 
+						item.getDocApprovalLine().get(i).getDocAprState().equals("반려")) {
+						item.setLastApprover(item.getDocApprovalLine().get(i).getApproverInfo());
+					}
 				}
 			}
 			
@@ -422,6 +441,16 @@ public class ApprovalController {
 				    item.setApproveState(item.getDocAprStatus());
 				    item.setLastApprover(item.getDocApprovalLine().get(item.getDocApprovalLine().size() - 1).getApproverInfo());
 				}
+				
+				//완결 문서의 경우 최종 결재자를 바꿔서 출력
+				if(item.getDocAprStatus().equals("승인") || item.getDocAprStatus().equals("반려")) {
+					for(int i=0; i<item.getDocApprovalLine().size(); i++) {
+						if(item.getDocApprovalLine().get(i).getDocAprState().equals("승인") || 
+							item.getDocApprovalLine().get(i).getDocAprState().equals("반려")) {
+							item.setLastApprover(item.getDocApprovalLine().get(i).getApproverInfo());
+						}
+					}
+				}
 				//첨부파일
 				DocFilesDTO docfile = new DocFilesDTO();
 				docfile.setDocNumber(item.getDocNumber());
@@ -479,12 +508,23 @@ public class ApprovalController {
 					    break;
 					}
 				}
+				
 				if(item.getReviewingApprover() == null || item.getReviewingApprover().isEmpty()) {
 					item.setReviewingApprover(item.getDocApprovalLine().get(0).getApproverInfo().getEmpName());
 				    item.setReviewingApproverPosition(item.getDocApprovalLine().get(0).getApproverInfo().getPosition());
 				    item.setReviewingApproverDeptId(item.getDocApprovalLine().get(0).getApproverInfo().getDeptId());
 				    item.setApproveState(item.getDocAprStatus());
 				    item.setLastApprover(item.getDocApprovalLine().get(item.getDocApprovalLine().size() - 1).getApproverInfo());
+				}
+				
+				//완결 문서의 경우 최종 결재자를 바꿔서 출력
+				if(item.getDocAprStatus().equals("승인") || item.getDocAprStatus().equals("반려")) {
+					for(int i=0; i<item.getDocApprovalLine().size(); i++) {
+						if(item.getDocApprovalLine().get(i).getDocAprState().equals("승인") || 
+							item.getDocApprovalLine().get(i).getDocAprState().equals("반려")) {
+							item.setLastApprover(item.getDocApprovalLine().get(i).getApproverInfo());
+						}
+					}
 				}
 				
 				//첨부파일
@@ -627,12 +667,10 @@ public class ApprovalController {
 			});
 			
 			List<DocumentApprovalLineDTO> dalList = item.getDocApprovalLine().stream()
-					.sorted(Comparator.comparing(DocumentApprovalLineDTO::getDocAprSeq).reversed())
+					.sorted(Comparator.comparing(DocumentApprovalLineDTO::getDocAprSeq))
 					.collect(Collectors.toList());
 			for(DocumentApprovalLineDTO elem : dalList) {
-				if(elem.getDocAprState().equals("승인") || 
-					elem.getDocAprState().equals("반려") || 
-					elem.getDocAprState().equals("보류")) {
+				if(elem.getDocAprState().equals("대기") || elem.getDocAprState().equals("보류")) {
 					item.setReviewingApprover(elem.getApproverInfo().getEmpName());
 				    item.setReviewingApproverPosition(elem.getApproverInfo().getPosition());
 				    item.setReviewingApproverDeptId(elem.getApproverInfo().getDeptId());
@@ -774,12 +812,10 @@ public class ApprovalController {
 			});
 			
 			List<DocumentApprovalLineDTO> dalList = item.getDocApprovalLine().stream()
-					.sorted(Comparator.comparing(DocumentApprovalLineDTO::getDocAprSeq).reversed())
+					.sorted(Comparator.comparing(DocumentApprovalLineDTO::getDocAprSeq))
 					.collect(Collectors.toList());
 			for(DocumentApprovalLineDTO elem : dalList) {
-				if(elem.getDocAprState().equals("승인") || 
-					elem.getDocAprState().equals("반려") || 
-					elem.getDocAprState().equals("보류")) {
+				if(elem.getDocAprState().equals("대기") || elem.getDocAprState().equals("보류")) {
 					item.setReviewingApprover(elem.getApproverInfo().getEmpName());
 				    item.setReviewingApproverPosition(elem.getApproverInfo().getPosition());
 				    item.setReviewingApproverDeptId(elem.getApproverInfo().getDeptId());

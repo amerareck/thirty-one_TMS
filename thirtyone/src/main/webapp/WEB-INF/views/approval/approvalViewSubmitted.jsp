@@ -26,7 +26,7 @@
 		                </div>
 		                <div class="d-flex align-items-start justify-content-start" style="width: 30%;">
 		                    <label for="referrer" class="form-label fw-bold m-0 align-self-center" style="width: 30%">참조자</label><br />
-	                    	<div class="d-flex align-items-center justify-content-start flex-column">
+	                    	<div class="d-flex align-items-start justify-content-start flex-column">
 		                    <c:forEach items="${draft.docReferenceList}" var="refer" varStatus="i" >
 				                    <span id="referrer" style="width: auto;" class="${draft.docReferenceList.size()-1 == i.index ? '' : 'pb-2'}">[${refer.deptName}]&nbsp;${refer.empName}&nbsp;${refer.position}</span>
 		                    </c:forEach>
