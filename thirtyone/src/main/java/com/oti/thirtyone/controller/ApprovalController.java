@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -55,7 +56,9 @@ import com.oti.thirtyone.dto.EmpApprovalLineDTO;
 import com.oti.thirtyone.dto.EmployeesDto;
 import com.oti.thirtyone.dto.PageParam;
 import com.oti.thirtyone.dto.Pager;
+import com.oti.thirtyone.service.AlertService;
 import com.oti.thirtyone.service.ApprovalService;
+import com.oti.thirtyone.service.AttendanceService;
 import com.oti.thirtyone.service.DepartmentService;
 import com.oti.thirtyone.service.EmployeesService;
 import com.oti.thirtyone.validator.ArtApproverValidator;
@@ -78,6 +81,8 @@ public class ApprovalController {
 	private EmployeesService empService;
 	@Autowired
 	private ApprovalService approvalService;
+	@Autowired
+	AlertService alertService;
 	
 	@ModelAttribute
 	public void settings(Model model) {
@@ -235,13 +240,22 @@ public class ApprovalController {
 					elem.setEmpName(empInfo.getEmpName());
 					elem.setPosition(empInfo.getPosition());
 				});
-			item.setLastApprover(item.getDocApprovalLine().get(0).getApproverInfo());
+			item.setLastApprover(item.getDocApprovalLine().get(item.getDocApprovalLine().size()-1).getApproverInfo());
 			item.setReviewingApproverSeq(0);
 			for(int i=1; i<item.getDocApprovalLine().size(); i++) {
 				if(item.getDocApprovalLine().get(i).getDocAprState().equals("승인") || 
 					item.getDocApprovalLine().get(i).getDocAprState().equals("반려")) {
-					item.setLastApprover(item.getDocApprovalLine().get(i).getApproverInfo());
 					item.setReviewingApproverSeq(i);
+				}
+			}
+			
+			//완결 문서의 경우 최종 결재자를 바꿔서 출력
+			if(item.getDocAprStatus().equals("승인") || item.getDocAprStatus().equals("반려")) {
+				for(int i=0; i<item.getDocApprovalLine().size(); i++) {
+					if(item.getDocApprovalLine().get(i).getDocAprState().equals("승인") || 
+						item.getDocApprovalLine().get(i).getDocAprState().equals("반려")) {
+						item.setLastApprover(item.getDocApprovalLine().get(i).getApproverInfo());
+					}
 				}
 			}
 			
@@ -337,13 +351,23 @@ public class ApprovalController {
 					elem.setEmpName(empInfo.getEmpName());
 					elem.setPosition(empInfo.getPosition());
 				});
-			item.setLastApprover(item.getDocApprovalLine().get(0).getApproverInfo());
+			item.setLastApprover(item.getDocApprovalLine().get(item.getDocApprovalLine().size()-1).getApproverInfo());
 			item.setReviewingApproverSeq(0);
 			for(int i=1; i<item.getDocApprovalLine().size(); i++) {
 				if(item.getDocApprovalLine().get(i).getDocAprState().equals("승인") || 
 					item.getDocApprovalLine().get(i).getDocAprState().equals("반려")) {
-					item.setLastApprover(item.getDocApprovalLine().get(i).getApproverInfo());
+					//item.setLastApprover(item.getDocApprovalLine().get(item.getDocApprovalLine().size()-1).getApproverInfo());
 					item.setReviewingApproverSeq(i);
+				}
+			}
+			
+			//완결 문서의 경우 최종 결재자를 바꿔서 출력
+			if(item.getDocAprStatus().equals("승인") || item.getDocAprStatus().equals("반려")) {
+				for(int i=0; i<item.getDocApprovalLine().size(); i++) {
+					if(item.getDocApprovalLine().get(i).getDocAprState().equals("승인") || 
+						item.getDocApprovalLine().get(i).getDocAprState().equals("반려")) {
+						item.setLastApprover(item.getDocApprovalLine().get(i).getApproverInfo());
+					}
 				}
 			}
 			
@@ -423,6 +447,16 @@ public class ApprovalController {
 				    item.setApproveState(item.getDocAprStatus());
 				    item.setLastApprover(item.getDocApprovalLine().get(item.getDocApprovalLine().size() - 1).getApproverInfo());
 				}
+				
+				//완결 문서의 경우 최종 결재자를 바꿔서 출력
+				if(item.getDocAprStatus().equals("승인") || item.getDocAprStatus().equals("반려")) {
+					for(int i=0; i<item.getDocApprovalLine().size(); i++) {
+						if(item.getDocApprovalLine().get(i).getDocAprState().equals("승인") || 
+							item.getDocApprovalLine().get(i).getDocAprState().equals("반려")) {
+							item.setLastApprover(item.getDocApprovalLine().get(i).getApproverInfo());
+						}
+					}
+				}
 				//첨부파일
 				DocFilesDTO docfile = new DocFilesDTO();
 				docfile.setDocNumber(item.getDocNumber());
@@ -480,12 +514,23 @@ public class ApprovalController {
 					    break;
 					}
 				}
+				
 				if(item.getReviewingApprover() == null || item.getReviewingApprover().isEmpty()) {
 					item.setReviewingApprover(item.getDocApprovalLine().get(0).getApproverInfo().getEmpName());
 				    item.setReviewingApproverPosition(item.getDocApprovalLine().get(0).getApproverInfo().getPosition());
 				    item.setReviewingApproverDeptId(item.getDocApprovalLine().get(0).getApproverInfo().getDeptId());
 				    item.setApproveState(item.getDocAprStatus());
 				    item.setLastApprover(item.getDocApprovalLine().get(item.getDocApprovalLine().size() - 1).getApproverInfo());
+				}
+				
+				//완결 문서의 경우 최종 결재자를 바꿔서 출력
+				if(item.getDocAprStatus().equals("승인") || item.getDocAprStatus().equals("반려")) {
+					for(int i=0; i<item.getDocApprovalLine().size(); i++) {
+						if(item.getDocApprovalLine().get(i).getDocAprState().equals("승인") || 
+							item.getDocApprovalLine().get(i).getDocAprState().equals("반려")) {
+							item.setLastApprover(item.getDocApprovalLine().get(i).getApproverInfo());
+						}
+					}
 				}
 				
 				//첨부파일
@@ -628,12 +673,10 @@ public class ApprovalController {
 			});
 			
 			List<DocumentApprovalLineDTO> dalList = item.getDocApprovalLine().stream()
-					.sorted(Comparator.comparing(DocumentApprovalLineDTO::getDocAprSeq).reversed())
+					.sorted(Comparator.comparing(DocumentApprovalLineDTO::getDocAprSeq))
 					.collect(Collectors.toList());
 			for(DocumentApprovalLineDTO elem : dalList) {
-				if(elem.getDocAprState().equals("승인") || 
-					elem.getDocAprState().equals("반려") || 
-					elem.getDocAprState().equals("보류")) {
+				if(elem.getDocAprState().equals("대기") || elem.getDocAprState().equals("보류")) {
 					item.setReviewingApprover(elem.getApproverInfo().getEmpName());
 				    item.setReviewingApproverPosition(elem.getApproverInfo().getPosition());
 				    item.setReviewingApproverDeptId(elem.getApproverInfo().getDeptId());
@@ -775,12 +818,10 @@ public class ApprovalController {
 			});
 			
 			List<DocumentApprovalLineDTO> dalList = item.getDocApprovalLine().stream()
-					.sorted(Comparator.comparing(DocumentApprovalLineDTO::getDocAprSeq).reversed())
+					.sorted(Comparator.comparing(DocumentApprovalLineDTO::getDocAprSeq))
 					.collect(Collectors.toList());
 			for(DocumentApprovalLineDTO elem : dalList) {
-				if(elem.getDocAprState().equals("승인") || 
-					elem.getDocAprState().equals("반려") || 
-					elem.getDocAprState().equals("보류")) {
+				if(elem.getDocAprState().equals("대기") || elem.getDocAprState().equals("보류")) {
 					item.setReviewingApprover(elem.getApproverInfo().getEmpName());
 				    item.setReviewingApproverPosition(elem.getApproverInfo().getPosition());
 				    item.setReviewingApproverDeptId(elem.getApproverInfo().getDeptId());
@@ -1047,7 +1088,10 @@ public class ApprovalController {
 			approvalService.setDraftAttachFile(dto.getDocAttachFile());
 		}
 		
-		log.info(dto.toString());
+		// 첫번째 결재자에게 알람 송신
+		EmployeesDto empData = empService.getEmpInfo(dto.getDocApprovalLine().get(0).getDocAprApprover());
+		String alertContent = empData.getEmpName()+" "+empData.getPosition()+"님, 대기결재함에 ["+dto.getDocNumber()+" / "+dto.getDocTitle()+"] 문서가 상신되었습니다.";
+		alertService.sendAlert(empData.getEmpId(), alertContent, "결재");
 		
 		return "redirect:/approval/submitted?type=submitted";
 	}
@@ -1244,6 +1288,7 @@ public class ApprovalController {
 		dto.getApproveInfo().setDocAprSeq(data.getApprovalSeq());
 		//dto.setDocAprStatus(approvalService.checkDocAprStatus(dto));
 		//approvalService.approveDraft(dto);
+		List<DocumentApprovalLineDTO> aprLineList = approvalService.getDraftApprovalLine(dto.getApproveInfo().getDocNumber());
 		
 		//결재 유형에 달리 로직을 수행.
 		switch (dto.getApproveInfo().getDocAprType()) {
@@ -1267,7 +1312,7 @@ public class ApprovalController {
 				dto.getApproveInfo().setDocAprApprover(approvalService.getDraftApprovalLine(data.getDocNumber()).get(data.getApprovalSeq()).getDocAprApprover());
 			case "일반":
 			case "전결":
-				for(DocumentApprovalLineDTO item : approvalService.getDraftApprovalLine(dto.getApproveInfo().getDocNumber())) {
+				for(DocumentApprovalLineDTO item : aprLineList) {
 					if(item.getDocAprSeq() == data.getApprovalSeq()) break;
 					if(!item.getDocAprState().equals("승인")) {
 						json.put("status", "no-approval-seq");
@@ -1289,6 +1334,36 @@ public class ApprovalController {
 		}
 		
 		json.put("status", "ok");
+		
+		// 알람 처리
+		ApprovalDTO resultDraft = approvalService.getDraftSingleByDocNumber(data.getDocNumber());
+		EmployeesDto draftor = empService.getEmpInfo(resultDraft.getEmpId());
+		EmployeesDto approver = empService.getEmpInfo(auth.getName());
+		if(resultDraft.getDocAprStatus().equals("승인") || resultDraft.getDocAprStatus().equals("반려")) {
+			String alertContent = draftor.getEmpName()+" "+draftor.getPosition()+"님, ["+resultDraft.getDocNumber()+" / "+resultDraft.getDocTitle()+"] 문서가 "+resultDraft.getDocAprStatus()+"되었습니다.";
+			alertService.sendAlert(draftor.getEmpId(), alertContent, "결재");
+			
+		} else {
+			// 다음 결재자에게 알람 송신
+			List<DocumentApprovalLineDTO> aprList = approvalService.getDraftApprovalLine(resultDraft.getDocNumber());
+			for(DocumentApprovalLineDTO dal : aprList) {
+				if (dal.getDocAprState().equals("대기")) {
+					String alertContent = dal.getApproverInfo().getEmpName()+" "+dal.getApproverInfo().getPosition()+"님, 대기결재함에 ["+resultDraft.getDocNumber()+" / "+resultDraft.getDocTitle()+"] 문서가 상신되었습니다.";
+					alertService.sendAlert(dal.getDocAprApprover(), alertContent, "결재");
+					break;
+				}
+			}
+			
+			// 기안자에게 결재 결과 송신
+			for(DocumentApprovalLineDTO dal : aprList) {
+				if(dal.getDocAprApprover().equals(auth.getName())) {
+					String alertContent = 
+							draftor.getEmpName()+" "+draftor.getPosition()+"님, ["+resultDraft.getDocNumber()+" / "+resultDraft.getDocTitle()+"] 문서를 "+approver.getEmpName()+" "+approver.getPosition()+"께서 결재하였습니다. (결재 결과: "+dal.getDocAprState()+")";
+					alertService.sendAlert(draftor.getEmpId(), alertContent, "결재");
+					break;
+				}
+			}
+		}
 		
 		res.setContentType("application/json; charset=UTF-8");
 		res.setCharacterEncoding("UTF-8");

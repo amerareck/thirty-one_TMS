@@ -110,13 +110,14 @@
 			SELECT doc_number
 			FROM approvalLine A 
 			WHERE 
-			    EXISTS ( 
+			    NOT EXISTS ( 
 			        SELECT 1 
 			        FROM document_approval_line B 
 			        WHERE 
 			            B.doc_number = A.doc_number 
-			        AND B.doc_apr_seq < A.doc_apr_seq 
-			        AND B.doc_apr_state NOT IN ('대기', '보류'))
+			            AND B.doc_apr_seq < A.doc_apr_seq 
+			            AND B.doc_apr_state in ('대기', '보류')
+			    )
 			    OR A.doc_apr_seq = 0
 		]]>
 	</select>

@@ -193,8 +193,14 @@
     	</c:if>
     	<c:if test="${not empty form.redraftAprLineList}">
     		<c:forEach items="${form.redraftAprLineList}" var="empInfo" varStatus="i" >
+    			<c:if test="${empInfo.position == '대표이사'}">
+	    			<c:set var="position" value="대표" ></c:set>
+    			</c:if>
+    			<c:if test="${empInfo.position != '대표이사'}" >
+	    			<c:set var="position" value="${empInfo.position}" ></c:set>
+    			</c:if>
     			<div class="custom-card text-end">
-		            <div class="name-text mt-1">${empInfo.empName} <span class="role-text">${empInfo.position}</span></div>
+		            <div class="name-text mt-1">${empInfo.empName} <span class="role-text">${position}</span></div>
 		            <div class="dept-text mt-2">${empInfo.deptName}</div>
 		        </div>
 		        <c:if test="${i.index != form.redraftAprLineList.size()-1}">
