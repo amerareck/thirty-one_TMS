@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -26,7 +25,6 @@ import org.json.JSONObject;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
@@ -1051,7 +1049,7 @@ public class ApprovalController {
 		dto.setDeptId(empService.getDeptId(dto.getEmpId()));
 		dto.setDocTitle(form.getDraftTitle());
 		dto.setDocApprovalLine(new ArrayList<DocumentApprovalLineDTO>());
-		dto.setDocDocumentData(form.getDocumentData());
+		dto.setDocDocumentData(Jsoup.parse(form.getDocumentData()).getElementsByClass("doc-content").outerHtml());
 		dto.setDocNumber(form.getDocNumber());
 		
 		approvalService.setDraftForm(dto);
