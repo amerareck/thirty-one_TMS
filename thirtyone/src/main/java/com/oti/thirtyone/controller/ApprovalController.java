@@ -25,6 +25,7 @@ import org.json.JSONObject;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
@@ -981,6 +982,7 @@ public class ApprovalController {
             		fieldError -> model.addAttribute(fieldError.getField(), fieldError.getDefaultMessage())
             );
             log.info(error.getFieldErrors().toString());
+            System.out.println(form.getDocumentData());
             model.addAttribute("form", form);
             List<Departments> deptList = deptService.getDepartmentList();
     		deptList.removeIf(elem -> elem.getDeptId() == 999);
@@ -1049,7 +1051,25 @@ public class ApprovalController {
 		dto.setDeptId(empService.getDeptId(dto.getEmpId()));
 		dto.setDocTitle(form.getDraftTitle());
 		dto.setDocApprovalLine(new ArrayList<DocumentApprovalLineDTO>());
-		dto.setDocDocumentData(Jsoup.parse(form.getDocumentData()).getElementsByClass("doc-content").outerHtml());
+		String htmldata = Jsoup.parse(form.getDocumentData()).getElementsByClass("doc-content").outerHtml();
+		if(htmldata.isEmpty()) {
+			Element body = Jsoup.parse(form.getDocumentData()).body();
+			body.append("<div class=\"doc-content\"></div>");
+			Elements docContent = body.getElementsByClass("doc-content");
+			docContent.append(body.html());
+			docContent.select("div.doc-content").remove();
+			for (Element p : docContent.select("p")) {
+	            if (p.text().equals("]]>")) p.remove();
+	        }
+			dto.setDocDocumentData(docContent.outerHtml());
+			//dto.setDocDocumentData(Jsoup.parse(form.getDocumentData()).body().html());
+		} else {
+			Element body = Jsoup.parse(htmldata).body();
+			for (Element p : body.select("p")) {
+	            if (p.text().equals("]]>")) p.remove();
+	        }
+			dto.setDocDocumentData(body.html());
+		}
 		dto.setDocNumber(form.getDocNumber());
 		
 		approvalService.setDraftForm(dto);
