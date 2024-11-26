@@ -31,7 +31,8 @@
 									<c:forEach items="${reasonList}" var="reason">
 									  <tr class="process-tr" data-reasonid="${reason.reason.reasonId}" data-empid="${reason.emp.empId}">
 									    <th scope="row" class="process-profile-box">
-									    	<img class="process-profile-img" src="${pageContext.request.contextPath}/resources/image/profileDefault.png">
+									    	<img class="process-profile-img" src="${pageContext.request.contextPath}/admin/imageDown?empId=${reason.emp.empId}" 
+										onerror="this.onerror=null; this.src='${pageContext.request.contextPath}/resources/image/sky-profile-img.png';">
 									    	<div class="process-profile-info">
 									    		<h4>${reason.emp.empName }</h4>
 									    		<p>${reason.deptName}</p>
@@ -72,12 +73,12 @@
 					<div class="reason-report-box card">
 						<p class="mini-title">사유서</p>
 						<div class="mini-line"></div>
-						<div class="not-req-holiday">처리할 휴가 내용이 없습니다.</div>
+						<div class="not-req-holiday">처리할 근태 내용이 없습니다.</div>
 					</div>
 				</div>
 			</c:when>
 			<c:otherwise>
-				<div class="not-req-holiday">처리할 휴가 내용이 없습니다.</div>
+				<div class="not-req-holiday">처리할 근태 내용이 없습니다.</div>
 			</c:otherwise>
 		</c:choose>
 <script type="text/javascript">

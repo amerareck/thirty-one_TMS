@@ -279,6 +279,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 fileBoxDisplay.appendChild(fileElement);
 			});
 		}
+
 	}
 
     // 새로 선택된 파일 삭제

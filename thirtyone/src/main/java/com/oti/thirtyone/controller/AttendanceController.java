@@ -288,7 +288,7 @@ public class AttendanceController {
 				reasonService.insertReasonFile(fileDto);
 			}
 		}
-		String alertContent=empDto.getEmpName() + "님이 근태 수정 요청을 신청 하였습니다.";
+		String alertContent=empDto.getEmpName() + "님이 근태 처리 요청을 하였습니다.";
 		alertService.sendAlert(improverId, alertContent, "근태");
 		
 		return ResponseEntity.ok(true);

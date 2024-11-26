@@ -122,12 +122,10 @@
 									</c:otherwise>
 								</c:choose>
 							</div>
-							<div class="line file"></div>
+<!-- 							<div class="line file"></div> -->
 							<input type="file" id="uploadFile" class="button-small upload"
-								value="내 PC" name="attachFile123" multiple>
-
-
-
+								value="내 PC" name="attachFile123" multiple style="display: none;">
+<!-- 							<span class="fileNumberName">ㅁ</span> -->
 						</div>
 					</div>
 

@@ -35,7 +35,7 @@
 								<span>연차 부여일수</span><span>${annual.hdCount} 일</span>
 							</div>
 							<div>
-								<span>대체휴가</span><span>${substitute != null || substitute.hdCount == 0 ? substitute.hdCount : "- "}일</span>
+								<span>대체휴가</span><span>${substitute != null || substitute.hdCount == 0 ? substitute.hdCount : "- "} 일</span>
 							</div>
 							<div>
 								<span>연차 사용일수</span><span>${annual.hdUsed} 일</span>

@@ -63,9 +63,11 @@
 	<!-- 휴가 사용시 -->
 	<update id="updateHdrCount" parameterType="Holiday">
 		UPDATE HOLIDAY SET
+		<if test='hdCategory == 1'>
 		HD_USED = HD_USED + #{hdUsed}
+		</if>
 		<if test='hdCategory == 2'>
-		,HD_COUNT = HD_COUNT - #{hdUsed}
+		HD_COUNT = HD_COUNT - #{hdUsed}
 		</if>
 		WHERE EMP_ID = #{empId} 
 		AND HD_CATEGORY = #{hdCategory}

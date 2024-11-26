@@ -73,13 +73,15 @@ public class AdminController {
 			, HttpSession session) {
 		
 		int totalRows = empService.countRows();
+		int noticeTotalRows = noticeService.countRows();
 		Pager pager = new Pager(5, 5, totalRows, pageNo);
+		Pager noticePager = new Pager(7, 5, noticeTotalRows, pageNo);
 		session.setAttribute("pager", pager);
 		
 		List<Map<String, Object>> empInfoList = new LinkedList<>();
 		List<EmployeesDto> empList = empService.getEmpInfoHead();
 		
-		List<NoticeDto> noticeList = noticeService.selectListPager(pager);
+		List<NoticeDto> noticeList = noticeService.selectListPager(noticePager);
 		
 		for(EmployeesDto emp : empList) {
 			Map<String, Object> empInfo = new HashMap<>();

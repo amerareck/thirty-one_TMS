@@ -189,7 +189,7 @@ public class HolidayController {
 		hdrReq.setHdrApprover(hdrApprover);
 		
 		//알림
-		String alertContent=employee.getEmpName() + "님에게 휴가 요청을 신청 하였습니다.";
+		String alertContent=employee.getEmpName() + "님이 휴가 요청을 신청 하였습니다.";
 		alertService.sendAlert(improverId, alertContent, "휴가");
 
 		hdService.insertHdrRequest(hdrReq);

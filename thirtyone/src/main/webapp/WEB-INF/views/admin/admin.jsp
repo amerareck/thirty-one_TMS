@@ -117,7 +117,12 @@
 			<div class="new-request-box" id="reasonRequest">
 				<c:forEach items="${reasonInfoList }" var="reason">
 					<div class="new-request">
-						<div class="status-btn">${reason.reason.reasonStatus}</div>
+						<c:if test="${reason.reason.reasonStatus == '대기' }">
+							<div class="status-btn ready-btn">${reason.reason.reasonStatus}</div>
+						</c:if>
+						<c:if test="${reason.reason.reasonStatus == '승인' }">
+							<div class="status-btn">${reason.reason.reasonStatus}</div>
+						</c:if>
 						<p>${reason.deptName}/${reason.emp.empName }</p>
 						<p>
 							<fmt:formatDate value='${reason.reason.atdDate}'
@@ -134,7 +139,7 @@
 			</div>
 			<div class="mini-line"></div>
 			<div class="new-request-box" id="noticeRequest">
-				<c:forEach begin="1" end="5" items="${noticeList}" var="notice" varStatus="status">
+				<c:forEach items="${noticeList}" var="notice" varStatus="status">
 					<div class="new-request">
 						<div class="notice-btn">
 							<td><c:choose>

@@ -10,7 +10,7 @@
 		<Root level="warn">
 			<AppenderRef ref="Console" />
 		</Root>
-		<Logger name="com.oti.thirtyone" level="warn" additivity="false">
+		<Logger name="com.oti.thirtyone" level="info" additivity="false">
 			<AppenderRef ref="Console" />
 		</Logger>
 		<Logger name="jdbc.sqltiming" level="warn" additivity="false">

@@ -89,7 +89,7 @@ function displayAlert(alert) {
     const toastEl = document.getElementById('liveToast');
     const toast = new bootstrap.Toast(toastEl, {
         autohide: true,
-        delay: 5000
+        delay: 8000
     });
     alertDiv.innerHTML = '';;
     const p = document.createElement('p');

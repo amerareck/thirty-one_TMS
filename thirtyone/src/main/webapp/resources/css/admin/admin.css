@@ -218,3 +218,8 @@
 	font-size: 14px;
 	color:var(--darkgray);
 }
+
+.ready-btn{
+	background-color: var(--lightgray);
+	
+}

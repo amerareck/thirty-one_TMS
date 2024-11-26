@@ -96,7 +96,10 @@
 }
 
 .process-profile-img{
-	width: 30px;
+	border-radius: 50%;
+	width: 29px;
+	height: 29px;
+    object-fit: cover;
 }
 .process-profile-info{
 	width: 80px;
